@@ -1,12 +1,12 @@
-# Project Name
+# Ragnarok
 
-> Pithy project description
+> An interactive multiplayer game community where players can enjoy a highly addictive strategy game that focuses on deception and deduction. Players must cooperate to complete their quest, but beware, there are traitors amongst them. The goal is to either hide within the group and sow dissent or discover who the traitors are and bring the group to glory.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Andrew Heath
+  - __Scrum Master__: Hien Tran
+  - __Development Team Members__: June Won, Charlie Tran
 
 ## Table of Contents
 
@@ -51,6 +51,4 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 =======
-avalon-game
-Implementing the Avalon game as a 3D immersive application
 
