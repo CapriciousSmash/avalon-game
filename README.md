@@ -6,7 +6,7 @@
 
   - __Product Owner__: Andrew Heath
   - __Scrum Master__: Hien Tran
-  - __Development Team Members__: June Won, Charlie Tran
+  - __Development Team Members__: Andrew Heath, Charlie Tran, Hien Tran, June Won
 
 ## Table of Contents
 
@@ -20,14 +20,18 @@
 
 ## Usage
 
-> Some usage instructions
+> PH for navigation of our website. 
+
+## How to Play
+
+> PH for game instructions
 
 ## Requirements
 
 - Node 0.10.x
 - Redis 2.6.x
 - Postgresql 9.1.x
-- etc
+- 
 - etc
 
 ## Development
