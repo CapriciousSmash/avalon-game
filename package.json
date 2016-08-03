@@ -1,0 +1,25 @@
+{
+  "name": "avalon-game",
+  "version": "1.0.0",
+  "description": "Avalon game rendered in 3 Dimensional multiplayer",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CapriciousSmash/avalon-game.git"
+  },
+  "keywords": [
+    "avalon",
+    "board",
+    "game",
+    "3D"
+  ],
+  "author": "Andrew Heath, Charlie Tran, Hien Tran, June Won",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CapriciousSmash/avalon-game/issues"
+  },
+  "homepage": "https://github.com/CapriciousSmash/avalon-game#readme"
+}
