@@ -50,3 +50,7 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+=======
+avalon-game
+Implementing the Avalon game as a 3D immersive application
+
