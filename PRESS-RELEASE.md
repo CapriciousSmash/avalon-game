@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+Ragnarok
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+An interactive multiplayer game community where players can enjoy a highly addictive strategy game that focuses on deception and deduction.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+Players must cooperate to complete their quest, but beware, there are traitors amongst them. The goal is to either hide within the group and sow dissent or discover who the traitors are and bring the group to glory.
 
 ## Problem ##
-  > Describe the problem your product solves.
+It is hard to find a highly addictive strategy game that is easy and convenient when you and your friends are separated.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+Ragnarok provides a way for multiple users to connect online and play a strategy game that focuses on deception and deduction.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+"It's so addictive; I play 60 hours a week!" - June Won
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+Find a few friends and sign up on our Ragnarok website.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+"In this world, there are only a few instances of artistic perfection. Some that come to mind are the Mona Lisa, The Great Pyramids of Giza, and Ragnarok." -definitely not Charlie Tran
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+'SIGNUP NOW!' -totally from Charlie Tran
