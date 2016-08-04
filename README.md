@@ -5,7 +5,7 @@
 ## Team
 
   - __Product Owner__: Andrew Heath
-  - __Scrum Master__: Hien Tran
+  - __Scrum Master__: June Won
   - __Development Team Members__: Andrew Heath, Charlie Tran, Hien Tran, June Won
 
 ## Table of Contents
