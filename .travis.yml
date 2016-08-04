@@ -14,10 +14,3 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-deploy:
-  provider: heroku
-  api_key:
-    secure: LT0sxSTGGenYFp/TqXwgJ/pj5Z64G6eteqfVHYTT1ZnavZ92Tu3NNPyt2c5W2eAW9DvMtwki4p9H8bRIAe70eOzVz8WalhGgio7JvxxZ3WJyBi6HVwDfuBREGq1zYdRVbXJ+XLk515KIBlKurvWxv4gLmjxkU1kcc2KIKO/Ng056hUZXdebD9R0iETtJBaUBSj4X+1ckd1YVSOjNJ7Ipc7iX1WstYkS4P4Nm487OsVCRxyPmuzpGYtTEA+njSrurKhdKC7w7+SUiWCe96jVupfc1BOrCzl2zYQct+fC5FhU9t7HVetSQNIdncap2BEvMdPeumNJOG9KWInfMnUOy9qFyOzHfvqwreYKcvT1xCAkTsohs7/NUWWAXUjy4xFV+LlqGqtiZKOJQ30dILGev3Z6u78fCAAfH+o4pz1Pjd+jTwjVAjvsX0GVEFPtdwNOtAInuDWLdWI+HUXT/djzcpERInZq1P7l0p/PCh4sP2PIrzmwzcuFVhMUXr9h8nsu/nvMkNDYLW8ryhQyvic1Huuco2nuM4oVgYEyzvnTTGLiq2S90RCaj1WoZjydx33bbpdhkLZcJGP5Cppn+O0mziILL/6Ou+nZDYC4Z+XI69G+oB4z4B/2980/1aY0/SPfsZIq9upEs8iFcQ+z2vEsj3aCnlspNZT7cl8en1FGSBDQ=
-  app: 'yes'
-  on:
-    repo: CapriciousSmash/avalon-game
