@@ -34,3 +34,12 @@ avalonLogic(players, db) {
         Update pertinent scores
     Return players to lobby
 }
+
+Each step will be a function, make pertinent calls to Redis DB.
+Each Function will make call to pertinent next function
+CARE: Each function should terminate into only 1 single function.
+POSSIBLE ISSUE: Could be problematic as it forms a pseudo-recursive situation.
+
+ALTERNATE:
+  Jump back or forward in code as required
+  Unsafe as it can cause errors if jumps aren't clear
