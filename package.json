@@ -4,7 +4,8 @@
   "description": "Avalon game rendered in 3 Dimensional multiplayer",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start" : "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/CapriciousSmash/avalon-game/issues"
   },
-  "homepage": "https://github.com/CapriciousSmash/avalon-game#readme"
+  "homepage": "https://github.com/CapriciousSmash/avalon-game#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "path": "^0.12.7"
+  }
 }
