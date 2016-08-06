@@ -1,5 +1,6 @@
 import React from 'react';
 
+import InfoBar from './InfoBar';
 import GettingStarted from './GettingStarted';
 import GameRules from './GameRules';
 import CharactersInfo from './CharactersInfo';
@@ -8,6 +9,8 @@ import CharactersInfo from './CharactersInfo';
 // the components related to game information to teach players the
 // rules. 
 const Info = (props) => {
+  // TODO: Find if there is a cleaner way to do this than a switch
+  // statement. 
   switch (props.activeSection) {
   	case 'GETTING STARTED':
   	  return (
