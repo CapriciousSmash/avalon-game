@@ -3,8 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>AVALON GAME</title>
+  <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
 </head>
 <body>
   <h1>Hello Avalon Players</h1>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.js'></script>
+  <script>
+    //Using peerjs's cloud key
+    //var peer = new Peer({key: 'lwjd5qra8257b9'});
+    //Using our own peer server
+    //var peer = new Peer ('someid', {host:'localhost', port:3000, path:'/myapp'});
+    //Using heroku deployed peer server
+    var peer = new Peer ({host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
+
+    var socket = io();
+    peer.on('open', function(id) {
+      console.log('My peer ID is: ' + id);
+      socket.emit('peer', id);
+    });
+    socket.on('newPeer', function(pid){
+      console.log('new peer with id:', pid);
+      var conn = peer.connect(pid);
+
+      conn.on('open', function(){
+        console.log('OPENING CONNECTION');
+        conn.send('hey newbie');
+        conn.on('data', function(data){
+          console.log('(old)Received some greetings:', data);
+        });
+      });
+    });
+    peer.on('connection', function(conn){
+      console.log('someone connected to me');
+      conn.on('data', function(data){
+        console.log('(new)Received some greetings:', data);
+      });
+      conn.send('Hey gramps!');
+    });
+
+  </script>
 </body>
 </html>

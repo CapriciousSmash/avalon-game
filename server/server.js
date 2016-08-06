@@ -12,10 +12,21 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Socket listeners
+//Socket Listeners
 io.on('connection', (socket)=>{
   //Add listeners here
+  socket.on('peer', function(pid){
+    socket.broadcast.emit('newPeer', pid);
+  });
+  socket.on('disconnect', function(socket){
+    console.log('user disconnected');
+  });
 });
+
+/*//Our Peer Server
+var ExpressPeerServer = require('peer').ExpressPeerServer;
+app.use('/myapp', ExpressPeerServer(server, {debug:true}));
+*/
 
 // serve index.html for rest
 app.get('*', (req, res)=>{
