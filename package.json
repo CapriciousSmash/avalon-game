@@ -33,7 +33,9 @@
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
+    "react-router": "^2.6.1",
     "redux": "^3.5.2",
+    "redux-promise": "^0.5.3",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8"
   },
