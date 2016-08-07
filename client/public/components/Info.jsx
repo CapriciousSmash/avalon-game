@@ -9,31 +9,24 @@ import CharactersInfo from './CharactersInfo';
 // the components related to game information to teach players the
 // rules. 
 const Info = (props) => {
-  // TODO: Find if there is a cleaner way to do this than a switch
-  // statement. 
-  switch (props.activeSection) {
-  	case 'GETTING STARTED':
-  	  return (
-  	  	<div>
-  	  	  <InfoBar />
-  	  	  <GettingStarted />
-  	  	</div>
-  	  );
-  	case 'RULES':
-  	  return (
-  	  	<div>
-  	  	  <InfoBar />
-  	  	  <GameRules />
-  	  	</div>
-  	  );
-  	case 'CHARACTERS':
-  	  return (
-  	  	<div>
-  	  	  <InfoBar />
-  	  	  <CharactersInfo />
-  	  	</div>
-  	  );
-  }
+  return (
+    <div>
+      <InfoBar />
+      {
+        // Function redirects to proper component:
+        function(activeSection) {
+          switch (activeSection) {
+            case: 'GETTING STARTED':
+              return <GettingStarted />
+            case: 'RULES':
+              return <GameRules />
+            case: 'CHARACTERS': 
+              return <CharactersInfo />
+          }
+        }(props.activeSection)
+      }
+    </div>
+  );
 }
 
 export default Info;
