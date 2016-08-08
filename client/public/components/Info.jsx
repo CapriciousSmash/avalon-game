@@ -11,7 +11,7 @@ import CharactersInfo from './CharactersInfo';
 const Info = (props) => {
   return (
     <div>
-      <InfoBar />
+      <InfoBar onGotoSection={() => this.props.actions.newInfoSection()} />
       {
         // Function redirects to proper component:
         function(activeSection) {
