@@ -14,32 +14,30 @@ module.export.gameLoop = function(memcache) {
     // stage and gameOver will be passed into functions to be mutated
     // as needed
 
-    // STAGES:
-    //   roles, party, vote, quest, identifyMerlin, gameOver
-
     // Assigning random roles
     if (stage === 'roles') {
-
+      // stage = func(memcache)
     }
-    // Assigning random roles
+    // Choose the party to go on a quest
     if (stage === 'party') {
-
+      // stage = func(memcache)
     }
-    // Assigning random roles
+    // Vote for if the party is viable
     if (stage === 'vote') {
-
+      // stage = func(memcache)
     }
-    // Assigning random roles
+    // Players decide to succeed or fail a quest
     if (stage === 'quest') {
-
+      // stage = func(memcache)
     }
-    // Assigning random roles
+    // Assassin guesses who Merlin is
     if (stage === 'identifyMerlin') {
-
+      // stage = func(memcache)
     }
-    // Assigning random roles
+    // Game Over, handle any closing issues
     if (stage === 'gameOver') {
-
+      // stage = func(memcache)
+      gameOver = true;
     }
 
   }
