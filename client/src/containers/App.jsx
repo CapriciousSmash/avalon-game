@@ -25,8 +25,8 @@ class App extends React.Component {
         <Router history={hashHistory}>
           <Route path='/' component={NavBar}>
             <IndexRoute component={GettingStarted}></IndexRoute>
-            <Route path='/gameinfo' component={GameInfo}></Route>
-            <Route path='/signin' component={Login}></Route>
+            <Route path='gameinfo' component={GameInfo}></Route>
+            <Route path='signin' component={Login}></Route>
           </Route>
         </Router>
       </div>
