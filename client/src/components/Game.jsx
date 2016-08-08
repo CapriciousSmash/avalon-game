@@ -1,3 +1,4 @@
+import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -43,7 +44,6 @@ class Game extends React.Component {
       });
       conn.send('Hey gramps!');
     });
-    console.log('component mounted');
     game.init();
     game.play();
     game.addPlayer(100);
