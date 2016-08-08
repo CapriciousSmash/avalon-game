@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 const PATHS = {
   compiled: path.join(__dirname, 'client/public/scripts'),
-  src: path.join(__dirname, 'client/public/index.js')
+  src: path.join(__dirname, 'client/src/index.js')
 };
 
 module.exports = {
@@ -16,7 +16,8 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /scripts/,
+        //exclude: /scripts/,
+        include: __dirname +  '/client/src',
         loader: 'babel-loader'
       }
     ]
