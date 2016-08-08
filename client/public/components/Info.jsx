@@ -16,11 +16,11 @@ const Info = (props) => {
         // Function redirects to proper component:
         function(activeSection) {
           switch (activeSection) {
-            case: 'GETTING STARTED':
+            case 'GETTING STARTED':
               return <GettingStarted />
-            case: 'RULES':
+            case 'RULES':
               return <GameRules />
-            case: 'CHARACTERS': 
+            case 'CHARACTERS': 
               return <CharactersInfo />
           }
         }(props.activeSection)

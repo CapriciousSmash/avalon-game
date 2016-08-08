@@ -7,7 +7,9 @@
 </head>
 <body>
   <h1>Hello Avalon Players</h1>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.js'></script>
+  <div id="app"></div>
+  <script src="./scripts/app.bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.js"></script>
   <script>
     //Using peerjs's cloud key
     //var peer = new Peer({key: 'lwjd5qra8257b9'});
@@ -40,7 +42,6 @@
       });
       conn.send('Hey gramps!');
     });
-
   </script>
 </body>
 </html>
