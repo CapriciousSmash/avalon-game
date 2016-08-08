@@ -3,7 +3,7 @@
 // export main loop function
 
 // recieves a Redis server spun up for it's use
-module.export.gameLoop = function(memcache) {
+module.exports.gameLoop = function(memcache) {
   // keep track of current game stage and if the game is over or not
   var stage = 'roles';
   var gameOver = false;
