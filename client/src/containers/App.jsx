@@ -32,6 +32,7 @@ class App extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {
+    activeSection: state.info.activeSection
   };
 }
 
