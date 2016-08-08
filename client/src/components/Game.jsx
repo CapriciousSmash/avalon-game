@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import React from 'react'
-=======
->>>>>>> Add in game component setup and remove unused file
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
