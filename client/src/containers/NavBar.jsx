@@ -17,10 +17,10 @@ class NavBar extends React.Component {
       return (
         <ul>
           <li>
-            <Link to='/stats'>Stats</Link>
+            <Link to='gameinfo'>Stats</Link>
           </li>
           <li>
-            <Link to="/gameinfo">Game Info</Link>
+            <Link to='gameinfo'>Game Info</Link>
           </li>
           <li>
             <div>Placeholder for username</div>
@@ -31,13 +31,13 @@ class NavBar extends React.Component {
       return (
         <ul>
           <li>
-            <Link to='/stats'>Stats</Link>
+            <Link to='gameinfo'>Stats</Link>
           </li>
           <li>
-            <Link to='/gameinfo'>Game Info</Link>
+            <Link to='gameinfo'>Game Info</Link>
           </li>
           <li>
-            <Link>Sign In</Link>
+            <Link to='signin'>Sign In</Link>
           </li>
         </ul>
       )
@@ -60,7 +60,7 @@ class NavBar extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {
-    auth: true
+    auth: false
   };
 }
 

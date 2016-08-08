@@ -1,11 +1,11 @@
 import React from 'react';
-import { Router, Route, Link } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // Containers/component imports
 import NavBar from './NavBar';
 import GameInfo from '../components/Info';
-import Main from '../components/Main';
-import Stats from '../components/Stats'
+import GettingStarted from '../components/GettingStarted';
+import Stats from '../components/Stats';
 import Login from '../components/Login';
 
 // Redux-related imports
@@ -22,7 +22,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <Router history={hashHistory}>
+          <Route path='/' component={NavBar}>
+            <IndexRoute component={GettingStarted}></IndexRoute>
+            <Route path='gameinfo' component={GameInfo}></Route>
+            <Route path='signin' component={Login}></Route>
+          </Route>
+        </Router>
       </div>
     )
   }
@@ -32,6 +38,7 @@ class App extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {
+
   };
 }
 
