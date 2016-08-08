@@ -12,13 +12,56 @@ import '../styles/stylesheet.css';
 // The NavBar class holds and handles the main point of navigation on
 // the page and exists inside of the App container. 
 class NavBar extends React.Component {
+  isAuthenticated() {
+    if(this.props.auth) {
+      return (
+        <ul>
+          <li>
+            <Link to='/stats'>Stats</Link>
+          </li>
+          <li>
+            <Link to="/gameinfo">Game Info</Link>
+          </li>
+          <li>
+            <div>Placeholder for username</div>
+          </li>
+        </ul>
+      )
+    } else {
+      return (
+        <ul>
+          <li>
+            <Link to='/stats'>Stats</Link>
+          </li>
+          <li>
+            <Link to='/gameinfo'>Game Info</Link>
+          </li>
+          <li>
+            <Link>Sign In</Link>
+          </li>
+        </ul>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <nav>
+        <div>
+          {this.isAuthenticated()}
+        </div>
+      </nav>
+    )
+  }
   
 }
 
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
-  return {};
+  return {
+    auth: true
+  };
 }
 
 // Passes data from container to the store. Provides ability for 
