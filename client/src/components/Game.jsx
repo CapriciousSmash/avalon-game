@@ -2,14 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import io from 'socket.io-client';
+
 import login from '../actions/login';
 
 import game from '../scripts/game.js';
 
-/////////////////////////////////////////////////////////////
-import io from 'socket.io-client';
-const socket = io();
-/////////////////////////////////////////////////////////////
 
 class Game extends React.Component {
   constructor(props) {
@@ -21,8 +19,6 @@ class Game extends React.Component {
     socket.close();
   }
   componentDidMount(){
-    var peer = new Peer ({host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
-
     game.init();
     game.play();
 
@@ -30,12 +26,11 @@ class Game extends React.Component {
     var login = this.props.login;
 
     //Connect to server
+    const socket = io();
+    const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
     
-
     //Connection for audio
     peer.on('open', function(id) {
-      console.log('My peer ID is: ' + id);
-      socket.emit('peer', id);
       game.addPlayer(id);
       login(id);
     });
@@ -66,6 +61,9 @@ class Game extends React.Component {
     //   });
     //   conn.send('Hey gramps!');
     // });
+    socket.on('peerLeft', function(pid){
+      game.removePlayer(pid);
+    });
   }
   render() {
     return (

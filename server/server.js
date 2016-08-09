@@ -19,13 +19,13 @@ var players = [];
 //Socket Listeners
 io.on('connection', (socket)=>{
   //Add listeners here
-  socket.on('peer', function(pid){
-    socket.emit('oldPeers', players);
-    socket.broadcast.emit('newPeer', pid);
-    players.push(pid);
-  });
-  socket.on('disconnect', function(socket){
-    console.log('user disconnected');
+  socket.emit('oldPeers', players);
+  socket.broadcast.emit('newPeer', socket.id);
+  players.push(socket.id);
+  
+  socket.on('disconnect', function(){
+    io.emit('peerLeft', socket.id);
+    players.splice(players.indexOf(socket.id),1);
   });
 });
 
