@@ -9,9 +9,11 @@ import CharactersInfo from './CharactersInfo';
 // the components related to game information to teach players the
 // rules. 
 const Info = (props) => {
+  console.log(props.activeSection);
+  const renderSection = props.activeSection || 'GETTING STARTED';
   return (
     <div>
-      <InfoBar onGotoSection={() => this.props.actions.newInfoSection()} />
+      <InfoBar onGotoSection={props.onGotoSection} />
       {
         // Function redirects to proper component:
         function(activeSection) {
@@ -23,7 +25,7 @@ const Info = (props) => {
             case 'CHARACTERS': 
               return <CharactersInfo />
           }
-        }(props.activeSection)
+        }(renderSection)
       }
     </div>
   );

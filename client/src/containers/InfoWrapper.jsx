@@ -1,11 +1,7 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-// Containers/component imports
-import NavBar from './NavBar';
-import GameInfo from '../components/Info';
-import Stats from '../components/Stats';
-import Login from '../components/Login';
+// Components import
+import Info from '../components/Info';
 
 // Redux-related imports
 import { connect } from 'react-redux';
@@ -17,12 +13,11 @@ import * as Actions from '../actions';
 
 // The app class acts as the main container to store the entirety
 // of what the user will see as the web application
-class App extends React.Component {
+class InfoWrapper extends React.Component {
   render() {
     return (
       <div>
-        <NavBar />
-        {this.props.children}
+        <Info activeSection={this.props.activeSection} onGotoSection={(section) => this.props.actions.newInfoSection(section)}/>
       </div>
     )
   }
@@ -45,4 +40,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoWrapper);

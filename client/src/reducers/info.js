@@ -1,6 +1,8 @@
 import { CHANGE_INFO } from '../actions';
 
-const initialState = {};
+const initialState = {
+	active_info: 'GETTING STARTED'
+};
 
 // Reducer for the <Info /> component which displays information for
 // the game's rules and how to get started playing
