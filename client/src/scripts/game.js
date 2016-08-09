@@ -39,13 +39,21 @@ export default {
 
     // add to the scene
     scene.add(pointLight);
+    var timer = 0;
 
-    function render(){
+    var render = () => {
       requestAnimationFrame(render);
+      timer++;
       var d = new Date();
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime()/10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime()/10) * 0.01);
       renderer.render(scene, camera);
+      if(timer % 360 === 0) {
+        console.log(this.players);
+      }
+      for(var x = 0; x < this.players.length; x++){
+        (this.scene.getObjectByName(this.players[x].uid)).position.x = Math.floor((500/this.players.length)/2) * (x+1) - 250;
+      }
     }
     render();
   },
@@ -82,6 +90,13 @@ export default {
   removePlayer: function(uid){
     console.log('REMOVING', uid);
     this.scene.remove(this.scene.getObjectByName(uid));
+    console.log('players', this.players);
+    for(var x = 0; x < this.players.length; x++){
+      if(this.players[x].uid === uid){
+        this.players.splice(x, 1);
+      }
+    }
+    console.log('players', this.players);
   },
   play:()=>{
     console.log('playing something');
