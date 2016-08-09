@@ -4,9 +4,8 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 // Component Imports
 import App from './containers/App';
-import NavBar from './containers/NavBar';
 import InfoWrapper from './containers/InfoWrapper'
-import Game from './containers/GameWrapper';
+import GameWrapper from './containers/GameWrapper';
 import Main from './components/Main';
 import Stats from './components/Stats';
 import Login from './components/Login';

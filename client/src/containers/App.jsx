@@ -1,12 +1,6 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-// Containers/component imports
 import NavBar from './NavBar';
-import GameInfo from '../components/Info';
-import Stats from '../components/Stats';
-import Login from '../components/Login';
-import Game from '../components/Game';
 
 // Redux-related imports
 import { connect } from 'react-redux';
