@@ -15,10 +15,10 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var players = [];
 //Socket Listeners
 io.on('connection', (socket)=>{
   //Add listeners here
-  var players = [];
   socket.on('peer', function(pid){
     socket.emit('oldPeers', players);
     socket.broadcast.emit('newPeer', pid);

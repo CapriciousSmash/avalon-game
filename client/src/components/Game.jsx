@@ -42,6 +42,7 @@ class Game extends React.Component {
 
     //Add peers who were already in the game
     socket.on('oldPeers', function(pids){
+      console.log('oldpeers', pids);
       for(var x = 0; x < pids.length; x++){
         game.addPlayer(pids[x]);
       }
