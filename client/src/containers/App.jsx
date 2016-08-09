@@ -1,10 +1,9 @@
 import React from 'react';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 // Containers/component imports
 import NavBar from './NavBar';
 import GameInfo from '../components/Info';
-import GettingStarted from '../components/GettingStarted';
 import Stats from '../components/Stats';
 import Login from '../components/Login';
 import Game from '../components/Game';
@@ -23,14 +22,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Game />
-        <Router history={hashHistory}>
-          <Route path='/' component={NavBar}>
-            <IndexRoute component={GettingStarted}></IndexRoute>
-            <Route path='gameinfo' component={GameInfo}></Route>
-            <Route path='signin' component={Login}></Route>
-          </Route>
-        </Router>
+        <NavBar />
+        {this.props.children}
       </div>
     )
   }
@@ -40,7 +33,7 @@ class App extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {
-
+    // activeSection: state.info.activeSection
   };
 }
 

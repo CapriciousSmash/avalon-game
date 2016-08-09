@@ -1,4 +1,4 @@
-import {} from '../actions';
+import { CHANGE_INFO } from '../actions';
 
 const initialState = {};
 
@@ -6,7 +6,7 @@ const initialState = {};
 // the game's rules and how to get started playing
 export default function info(state = initialState, action) {
   switch (action.type) {
-  	case ACTIVE_SECTION:
+  	case CHANGE_INFO:
   	  return {
   	  	...state,
   	  	active_info: action.activeSection
