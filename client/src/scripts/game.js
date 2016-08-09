@@ -50,7 +50,7 @@ export default {
       renderer.render(scene, camera);
 
       for(var x = 0; x < this.players.length; x++){
-        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500/this.players.length)/2 * (x+1) - 250;
+        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500/this.players.length)/2 * (1 + (2 * x)) - 250;
       }
     }
     render();
