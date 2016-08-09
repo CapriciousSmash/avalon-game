@@ -9,6 +9,8 @@ import InfoWrapper from './containers/InfoWrapper'
 import Main from './components/Main';
 import Stats from './components/Stats';
 import Login from './components/Login';
+import SignUp from './components/Signup';
+import Game from './components/Game'
 
 // Redux Related Imports
 import { Provider } from 'react-redux';
@@ -24,6 +26,8 @@ ReactDOM.render(
         <Route path='main' component={Main}></Route>
         <Route path='gameinfo' component={InfoWrapper}></Route>
         <Route path='signin' component={Login}></Route>
+        <Route path='signup' component={SignUp}></Route>
+        <Route path='game' component={Game}></Route>
       </Route>
     </Router>
   </Provider>,

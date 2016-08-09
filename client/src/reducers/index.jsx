@@ -9,7 +9,7 @@ import info from './info';
 const rootReducer = combineReducers({
   auth,
   currentUser,
-  info: info
+  info
 });
 
 export default rootReducer;
