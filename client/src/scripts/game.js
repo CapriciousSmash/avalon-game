@@ -50,7 +50,7 @@ export default {
       renderer.render(scene, camera);
 
       for(var x = 0; x < this.players.length; x++){
-        (this.scene.getObjectByName(this.players[x].uid)).position.x = Math.floor((500/this.players.length)/2) * (x+1) - 250;
+        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500/this.players.length)/2 * (x+1) - 250;
       }
     }
     render();
@@ -61,10 +61,8 @@ export default {
         uid,
         x: this.players[this.players.length-1] ? this.players[this.players.length-1].x + 80 : -140,
         y: 0,
-        color
-      });
-      console.log('PLAYER ID',this.players[this.players.length - 1].uid);
-      
+        color,
+      });      
 
       let sphereMaterial =
         new THREE.MeshLambertMaterial({
@@ -88,7 +86,6 @@ export default {
     }
   },
   removePlayer: function(uid){
-    console.log('REMOVING', uid);
     this.scene.remove(this.scene.getObjectByName(uid));
     for(var x = 0; x < this.players.length; x++){
       if(this.players[x].uid === uid){

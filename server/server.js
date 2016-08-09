@@ -23,14 +23,12 @@ io.on('connection', (socket)=>{
     uid: socket.id, 
     color: null
   };
-  //players.push(socket.id);
 
-  
   //Listeners
   socket.on('userColor', function(color){
-    socket.emit('oldPeers', players);
     players[socket.id].color = color;
     socket.broadcast.emit('newPeer', players[socket.id]);
+    socket.emit('allPeers', players);
   });
   socket.on('disconnect', function(){
     io.emit('peerLeft', socket.id);

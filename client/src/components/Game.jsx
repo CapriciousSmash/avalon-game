@@ -36,26 +36,20 @@ class Game extends React.Component {
     var socket = io();
     var userColor = randomHexColor();
     socket.on('connect', function(){
-      console.log("CONNECTING", socket.id);
+      login(socket.id);
+      socket.emit('userColor', userColor);
+      
+      const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
+      
+      //Connection for audio
+      peer.on('open', function(id) {
+      });
     })
-    socket.emit('userColor', userColor);
-    console.log('socket.id', socket.id);
-    game.addPlayer(socket.id, userColor);
-    login(socket.id);
-    
-    console.log('socket.id', socket.id);
-    const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
-    
-    //Connection for audio
-    peer.on('open', function(id) {
-      console.log("PEER", id);
-    });
 
     //Add peers who were already in the game
-    socket.on('oldPeers', function(players){
-      console.log('oldpeers', players);
-      for(var x = 0; x < players.length; x++){
-        game.addPlayer(players[x].uid, players[x].color);
+    socket.on('allPeers', function(players){
+      for (let p in players){
+        game.addPlayer(players[p].uid, players[p].color);
       }
     });
     //Add in new peer to the game
