@@ -48,27 +48,27 @@ export default {
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime()/10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime()/10) * 0.01);
       renderer.render(scene, camera);
-      if(timer % 360 === 0) {
-        console.log(this.players);
-      }
+
       for(var x = 0; x < this.players.length; x++){
         (this.scene.getObjectByName(this.players[x].uid)).position.x = Math.floor((500/this.players.length)/2) * (x+1) - 250;
       }
     }
     render();
   },
-  addPlayer: function(uid){
+  addPlayer: function(uid, color){
     if(this.players.length < 5){
       this.players.push({
         uid,
         x: this.players[this.players.length-1] ? this.players[this.players.length-1].x + 80 : -140,
-        y: 0
+        y: 0,
+        color
       });
       console.log('PLAYER ID',this.players[this.players.length - 1].uid);
       
+
       let sphereMaterial =
         new THREE.MeshLambertMaterial({
-            color: 0xCC00CC
+            color
           });
       let radius = 20,
           segments = 16,
@@ -90,13 +90,11 @@ export default {
   removePlayer: function(uid){
     console.log('REMOVING', uid);
     this.scene.remove(this.scene.getObjectByName(uid));
-    console.log('players', this.players);
     for(var x = 0; x < this.players.length; x++){
       if(this.players[x].uid === uid){
         this.players.splice(x, 1);
       }
     }
-    console.log('players', this.players);
   },
   play:()=>{
     console.log('playing something');
