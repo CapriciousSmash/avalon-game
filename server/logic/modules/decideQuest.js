@@ -24,6 +24,7 @@ module.exports.decideQuest = function(memcache) {
   if (/* Wins = 3 */) {
     return 'identifyMerlin';
   } else if (/* Loss = 3 */) {
+    // set winner to false(minions)
     return 'gameOver';
   } else {
     return 'party';
