@@ -78,5 +78,6 @@ var randomizeRoles = function(numK, numM, players) {
     }
   }
 
-  return party;
+  // return party;
+  // setTimeout for chooseParty
 }

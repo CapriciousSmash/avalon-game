@@ -1,6 +1,8 @@
 module.exports.decideQuest = function(memcache) {
+  // Needs a couple of pauses in the middle as results are revealed and before heading off to next sections
   // pause game for 1 minute
-    // send back countdown?
+
+    // Send back count down?  Concurrent setInterval that we cancel in setTimeout
 
   // check to see if quest succeeded for failed
   if (/* round === 4 && party size >= 7 */) {
