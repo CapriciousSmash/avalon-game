@@ -6,7 +6,7 @@ const sequelize = new Sequelize(config.herokuPostgresAuth, {
   dialect: 'postgres',
   protocol: 'postgres',
   port: 5432,
-  host: 'ec2-54-225-243-220.compute-1.amazonaws.com',
+  host: 'ec2-54-235-125-135.compute-1.amazonaws.com',
   dialectOptions: {
     ssl: true,
   },
