@@ -1,4 +1,8 @@
 module.exports.assignRoles = function(memcache) {
+  // Note: memcache needs to store the current stage in the game.
+  // TODO: 
+  // memcache set current stage to 'roles'
+
   // randomly determine each player's role.  Assign only one Merlin and one Assassin
   // Knights are good guys, minions are bad guys
   var players = ; // array of entire party obtained from memcache call
@@ -29,6 +33,9 @@ module.exports.assignRoles = function(memcache) {
   // assign party leader at random
   // memcache set for party leader (players[Math.floor(Math.random() * players.length)])
 
+  // TODO: set up next function in chain:
+  // Step 1: Signal to each player their assigned role
+  
   return 'party';
 }
 
@@ -50,6 +57,7 @@ var randomizeRoles = function(numK, numM, players) {
 
   // Iterate through total of players
   while (numK + numM > 0) {
+
     // Deceide which team player goes to
     if (numK < 1) {
       // If there are no more knight spots

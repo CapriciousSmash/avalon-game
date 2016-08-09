@@ -18,7 +18,7 @@ const GameObjective = (props) => {
 
 const GameCardsNTokens = (props) => {
   return (
-  	
+  	<div></div>
   );
 }
 
