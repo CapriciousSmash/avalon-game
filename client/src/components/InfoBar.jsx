@@ -1,5 +1,6 @@
 import React from 'react';
 
+// The InfoBar allows for navigation within the game info page
 class InfoBar extends React.Component {
   changeSection(newSection) {
   	console.log('change section');

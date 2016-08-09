@@ -15,7 +15,6 @@ import * as Actions from '../actions';
 // of what the user will see as the web application
 class InfoWrapper extends React.Component {
   render() {
-    console.log('Info activeSection: ', this.props.activeSection);
     return (
       <div>
         <Info activeSection={this.props.activeSection} onGotoSection={(section) => this.props.actions.newInfoSection(section)}/>
@@ -27,7 +26,6 @@ class InfoWrapper extends React.Component {
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
-  console.log('mapping state: ', state);
   return {
     activeSection: state.info.active_info
   };
