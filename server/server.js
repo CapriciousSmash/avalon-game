@@ -15,21 +15,19 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var players = [];
 //Socket Listeners
 io.on('connection', (socket)=>{
   //Add listeners here
-  socket.on('peer', function(pid){
-    socket.broadcast.emit('newPeer', pid);
-  });
-  socket.on('disconnect', function(socket){
-    console.log('user disconnected');
+  socket.emit('oldPeers', players);
+  socket.broadcast.emit('newPeer', socket.id);
+  players.push(socket.id);
+  
+  socket.on('disconnect', function(){
+    io.emit('peerLeft', socket.id);
+    players.splice(players.indexOf(socket.id),1);
   });
 });
-
-/*//Our Peer Server
-var ExpressPeerServer = require('peer').ExpressPeerServer;
-app.use('/myapp', ExpressPeerServer(server, {debug:true}));
-*/
 
 // serve index.html for rest
 app.get('*', (req, res)=>{
