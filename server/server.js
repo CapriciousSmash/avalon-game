@@ -15,17 +15,24 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var players = [];
-//Socket Listeners
+//var players = [];
+var players = {};
 io.on('connection', (socket)=>{
-  //Add listeners here
-  socket.emit('oldPeers', players);
-  socket.broadcast.emit('newPeer', socket.id);
-  players.push(socket.id);
-  
+  //Init player
+  players[socket.id] = {
+    uid: socket.id, 
+    color: null
+  };
+
+  //Listeners
+  socket.on('userColor', function(color){
+    players[socket.id].color = color;
+    socket.broadcast.emit('newPeer', players[socket.id]);
+    socket.emit('allPeers', players);
+  });
   socket.on('disconnect', function(){
     io.emit('peerLeft', socket.id);
-    players.splice(players.indexOf(socket.id),1);
+    delete(players[socket.id]);
   });
 });
 
