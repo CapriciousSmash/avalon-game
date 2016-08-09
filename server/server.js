@@ -18,18 +18,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Socket Listeners
 io.on('connection', (socket)=>{
   //Add listeners here
+  var players = [];
   socket.on('peer', function(pid){
+    socket.emit('oldPeers', players);
     socket.broadcast.emit('newPeer', pid);
+    players.push(pid);
   });
   socket.on('disconnect', function(socket){
     console.log('user disconnected');
   });
 });
-
-/*//Our Peer Server
-var ExpressPeerServer = require('peer').ExpressPeerServer;
-app.use('/myapp', ExpressPeerServer(server, {debug:true}));
-*/
 
 // serve index.html for rest
 app.get('*', (req, res)=>{
