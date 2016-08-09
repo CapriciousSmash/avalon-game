@@ -17,7 +17,7 @@ class NavBar extends React.Component {
       return (
         <ul>
           <li>
-            <Link to='gameinfo'>Stats</Link>
+            <Link to='main'>Stats</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
@@ -31,7 +31,7 @@ class NavBar extends React.Component {
       return (
         <ul>
           <li>
-            <Link to='gameinfo'>Stats</Link>
+            <Link to='main'>Stats</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
