@@ -36,6 +36,9 @@ class NavBar extends React.Component {
           <li>
             <Link to='signin'>Sign In</Link>
           </li>
+          <li>
+            <Link to='gamesetting'>Game Setting</Link>
+          </li>
         </ul>
       );
     }
