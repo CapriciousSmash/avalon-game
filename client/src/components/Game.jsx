@@ -20,33 +20,43 @@ class Game extends React.Component {
   }
   componentDidMount(){
     game.init();
-    game.play();
+    function randomHexColor(){
+      var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
+      var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
+      var hblue = (Math.floor(Math.random() * 180) + 20).toString(16);
+
+      return Number('0x'+(hred+hgreen+hblue).toUpperCase());
+    }
 
     //refactor this!
     var login = this.props.login;
 
+
     //Connect to server
-    const socket = io();
-    const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
-    
-    //Connection for audio
-    peer.on('open', function(id) {
-      game.addPlayer(id);
-      login(id);
-    });
+    var socket = io();
+    var userColor = randomHexColor();
+    socket.on('connect', function(){
+      login(socket.id);
+      socket.emit('userColor', userColor);
+      
+      const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
+      
+      //Connection for audio
+      peer.on('open', function(id) {
+      });
+    })
 
     //Add peers who were already in the game
-    socket.on('oldPeers', function(pids){
-      console.log('oldpeers', pids);
-      for(var x = 0; x < pids.length; x++){
-        game.addPlayer(pids[x]);
+    socket.on('allPeers', function(players){
+      for (let p in players){
+        game.addPlayer(players[p].uid, players[p].color);
       }
     });
     //Add in new peer to the game
-    socket.on('newPeer', function(pid){
-      game.addPlayer(pid);
+    socket.on('newPeer', function(player){
+      game.addPlayer(player.uid, player.color);
       // Later connect new peer's audio
-      // var conn = peer.connect(pid);
+      // var conn = peer.connect(uid);
 
       // conn.on('open', function(){
       //   conn.send('hey newbie');
@@ -61,8 +71,8 @@ class Game extends React.Component {
     //   });
     //   conn.send('Hey gramps!');
     // });
-    socket.on('peerLeft', function(pid){
-      game.removePlayer(pid);
+    socket.on('peerLeft', function(uid){
+      game.removePlayer(uid);
     });
   }
   render() {

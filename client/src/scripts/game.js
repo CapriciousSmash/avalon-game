@@ -39,28 +39,34 @@ export default {
 
     // add to the scene
     scene.add(pointLight);
+    var timer = 0;
 
-    function render(){
+    var render = () => {
       requestAnimationFrame(render);
+      timer++;
       var d = new Date();
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime()/10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime()/10) * 0.01);
       renderer.render(scene, camera);
+
+      for(var x = 0; x < this.players.length; x++){
+        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500/this.players.length)/2 * (1 + (2 * x)) - 250;
+      }
     }
     render();
   },
-  addPlayer: function(uid){
+  addPlayer: function(uid, color){
     if(this.players.length < 5){
       this.players.push({
         uid,
         x: this.players[this.players.length-1] ? this.players[this.players.length-1].x + 80 : -140,
-        y: 0
-      });
-      console.log('PLAYER ID',this.players[this.players.length - 1].uid);
-      
+        y: 0,
+        color,
+      });      
+
       let sphereMaterial =
         new THREE.MeshLambertMaterial({
-            color: 0xCC00CC
+            color
           });
       let radius = 20,
           segments = 16,
@@ -80,8 +86,12 @@ export default {
     }
   },
   removePlayer: function(uid){
-    console.log('REMOVING', uid);
     this.scene.remove(this.scene.getObjectByName(uid));
+    for(var x = 0; x < this.players.length; x++){
+      if(this.players[x].uid === uid){
+        this.players.splice(x, 1);
+      }
+    }
   },
   play:()=>{
     console.log('playing something');
