@@ -1,12 +1,14 @@
-import {} from '../actions';
+import { CHANGE_INFO } from '../actions';
 
-const initialState = {};
+const initialState = {
+	active_info: 'GETTING STARTED'
+};
 
 // Reducer for the <Info /> component which displays information for
 // the game's rules and how to get started playing
 export default function info(state = initialState, action) {
   switch (action.type) {
-  	case ACTIVE_SECTION:
+  	case CHANGE_INFO:
   	  return {
   	  	...state,
   	  	active_info: action.activeSection
