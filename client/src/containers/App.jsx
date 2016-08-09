@@ -7,6 +7,7 @@ import GameInfo from '../components/Info';
 import GettingStarted from '../components/GettingStarted';
 import Stats from '../components/Stats';
 import Login from '../components/Login';
+import Game from '../components/Game';
 
 // Redux-related imports
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Game />
         <Router history={hashHistory}>
           <Route path='/' component={NavBar}>
             <IndexRoute component={GettingStarted}></IndexRoute>

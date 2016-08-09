@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import login from '../actions/login';
+
 import game from '../scripts/game.js';
 
 /////////////////////////////////////////////////////////////
@@ -20,33 +22,49 @@ class Game extends React.Component {
   }
   componentDidMount(){
     var peer = new Peer ({host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
+
+    game.init();
+    game.play();
+
+    //refactor this!
+    var login = this.props.login;
+
+    //Connect to server
+    
+
+    //Connection for audio
     peer.on('open', function(id) {
       console.log('My peer ID is: ' + id);
       socket.emit('peer', id);
+      game.addPlayer(id);
+      login(id);
     });
-    socket.on('newPeer', function(pid){
-      console.log('new peer with id:', pid);
-      var conn = peer.connect(pid);
 
-      conn.on('open', function(){
-        console.log('OPENING CONNECTION');
-        game.addPlayer(pid);
-        conn.send('hey newbie');
-        conn.on('data', function(data){
-          console.log('(old)Received some greetings:', data);
-        });
-      });
+    //Add peers who were already in the game
+    socket.on('oldPeers', function(pids){
+      for(var x = 0; x < pids.length; x++){
+        game.addPlayer(pids[x]);
+      }
     });
-    peer.on('connection', function(conn){
-      console.log('someone connected to me');
-      conn.on('data', function(data){
-        console.log('(new)Received some greetings:', data);
-      });
-      conn.send('Hey gramps!');
+    //Add in new peer to the game
+    socket.on('newPeer', function(pid){
+      game.addPlayer(pid);
+      // Later connect new peer's audio
+      // var conn = peer.connect(pid);
+
+      // conn.on('open', function(){
+      //   conn.send('hey newbie');
+      //   conn.on('data', function(data){
+      //     console.log('(old)Received some greetings:', data);
+      //   });
+      // });
     });
-    game.init();
-    game.play();
-    game.addPlayer(100);
+    // peer.on('connection', function(conn){
+    //   conn.on('data', function(data){
+    //     console.log('(new)Received some greetings:', data);
+    //   });
+    //   conn.send('Hey gramps!');
+    // });
   }
   render() {
     return (
@@ -60,14 +78,16 @@ class Game extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    currentUser: state.currentUser
   }
 }
 function mapDispatchToProps(dispatch){
   return {
+    login: bindActionCreators(login, dispatch)
   }
 }
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Game);
-export default Game;
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
+//export default Game;
 
 

@@ -1,6 +1,6 @@
 import { LOGGED_IN, LOGGED_OUT } from '../actions';
 
-export default function setUser(user){
+export default function login(user){
   return{
     type: LOGGED_IN,
     uid: user,
