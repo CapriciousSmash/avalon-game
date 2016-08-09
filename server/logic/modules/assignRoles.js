@@ -16,9 +16,9 @@ module.exports.assignRoles = function(memcache) {
   // Assign the players to Knights or Minions
   var party = randomizeRoles(knights, minions, players);
 
-  // Make the first member of each side Merlin or the Assassin respectively
-  party.merlin = party.knights[0];
-  party.assassin = party.minions[0];
+  // Make a random member of each side Merlin or the Assassin respectively
+  party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
+  party.assassin = party.minions[Math.floor(Math.random() * party.knights.length)];
 
   // Update memcache with the correct party layout
   // memcache set for party.knights
@@ -34,6 +34,8 @@ module.exports.assignRoles = function(memcache) {
 
 // Takes in number of Knights, Minions, and an array of the player names/id
 // Returns an object with the group broken down into Merlin, Knights, Assassin, and minions
+// TODO: write test(s)
+// NOTE: Does work as intended
 var randomizeRoles = function(numK, numM, players) {
   // Merlin and Assassin should only ever have one player attached to it
   // Knights and Minions should be an array of those players, even if it is only one
@@ -44,15 +46,36 @@ var randomizeRoles = function(numK, numM, players) {
     minions: []
   };
 
+  var side;
+
   // Iterate through total of players
   while (numK + numM > 0) {
-    // Randomly generate a number up to the remaining positions
-    // If within the numK range
-      // Assign that player as a knight
+    // Deceide which team player goes to
+    if (numK < 1) {
+      // If there are no more knight spots
+      // make them a minion
+      side = 1;
+    } else if (numM < 1){
+      // if there are no more minion spots
+      // make them a knight
+      side = 0;
+    } else {
+      // Randomly generate a number between 0 and 2 (0 or 1) if there are knight and minion spots open
+      side = Math.floor(Math.random() * 2);
+    }
+
+    // If 0
+    if (side === 0){
+      // Assign last player as a knight
+      party.knights.push(players.pop());
       // Decrement knights
-      // Remove player from the list of players
-    // If outside of the numK range
-      // Assign that player as 
+      numK--;
+    } else if (side === 1) {
+      // Assign last player as a minion
+      party.minions.push(players.pop());
+      // Decrement minions
+      numM--;
+    }
   }
 
   return party;
