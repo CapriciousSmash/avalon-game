@@ -20,7 +20,6 @@ import * as Actions from '../actions';
 // of what the user will see as the web application
 class App extends React.Component {
   render() {
-    console.log('App activeSection: ', this.props.activeSection);
     return (
       <div>
         <NavBar />
@@ -33,7 +32,6 @@ class App extends React.Component {
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
-  console.log('mapping state: ', state);
   return {
     activeSection: state.info.active_info
   };

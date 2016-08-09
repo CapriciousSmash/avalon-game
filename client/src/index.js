@@ -16,6 +16,7 @@ import configureStore from './store/configStore';
 
 const store = configureStore();
 
+// Implementing React Router
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
