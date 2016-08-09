@@ -10,7 +10,8 @@ import gameState from './state';
 const rootReducer = combineReducers({
   auth,
   currentUser,
-  info
+  info,
+  gameState
 });
 
 export default rootReducer;

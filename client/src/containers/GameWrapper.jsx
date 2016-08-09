@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 
 import login from '../actions/login';
+import setGameState from '../actions/setGameState';
 
 import Game from '../components/Game';
 
@@ -37,7 +38,7 @@ class GameWrapper extends React.Component {
     return (
       <div> 
         <h1>GAME</h1>
-        {this.props.playing ? <Game /> : <Lobby socket={this.props.socket}/>}
+        {this.props.playing ? <Game socket={this.props.socket}/> : <Lobby socket={this.props.socket}/>}
       </div>
     )
   }
@@ -45,7 +46,7 @@ class GameWrapper extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    playing: state.playing,
+    playing: state.gameState,
     currentUser: state.currentUser
   }
 }
