@@ -1,4 +1,6 @@
-module.exports.assignRoles = function(memcache) {
+const chooseParty = require('./chooseParty').chooseParty;
+
+module.exports.assignRoles = function(memcache, socket) {
   // Note: memcache needs to store the current stage in the game.
   // TODO: 
   // memcache set current stage to 'roles'
@@ -35,7 +37,15 @@ module.exports.assignRoles = function(memcache) {
 
   // TODO: set up next function in chain:
   // Step 1: Signal to each player their assigned role
-  // Step 2: Set up for each 
+  socket.emit('assignRoles', {
+    // To differentiate the correct game
+    gameId: 5318008,
+    // TODO: Format of return to players for role assignment is playerId: role
+    playerId: 'role <-- TO BE UPDATED -->'
+  });
+  setTimeout(function() {
+    chooseParty(memcache, socket);
+  }, 5000000);
   
   return 'party';
 }
@@ -44,7 +54,7 @@ module.exports.assignRoles = function(memcache) {
 // Returns an object with the group broken down into Merlin, Knights, Assassin, and minions
 // TODO: write test(s)
 // NOTE: Does work as intended
-var randomizeRoles = function(numK, numM, players) {
+const randomizeRoles = function(numK, numM, players) {
   // Merlin and Assassin should only ever have one player attached to it
   // Knights and Minions should be an array of those players, even if it is only one
   var party = {

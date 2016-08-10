@@ -1,4 +1,4 @@
-module.exports.startQuest = function(memcache) {
+module.exports.startQuest = function(memcache, socket) {
   // Information needed from memcache
   // - Current party composition
 
@@ -43,7 +43,7 @@ module.exports.startQuest = function(memcache) {
   }
 };
 
-module.exports.resolveQuest = function(memcache) {
+module.exports.resolveQuest = function(memcache, socket) {
   // Information needed from memcache
   // - Current party composition
   // - Results from previous quests (successes and failures)

@@ -10,6 +10,10 @@ const server = app.listen(port, ()=>{
 });
 const io = require('socket.io').listen(server);
 
+// Import the game logic router to allow calling of game logic functions
+// based on received signals
+const game = require('./logic/logic-main');
+
 app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());

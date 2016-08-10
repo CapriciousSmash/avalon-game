@@ -1,6 +1,6 @@
 // Gives minions chance for redemption in game if the Assassin correctly identifies
 // which player is Merlin
-module.exports.identifyMerlin = function(memcache) {
+module.exports.identifyMerlin = function(memcache, socket) {
   // Information needed from memcache
   // - Identify of Assassin
 
@@ -12,7 +12,7 @@ module.exports.identifyMerlin = function(memcache) {
   // TODO: Set timer for resolveIdMerlin
 };
 
-module.exports.resolveIdMerlin = function(memcache) {
+module.exports.resolveIdMerlin = function(memcache, socket) {
   // Information needed from memcache
   // - The identify of merlin
   // - The choice of Assassin for the identify of merlin
