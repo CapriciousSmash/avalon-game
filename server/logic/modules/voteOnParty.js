@@ -1,21 +1,43 @@
+// Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache) {
-  // handle vote counting
-  // check votes to see if party is rejected
-  if(/* Party is rejected accepts < rejects*/) {
-    if (/* Veto count is already 5 */) {
-      // set minions to winners
-      // return 'gameOver';
-      // setTimout 15 sec for gameOver
-    } else {
-      // increase veto count
-      // assign next party leader
-      // empty party selection
-      // return 'party';
-      // setTimout 5m for party
-    }
-  } else {
-    // set veto count to 5
-    // return 'quest';
-    // setTimeout 15 sec for quest
-  }
+  // Information needed from memcache
+  // - 
+
+  // TODO: Signal to players to begin voting. 
+
+  // TODO: Set timer for resolution to give players time to vote.
 }
+
+module.exports.resolvePartyVote = function(memcache) {
+  // Information needed from memcache
+  // - Player voting results
+  // - Current vetoes count
+
+  // TODO: Calculate player voting results
+  // Accepts > Rejects === Party accepted
+  // Rejects >= Accepts === Party rejected
+  if (/* Party accepted */) {
+    // TODO: Signal to players (websockets) that the quest has been
+    // accepted
+
+    // TODO: Set timer for decideQuest
+  } else /* Party rejected */ {
+    // TODO: Signal to players (websockets) that the quest has been
+    // rejected
+
+    // TODO: Increase veto count in memcache
+
+    // TODO: Check current veto count from memcache
+    if (/* Veto count >= 5 */) {
+      // TODO: Signal to players that heroes have lost. 
+
+      // TODO: Set timer for gameOver with minion victory
+    } else /* Veto count < 5 */ {
+      // TODO: Set timer for chooseParty
+    }
+  }
+};
+
+
+
+

@@ -11,4 +11,8 @@ module.exports.identifyMerlin = function(memcache) {
   // pause for 30 sec for gestation
 
   return 'gameOver';
-}
+};
+
+module.exports.resolveMerlin = function(memcache) {
+
+};

@@ -1,4 +1,8 @@
 module.exports.decideQuest = function(memcache) {
+  
+
+
+
   // Needs a couple of pauses in the middle as results are revealed and before heading off to next sections
   // pause game for 1 minute
 
@@ -31,4 +35,8 @@ module.exports.decideQuest = function(memcache) {
   } else {
     return 'party';
   }
-}
+};
+
+module.exports.resolveQuest = function(memcache) {
+
+};
