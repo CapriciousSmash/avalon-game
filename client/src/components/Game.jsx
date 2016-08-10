@@ -54,20 +54,27 @@ class Game extends React.Component {
     socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
     });
-
-    socket.on('assignRoles', function (data) {
+    socket.on('assignRoles', function(data) {
 
     });
-
     socket.on('resolveParty', function(data) {
+
+    });
+    socket.on('startVote', function(data) {
+
+    });    
+    socket.on('resolveVote', function(data) {
 
     });
   }
   partyLeaderPickParty() {
     this.props.socket.emit('sendParty', ['player1', 'player2', 'player3']);
   }
-  vote() {        
-    this.props.socket.emit('vote', true);
+  voteOnParty() {        
+    this.props.socket.emit('voteOnParty', true);
+  }
+  voteOnQuest() {
+    this.props.socket.emit('voteOnQuest', true);
   }
   pickMerlin() {
     this.props.socket.emit('stabMerlin', 'player');
