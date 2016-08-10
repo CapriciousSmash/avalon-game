@@ -57,7 +57,7 @@ class NavBar extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {
-    auth: false,
+    auth: false
   };
 }
 

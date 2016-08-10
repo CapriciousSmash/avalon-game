@@ -25,7 +25,7 @@ module.exports.resolvePartyVote = function(memcache) {
     // TODO: Signal to players (websockets) that the quest has been
     // accepted
 
-    // TODO: Set timer for decideQuest
+    // TODO: Set timer for startQuest
   } else /* Party rejected */ {
     // TODO: Signal to players (websockets) that the quest has been
     // rejected
