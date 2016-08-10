@@ -6,3 +6,4 @@ SIGNAL 			EVENT
 'resolveParty'	Inform players of the party leader's final decision and begin next phase
 'startVote'		Informs players voting has begun and gives option to accept/reject
 'resolveVote'	Reveals results of player voting to accept/reject party and begin next phase
+'startQuest'	Quest is starting and informs players that the party members are voting
