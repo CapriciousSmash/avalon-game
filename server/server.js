@@ -1,18 +1,18 @@
-const express = require('express');
-const http = require('http');
-const bodyParser = require('body-parser');
-const path = require('path');
+var express = require('express');
+var http = require('http');
+var bodyParser = require('body-parser');
+var path = require('path');
 
-const app = express();
-const port = process.env.PORT || 3000;
-const server = app.listen(port, ()=>{
+var app = express();
+var port = process.env.PORT || 3000;
+var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
 });
-const io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server);
 
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
-const game = require('./logic/logic-main');
+var game = require('./logic/logic-main');
 
 app.use(express.static(__dirname + '/../client/public'));
 
