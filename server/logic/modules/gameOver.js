@@ -1,5 +1,5 @@
 // Functions that take place on the game is over
-module.exports.gameEnd = function(memcache) {
+module.exports.gameEnd = function(memcache, socket) {
   // Information needed from memcache
   // - Game winner (knights or minions)
 
@@ -22,7 +22,7 @@ module.exports.gameEnd = function(memcache) {
 // TODO: Import commands to access persistent database to update points
 
 // Final game results: 
-module.exports.gameOver = function(memcache) {
+module.exports.gameOver = function(memcache, socket) {
   // Information needed from memcache
   // - Game winning side
 

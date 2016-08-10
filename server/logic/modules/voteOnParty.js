@@ -1,16 +1,17 @@
 // Sets up the players to vote on the party chosen by the party leader. 
-module.exports.voteOnParty = function(memcache) {
+module.exports.voteOnParty = function(memcache, socket) {
   // Information needed from memcache
   // - 
 
   // TODO: Set current game phase in memcache to 'VOTE'
 
   // TODO: Signal to players to begin voting. 
+  socket.emit('startVote', {});
 
   // TODO: Set timer for resolution to give players time to vote.
 }
 
-module.exports.resolvePartyVote = function(memcache) {
+module.exports.resolvePartyVote = function(memcache, socket) {
   // Information needed from memcache
   // - Player voting results
   // - Current vetoes count
