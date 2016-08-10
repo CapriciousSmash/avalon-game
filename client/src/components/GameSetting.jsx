@@ -5,16 +5,21 @@ export default class GameSetting extends React.Component {
     super()
   }
 
-
+  clickOnUserSide(value) {
+    var io = this.props.socket;
+    io.emit('sendCheckBox', 'firstCheckbox');
+  }
 
   render() {
     return (
       <div>
         <label>
-          <input type="checkbox" id="cbox1" value="first_checkbox"> This is the first checkbox</input>
+          <input type='checkbox' id='' value='firstCheckbox' onClick={this.clickOnUserSide}></input>
+          This is the first checkbox
         </label>
         <label> 
-          <input type="checkbox" id="cbox2" value="second_checkbox">This is the second checkbox</input>
+          <input type='checkbox' id='' value='secondCheckbox' onClick={this.clickOnUserSide}></input>
+          This is the second checkbox
         </label>
       </div>
     )
