@@ -5,10 +5,9 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 
 import login from '../actions/login';
-import setGameState from '../actions/setGameState';
 
 import Game from '../components/Game';
-//import Lobby from '../components/Lobby';
+import Lobby from '../components/Lobby';
 
 class GameWrapper extends React.Component {
   constructor() {
@@ -53,11 +52,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     login: bindActionCreators(login, dispatch),
-    setGameState: bindActionCreators(setGameState, dispatch)
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameWrapper);
-//export default Game;
 
 
