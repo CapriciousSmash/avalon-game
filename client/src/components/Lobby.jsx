@@ -10,60 +10,68 @@ class Lobby extends React.Component {
   constructor() {
     super();
   }
-  componentWillMount(){
+  componentWillMount() {
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
   }
-  componentDidMount(){
+  componentDidMount() {
     //Connect to server
     var socket = this.props.socket;
-      
-    //Add peers who were already in the game
-    socket.on('allPeers', function(players){
-      for (let p in players){
-      }
+    
+    //Tell server that player is in lobby, request lobby info
+    socket.emit('lobby', 0);
+    socket.on('lobbyInfo', function(lobbyInfo) {
+      this.setState({
+        gm: lobbyInfo.gm,
+        players: lobbyInfo.players
+      });
     });
-    //Add in new peer to the game
-    socket.on('newPeer', function(player){
-      // Later connect new peer's audio
-      // var conn = peer.connect(uid);
 
-      // conn.on('open', function(){
-      //   conn.send('hey newbie');
-      //   conn.on('data', function(data){
-      //     console.log('(old)Received some greetings:', data);
-      //   });
-      // });
-    });
-    // peer.on('connection', function(conn){
-    //   conn.on('data', function(data){
-    //     console.log('(new)Received some greetings:', data);
-    //   });
-    //   conn.send('Hey gramps!');
-    // });
-    socket.on('peerLeft', function(uid){
-    });
+    //Testing change from lobby to game play
+    setTimeout(this.props.setGameState, 3000);
   }
   render() {
     return (
       <div> 
         <h1>LOBBY</h1>
         <div id="playerList">
+          {
+            player.uid === this.state.gm.uid ? <h1>{this.state.gm.uid}</h1> : <h2>{this.state.gm.uid}</h2>
+          }  
+          {
+            this.state.players.map(player => {
+              if (player.uid === this.props.currentUser.uid) {
+                return (
+                  <div>
+                    <h2>{player.uid}</h2>
+                  </div>
+                );
+              } else {
+                return (
+                  <div>
+                    <h3>{player.uid}</h3>
+                  </div>
+                );
+              }
+            }
+          )
+        }
         </div>
         
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
-  }
+    currentUser: state.currentUser
+  };
 }
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
     setGameState: bindActionCreators(setGameState, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
