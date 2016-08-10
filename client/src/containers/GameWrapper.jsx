@@ -8,37 +8,37 @@ import login from '../actions/login';
 import setGameState from '../actions/setGameState';
 
 import Game from '../components/Game';
+//import Lobby from '../components/Lobby';
 
 class GameWrapper extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    this.socket = io();
   }
   componentWillMount(){
-  }
-  componentWillUnmount(){
-  }
-  componentDidMount(){
     //refactor this!
     var login = this.props.login;
 
-
     //Connect to server
-    this.props.socket = io();
-    this.props.socket.on('connect', function(){
-      login(this.props.socket.id);
+    this.socket.on('connect', function(){
+      login(this.socket.id);
       
-      const peer = new Peer (this.props.socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
+      const peer = new Peer (this.socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
       
       //Connection for audio
       peer.on('open', function(id) {
       });
-    })
+    }.bind(this));
+  }
+  componentWillUnmount(){
+  }
+  componentDidMount(){
   }
   render() {
     return (
       <div> 
-        <h1>GAME</h1>
-        {this.props.playing ? <Game socket={this.props.socket}/> : <Lobby socket={this.props.socket}/>}
+        <h1>GAME HI!</h1>
+        {this.props.playing ? <Game socket={this.socket}/> : <Lobby socket={this.socket}/>}
       </div>
     )
   }
@@ -57,7 +57,7 @@ function mapDispatchToProps(dispatch){
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(GameWrapper);
 //export default Game;
 
 

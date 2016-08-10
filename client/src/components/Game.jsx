@@ -11,7 +11,6 @@ class Game extends React.Component {
   componentWillMount(){
   }
   componentWillUnmount(){
-    socket.close();
   }
   componentDidMount(){
     game.init();
