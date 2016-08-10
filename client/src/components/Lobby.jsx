@@ -17,12 +17,9 @@ var Lobby = React.createClass ({
     //Connect to server
     var socket = this.props.socket;
     
-    console.log("COMPONENT DID MOUNT", this.state);
-
     //Tell server that player is in lobby, request lobby info
     socket.emit('lobby', 0);
     socket.on('lobbyInfo', function(lobbyInfo) {
-      console.log('GOT THEM LOBBY INFO');
       this.setState({
         gm: lobbyInfo.gm,
         players: lobbyInfo.players
@@ -37,8 +34,6 @@ var Lobby = React.createClass ({
       <div> 
         <h1>LOBBY</h1>
         <div id="playerList">
-          {console.log('currentUser', this.props.currentUser.uid, 'GM', this.state.gm.uid)}
-          {console.log('currentUser', this.props.currentUser.uid === this.state.gm.uid)}
           {
             ('/#' + this.props.currentUser.uid) === this.state.gm.uid ? <h1>GM(me):{this.state.gm.uid}</h1> : <h2>GM:{this.state.gm.uid}</h2>
           }  
