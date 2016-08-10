@@ -111,6 +111,19 @@ io.on('connection', (socket)=>{
     }
   });
 
+  socket.on('sendCheckBox', function(value){
+    if (setting['checkBox']) {
+      setting['checkBox'] = false;
+    } else {
+      setting['checkBox'] = true;
+    }
+    socket.broadcast.emit('receiveCheckBox', setting['checkBox']);
+  });
+
+  socket.on('update', function(value){
+    io.emit('sendUpdate', setting['checkBox']);
+  });
+
   //LOBBY==================================================
   socket.on('joinRoom', function(newRoomId) {
     //Leave lobby and enter room
