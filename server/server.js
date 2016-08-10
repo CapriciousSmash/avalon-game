@@ -97,3 +97,14 @@ io.on('connection', (socket)=>{
 app.get('*', (req, res)=>{
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
+
+app.get('/login', passport.authenticate('local-login', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+});
