@@ -30,7 +30,8 @@ io.on('connection', (socket)=>{
   //Init player
   players.push({
     uid: socket.id, 
-    color: null
+    color: null,
+    ready: false
   });
 
   //Socket Listeners
@@ -44,6 +45,24 @@ io.on('connection', (socket)=>{
       gm: players[0],
       players: players.slice(1, players.length)
     });
+  });
+  socket.on('ready', function(playerReady) {
+    players[deepSearch(socket.id, players)].ready = playerReady;
+    var startGame = true;
+    for (var x = 0; x < players.length; x++) {
+      if (!players[x].ready) {
+        startGame = false;
+      }
+    }
+
+    socket.broadcast.emit('lobbyInfo', {
+      gm: players[0],
+      players: players.slice(1, players.length)
+    });    
+    
+    if (startGame) {
+      io.emit('startGame');
+    }
   });
   //Game
   socket.on('userColor', function(color) {
