@@ -21,6 +21,7 @@ module.exports.chooseParty = function(memcache) {
 module.exports.resolveParty = function(memcache) {
   // Information needed from memcache:
   // - List of party members chosen by the party leader
+  // - Current game phase 
 
   // If phase from memcache is 'PARTY', then continue, otherwise, fizzle
   

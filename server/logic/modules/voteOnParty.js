@@ -3,6 +3,8 @@ module.exports.voteOnParty = function(memcache) {
   // Information needed from memcache
   // - 
 
+  // TODO: Set current game phase in memcache to 'VOTE'
+
   // TODO: Signal to players to begin voting. 
 
   // TODO: Set timer for resolution to give players time to vote.
@@ -12,6 +14,9 @@ module.exports.resolvePartyVote = function(memcache) {
   // Information needed from memcache
   // - Player voting results
   // - Current vetoes count
+  // - Current game phase
+
+  // TODO: If current game phase is not 'VOTE', fizzle
 
   // TODO: Calculate player voting results
   // Accepts > Rejects === Party accepted
