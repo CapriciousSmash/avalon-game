@@ -45,20 +45,21 @@ const Lobby = React.createClass ({
         <div id="playerList">
           {
             ('/#' + this.props.currentUser.uid) === this.state.gm.uid ?
-            <div><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> : 
-            <div><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
+            <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 
+            : 
+            <div key={ this.state.gm.uid }><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
           }  
           {
             this.state.players.map(player => {
               if (player.uid === ('/#' + this.props.currentUser.uid)) {
                 return (
-                  <div>
+                  <div key={ player.uid }>
                     <h2>-(me){ player.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h2>
                   </div>
                 );
               } else {
                 return (
-                  <div>
+                  <div key={ player.uid }>
                     <h3>-{ player.uid }<p>{ player.ready ? 'Ready' : 'Not Ready' }</p></h3>
                   </div>
                 );
