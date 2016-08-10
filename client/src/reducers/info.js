@@ -1,4 +1,4 @@
-import { CHANGE_INFO } from '../actions';
+import { CHANGE_INFO } from '../actions/actionTypes';
 
 const initialState = {
 	active_info: 'GETTING STARTED'

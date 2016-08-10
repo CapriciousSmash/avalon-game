@@ -1,20 +1,11 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-// Containers/component imports
 import NavBar from './NavBar';
-import GameInfo from '../components/Info';
-import Stats from '../components/Stats';
-import Login from '../components/Login';
-import Game from '../components/Game';
 
 // Redux-related imports
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
-
-// CSS-related import
-//import '../styles/stylesheet.css';
 
 // The app class acts as the main container to store the entirety
 // of what the user will see as the web application

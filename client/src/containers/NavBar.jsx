@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-// CSS-related import
-//import '../styles/stylesheet.css';
-
 // The NavBar class holds and handles the main point of navigation on
 // the page and exists inside of the App container. 
 class NavBar extends React.Component {

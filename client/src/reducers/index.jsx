@@ -5,11 +5,13 @@ import { reducer as FormReducer } from 'redux-form';
 import auth from './auth';
 import currentUser from './user';
 import info from './info';
+import gameState from './state';
 
 const rootReducer = combineReducers({
   auth,
   currentUser,
-  info
+  info,
+  gameState
 });
 
 export default rootReducer;

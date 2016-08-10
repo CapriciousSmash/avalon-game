@@ -2,12 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import io from 'socket.io-client';
-
-import login from '../actions/login';
-
 import game from '../scripts/game.js';
-
 
 class Game extends React.Component {
   constructor(props) {
@@ -16,7 +11,6 @@ class Game extends React.Component {
   componentWillMount(){
   }
   componentWillUnmount(){
-    socket.close();
   }
   componentDidMount(){
     game.init();
@@ -28,23 +22,11 @@ class Game extends React.Component {
       return Number('0x'+(hred+hgreen+hblue).toUpperCase());
     }
 
-    //refactor this!
-    var login = this.props.login;
-
-
     //Connect to server
-    var socket = io();
+    var socket = this.props.socket;
     var userColor = randomHexColor();
-    socket.on('connect', function(){
-      login(socket.id);
-      socket.emit('userColor', userColor);
+    socket.emit('userColor', userColor);
       
-      const peer = new Peer (socket.id, {host:'ancient-caverns-19863.herokuapp.com', port:'', secure:'true'});
-      
-      //Connection for audio
-      peer.on('open', function(id) {
-      });
-    })
 
     //Add peers who were already in the game
     socket.on('allPeers', function(players){
@@ -87,12 +69,12 @@ class Game extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser
+    //currentUser: state.currentUser
   }
 }
 function mapDispatchToProps(dispatch){
   return {
-    login: bindActionCreators(login, dispatch)
+    //login: bindActionCreators(login, dispatch)
   }
 }
 
