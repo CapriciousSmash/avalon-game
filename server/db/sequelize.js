@@ -20,7 +20,6 @@ const sequelize = new Sequelize(config.herokuPostgresAuth, {
 const User = sequelize.define('user', {
   name: Sequelize.STRING(100),
   password: Sequelize.STRING(100),
-  salt: Sequelize.STRING(100),
   points: {
     type: Sequelize.INTEGER,
     defaultValue: 0
