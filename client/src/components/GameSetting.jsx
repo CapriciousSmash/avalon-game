@@ -9,11 +9,12 @@ export default class GameSetting extends React.Component {
     var socket = this.props.socket;
     socket.on('receiveCheckBox', function(value) {
       console.log('What boolean am I retrieving', value);
-      document.getElementById('first').checked =  value;
+      document.getElementById('first').checked = value;
+      document.getElementById('first').disabled = true;
     });
     socket.on('sendUpdate', function(value) {
-      document.getElementById('first').checked =  value;
-    })
+      document.getElementById('first').checked = value;
+    });
   }
 
   componentDidMount() {
@@ -23,6 +24,7 @@ export default class GameSetting extends React.Component {
 
   clickOnUserSide(value) {
     var socket = this.props.socket;
+    console.log(value)
     socket.emit('sendCheckBox', 'firstCheckbox');
   }
 
@@ -31,11 +33,11 @@ export default class GameSetting extends React.Component {
       <div>
         <label>
           <input type='checkbox' id='first' value='firstCheckbox' onClick={this.clickOnUserSide.bind(this)}></input>
-          This is the first checkbox
+          Merlin
         </label>
         <label> 
           <input type='checkbox' id='second' value='secondCheckbox' onClick={this.clickOnUserSide.bind(this)}></input>
-          This is the second checkbox
+          Assassin
         </label>
       </div>
     )
