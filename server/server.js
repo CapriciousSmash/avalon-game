@@ -55,6 +55,10 @@ io.on('connection', (socket)=>{
       }
     }
     if (startGame) {
+      socket.broadcast.emit('lobbyInfo', {
+        gm: players[0],
+        players: players.slice(1, players.length)
+      });  
       io.emit('startGame');
     } else {
       socket.broadcast.emit('lobbyInfo', {
