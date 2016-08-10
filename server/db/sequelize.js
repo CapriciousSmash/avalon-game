@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const config = require('../config/config.js');
+const bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
 const sequelize = new Sequelize(config.herokuPostgresAuth, {
@@ -29,6 +30,22 @@ const User = sequelize.define('user', {
     defaultValue: 0
   }
 });
+
+User.isValidPassword(password, id) {
+  // passed in a password and a userId
+  // look up the password attached to the userId
+  return this.find({id: id})
+    .then((user) => {
+  // compare the passwords together
+  // return whether the passwords match
+      return bcrypt.compareSync(password, user[0].password);
+    })
+    .catch((err) => console.log(err));
+}
+
+User.generateHash(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(16));
+}
 
 User.sync();
 

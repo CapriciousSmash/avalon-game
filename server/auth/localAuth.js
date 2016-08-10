@@ -9,10 +9,10 @@ module.exports = function(User) {
   }, function(req, username, password, done) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
-      User.findOrCreate({
+      User.findOrCreate({where: {
         username: username,
-        password: password
-      })
+        password: User.generateHash
+      }})
       .then(function(user) {
         done(null, user);
       }).catch(function(err) {
