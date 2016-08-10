@@ -19,6 +19,9 @@ app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.session({ secret: '8SER9M9jXS' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //Utility, move elsewhere
