@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 // Component Imports
 import App from './containers/App';
-import InfoWrapper from './containers/InfoWrapper'
+import InfoWrapper from './containers/InfoWrapper';
 import GameWrapper from './containers/GameWrapper';
 import Main from './components/Main';
 import Stats from './components/Stats';

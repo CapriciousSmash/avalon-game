@@ -35,6 +35,7 @@ module.exports.assignRoles = function(memcache) {
 
   // TODO: set up next function in chain:
   // Step 1: Signal to each player their assigned role
+  // Step 2: Set up for each 
   
   return 'party';
 }
