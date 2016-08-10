@@ -36,7 +36,6 @@ io.on('connection', (socket)=>{
   //Socket Listeners
   //Lobby
   socket.on('lobby', function(lobbyId) {
-    console.log('In LOBBBY');
     socket.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
