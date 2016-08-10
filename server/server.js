@@ -15,27 +15,53 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//var players = [];
-var players = {};
+
+//Utility, move elsewhere
+function deepSearch(id, arr) {
+  for (var x = 0; x < arr.length; x++) {
+    if (arr[x].uid === id) {
+      return x;
+    }
+  }
+}
+
+var players = [];
 io.on('connection', (socket)=>{
   //Init player
-  players[socket.id] = {
+  players.push({
     uid: socket.id, 
     color: null
-  };
+  });
 
-  //Listeners
-  socket.on('userColor', function(color){
-    players[socket.id].color = color;
-    socket.broadcast.emit('newPeer', players[socket.id]);
+  //Socket Listeners
+  //Lobby
+  socket.on('lobby', function(lobbyId) {
+    socket.emit('lobbyInfo', {
+      gm: players[0],
+      players: players.slice(1, players.length)
+    });
+    socket.broadcast.emit('lobbyInfo', {
+      gm: players[0],
+      players: players.slice(1, players.length)
+    });
+  });
+  //Game
+  socket.on('userColor', function(color) {
+    var p = players[deepSearch(socket.id, players)];
+    p.color = color;
+    socket.broadcast.emit('newPeer', p);
     socket.emit('allPeers', players);
   });
-  socket.on('disconnect', function(){
+
+  socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id);
-    delete(players[socket.id]);
+    players.splice(deepSearch(socket.id, players), 1);
+    io.emit('lobbyInfo', {
+      gm: players[0],
+      players: players.slice(1, players.length)
+    });
   });
 });
-
 // serve index.html for rest
 app.get('*', (req, res)=>{
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));

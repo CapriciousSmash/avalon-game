@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -8,18 +8,14 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentWillMount(){
-  }
-  componentWillUnmount(){
-  }
-  componentDidMount(){
+  componentDidMount() {
     game.init();
-    function randomHexColor(){
+    function randomHexColor() {
       var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
       var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
       var hblue = (Math.floor(Math.random() * 180) + 20).toString(16);
 
-      return Number('0x'+(hred+hgreen+hblue).toUpperCase());
+      return Number('0x' + (hred + hgreen + hblue).toUpperCase());
     }
 
     //Connect to server
@@ -29,13 +25,13 @@ class Game extends React.Component {
       
 
     //Add peers who were already in the game
-    socket.on('allPeers', function(players){
-      for (let p in players){
+    socket.on('allPeers', function(players) {
+      for (let p in players) {
         game.addPlayer(players[p].uid, players[p].color);
       }
     });
     //Add in new peer to the game
-    socket.on('newPeer', function(player){
+    socket.on('newPeer', function(player) {
       game.addPlayer(player.uid, player.color);
       // Later connect new peer's audio
       // var conn = peer.connect(uid);
@@ -53,7 +49,7 @@ class Game extends React.Component {
     //   });
     //   conn.send('Hey gramps!');
     // });
-    socket.on('peerLeft', function(uid){
+    socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
     });
   }
@@ -63,19 +59,19 @@ class Game extends React.Component {
         <h1>THREE GAME</h1>
         <div id="gameContainer"></div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
     //currentUser: state.currentUser
-  }
+  };
 }
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
     //login: bindActionCreators(login, dispatch)
-  }
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
