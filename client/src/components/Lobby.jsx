@@ -10,7 +10,8 @@ const Lobby = React.createClass ({
   getInitialState: function() {
     return {
       gm: '',
-      players: []
+      players: [],
+      ready: false
     };
   },
   componentDidMount: function() {
@@ -26,8 +27,16 @@ const Lobby = React.createClass ({
       });
     }.bind(this));
 
-    //Testing change from lobby to game play
-    //setTimeout(this.props.setGameState, 3000);
+    socket.on('startGame', function() {
+      //Refactor to loading page
+      setTimeout(this.props.setGameState, 3000);
+    }.bind(this));
+  },
+  readyHandler: function(e) {
+    this.setState({
+      ready: !this.state.ready
+    });
+    this.props.socket.emit('ready', !this.state.ready);
   },
   render: function() {
     return (
@@ -35,20 +44,22 @@ const Lobby = React.createClass ({
         <h1>LOBBY</h1>
         <div id="playerList">
           {
-            ('/#' + this.props.currentUser.uid) === this.state.gm.uid ? <h1>GM(me):{this.state.gm.uid}</h1> : <h2>GM:{this.state.gm.uid}</h2>
+            ('/#' + this.props.currentUser.uid) === this.state.gm.uid ?
+            <div><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> : 
+            <div><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
           }  
           {
             this.state.players.map(player => {
               if (player.uid === ('/#' + this.props.currentUser.uid)) {
                 return (
                   <div>
-                    <h2>-(me){player.uid}</h2>
+                    <h2>-(me){ player.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h2>
                   </div>
                 );
               } else {
                 return (
                   <div>
-                    <h3>-{player.uid}</h3>
+                    <h3>-{ player.uid }<p>{ player.ready ? 'Ready' : 'Not Ready' }</p></h3>
                   </div>
                 );
               }
