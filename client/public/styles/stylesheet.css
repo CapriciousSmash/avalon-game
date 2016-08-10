@@ -1,0 +1,112 @@
+.hidden{
+  display: none;
+}
+
+/*LOADING PAGE*/
+.loading{
+  background-color:black;
+  height:100px;
+}
+.loading-title{
+  position:absolute;
+  top:0;
+  left:0;
+  transform:translate(120%,50%);
+  line-height:57px;
+  font-family: 'Poiret One', cursive;
+  color: rgba(255,255,255,0.8);  
+}
+.row{
+  float:left;
+  height:50px;
+  width:100%;
+}
+.bar{
+  float:left;
+  margin-right:9px;
+  background-color:white;
+  width:8px;
+  height:10px;
+}
+.one{
+/*   animation-name: moving;
+  animation-duration:5s;
+  animation-delay: 0s;
+  animation-iteration-count: infinite; */
+  animation: moving 3s ease-in-out 0.5s infinite;  
+}
+.two{
+  animation: moving 3s ease-in-out 1s infinite;
+}
+.three{
+  animation: moving 3s ease-in-out 1.5s infinite;
+}
+.four{
+  animation: moving 3s ease-in-out 2s infinite;
+}
+.five{
+  animation: moving 3s ease-in-out 2.5s infinite;
+}
+.six{
+  animation: moving 3s ease-in-out 3s infinite;
+}
+.seven{
+  animation: moving 3s ease-in-out 3.5s infinite;
+}
+
+@keyframes moving {
+  0%  {
+    height:10px;
+  }
+  50%  {
+    background-color:rgba(128, 128, 128, 0.5);
+    height:30px;        
+  }
+  100%  {
+    height:10px;            
+  }
+}
+
+.one-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 0.5s infinite;  
+}
+.two-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 1s infinite;
+}
+.three-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 1.5s infinite;
+}
+.four-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 2s infinite;
+}
+.five-inv{
+  margin-top:40px; 
+  animation: moving-inv 3s ease-in-out 2.5s infinite;
+}
+.six-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 3s infinite;
+}
+.seven-inv{
+  margin-top:40px;  
+  animation: moving-inv 3s ease-in-out 3.5s infinite;
+}
+@keyframes moving-inv {
+  0%  {
+    margin-top:40px;
+    height:10px;
+  }
+  50%  {
+    margin-top:20px;
+    background-color:rgba(128, 128, 128, 0.5);
+    height:30px;        
+  }
+  100%  {
+    margin-top:40px;    
+    height:10px;            
+  }
+}

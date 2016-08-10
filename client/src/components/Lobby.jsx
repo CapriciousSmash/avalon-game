@@ -27,10 +27,11 @@ const Lobby = React.createClass ({
       });
     }.bind(this));
 
-    socket.on('startGame', function() {
+    socket.on('startGame', ()=>{
       //Refactor to loading page
+      $('.loading').removeClass('hidden');
       setTimeout(this.props.setGameState, 3000);
-    }.bind(this));
+    });
   },
   readyHandler: function(e) {
     this.setState({
@@ -42,6 +43,27 @@ const Lobby = React.createClass ({
     return (
       <div> 
         <h1>LOBBY</h1>
+        <div class='loading hidden'>
+          <div class='row'>
+            <div class='bar one-inv'></div>
+            <div class='bar two-inv'></div>
+            <div class='bar three-inv'></div>
+            <div class='bar four-inv'></div>
+            <div class='bar five-inv'></div>  
+            <div class='bar six-inv'></div>    
+            <div class='bar seven-inv'></div>   
+          </div>    
+          <div class='row'>
+            <div class='bar one'></div>
+            <div class='bar two'></div>
+            <div class='bar three'></div>
+            <div class='bar four'></div>
+            <div class='bar five'></div>  
+            <div class='bar six'></div>    
+            <div class='bar seven'></div>   
+          </div>
+          <div class='loading-title'>L o a d i n g . . .</div>
+        </div>
         <div id="playerList">
           {
             ('/#' + this.props.currentUser.uid) === this.state.gm.uid ?
