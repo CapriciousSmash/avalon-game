@@ -3,6 +3,9 @@ var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
 var path = require('path');
+// Import the game logic router to allow calling of game logic functions
+// based on received signals
+var game = require('./logic/logic-main');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -11,9 +14,7 @@ var server = app.listen(port, ()=>{
 });
 var io = require('socket.io').listen(server);
 
-// Import the game logic router to allow calling of game logic functions
-// based on received signals
-var game = require('./logic/logic-main');
+
 
 app.use(express.static(__dirname + '/../client/public'));
 

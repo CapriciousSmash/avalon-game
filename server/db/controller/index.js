@@ -1,6 +1,6 @@
-const model = require('../sequelize.js');
-const Promise = require('bluebird');
-const bcrypt = require('bcrypt-nodejs');
+var model = require('../sequelize.js');
+var Promise = require('bluebird');
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
   // createUser

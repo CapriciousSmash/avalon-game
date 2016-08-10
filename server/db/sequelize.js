@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize');
-const config = require('../config/config.js');
-const bcrypt = require('bcrypt-nodejs');
+var Sequelize = require('sequelize');
+var config = require('../config/config.js');
+var bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
-const sequelize = new Sequelize(config.herokuPostgresAuth, {
+var sequelize = new Sequelize(config.herokuPostgresAuth, {
   dialect: 'postgres',
   protocol: 'postgres',
   port: 5432,
@@ -18,7 +18,7 @@ const sequelize = new Sequelize(config.herokuPostgresAuth, {
 });
 
 // user model
-const User = sequelize.define('user', {
+var User = sequelize.define('user', {
   name: Sequelize.STRING(100),
   password: Sequelize.STRING(100),
   points: {

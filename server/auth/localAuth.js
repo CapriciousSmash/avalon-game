@@ -1,5 +1,5 @@
-const passport = request('passport');
-const LocalStrategy = request('passport-local');
+var passport = request('passport');
+var LocalStrategy = request('passport-local');
 //---------------------------Local Strategy-------------------------------------
 module.exports = function(User) {
   passport.use('local-signup', new LocalStrategy({
@@ -30,7 +30,7 @@ module.exports = function(User) {
     passReqToCallback: true
   }, function(req, username, password, done) {
     // console.log('checking username', username);
-    let foundUser;
+    var foundUser;
     return User.find({username: username})
       .then(function(user) {
         // console.log('checking username and password for ', user);
