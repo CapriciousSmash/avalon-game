@@ -35,12 +35,14 @@ User.isValidPassword(password, id) {
   // passed in a password and a userId
   // look up the password attached to the userId
   return this.find({id: id})
-    .then((user) => {
+    .then(function(user) {
   // compare the passwords together
   // return whether the passwords match
       return bcrypt.compareSync(password, user[0].password);
     })
-    .catch((err) => console.log(err));
+    .catch(function(err) {
+      console.log(err);
+    });
 }
 
 User.generateHash(password) {
