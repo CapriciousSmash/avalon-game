@@ -10,7 +10,6 @@ import Main from './components/Main';
 import Stats from './components/Stats';
 import Login from './components/Login';
 import SignUp from './components/Signup';
-import GameSetting from './components/GameSetting';
 
 // Redux Related Imports
 import { Provider } from 'react-redux';
@@ -28,7 +27,6 @@ ReactDOM.render(
         <Route path='signin' component={Login}></Route>
         <Route path='signup' component={SignUp}></Route>
         <Route path='game' component={GameWrapper}></Route>
-        <Route path='gamesetting' component={GameSetting}></Route>
       </Route>
     </Router>
   </Provider>,

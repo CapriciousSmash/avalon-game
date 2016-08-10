@@ -8,6 +8,7 @@ import * as Actions from '../actions';
 
 import Game from '../components/Game';
 import Room from '../components/Room';
+import GameSetting from '../components/GameSetting';
 
 class GameWrapper extends React.Component {
   constructor() {
@@ -69,8 +70,14 @@ class GameWrapper extends React.Component {
     );
 
     return (
+<<<<<<< 3606a230f839b82f9bffb8b448a4b28af19511e2
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
+=======
+      <div> 
+        <h1>GAME HI!</h1>
+        {false ? <Game socket={this.socket}/> : <GameSetting socket={this.socket}/>}
+>>>>>>> Setup websocket for game setting to display checkboxes for other players.
       </div>
     );
   }

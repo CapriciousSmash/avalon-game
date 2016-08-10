@@ -61,6 +61,9 @@ function deepSearch(id, arr) {
   }
 }
 
+var setting = {
+  checkBox: false
+};
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
@@ -92,6 +95,19 @@ io.on('connection', (socket)=>{
       }
       io.to('capri0sun').emit('lobbyState', lobbyState);
     }
+  });
+
+  socket.on('sendCheckBox', function(value){
+    if (setting['checkBox']) {
+      setting['checkBox'] = false;
+    } else {
+      setting['checkBox'] = true;
+    }
+    socket.broadcast.emit('receiveCheckBox', setting['checkBox']);
+  });
+
+  socket.on('update', function(value){
+    io.emit('sendUpdate', setting['checkBox']);
   });
 
   //LOBBY==================================================
