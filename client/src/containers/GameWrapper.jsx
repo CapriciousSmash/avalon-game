@@ -8,6 +8,7 @@ import * as Actions from '../actions';
 
 import Game from '../components/Game';
 import Room from '../components/Room';
+import GameSetting from '../components/GameSetting';
 
 class GameWrapper extends React.Component {
   constructor() {
@@ -65,6 +66,7 @@ class GameWrapper extends React.Component {
     return (
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
+        {false ? <Game socket={this.socket}/> : <GameSetting socket={this.socket}/>}
       </div>
     );
   }
