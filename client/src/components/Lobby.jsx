@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -6,7 +6,7 @@ import setGameState from '../actions/setGameState';
 
 //import GameSetting from './GameSetting';
 
-var Lobby = React.createClass ({
+const Lobby = React.createClass ({
   getInitialState: function() {
     return {
       gm: '',
