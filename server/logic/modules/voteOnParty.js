@@ -22,26 +22,26 @@ module.exports.resolvePartyVote = function(memcache, socket) {
   // TODO: Calculate player voting results
   // Accepts > Rejects === Party accepted
   // Rejects >= Accepts === Party rejected
-  if (/* Party accepted */) {
-    // TODO: Signal to players (websockets) that the quest has been
-    // accepted
+  // if (/* Party accepted */) {
+  //   // TODO: Signal to players (websockets) that the quest has been
+  //   // accepted
 
-    // TODO: Set timer for startQuest
-  } else /* Party rejected */ {
-    // TODO: Signal to players (websockets) that the quest has been
-    // rejected
+  //   // TODO: Set timer for startQuest
+  // } else /* Party rejected */ {
+  //   // TODO: Signal to players (websockets) that the quest has been
+  //   // rejected
 
-    // TODO: Increase veto count in memcache
+  //   // TODO: Increase veto count in memcache
 
-    // TODO: Check current veto count from memcache
-    if (/* Veto count >= 5 */) {
-      // TODO: Signal to players that heroes have lost. 
+  //   // TODO: Check current veto count from memcache
+  //   if (/* Veto count >= 5 */) {
+  //     // TODO: Signal to players that heroes have lost. 
 
-      // TODO: Set timer for gameOver with minion victory
-    } else /* Veto count < 5 */ {
-      // TODO: Set timer for chooseParty
-    }
-  }
+  //     // TODO: Set timer for gameOver with minion victory
+  //   } else /* Veto count < 5 */ {
+  //     // TODO: Set timer for chooseParty
+  //   }
+  // }
 };
 
 

@@ -10,6 +10,22 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentWillMount() {
+    var socket = this.props.socket;
+    console.log(socket);
+    socket.on('assignRoles', function(data) {
+      console.log(data);
+    });
+    socket.on('resolveParty', function(data) {
+
+    });
+    socket.on('startVote', function(data) {
+
+    });    
+    socket.on('resolveVote', function(data) {
+
+    });
+  }
   componentDidMount() {
     game.init();
     function randomHexColor() {
@@ -53,18 +69,6 @@ class Game extends React.Component {
     // });
     socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
-    });
-    socket.on('assignRoles', function(data) {
-
-    });
-    socket.on('resolveParty', function(data) {
-
-    });
-    socket.on('startVote', function(data) {
-
-    });    
-    socket.on('resolveVote', function(data) {
-
     });
   }
   partyLeaderPickParty() {
