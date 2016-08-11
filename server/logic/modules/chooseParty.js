@@ -1,4 +1,4 @@
-const voteOnParty = require('./voteOnParty').voteOnParty;
+var voteOnParty = require('./voteOnParty').voteOnParty;
 
 // The current party leader must choose the requisite number of players to go on a Quest
 module.exports.chooseParty = function(memcache, socket) {

@@ -1,4 +1,4 @@
-const chooseParty = require('./chooseParty').chooseParty;
+var chooseParty = require('./chooseParty').chooseParty;
 
 module.exports.assignRoles = function(memcache, socket) {
   // Note: memcache needs to store the current stage in the game.
@@ -55,7 +55,7 @@ module.exports.assignRoles = function(memcache, socket) {
 // Returns an object with the group broken down into Merlin, Knights, Assassin, and minions
 // TODO: write test(s)
 // NOTE: Does work as intended
-const randomizeRoles = function(numK, numM, players) {
+var randomizeRoles = function(numK, numM, players) {
   // Merlin and Assassin should only ever have one player attached to it
   // Knights and Minions should be an array of those players, even if it is only one
   var party = {
