@@ -4,9 +4,27 @@ import { bindActionCreators } from 'redux';
 
 import game from '../scripts/game.js';
 
+import util from '../util/lib';
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
+  }
+  componentWillMount() {
+    var socket = this.props.socket;
+    console.log(socket);
+    socket.on('assignRoles', function(data) {
+      console.log(data);
+    });
+    socket.on('resolveParty', function(data) {
+
+    });
+    socket.on('startVote', function(data) {
+
+    });    
+    socket.on('resolveVote', function(data) {
+
+    });
   }
   componentDidMount() {
     game.init();
@@ -52,6 +70,18 @@ class Game extends React.Component {
     socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
     });
+  }
+  partyLeaderPickParty() {
+    this.props.socket.emit('sendParty', ['player1', 'player2', 'player3']);
+  }
+  voteOnParty() {        
+    this.props.socket.emit('voteOnParty', true);
+  }
+  voteOnQuest() {
+    this.props.socket.emit('voteOnQuest', true);
+  }
+  pickMerlin() {
+    this.props.socket.emit('stabMerlin', 'player');
   }
   render() {
     return (

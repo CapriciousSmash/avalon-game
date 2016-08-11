@@ -24,13 +24,13 @@ module.exports.resolveIdMerlin = function(memcache, socket) {
 
   // TODO: If identify of merlin === Assassin's choice, then reverse
   // winner in memcache to the minions
-  if (/* Merlin ID === Assassin's choice ID */) {
-  	// TODO: Signal to players that Assassins' choice was correct
-  	// TODO: Set memcache winning side to minions
-  } else /* Assassin choice ID !== Merlin ID */ {
-  	// TODO: Signal to the players that the Assassin's choice was
-  	// incorrect and reveal the identity of Merlin
-  }
+  // if (/* Merlin ID === Assassin's choice ID */) {
+  // 	// TODO: Signal to players that Assassins' choice was correct
+  // 	// TODO: Set memcache winning side to minions
+  // } else /* Assassin choice ID !== Merlin ID */ {
+  // 	// TODO: Signal to the players that the Assassin's choice was
+  // 	// incorrect and reveal the identity of Merlin
+  // }
 
   // TODO: Set timer for gameOver
 };
