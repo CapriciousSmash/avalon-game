@@ -7,7 +7,7 @@ Promise.promisifyAll(redis.Multi.prototype);
 // Initialize Redis either with heroku if .env included or local redis
 var makeCache = function(gameNumber) {
   this.gameNumber = gameNumber;
-  this.client = db.createClient(process.env.REDIS_URL);
+  this.client = db.createClient(process.env.REDIS_URL, {db: gameNumber});
 
   this.client.on('error', function(err) {
     console.log('ERROR' + err);
@@ -16,7 +16,7 @@ var makeCache = function(gameNumber) {
 
 }
 
-makeCache.prototype.makeDb() {
+makeCache.prototype.function() {
 
 };
 
