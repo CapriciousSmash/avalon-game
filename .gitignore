@@ -41,3 +41,6 @@ jspm_packages
 
 # Compiled front end
 client/public/scripts
+
+# Path reference to DB
+server/config

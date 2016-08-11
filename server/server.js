@@ -1,8 +1,13 @@
 var redisDb = require('./db/redis');
 var express = require('express');
+var session = require('express-session');
 var http = require('http');
 var bodyParser = require('body-parser');
 var path = require('path');
+var passport = require('passport');
+// Import the game logic router to allow calling of game logic functions
+// based on received signals
+var game = require('./logic/logic-main');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -11,14 +16,19 @@ var server = app.listen(port, ()=>{
 });
 var io = require('socket.io').listen(server);
 
-// Import the game logic router to allow calling of game logic functions
-// based on received signals
-var game = require('./logic/logic-main');
+
 
 app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ 
+  secret: '8SER9M9jXS',
+  saveUninitialized: true,
+  resave: true
+   }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 //Utility, move elsewhere
@@ -92,4 +102,15 @@ io.on('connection', (socket)=>{
 // serve index.html for rest
 app.get('*', (req, res)=>{
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
+});
+
+app.get('/login', passport.authenticate('local-login', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
 });
