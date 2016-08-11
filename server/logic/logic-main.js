@@ -1,12 +1,12 @@
 // Import all functions from modules
-const assignRoles = require('./modules/assignRoles.js');
+const assignRoles = require('./modules/assignRoles.js').assignRoles;
 const chooseParty = require('./modules/chooseParty.js').chooseParty;
 const resolveParty = require('./modules/chooseParty.js').resolveParty;
 const voteOnParty = require('./modules/voteOnParty.js').voteOnParty;
 const resolvePartyVote = require('./modules/voteOnParty.js').resolvePartyVote;
 const startQuest = require('./modules/decideQuest.js').startQuest;
 const resolveQuest = require('./modules/decideQuest.js').resolveQuest;
-const gameEnd = require('.modules/gameOver.js').gameEnd;
+const gameEnd = require('./modules/gameOver.js').gameEnd;
 const gameOver = require('./modules/gameOver.js').gameOver;
 const identifyMerlin = require('./modules/identifyMerlin.js').identifyMerlin;
 const resolveIdMerlin = require('./modules/identifyMerlin.js').resolveIdMerlin;

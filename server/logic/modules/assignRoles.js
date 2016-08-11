@@ -7,7 +7,7 @@ module.exports.assignRoles = function(memcache, socket) {
 
   // randomly determine each player's role.  Assign only one Merlin and one Assassin
   // Knights are good guys, minions are bad guys
-  var players = ; // array of entire party obtained from memcache call
+  var players = memcache; // array of entire party obtained from memcache call
   var knights = Math.floor(players.length / 3 * 2);
   var minions = players.length - knights;
 
@@ -21,7 +21,8 @@ module.exports.assignRoles = function(memcache, socket) {
 
   // Assign the players to Knights or Minions
   var party = randomizeRoles(knights, minions, players);
-
+  console.log(socket);
+  console.log(party);
   // Make a random member of each side Merlin or the Assassin respectively
   party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
   party.assassin = party.minions[Math.floor(Math.random() * party.knights.length)];
@@ -45,7 +46,7 @@ module.exports.assignRoles = function(memcache, socket) {
   });
   setTimeout(function() {
     chooseParty(memcache, socket);
-  }, 5000000);
+  }, 5000);
   
   return 'party';
 }
@@ -97,6 +98,6 @@ const randomizeRoles = function(numK, numM, players) {
     }
   }
 
-  // return party;
+  return party;
   // setTimeout for chooseParty
 }

@@ -17,9 +17,10 @@ class GameWrapper extends React.Component {
   componentWillMount() {
     //refactor this!
     var login = this.props.login;
-
+    var socket = this.socket;
     //Connect to server
-    this.socket.on('connect', function() {
+
+    socket.on('connect', function() {
       login(this.socket.id);
       
       const peer = new Peer (this.socket.id, {host: 'ancient-caverns-19863.herokuapp.com', port: '', secure: 'true'});
