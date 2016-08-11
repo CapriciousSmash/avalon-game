@@ -1,3 +1,4 @@
+var redisDb = require('./db/redis');
 var express = require('express');
 var http = require('http');
 var bodyParser = require('body-parser');
@@ -66,9 +67,9 @@ io.on('connection', (socket)=>{
     
     if (startGame) {
       io.emit('startGame');
-      setTimeout(function(){
-        game.gameLogic(['player1','player2','player3','player4','player5'], io, 'GAME START');
-      },3000);
+      setTimeout(function() {
+        game.gameLogic(['player1', 'player2', 'player3', 'player4', 'player5'], io, 'GAME START');
+      }, 3000);
     }
   });
   //Game
