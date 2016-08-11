@@ -37,15 +37,7 @@ var resolveIdMerlin = function(memcache, socket) {
 
   // TODO: If identify of merlin === Assassin's choice, then reverse
   // winner in memcache to the minions
-<<<<<<< 860917b02446fcdcfdd1098b4c539901d0ad5370
-  // if (/* Merlin ID === Assassin's choice ID */) {
-  // 	// TODO: Signal to players that Assassins' choice was correct
-  // 	// TODO: Set memcache winning side to minions
-  // } else /* Assassin choice ID !== Merlin ID */ {
-  // 	// TODO: Signal to the players that the Assassin's choice was
-  // 	// incorrect and reveal the identity of Merlin
-  // }
-=======
+
   if (merlinId === assassinChoice) {
   	// TODO: Signal to players that Assassins' choice was correct
   	socket.emit('resolveMerlin', {
@@ -60,7 +52,6 @@ var resolveIdMerlin = function(memcache, socket) {
   	  correctChoice: false
   	});
   }
->>>>>>> complete preliminary coding for game logic. Pending redis.
 
   // TODO: Set timer for gameOver
   setTimeout(function() {
