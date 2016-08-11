@@ -18,7 +18,7 @@ var teamBuilder = [
 ];
 // pickParty is called to advance the game to the next stage if the 
 // party leader makes a choice on the party before the timer runs out
-export const pickParty = function(memcache, socket, data) {
+module.exports.pickParty = function(memcache, socket, data) {
   //Grab TEAM
   var partyCount = '<-- FROM MEMCACHE -->';
   //Grab STAGE:SIZE
@@ -37,7 +37,7 @@ export const pickParty = function(memcache, socket, data) {
 
 // partyVote is called to advance the game to the questing stage by resolving the
 // party more quickly if all votes are in
-export const partyVote = function(memcache, socket, data) {
+module.exports.partyVote = function(memcache, socket, data) {
 
   var playerId = data.playerId;
 
@@ -58,7 +58,7 @@ export const partyVote = function(memcache, socket, data) {
 
 // questVote is called to advance the game to the next stage by resolving the
 // party more quickly if all votes are in
-export const questVote = function(memcache, socket, data) {
+module.exports.questVote = function(memcache, socket, data) {
   //GRAB QRESULT
   var voteCount = '<-- FROM MEMCACHE -->';
   //Grab TEAM
@@ -71,7 +71,7 @@ export const questVote = function(memcache, socket, data) {
 };
 
 
-export const stabMerlin = function(memcache, socket, data) {
+module.exports.stabMerlin = function(memcache, socket, data) {
   // Ensure valid choicing
   // data.stabMerlin vs memcache's MERLIN
   gameLogic(memcache, socket, 'RESOLVE MERLIN');

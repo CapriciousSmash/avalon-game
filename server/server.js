@@ -78,7 +78,7 @@ io.on('connection', (socket)=>{
     if (startGame) {
       io.emit('startGame');
       setTimeout(function(){
-        game(['player1','player2','player3','player4','player5'], io, 'GAME START');
+        game(player, io, 'GAME START');
       },3000);
     }
   });

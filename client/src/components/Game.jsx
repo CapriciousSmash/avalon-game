@@ -71,11 +71,6 @@ class Game extends React.Component {
   pickMerlin() {
     this.props.socket.emit('stabMerlin', 'player');
   }
-  onClick() {
-    this.partyLeaderPickParty();
-    this.voteOnQuest();
-    this.pickMerlin();
-  }
   render() {
     return (
       <div> 
