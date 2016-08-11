@@ -30,7 +30,7 @@ const Lobby = React.createClass ({
     socket.on('startGame', ()=>{
       //Refactor to loading page
       $('.loading').removeClass('hidden');
-      setTimeout(this.props.setGameState, 3000);
+      //setTimeout(this.props.setGameState, 3000);
     });
   },
   readyHandler: function(e) {
@@ -43,26 +43,26 @@ const Lobby = React.createClass ({
     return (
       <div> 
         <h1>LOBBY</h1>
-        <div class='loading hidden'>
-          <div class='row'>
-            <div class='bar one-inv'></div>
-            <div class='bar two-inv'></div>
-            <div class='bar three-inv'></div>
-            <div class='bar four-inv'></div>
-            <div class='bar five-inv'></div>  
-            <div class='bar six-inv'></div>    
-            <div class='bar seven-inv'></div>   
+        <div className='loading hidden'>
+          <div className='row'>
+            <div className='bar one-inv'></div>
+            <div className='bar two-inv'></div>
+            <div className='bar three-inv'></div>
+            <div className='bar four-inv'></div>
+            <div className='bar five-inv'></div>  
+            <div className='bar six-inv'></div>    
+            <div className='bar seven-inv'></div>   
           </div>    
-          <div class='row'>
-            <div class='bar one'></div>
-            <div class='bar two'></div>
-            <div class='bar three'></div>
-            <div class='bar four'></div>
-            <div class='bar five'></div>  
-            <div class='bar six'></div>    
-            <div class='bar seven'></div>   
+          <div className='loading-title'>L o a d i n g . . .</div>
+          <div className='row'>
+            <div className='bar one'></div>
+            <div className='bar two'></div>
+            <div className='bar three'></div>
+            <div className='bar four'></div>
+            <div className='bar five'></div>  
+            <div className='bar six'></div>    
+            <div className='bar seven'></div>   
           </div>
-          <div class='loading-title'>L o a d i n g . . .</div>
         </div>
         <div id="playerList">
           {

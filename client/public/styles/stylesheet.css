@@ -5,14 +5,11 @@
 /*LOADING PAGE*/
 .loading{
   background-color:black;
-  height:100px;
+  height:120px;
 }
 .loading-title{
-  position:absolute;
-  top:0;
-  left:0;
-  transform:translate(120%,50%);
-  line-height:57px;
+  height:20px;
+  float:left;
   font-family: 'Poiret One', cursive;
   color: rgba(255,255,255,0.8);  
 }
@@ -33,25 +30,25 @@
   animation-duration:5s;
   animation-delay: 0s;
   animation-iteration-count: infinite; */
-  animation: moving 3s ease-in-out 0.5s infinite;  
+  animation: moving 1s ease-in-out 0s infinite;  
 }
 .two{
-  animation: moving 3s ease-in-out 1s infinite;
+  animation: moving 1s ease-in-out 0.25s infinite;
 }
 .three{
-  animation: moving 3s ease-in-out 1.5s infinite;
+  animation: moving 1s ease-in-out 0.5s infinite;
 }
 .four{
-  animation: moving 3s ease-in-out 2s infinite;
+  animation: moving 1s ease-in-out 0.75s infinite;
 }
 .five{
-  animation: moving 3s ease-in-out 2.5s infinite;
+  animation: moving 1s ease-in-out 1s infinite;
 }
 .six{
-  animation: moving 3s ease-in-out 3s infinite;
+  animation: moving 1s ease-in-out 1.25s infinite;
 }
 .seven{
-  animation: moving 3s ease-in-out 3.5s infinite;
+  animation: moving 1s ease-in-out 1.5s infinite;
 }
 
 @keyframes moving {
@@ -69,31 +66,31 @@
 
 .one-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 0.5s infinite;  
+  animation: moving-inv 1s ease-in-out 0s infinite;  
 }
 .two-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 1s infinite;
+  animation: moving-inv 1s ease-in-out 0.25s infinite;
 }
 .three-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 1.5s infinite;
+  animation: moving-inv 1s ease-in-out 0.5s infinite;
 }
 .four-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 2s infinite;
+  animation: moving-inv 1s ease-in-out 0.75s infinite;
 }
 .five-inv{
   margin-top:40px; 
-  animation: moving-inv 3s ease-in-out 2.5s infinite;
+  animation: moving-inv 1s ease-in-out 1s infinite;
 }
 .six-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 3s infinite;
+  animation: moving-inv 1s ease-in-out 1.25s infinite;
 }
 .seven-inv{
   margin-top:40px;  
-  animation: moving-inv 3s ease-in-out 3.5s infinite;
+  animation: moving-inv 1s ease-in-out 1.5s infinite;
 }
 @keyframes moving-inv {
   0%  {
