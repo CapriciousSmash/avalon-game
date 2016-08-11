@@ -18,4 +18,13 @@ module.exports.gameLogic = function(memcache, socket, type) {
   if (type === 'GAME START') {
     assignRoles(memcache, socket);
   }
+  if (type === 'RESOLVE PARTY') {
+  	resolveParty(memcache, socket);
+  }
+  if (type === 'RESOLVE QUEST') {
+  	resolveQuest(memcache, socket);
+  }
+  if (type === 'RESOLVE MERLIN') {
+  	resolveIdMerlin(memcache, socket);
+  }
 };

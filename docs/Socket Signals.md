@@ -9,5 +9,5 @@ SIGNAL 			EVENT
 'startQuest'	Quest is starting and informs players that the party members are voting
 'resolveQuest'	Inform players that the quest is over and the results of the quest
 'gameEnd'		Inform the players that the game has ended and who are the preliminary winners
-'stabMerlin'	Inform players that the assassin must attempt to identify Merlin
+'chooseMerlin'	Inform players that the assassin must attempt to identify Merlin
 'resolveMerlin'	Inform players of the assassin's choice of Merlin and whether this was correct
