@@ -100,21 +100,21 @@ io.on('connection', (socket)=>{
 
   socket.on('pickParty', function(data) {
     console.log('pickParty');
-    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'PICK PARTY', data);
+    logicFilter.pickParty(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('voteOnParty', function(data) {
     console.log('voteOnParty');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'PARTY VOTE', data);
+    logicFilter.partyVote(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('voteOnQuest', function(data) {
     console.log('voteOnQuest');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'QUEST VOTE', data);
+    logicFilter.questVote(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('stabMerlin', function(data) {
     console.log('stabMerlin');
-    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'RESOLVE MERLIN', data);
+    logicFilter.stabMerlin(['<-- PASS IN MEMCACHE -->'], io, data);
   });
 });
 // serve index.html for rest
