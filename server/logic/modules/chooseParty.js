@@ -50,7 +50,7 @@ module.exports.chooseParty = function(memcache, socket) {
   // TODO: Set timer for resolveParty
   setTimeout(function() {
   	resolveParty(memcache, socket);
-  }, 500000);
+  }, 5000);
 };
 
 var resolveParty = function(memcache, socket) {
@@ -78,7 +78,7 @@ var resolveParty = function(memcache, socket) {
   // TODO: Set timer for voteOnParty
   setTimeout(function() {
   	voteOnParty(memcache, socket);
-  }, 5000000);
+  }, 5000);
 };
 
 module.exports.resolveParty = resolveParty;

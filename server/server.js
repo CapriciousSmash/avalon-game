@@ -64,11 +64,11 @@ io.on('connection', (socket)=>{
   socket.on('ready', function(playerReady) {
     players[deepSearch(socket.id, players)].ready = playerReady;
     var startGame = true;
-    for (var x = 0; x < players.length; x++) {
-      if (!players[x].ready) {
-        startGame = false;
-      }
-    }
+    // for (var x = 0; x < players.length; x++) {
+    //   if (!players[x].ready) {
+    //     startGame = false;
+    //   }
+    // }
 
     socket.broadcast.emit('lobbyInfo', {
       gm: players[0],

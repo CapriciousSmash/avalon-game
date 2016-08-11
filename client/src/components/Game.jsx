@@ -87,7 +87,7 @@ class Game extends React.Component {
     return (
       <div> 
         <h1>THREE GAME</h1>
-        <div id="gameContainer"></div>
+        <div id="gameContainer" ></div>
       </div>
     );
   }
