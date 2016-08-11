@@ -51,6 +51,7 @@ var resolveQuest = function(memcache, socket) {
   if (questSucceeded) {
     // TODO: Inform (signal websocket) players that the quest succeeded
     socket.emit('resolveQuest', {
+      gameId: 5318008,
       result: 'success',
       numSuccess: numSuccess + 1,
       numFailures,
@@ -76,6 +77,7 @@ var resolveQuest = function(memcache, socket) {
   } else /* Quest failed */ {
     // TODO: Inform (signal) players that the quest has failed
     socket.emit('resolveQuest', {
+      gameId: 5318008,
       result: 'failure',
       numSuccess,
       numFailures: numFailures + 1,
