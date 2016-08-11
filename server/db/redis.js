@@ -1,12 +1,13 @@
 var Promise = requre('bluebird');
-
+var db = require('redis');
+Promise.promisifyAll(redis.RedisClient.prototype);
+Promise.promisifyAll(redis.Multi.prototype);
 
 // Class that creates new DB instances and client connections for each game
 // Initialize Redis either with heroku if .env included or local redis
 var makeCache = function(gameNumber) {
   this.gameNumber = gameNumber;
-  this.db = require('redis').createClient(process.env.REDIS_URL);
-  this.client = redis.createClient();
+  this.client = db.createClient(process.env.REDIS_URL);
 
   this.client.on('error', function(err) {
     console.log('ERROR' + err);
@@ -15,7 +16,7 @@ var makeCache = function(gameNumber) {
 
 }
 
-makeCache.prototype.function() {
+makeCache.prototype.makeDb() {
 
 };
 
