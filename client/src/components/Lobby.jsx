@@ -28,9 +28,8 @@ const Lobby = React.createClass ({
     }.bind(this));
 
     socket.on('startGame', ()=>{
-      //Refactor to loading page
       $('.loading').removeClass('hidden');
-      //setTimeout(this.props.setGameState, 3000);
+      setTimeout(this.props.setGameState, 3000);
     });
   },
   readyHandler: function(e) {
