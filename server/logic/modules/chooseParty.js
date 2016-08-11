@@ -4,15 +4,15 @@ var voteOnParty = require('./voteOnParty').voteOnParty;
 module.exports.chooseParty = function(memcache, socket) {
   // Information needed from memcache:
   // - Current round
-  var currentRound = '<-- FROM MEMCACHE -->';
+  var currentRound = 1; //<-------------------From Memcache
   // - Number of players in game
-  var numPlayers = '<-- FROM MEMCACHE -->';
+  var numPlayers = 5; //<----------------------From Memcache
   // - Previous party leader
-  var prevPartyLeader = '<-- FROM MEMCACHE -->';
+  var prevPartyLeader = 'player1'; //<----------------------From Memcache
 
   // TODO: Set the current phase in the game to 'PARTY' in memcache
   // TODO: Determine new party leader based on previous party leader
-  var currentPartyLeader = '<-- WRITE THE LOGIC -->';
+  var currentPartyLeader = 'player1';  //<-------------------From Memcache
   
   // Write logic to determine the number of players the party leader must choose
   // given the current round and total players in game
@@ -50,15 +50,15 @@ module.exports.chooseParty = function(memcache, socket) {
   // TODO: Set timer for resolveParty
   setTimeout(function() {
   	resolveParty(memcache, socket);
-  }, 500000);
+  }, 5000);
 };
 
 var resolveParty = function(memcache, socket) {
   // Information needed from memcache:
   // - List of party members chosen by the party leader
-  var partyMembers = ['<-- FROM MEMCACHE -->'];
+  var partyMembers = ['player1', 'player2']; //<-------------------------From Memcache
   // - Current game phase 
-  var gamePhase = '<-- FROM MEMCACHE -->';
+  var gamePhase = 'PARTY'; //<-----------From Memcache
 
   // If phase from memcache is 'PARTY', then continue, otherwise, fizzle
   if (gamePhase !== 'PARTY') {
@@ -78,7 +78,7 @@ var resolveParty = function(memcache, socket) {
   // TODO: Set timer for voteOnParty
   setTimeout(function() {
   	voteOnParty(memcache, socket);
-  }, 5000000);
+  }, 5000);
 };
 
 module.exports.resolveParty = resolveParty;

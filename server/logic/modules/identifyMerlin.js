@@ -19,7 +19,7 @@ module.exports.identifyMerlin = function(memcache, socket) {
   // TODO: Set timer for resolveIdMerlin
   setTimeout(function() {
   	resolveIdMerlin();
-  }, 5000000);
+  }, 5000);
 };
 
 var resolveIdMerlin = function(memcache, socket) {
@@ -56,7 +56,7 @@ var resolveIdMerlin = function(memcache, socket) {
   // TODO: Set timer for gameOver
   setTimeout(function() {
   	gameOver(memcache, socket);
-  }, 5000000);
+  }, 5000);
 };
 
 module.exports.resolveIdMerlin = resolveIdMerlin;

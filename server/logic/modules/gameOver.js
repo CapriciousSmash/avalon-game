@@ -30,7 +30,7 @@ module.exports.gameEnd = function(memcache, socket) {
   	// TODO: Set timer for gameOver
   	setTimeout(function() {
   	  gameOver(memcache, socket);
-  	}, 5000000);
+  	}, 5000);
   }
 };
 

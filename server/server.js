@@ -64,11 +64,11 @@ io.on('connection', (socket)=>{
   socket.on('ready', function(playerReady) {
     players[deepSearch(socket.id, players)].ready = playerReady;
     var startGame = true;
-    for (var x = 0; x < players.length; x++) {
-      if (!players[x].ready) {
-        startGame = false;
-      }
-    }
+    // for (var x = 0; x < players.length; x++) {
+    //   if (!players[x].ready) {
+    //     startGame = false;
+    //   }
+    // }
 
     socket.broadcast.emit('lobbyInfo', {
       gm: players[0],
@@ -77,9 +77,9 @@ io.on('connection', (socket)=>{
     
     if (startGame) {
       io.emit('startGame');
-      setTimeout(function() {
-        game.gameLogic(['player1', 'player2', 'player3', 'player4', 'player5'], io, 'GAME START');
-      }, 3000);
+      setTimeout(function(){
+        game.gameLogic(['player1','player2','player3','player4','player5'], io, 'GAME START');
+      }, 5000);
     }
   });
   //Game
@@ -89,7 +89,6 @@ io.on('connection', (socket)=>{
     socket.broadcast.emit('newPeer', p);
     socket.emit('allPeers', players);
   });
-
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id);
     players.splice(deepSearch(socket.id, players), 1);
@@ -97,6 +96,19 @@ io.on('connection', (socket)=>{
       gm: players[0],
       players: players.slice(1, players.length)
     });
+  });
+
+  socket.on('pickParty', function() {
+    console.log('pickParty');
+  });
+  socket.on('voteOnParty', function() {
+    console.log('voteOnParty');
+  });
+  socket.on('voteOnQuest', function() {
+    console.log('voteOnQuest');
+  });
+  socket.on('stabMerlin', function() {
+    console.log('stabMerlin');
   });
 });
 // serve index.html for rest

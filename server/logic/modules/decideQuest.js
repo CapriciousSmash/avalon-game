@@ -19,11 +19,11 @@ module.exports.startQuest = function(memcache, socket) {
   // TODO: Start timer for resolveQuest
   setTimeout(function() {
     resolveQuest(memcache, socket);
-  }, 5000000);
+  }, 5000);
 };
 
 var resolveQuest = function(memcache, socket) {
-  var gamePhase = '<-- FROM MEMCACHE -->';
+  var gamePhase = 'QUEST'; //<-----------------------------------From memcache
   // If the current game phase isn't 'QUEST', fizzle
   if (gamePhase !== 'QUEST') {
     return;
@@ -36,14 +36,14 @@ var resolveQuest = function(memcache, socket) {
   var totalPlayers = '<-- FROM MEMCACHE -->';
   // - Results from previous quests (successes and failures
   var numSuccess = '<-- FROM MEMCACHE -->';
-  var numFailures = '<-- FROM MEMCACHE -->';
+  var numFailures = 2; //<-------------------------From Memcache
   var currentQuest = numSuccess + numFailures + 1;
   // - Current quest voting results 
   var playerVotes = ['<-- FROM MEMCACHE -->'];
 
   // TODO: Determine quest success or failure based on voting results
-  var successVotes = '<-- SEARCH FROM PLAYERVOTES -->';
-  var failureVotes = '<-- SEARCH FROM PLAYERVOTES -->';
+  var successVotes = 1; //<-----------------------------From Memcache
+  var failureVotes = 2; //<-----------------------------From Memcache
 
   var requiredVotesToFail = currentQuest === 4 && totalPlayers >= 7 ? 2 : 1;
   var questSucceeded = failureVotes < requiredVotesToFail ? true : false;
@@ -64,7 +64,7 @@ var resolveQuest = function(memcache, socket) {
       //  Set timer for gameEnd
       setTimeout(function() {
         gameEnd(memcache, socket);
-      }, 5000000);
+      }, 5000);
 
     } else /* Less than 3 quests succeeded */ {
       // TODO: Increase the total number of successes in memcache
@@ -72,7 +72,7 @@ var resolveQuest = function(memcache, socket) {
       // TODO: Set timer for chooseParty
       setTimeout(function() {
         chooseParty(memcache,socket);
-      }, 5000000);
+      }, 5000);
     }
   } else /* Quest failed */ {
     // TODO: Inform (signal) players that the quest has failed
@@ -90,14 +90,14 @@ var resolveQuest = function(memcache, socket) {
       // TODO: Set timer for gameEnd with minion victory
       setTimeout(function() {
         gameEnd(memcache, socket);
-      }, 5000000);
+      }, 5000);
     } else /* Less than 3 quests have failed */ {
       // TODO: Increase total number of failures in memcache
 
       // TODO: Set timer for chooseParty
       setTimeout(function() {
         chooseParty(memcache, socket);
-      }, 5000000);
+      }, 5000);
     }
   }
 };
