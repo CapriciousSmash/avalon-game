@@ -12,23 +12,23 @@ module.exports.voteOnParty = function(memcache, socket) {
 
   // TODO: Signal to players to begin voting. 
   socket.emit('startVote', {
-    partyMembers
+    partyMembers 
   });
 
   // TODO: Set timer for resolution to give players time to vote.
   setTimeout(function() {
     resolvePartyVote(memcache, socket);
-  }, 500000);
+  }, 5000);
 }
 
 var resolvePartyVote = function(memcache, socket) {
   // Information needed from memcache
   // - Player voting results
   var voteResults = ['<-- FROM MEMCACHE -->'];
-  var accepts = '<-- SEARCH VOTE RESULTS FOR ACCEPTS -->';
-  var vetoes = '<-- SEARCH VOTE RESULTS FOR VETOES -->';
+  var accepts = 1; //<----------------------------------From Memcache
+  var vetoes = 0; //<-----------------------------------From Memcache
   // - Current game phase
-  var gamePhase = '<-- FROM MEMCACHE -->';
+  var gamePhase = 'VOTE'; //<---------------------------From Memcache
   // - Current party rejections count
   var partyRejections = '<-- FROM MEMCACHE -->';
 
@@ -55,7 +55,7 @@ var resolvePartyVote = function(memcache, socket) {
     // TODO: Set timer for startQuest
     setTimeout(function() {
       startQuest(memcache, socket);
-    }, 5000000);
+    }, 5000);
   } else /* Party rejected */ {
     // Signal to players (websockets) that the quest has been rejected
     socket.emit('resolveVote', {
@@ -73,12 +73,12 @@ var resolvePartyVote = function(memcache, socket) {
       // TODO: Set timer for gameEnd with minion victory
       setTimeout(function() {
         gameEnd(memcache, socket);
-      }, 5000000);
+      }, 5000);
     } else /* Veto count < 5 */ {
       // TODO: Set timer for chooseParty
       setTimeout(function() {
         chooseParty(memcache, socket);
-      }, 5000000);
+      }, 5000);
     }
   }
 

@@ -12,18 +12,32 @@ class Game extends React.Component {
   }
   componentWillMount() {
     var socket = this.props.socket;
-    console.log(socket);
     socket.on('assignRoles', function(data) {
-      console.log(data);
+      console.log('Data I got from assignRoles', data);
+    });
+    socket.on('sendParty', function(data) {
+      console.log('Data I got from sendParty', data);
     });
     socket.on('resolveParty', function(data) {
-
+      console.log('Data I got from resolveParty', data);
     });
     socket.on('startVote', function(data) {
-
-    });    
+      console.log('Data I got from startVote', data);
+    });
     socket.on('resolveVote', function(data) {
-
+      console.log('Data I got from resolveVote', data);
+    });
+    socket.on('startQuest', function(data) {
+      console.log('Data I got from startQuest', data);
+    });
+    socket.on('resolveQuest', function(data) {
+      console.log('Data I got from resolveQuest', data);
+    });
+    socket.on('gameEnd', function(data) {
+      console.log('Data I got from gameEnd', data);
+    });
+    socket.on('resolveMerlin', function(data) {
+      console.log('Data I got from resolveMerlin', data);
     });
   }
   componentDidMount() {
@@ -72,7 +86,7 @@ class Game extends React.Component {
     });
   }
   partyLeaderPickParty() {
-    this.props.socket.emit('sendParty', ['player1', 'player2', 'player3']);
+    this.props.socket.emit('pickParty', ['player1', 'player2', 'player3']);
   }
   voteOnParty() {        
     this.props.socket.emit('voteOnParty', true);
@@ -83,11 +97,17 @@ class Game extends React.Component {
   pickMerlin() {
     this.props.socket.emit('stabMerlin', 'player');
   }
+  onClick() {
+    this.partyLeaderPickParty();
+    this.voteOnParty();
+    this.voteOnQuest();
+    this.pickMerlin();
+  }
   render() {
     return (
       <div> 
         <h1>THREE GAME</h1>
-        <div id="gameContainer" ></div>
+        <div id="gameContainer" onClick={this.onClick.bind(this)}></div>
       </div>
     );
   }
