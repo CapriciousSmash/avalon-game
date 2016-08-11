@@ -8,7 +8,7 @@ var path = require('path');
 var passport = require('passport');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
-var game = require('./logic/logic-main');
+var game = require('./logic/logic-main').gameLogic;
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -16,8 +16,6 @@ var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
 });
 var io = require('socket.io').listen(server);
-
-
 
 app.use(express.static(__dirname + '/../client/public'));
 
@@ -79,8 +77,8 @@ io.on('connection', (socket)=>{
     if (startGame) {
       io.emit('startGame');
       setTimeout(function(){
-        game.gameLogic(['player1','player2','player3','player4','player5'], io, 'GAME START');
-      }, 5000);
+        game.(['player1','player2','player3','player4','player5'], io, 'GAME START');
+      },3000);
     }
   });
   //Game
