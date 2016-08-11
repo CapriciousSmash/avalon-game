@@ -1,8 +1,10 @@
 var redisDb = require('./db/redis');
 var express = require('express');
+var session = require('express-session');
 var http = require('http');
 var bodyParser = require('body-parser');
 var path = require('path');
+var passport = require('passport');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main');
@@ -20,7 +22,11 @@ app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.session({ secret: '8SER9M9jXS' }));
+app.use(session({ 
+  secret: '8SER9M9jXS',
+  saveUninitialized: true,
+  resave: true
+   }));
 app.use(passport.initialize());
 app.use(passport.session());
 
