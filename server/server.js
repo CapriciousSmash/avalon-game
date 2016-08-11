@@ -8,7 +8,8 @@ var path = require('path');
 var passport = require('passport');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
-var game = require('./logic/logic-main');
+var game = require('./logic/logic-main').gameLogic;
+var logicFilter = require('./logic/logic-intervene').gameFilter;
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -16,8 +17,6 @@ var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
 });
 var io = require('socket.io').listen(server);
-
-
 
 app.use(express.static(__dirname + '/../client/public'));
 
@@ -79,8 +78,8 @@ io.on('connection', (socket)=>{
     if (startGame) {
       io.emit('startGame');
       setTimeout(function(){
-        game.gameLogic(['player1','player2','player3','player4','player5'], io, 'GAME START');
-      }, 5000);
+        game(['player1','player2','player3','player4','player5'], io, 'GAME START');
+      },3000);
     }
   });
   //Game
@@ -99,17 +98,23 @@ io.on('connection', (socket)=>{
     });
   });
 
-  socket.on('pickParty', function() {
+  socket.on('pickParty', function(data) {
     console.log('pickParty');
+    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'PICK PARTY', data);
   });
-  socket.on('voteOnParty', function() {
+  socket.on('voteOnParty', function(data) {
     console.log('voteOnParty');
+    // TODO: Ensure that votes are not duplicated and came from valid players
+    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'PARTY VOTE', data);
   });
-  socket.on('voteOnQuest', function() {
+  socket.on('voteOnQuest', function(data) {
     console.log('voteOnQuest');
+    // TODO: Ensure that votes are not duplicated and came from valid players
+    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'QUEST VOTE', data);
   });
-  socket.on('stabMerlin', function() {
+  socket.on('stabMerlin', function(data) {
     console.log('stabMerlin');
+    logicFilter(['<-- PASS IN MEMCACHE -->'], io, 'RESOLVE MERLIN', data);
   });
 });
 // serve index.html for rest

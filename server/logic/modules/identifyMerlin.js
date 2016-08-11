@@ -11,7 +11,7 @@ module.exports.identifyMerlin = function(memcache, socket) {
 
   // TODO: Signal to players that the Assassin must make a decision to 
   // identify Merlin
-  socket.emit('stabMerlin', {
+  socket.emit('chooseMerlin', {
   	gameId: 5318008,
   	assassinId
   });
