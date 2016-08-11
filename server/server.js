@@ -1,3 +1,4 @@
+require('dotenv').config();
 var redisDb = require('./db/redis');
 var express = require('express');
 var session = require('express-session');

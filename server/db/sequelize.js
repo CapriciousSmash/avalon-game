@@ -3,7 +3,7 @@ var config = require('../config/config.js');
 var bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
-var sequelize = new Sequelize(config.herokuPostgresAuth, {
+var sequelize = new Sequelize(process.env.POSTGRES_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   port: 5432,
