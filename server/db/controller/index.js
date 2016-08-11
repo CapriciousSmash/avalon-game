@@ -12,5 +12,19 @@ module.exports = {
 
       return [score, games].slice();
     });
-  }
+  },
+  increaseScore: function(id) {
+    return User.find({id: id})
+    .then(function(user) {
+      var score = user.score;
+      User.update({score: score + 1}, {where: {id: id}});
+    });
+  },
+  increaseGames: function(id) {
+    return User.find({id: id})
+    .then(function(user) {
+      var games = user.games;
+      User.update({games: games + 1}, {where: {id: id}});
+    });
+  },
 }
