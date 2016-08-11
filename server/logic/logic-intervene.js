@@ -42,7 +42,7 @@ module.exports.partyVote = function(memcache, socket, data) {
   var playerId = data.playerId;
 
   //Grab VOTECOUNT
-  var voteCount = '<-- FROM MEMCACHE -->';
+  var voteCount = '<-- FROM MEMCACHE - -->';
   //Grab STAGE:SIZE
   var numPlayers = '<-- FROM MEMCACHE -->';
 
