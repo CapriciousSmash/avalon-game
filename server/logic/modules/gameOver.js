@@ -40,16 +40,21 @@ module.exports.gameEnd = function(memcache, socket) {
 var gameOver = function(memcache, socket) {
   // Information needed from memcache
   // - Game winning side
+  var winners = '<-- FROM MEMCACHE -->';
 
   // TODO: Change current game phase to 'GAME OVER'
 
   // TODO: Signal to players the final winners 
+  socket.emit('gameOver', {
+  	gameId: 5318008,
+  	winners
+  });
 
-  // if (/* Game winners are knights === true */) {
-  // 	// TODO: Update knights' points in persistent database
-  // } else /* Game winners are minions */ {
-  // 	// TODO Update minion's points in persistent database
-  // }
+  if (winners === 'knights') {
+  	// TODO: Update knights' points in persistent database
+  } else /* Game winners are minions */ {
+  	// TODO Update minion's points in persistent database
+  }
 
   // TODO: Update game count of all players
 };
