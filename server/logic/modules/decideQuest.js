@@ -49,6 +49,8 @@ var resolveQuest = function(memcache, socket) {
     // TODO: Determine quest success or failure based on voting results
     var successVotes = 0;
     var failureVotes = 0;
+    var requiredVotesToFail;
+    var questSucceeded;
 
     memcache.getTeam()
     .then(function(team) {
@@ -76,63 +78,63 @@ var resolveQuest = function(memcache, socket) {
           failureVotes++;
         }
       }
+      requiredVotesToFail = currentQuest === 4 && totalPlayers >= 7 ? 2 : 1;
+      questSucceeded = failureVotes < requiredVotesToFail ? true : false;
+      if (questSucceeded) {
+        // TODO: Inform (signal websocket) players that the quest succeeded
+        socket.emit('resolveQuest', {
+          gameId: 5318008,
+          result: 'success',
+          numSuccess: numSuccess + 1,
+          numFailures,
+          successVotes,
+          failureVotes
+        });
+        if (++numSuccess >= 3) {
+          // TODO: Set winners to knights in the memcache
+          memcache.setWinner(true);
+          //  Set timer for gameEnd
+          setTimeout(function() {
+            gameEnd(memcache, socket);
+          }, 5000);
+
+        } else /* Less than 3 quests succeeded */ {
+          // TODO: Increase the total number of successes in memcache
+
+          // TODO: Set timer for chooseParty
+          setTimeout(function() {
+            chooseParty(memcache,socket);
+          }, 5000);
+        }
+      } else /* Quest failed */ {
+        // TODO: Inform (signal) players that the quest has failed
+        socket.emit('resolveQuest', {
+          gameId: 5318008,
+          result: 'failure',
+          numSuccess,
+          numFailures: numFailures + 1,
+          successVotes,
+          failureVotes
+        });
+        if (++numFailures >= 3) {
+          // TODO: Set winners to minions in the memcache
+          memcache.setwinner(false);
+          // TODO: Set timer for gameEnd with minion victory
+          setTimeout(function() {
+            gameEnd(memcache, socket);
+          }, 5000);
+        } else /* Less than 3 quests have failed */ {
+          // TODO: Increase total number of failures in memcache
+
+          // TODO: Set timer for chooseParty
+          setTimeout(function() {
+            chooseParty(memcache, socket);
+          }, 5000);
+        }
+      }
     })
 
-    var requiredVotesToFail = currentQuest === 4 && totalPlayers >= 7 ? 2 : 1;
-    var questSucceeded = failureVotes < requiredVotesToFail ? true : false;
 
-    if (questSucceeded) {
-      // TODO: Inform (signal websocket) players that the quest succeeded
-      socket.emit('resolveQuest', {
-        gameId: 5318008,
-        result: 'success',
-        numSuccess: numSuccess + 1,
-        numFailures,
-        successVotes,
-        failureVotes
-      });
-      if (++numSuccess >= 3) {
-        // TODO: Set winners to knights in the memcache
-
-        //  Set timer for gameEnd
-        setTimeout(function() {
-          gameEnd(memcache, socket);
-        }, 5000);
-
-      } else /* Less than 3 quests succeeded */ {
-        // TODO: Increase the total number of successes in memcache
-
-        // TODO: Set timer for chooseParty
-        setTimeout(function() {
-          chooseParty(memcache,socket);
-        }, 5000);
-      }
-    } else /* Quest failed */ {
-      // TODO: Inform (signal) players that the quest has failed
-      socket.emit('resolveQuest', {
-        gameId: 5318008,
-        result: 'failure',
-        numSuccess,
-        numFailures: numFailures + 1,
-        successVotes,
-        failureVotes
-      });
-      if (++numFailures >= 3) {
-        // TODO: Set winners to minions in the memcache
-
-        // TODO: Set timer for gameEnd with minion victory
-        setTimeout(function() {
-          gameEnd(memcache, socket);
-        }, 5000);
-      } else /* Less than 3 quests have failed */ {
-        // TODO: Increase total number of failures in memcache
-
-        // TODO: Set timer for chooseParty
-        setTimeout(function() {
-          chooseParty(memcache, socket);
-        }, 5000);
-      }
-    }
   });
 };
 
