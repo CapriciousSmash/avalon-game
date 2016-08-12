@@ -59,18 +59,6 @@ class Game extends React.Component {
       game.removePlayer(uid);
     });
   }
-  partyLeaderPickParty() {
-    this.props.socket.emit('pickParty', ['player1', 'player2', 'player3']);
-  }
-  voteOnParty() {       
-    this.props.socket.emit('voteOnParty', true);
-  }
-  voteOnQuest() {
-    this.props.socket.emit('voteOnQuest', true);
-  }
-  pickMerlin() {
-    this.props.socket.emit('stabMerlin', 'player');
-  }
   render() {
     return (
       <div> 

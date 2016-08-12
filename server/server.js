@@ -78,8 +78,8 @@ io.on('connection', (socket)=>{
     if (startGame) {
       io.emit('startGame');
       setTimeout(function(){
-        game(player, io, 'GAME START');
-      },3000);
+        game(players, io, 'GAME START');
+      },5000);
     }
   });
   //Game
@@ -100,21 +100,21 @@ io.on('connection', (socket)=>{
 
   socket.on('pickParty', function(data) {
     console.log('pickParty');
-    logicFilter.pickParty(['<-- PASS IN MEMCACHE -->'], io, data);
+    // logicFilter.pickParty(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('voteOnParty', function(data) {
     console.log('voteOnParty');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter.partyVote(['<-- PASS IN MEMCACHE -->'], io, data);
+    // logicFilter.partyVote(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('voteOnQuest', function(data) {
     console.log('voteOnQuest');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter.questVote(['<-- PASS IN MEMCACHE -->'], io, data);
+    // logicFilter.questVote(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('stabMerlin', function(data) {
     console.log('stabMerlin');
-    logicFilter.stabMerlin(['<-- PASS IN MEMCACHE -->'], io, data);
+    // logicFilter.stabMerlin(['<-- PASS IN MEMCACHE -->'], io, data);
   });
 });
 // serve index.html for rest

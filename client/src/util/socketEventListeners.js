@@ -1,6 +1,25 @@
+import game from '../scripts/game';
+
+var partyLeaderPickParty = (socket) => {
+  socket.emit('pickParty', ['player1', 'player2', 'player3']);
+}
+var voteOnParty = (socket) => {       
+  socket.emit('voteOnParty', true);
+}
+var voteOnQuest = (socket) => {
+  socket.emit('voteOnQuest', true);
+}
+var pickMerlin = (socket) => {
+  socket.emit('stabMerlin', 'player');
+}
+
 module.exports = {
   AllListeners: function(socket) {
     socket.on('assignRoles', function(data) {
+      game.changeColor();
+      // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
+      // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
+      // $('#gameContainer').append($yesButton, $noButton);
       console.log('Data I got from assignRoles', data);
     });
     socket.on('sendParty', function(data) {

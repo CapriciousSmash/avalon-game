@@ -40,7 +40,12 @@ module.exports.assignRoles = function(memcache, socket) {
     // To differentiate the correct game
     gameId: 5318008,
     // TODO: Format of return to players for role assignment is playerId: role
-    playerId: memcache
+    playerId: {
+      merlin: 'player1',
+      knights: ['player1','player2','player3'],
+      assassin: 'player5',
+      minions: ['player4','player5']
+    }
   });
   setTimeout(function() {
     chooseParty(memcache, socket);
