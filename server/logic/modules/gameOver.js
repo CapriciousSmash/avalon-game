@@ -1,37 +1,46 @@
 var identifyMerlin = require('./identifyMerlin').identifyMerlin;
-
+var increasePoints = require('../../db/controller/index.js').increaseScore;
+var increaseGames = require('../../db/controller/index.js').increaseGames;
 // Functions that take place on the game is over
 module.exports.gameEnd = function(memcache, socket) {
   // Information needed from memcache
   // - Game winner (knights or minions)
-  var winners = '<-- FROM MEMCACHE -->';
+  var winners, minions; 
   // - Identify of the minions
-  var minions = '<-- FROM MEMCACHE -->';
+  memcache.getWinner()
+  .then(function(winner) {
+    winners = winner;
+  })
+  .then(memcache.getMinions)
+  .then(function(mins) {
+    minions = mins;
 
-  // TODO: Change current game phase to 'GAME END' in memcache
+    // TODO: Change current game phase to 'GAME END' in memcache
+    memcache.setTurnPhase('GAME END');
 
-  // TODO: Inform the players of the winners of the game based on
-  // the rounds and inform of the identify of the minions
+    // TODO: Inform the players of the winners of the game based on
+    // the rounds and inform of the identify of the minions
 
-  socket.emit('gameEnd', {
-  	gameId: 5318008,
-  	winners,
-  	minions
+    socket.emit('gameEnd', {
+      gameId: 5318008,
+      winners,
+      minions
+    });
+
+    // TODO: If special character for merlin and assassin were included in the 
+    // game, and the knights were winners, allow the assassin to identify merlin:
+    if (winners === true && merlinId) {
+    	// TODO: Set timer for identifyMerlin
+    	setTimeout(function() {
+    	  identifyMerlin(memcache, socket);
+    	}, 5000000);
+    } else {
+    	// TODO: Set timer for gameOver
+    	setTimeout(function() {
+    	  gameOver(memcache, socket);
+    	}, 5000);
+    }
   });
-
-  // TODO: If special character for merlin and assassin were included in the 
-  // game, and the knights were winners, allow the assassin to identify merlin:
-  if (winners === 'knights' && merlinId) {
-  	// TODO: Set timer for identifyMerlin
-  	setTimeout(function() {
-  	  identifyMerlin(memcache, socket);
-  	}, 5000000);
-  } else {
-  	// TODO: Set timer for gameOver
-  	setTimeout(function() {
-  	  gameOver(memcache, socket);
-  	}, 5000);
-  }
 };
 
 // TODO: Import commands to access persistent database to update points
@@ -40,9 +49,10 @@ module.exports.gameEnd = function(memcache, socket) {
 var gameOver = function(memcache, socket) {
   // Information needed from memcache
   // - Game winning side
-  var winners = '<-- FROM MEMCACHE -->';
+  var winners = memcache.getWinner();
 
   // TODO: Change current game phase to 'GAME OVER'
+  memcache.setTurnPhase('GAME OVER');
 
   // TODO: Signal to players the final winners 
   socket.emit('gameOver', {
@@ -50,13 +60,31 @@ var gameOver = function(memcache, socket) {
   	winners
   });
 
-  if (winners === 'knights') {
+  if (winners === true) {
   	// TODO: Update knights' points in persistent database
+    memcache.getKnights()
+    .then(function(knights) {
+      for (var i = 0; i < knights.length; i++) {
+        increasePoints(knights[i]);
+      }
+    })
   } else /* Game winners are minions */ {
   	// TODO Update minion's points in persistent database
+    memcache.getMinions()
+    .then(function(minions) {
+      for (var i = 0; i < minions.length; i++) {
+        increasePoints(minions[i]);
+      }
+    })
   }
 
   // TODO: Update game count of all players
+  memcache.getPids()
+  .then(function(pids) {
+    for (var i = 0; i < pids.length; i++) {
+      increaseGames(pids[i]);
+    }
+  })
 };
 
 module.exports.gameOver = gameOver;
