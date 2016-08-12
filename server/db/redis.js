@@ -20,10 +20,6 @@ var makeCache = function(gameNumber) {
   Methods for the cache
     saveVoteCount
     saveQuestResult
-    recordWin
-    recordLoss
-    getWin
-    getLoss
     setMGuess
     getMGuess
     setMerlin
@@ -134,6 +130,14 @@ makeCache.prototype.incrLoss = function() {
 // getLoss - returns current loss count
 makeCache.prototype.getLoss = function() {
   return this.client.getAsync('SCORE:LOSS');
+};
+// setMguess - takes the PID of the Mguess and updates it in memcache
+makeCache.prototype.setMguess = function(mGuess) {
+  this.client.setAsync('MGUESS', mGuess);
+};
+// getMguess - returns the current Mguess
+makeCache.prototype.getMguess = function() {
+  return this.client.getAsync('MGUESS');
 };
 
 module.exports = new makeCache();
