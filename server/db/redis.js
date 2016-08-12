@@ -170,11 +170,16 @@ makeCache.prototype.saveVoteCount = function(pid) {
   this.getVote(pid)
   .then(function(vote) {
     this.client.saddAsync('VOTECOUNT', vote);
+    this.client.saddAsync('VOTEORDER', pid);
   });
 };
 // getVoteCount - returns the list of all the finalized votes
 makeCache.prototype.getVoteCount = function() {
   return this.client.smembersAsync('VOTECOUNT');
+};
+// getVoteOrder - returns the order the votes were placed in
+makeCache.prototype.getVoteOrder() {
+  return this.client.smembers('VOTEORDER');
 };
 // initQuestResult - takes the PID of the team and sets their votes before opening them for change
 makeCache.prototype.initQuestResult = function() {
@@ -194,7 +199,15 @@ makeCache.prototype.saveQuestResult = function(pid) {
 };
 // getQuestResult - returns the array of all the quest decisions
 makeCache.prototype.getQuestResult = function() {
-  return this.client.smembersAsync('QRESULT');
+  return this.client.smembersAsync('QRESULT')
+          .then(function(qresults) {
+            var randoResults = [];
+            var randoIndex;
+            for (var i = 0; i < qresults.length;) {
+              randoIndex = Math.floor(Math.random() * i);
+              randoResults.push(qresults.splice(randoIndex), 1);
+            }
+          });
 }
 // quit - closes the client connection
 makeCache.prototype.quit = function() {

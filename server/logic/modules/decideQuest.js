@@ -4,9 +4,10 @@ var chooseParty = require('./chooseParty').chooseParty;
 module.exports.startQuest = function(memcache, socket) {
   // Information needed from memcache
   // - Current party composition
-  var partyMembers = ['<-- FROM MEMCACHE -->'];
+  var partyMembers = memcache.getTeam();
 
   // TODO: Set current game phase in memcache to 'QUEST'
+  memcache.setTurnPhase('QUEST');
 
   // TODO: Signal to players that the quest has started and the party members
   // must vote on the result. The signal should also target the quest party
