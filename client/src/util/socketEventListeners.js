@@ -18,7 +18,8 @@ module.exports = {
       }, 3);
       console.log('Data I got from assignRoles', data);
     });
-    socket.on('sendParty', function(data) {
+    socket.on('chooseParty', function(data) {
+      game.createQuestButtons();
       console.log('Data I got from sendParty', data);
     });
     socket.on('resolveParty', function(data) {

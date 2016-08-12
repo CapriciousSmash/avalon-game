@@ -175,7 +175,19 @@ export default {
         this.hideSign('pickParty');
         this.renderer.domElement.removeEventListener('click', pickParty);
       }
-    });    
+    });
+  },    
+  createQuestButtons: function() {
+    var geometry = new THREE.BoxGeometry(30,10,10);
+    var successMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF})
+    var success = new THREE.Mesh(geometry, successMaterial);
+    success.position.set(100,100,0);
+
+    var failMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
+    var fail = new THREE.Mesh(geometry, failMaterial)
+    fail.position.set(100, 80, 0);
+    this.scene.add(success);
+    this.scene.add(fail);
   },
   play: ()=>{
     console.log('playing something');
