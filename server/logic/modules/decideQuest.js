@@ -133,11 +133,7 @@ var resolveQuest = function(memcache, socket) {
         }
       }
     })
-
-
   });
 };
 
 module.exports.resolveQuest = resolveQuest;
-
-
