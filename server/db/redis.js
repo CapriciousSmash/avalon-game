@@ -16,8 +16,49 @@ var makeCache = function(gameNumber) {
 
 }
 
-makeCache.prototype.function() {
+/*
+  Methods for the cache
+    setPids
+    getPids
+    setRole
+    getRole
+    setVote
+    getVote
+    setGameSize
+    getGameSize
+    setGameStage
+    getGameStage
+    setTurnPhase
+    getTurnPhase
+    setLeader
+    getLeader
+    getVeto
+    resetVeto
+    incrVeto
+    saveVoteCount
+    saveQuestResult
+    recordWin
+    recordLoss
+    getWin
+    getLoss
+    setMGuess
+    getMGuess
+    setMerlin
+    getMerlin
+    setAssassin
+    getAssassin
+    setWinner
+    getWinner
+*/
 
+// setPids - Takes an array of PIDs and populates the db's
+//           list and set default for pid based properties
+makeCache.prototype.setPids(pidArray) {
+  for (var i = 0; i < pidArray; i++) {
+    this.client.saddAsync('PIDS', pidArray[i]);
+    this.client.setAsync(pidArray[i] + ':ROLE', 'none');
+    this.client.setAsync(pidArray[i] + ':VOTE', 'false');
+  }
 };
 
 module.exports = new makeCache();
