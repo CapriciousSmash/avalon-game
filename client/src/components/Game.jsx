@@ -4,41 +4,15 @@ import { bindActionCreators } from 'redux';
 
 import game from '../scripts/game.js';
 
-import util from '../util/lib';
+import socketListeners from '../util/socketEventListeners';
 
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
   }
   componentWillMount() {
     var socket = this.props.socket;
-    socket.on('assignRoles', function(data) {
-      console.log('Data I got from assignRoles', data);
-    });
-    socket.on('sendParty', function(data) {
-      console.log('Data I got from sendParty', data);
-    });
-    socket.on('resolveParty', function(data) {
-      console.log('Data I got from resolveParty', data);
-    });
-    socket.on('startVote', function(data) {
-      console.log('Data I got from startVote', data);
-    });
-    socket.on('resolveVote', function(data) {
-      console.log('Data I got from resolveVote', data);
-    });
-    socket.on('startQuest', function(data) {
-      console.log('Data I got from startQuest', data);
-    });
-    socket.on('resolveQuest', function(data) {
-      console.log('Data I got from resolveQuest', data);
-    });
-    socket.on('gameEnd', function(data) {
-      console.log('Data I got from gameEnd', data);
-    });
-    socket.on('resolveMerlin', function(data) {
-      console.log('Data I got from resolveMerlin', data);
-    });
+    socketListeners.AllListeners(socket);
   }
   componentDidMount() {
     game.init();
@@ -85,29 +59,11 @@ class Game extends React.Component {
       game.removePlayer(uid);
     });
   }
-  partyLeaderPickParty() {
-    this.props.socket.emit('pickParty', ['player1', 'player2', 'player3']);
-  }
-  voteOnParty() {        
-    this.props.socket.emit('voteOnParty', true);
-  }
-  voteOnQuest() {
-    this.props.socket.emit('voteOnQuest', true);
-  }
-  pickMerlin() {
-    this.props.socket.emit('stabMerlin', 'player');
-  }
-  onClick() {
-    this.partyLeaderPickParty();
-    this.voteOnParty();
-    this.voteOnQuest();
-    this.pickMerlin();
-  }
   render() {
     return (
       <div> 
         <h1>THREE GAME</h1>
-        <div id="gameContainer" onClick={this.onClick.bind(this)}></div>
+        <div id="gameContainer"></div>
       </div>
     );
   }
