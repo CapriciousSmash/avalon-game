@@ -1,18 +1,23 @@
 Format to handle multiple, simultaneous Redis DB's spun as needed.
 Each DB is stored as a reference via it's Game ID (GID)
 
-Keys: PID:NUM        [Number]
-         :ROLE       [String] ====> Knight/Minion
+Keys: PIDS           [List - Number, PID:NUM]
+      PID:NUM        [Number]
+         :ROLE       [String]
          :VOTE       [Bool]
-      STAGE:SIZE     [Number, 5 - 10]
-           :ROUND    [Number, 1 - 5]
+      SIZE           [Number, 5 - 10]
+      STAGE:ROUND    [Number, 1 - 5]
+           :PHASE    [String]
       LEADER         [Number, PID:NUM]
       TEAM           [List - Numbers, PID:NUM]
-      VETO           [Number, 1 - 5] ====> Voting Round
-      PHASE          [String] ====> Stage in Game Logic
+      VETO           [Number, 1 - 5]
+      PHASE          [String]
       QRESULT        [List - Bool] 
-      GAMESCORE:WIN  [Number, 1 - 3]
-               :LOSS [Number, 1 - 3]
+      VOTECOUNT      [List - Bool, PID:VOTE]
+      VETO           [Number, 1 - 5]
+      QRESULT        [List - Bool, PID:VOTE]
+      SCORE:WIN      [Number, 1 - 3]
+           :LOSS     [Number, 1 - 3]
       MGUESS         [Number, PID:NUM]
       MERLIN         [Number, PID:NUM]
       ASSASSIN       [Number. PID:NUM]
