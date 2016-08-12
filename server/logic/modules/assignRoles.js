@@ -7,57 +7,70 @@ module.exports.assignRoles = function(memcache, socket) {
 
   // randomly determine each player's role.  Assign only one Merlin and one Assassin
   // Knights are good guys, minions are bad guys
-  var players = memcache; // array of entire party obtained from memcache call
-  var knights = Math.floor(players.length / 3 * 2);
-  var minions = players.length - knights;
+  // Get a list of players from the memcache
+  memcache.getPids().then(function(pidsList) {
+    //Prepare the data object that will be returned to the players
+    var data = {};
 
-  // Therefore, knights and minions should look like this
-  //  5 = 3k + 2m
-  //  6 = 4k + 2m
-  //  7 = 4k + 3m
-  //  8 = 5k + 3m
-  //  9 = 6k + 3m
-  // 10 = 6k + 4m
+    var knights = Math.floor(pidsList.length / 3 * 2);
+    var minions = pidsList.length - knights;
 
-  // Assign the players to Knights or Minions
-  var party = randomizeRoles(knights, minions, players);
-  // Make a random member of each side Merlin or the Assassin respectively
-  party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
-  party.assassin = party.minions[Math.floor(Math.random() * party.knights.length)];
+    // Therefore, knights and minions should look like this
+    //  5 = 3k + 2m
+    //  6 = 4k + 2m
+    //  7 = 4k + 3m
+    //  8 = 5k + 3m
+    //  9 = 6k + 3m
+    // 10 = 6k + 4m
 
-  // Update memcache with the correct party layout
-  // memcache set for party.knights
-  // memcache set for merlin
-  // memcache set for minions
-  // memcache set for assassin
+    // Assign the players to Knights or Minions
+    var party = randomizeRoles(knights, minions, pidsList);
 
-  // assign party leader at random
-  // memcache set for party leader (players[Math.floor(Math.random() * players.length)])
+    // Make a random member of each side Merlin or the Assassin respectively
+    party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
+    party.assassin = party.minions[Math.floor(Math.random() * party.knights.length)];
 
-  // TODO: set up next function in chain:
-  // Step 1: Signal to each player their assigned role
-  socket.emit('assignRoles', {
-    // To differentiate the correct game
-    gameId: 5318008,
-    // TODO: Format of return to players for role assignment is playerId: role
-    playerId: {
-      merlin: 'player1',
-      knights: ['player1','player2','player3'],
-      assassin: 'player5',
-      minions: ['player4','player5']
+    // Update memcache with the correct party layout
+    for (var x = 0; x < party.knights.length; x++) {
+      data[party.knights[x]] = 'KNIGHT';
+      memcache.setRole(party.knights[x], 'KNIGHT');
+    } 
+    for (var y = 0; y < party.minions.length; y++) {
+      data[party.minions[y]] = 'MINION'
+      memcache.setRole(party.minions[y], 'MINION');
     }
+    if (party.merlin) {
+      data['merlin'] = party.merlin;
+      memcache.setMerlin(party.merlin);
+    }
+    if (party.assassin) {
+      data['assassin'] = party.assassin;
+      memcache.setAssassin(party.assassin);
+    }
+
+    // Assign party leader at random and save to memcache: 
+    memcache.setLeader(pidsList[Math.floor(Math.random() * pidsList.length)]);
+
+    // Sample data that would be given by socket.emit
+    // {
+      // gameId: 5138008,
+      // player1: 'KNIGHT',
+      // player2: 'MINION',
+      // player3: 'KNIGHT',
+      // merlin: 'player1',
+      // assassin: 'player2'
+    // }
+    socket.emit('assignRoles', data);
+
+    setTimeout(function() {
+      chooseParty(memcache, socket);
+    }, 5000); 
+
   });
-  setTimeout(function() {
-    chooseParty(memcache, socket);
-  }, 5000);
-  
-  return 'party';
 }
 
 // Takes in number of Knights, Minions, and an array of the player names/id
 // Returns an object with the group broken down into Merlin, Knights, Assassin, and minions
-// TODO: write test(s)
-// NOTE: Does work as intended
 var randomizeRoles = function(numK, numM, players) {
   // Merlin and Assassin should only ever have one player attached to it
   // Knights and Minions should be an array of those players, even if it is only one

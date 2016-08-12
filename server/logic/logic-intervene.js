@@ -19,6 +19,7 @@ var teamBuilder = [
 // pickParty is called to advance the game to the next stage if the 
 // party leader makes a choice on the party before the timer runs out
 module.exports.pickParty = function(memcache, socket, data) {
+
   //Grab TEAM
   var partyCount = '<-- FROM MEMCACHE -->';
   //Grab STAGE:SIZE
