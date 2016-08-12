@@ -188,5 +188,9 @@ makeCache.prototype.saveQuestResult = function(pid) {
 makeCache.prototype.getQuestResult = function() {
   return this.client.smembersAsync('QRESULT');
 }
+// quit - closes the client connection
+makeCache.prototype.quit = function() {
+  this.client.quit();
+};
 
 module.exports = new makeCache();
