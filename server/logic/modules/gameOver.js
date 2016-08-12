@@ -1,12 +1,13 @@
 var identifyMerlin = require('./identifyMerlin').identifyMerlin;
-
+var increasePoints = require('../../db/controller/index.js').increaseScore;
+var increaseGames = require('../../db/controller/index.js').increaseGames;
 // Functions that take place on the game is over
 module.exports.gameEnd = function(memcache, socket) {
   // Information needed from memcache
   // - Game winner (knights or minions)
-  var winners = '<-- FROM MEMCACHE -->';
+  var winners = memcache.getWinner();
   // - Identify of the minions
-  var minions = '<-- FROM MEMCACHE -->';
+  var minions = memcache.getMinions();
 
   // TODO: Change current game phase to 'GAME END' in memcache
 
@@ -18,10 +19,11 @@ module.exports.gameEnd = function(memcache, socket) {
   	winners,
   	minions
   });
+  memcache.setTurnPhase('GAME END');
 
   // TODO: If special character for merlin and assassin were included in the 
   // game, and the knights were winners, allow the assassin to identify merlin:
-  if (winners === 'knights' && merlinId) {
+  if (winners === true && merlinId) {
   	// TODO: Set timer for identifyMerlin
   	setTimeout(function() {
   	  identifyMerlin(memcache, socket);
@@ -40,9 +42,10 @@ module.exports.gameEnd = function(memcache, socket) {
 var gameOver = function(memcache, socket) {
   // Information needed from memcache
   // - Game winning side
-  var winners = '<-- FROM MEMCACHE -->';
+  var winners = memcache.getWinner();
 
   // TODO: Change current game phase to 'GAME OVER'
+  memcache.setTurnPhase('GAME OVER');
 
   // TODO: Signal to players the final winners 
   socket.emit('gameOver', {
@@ -50,13 +53,31 @@ var gameOver = function(memcache, socket) {
   	winners
   });
 
-  if (winners === 'knights') {
+  if (winners === true) {
   	// TODO: Update knights' points in persistent database
+    memcache.getKnights()
+    .then(function(knights) {
+      for (var i = 0; i < knights.length; i++) {
+        increasePoints(knights[i]);
+      }
+    })
   } else /* Game winners are minions */ {
   	// TODO Update minion's points in persistent database
+    memcache.getMinions()
+    .then(function(minions) {
+      for (var i = 0; i < minions.length; i++) {
+        increasePoints(minions[i]);
+      }
+    })
   }
 
   // TODO: Update game count of all players
+  memcache.getPids()
+  .then(function(pids) {
+    for (var i = 0; i < pids.length; i++) {
+      increaseGames(pids[i]);
+    }
+  })
 };
 
 module.exports.gameOver = gameOver;
