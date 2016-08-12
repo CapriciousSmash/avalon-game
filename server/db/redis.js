@@ -168,7 +168,7 @@ makeCache.prototype.getVoteCount = function() {
   return this.client.lrangeAsync('VOTECOUNT', 0, -1);
 };
 // getVoteOrder - returns the order the votes were placed in
-makeCache.prototype.getVoteOrder() {
+makeCache.prototype.getVoteOrder = function() {
   return this.client.lrangeAsync('VOTEORDER', 0, -1);
 };
 // clearVoteOrder - clears the vote order to be newly populated
