@@ -18,8 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    incrRound
-    getRound
     setLeader
     getLeader
     getVeto
@@ -105,6 +103,14 @@ makeCache.prototype.incrRound = function() {
 // getRound - returns the current round
 makeCache.prototype.getRound = function() {
   return this.client.getAsync('STAGE:ROUND');
+};
+// setLeader - takes the next leader and sets it
+makeCache.prototype.setLeader = function(leader) {
+  this.client.setAsync('LEADER', leader);
+};
+// getLeader - returns the current leader
+makeCache.prototype.getLeader = function() {
+  return this.client.getAsync('LEADER');
 };
 
 module.exports = new makeCache();
