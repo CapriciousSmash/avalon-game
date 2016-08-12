@@ -169,17 +169,22 @@ makeCache.prototype.getWinner = function() {
 makeCache.prototype.saveVoteCount = function(pid) {
   this.getVote(pid)
   .then(function(vote) {
-    this.client.saddAsync('VOTECOUNT', vote);
-    this.client.saddAsync('VOTEORDER', pid);
+    this.client.rpushAsync('VOTECOUNT', vote);
+    this.client.rpushAsync('VOTEORDER', pid);
   });
 };
 // getVoteCount - returns the list of all the finalized votes
 makeCache.prototype.getVoteCount = function() {
-  return this.client.smembersAsync('VOTECOUNT');
+  return this.client.lrangeAsync('VOTECOUNT', 0, -1);
 };
 // getVoteOrder - returns the order the votes were placed in
 makeCache.prototype.getVoteOrder() {
-  return this.client.smembers('VOTEORDER');
+  return this.client.lrangeAsync('VOTEORDER', 0, -1);
+};
+// clearVoteOrder - clears the vote order to be newly populated
+makeCache.prototype.clearVotes = function() {
+  this.client.delAsync('VOTEORDER');
+  this.client.delAsync('VOTECOUNT');
 };
 // initQuestResult - takes the PID of the team and sets their votes before opening them for change
 makeCache.prototype.initQuestResult = function() {
@@ -194,12 +199,12 @@ makeCache.prototype.initQuestResult = function() {
 makeCache.prototype.saveQuestResult = function(pid) {
   this.getVote(pid)
   .then(function(vote) {
-    this.client.saddAsync('QRESULT', vote);
+    this.client.rpushAsync('QRESULT', vote);
   });
 };
 // getQuestResult - returns the array of all the quest decisions
 makeCache.prototype.getQuestResult = function() {
-  return this.client.smembersAsync('QRESULT')
+  return this.client.lrangeAsync('QRESULT', 0, -1)
           .then(function(qresults) {
             var randoResults = [];
             var randoIndex;
@@ -209,6 +214,10 @@ makeCache.prototype.getQuestResult = function() {
             }
           });
 }
+// clearQuestResults - clears the quest results to be used once again
+makeCache.prototype.clearQuestResults = function() {
+  this.client.delAsync('QRESULT');
+};
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
   this.client.quit();
