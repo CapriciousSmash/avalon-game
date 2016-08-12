@@ -18,11 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    setLeader
-    getLeader
-    getVeto
-    resetVeto
-    incrVeto
     saveVoteCount
     saveQuestResult
     recordWin
@@ -111,6 +106,18 @@ makeCache.prototype.setLeader = function(leader) {
 // getLeader - returns the current leader
 makeCache.prototype.getLeader = function() {
   return this.client.getAsync('LEADER');
+};
+// incrVeto - increase the veto count and returns the updated value
+makeCache.prototype.incrVeto = function() {
+  return this.client.incrAsync('VETO');
+};
+// getVeto - returns the current veto count
+makeCache.prototype.getVeto = function() {
+  return this.client.getAsync('VETO');
+};
+// resetVeto - resets veto count to 0
+makeCache.prototype.resetVeto = function() {
+  this.client.setAsync('VETO', 0);
 };
 
 module.exports = new makeCache();
