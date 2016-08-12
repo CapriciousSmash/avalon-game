@@ -41,14 +41,32 @@ export default {
     scene.add(pointLight);
 
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    let sphereMaterial =
+      new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+    let radius = 10,
+        segments = 16,
+        rings = 16;
+
+    let mouse = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, segments, rings),
+      sphereMaterial);
+
+    mouse.name = 'mouse';
+    mouse.position.x = 0;
+    mouse.position.y = 0;
+    this.mouse = {
+      x: 0,
+      y: 0
+    };
+
+    this.scene.add(mouse);
+
     var raycaster = new THREE.Raycaster();
     this.mouseVector = new THREE.Vector3(0, 0, 0);
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    renderer.domElement.addEventListener( 'mousemove', (e) => {
+    renderer.domElement.addEventListener( 'click', (e) => {
       //off by 8px and 30px 
-      //this.mouse.x = e.clientX - WIDTH / 2 + 8;
-      //this.mouse.y = - e.clientY + HEIGHT / 2 + 30;
       this.mouse.x = (e.clientX / WIDTH) * 2 - 1;
       this.mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
       this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(camera);
@@ -56,21 +74,17 @@ export default {
       var intersects = raycaster.intersectObjects(scene.children);      
       if (intersects.length) {
         this.selected = intersects[0].object;
-        this.selected.scale.x = this.selected.radius * 1.2;
-        this.selected.scale.y = this.selected.radius * 1.2;
-        this.selected.scale.z = this.selected.radius * 1.2;
+        this.selected.material.color.setHex('0xFFFFFF');
         console.log(this.selected);
       }
     });
+
+
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     var timer = 0;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      render();
-    }
-    function render() {
+    var render = () => {
+      requestAnimationFrame(render);
       var d = new Date();
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
@@ -80,11 +94,14 @@ export default {
       if (timer % 600 === 0) {
         console.log('CHANGING MOUSE (', this.mouse.x, this.mouse.y, ')');
       }
+      // this.scene.getObjectByName('mouse').position.x = this.mouse.x;
+      // this.scene.getObjectByName('mouse').position.y = this.mouse.y;
+
       for (var x = 0; x < this.players.length; x++) {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
-    }
-    animate();
+    };
+    render();
   },
   addPlayer: function(uid, color) {
     if (this.players.length < 5) {
