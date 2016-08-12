@@ -143,6 +143,14 @@ makeCache.prototype.setAssassin = function(pid) {
 makeCache.prototype.getAssassin = function() {
   return this.client.getAsync('ASSASSIN');
 };
+// setWinner - takes true or false for if the knights or minions win
+makeCache.prototype.setWinner = function(winner) {
+  this.client.setAsync('WINNER', winner);
+};
+// getWinner - returns true or false for if the knights or minions win
+makeCache.prototype.getWinner = function() {
+  return this.client.getAsync('WINNER');
+};
 // saveVoteCount - takes the PID of the user who has set their vote for the party
 makeCache.prototype.saveVoteCount = function(pid) {
   this.getVote(pid)
