@@ -23,13 +23,11 @@ class Game extends React.Component {
 
       return Number('0x' + (hred + hgreen + hblue).toUpperCase());
     }
-
     //Connect to server
     var socket = this.props.socket;
     var userColor = randomHexColor();
     socket.emit('userColor', userColor);
       
-
     //Add peers who were already in the game
     socket.on('allPeers', function(players) {
       for (let p in players) {
