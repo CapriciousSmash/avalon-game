@@ -10,16 +10,16 @@ module.exports.gameEnd = function(memcache, socket) {
   var minions = memcache.getMinions();
 
   // TODO: Change current game phase to 'GAME END' in memcache
+  memcache.setTurnPhase('GAME END');
 
   // TODO: Inform the players of the winners of the game based on
   // the rounds and inform of the identify of the minions
 
   socket.emit('gameEnd', {
-  	gameId: 5318008,
-  	winners,
-  	minions
+    gameId: 5318008,
+    winners,
+    minions
   });
-  memcache.setTurnPhase('GAME END');
 
   // TODO: If special character for merlin and assassin were included in the 
   // game, and the knights were winners, allow the assassin to identify merlin:
