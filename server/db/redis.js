@@ -46,8 +46,8 @@ makeCache.prototype.init = function(pidArray) {
   this.client.setAsync('STAGE:SIZE', pidArray.length);
   this.client.setAsync('STAGE:ROUND', 1);
   this.client.setAsync('STAGE:PHASE', 'startGame');
-  this.client.setAsync('GAMESCORE:WIN', 0);
-  this.client.setAsync('GAMESCORE:LOSS', 0);
+  this.client.setAsync('SCORE:WIN', 0);
+  this.client.setAsync('SCORE:LOSS', 0);
   this.client.setAsync('VETO', 0);
   this.client.setAsync('MGUESS', null);
   this.client.setAsync('WINNER', null);
@@ -118,6 +118,22 @@ makeCache.prototype.getVeto = function() {
 // resetVeto - resets veto count to 0
 makeCache.prototype.resetVeto = function() {
   this.client.setAsync('VETO', 0);
+};
+// incrWin - increases win count and returns update value
+makeCache.prototype.incrWin = function() {
+  return this.client.incrAsync('SCORE:WIN');
+};
+// getWin - returns current win count
+makeCache.prototype.getWin = function() {
+  return this.client.getAsync('SCORE:WIN');
+};
+// incrLoss - increases loss count and returns update value
+makeCache.prototype.incrLoss = function() {
+  return this.client.incrAsync('SCORE:LOSS');
+};
+// getLoss - returns current loss count
+makeCache.prototype.getLoss = function() {
+  return this.client.getAsync('SCORE:LOSS');
 };
 
 module.exports = new makeCache();
