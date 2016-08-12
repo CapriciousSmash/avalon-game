@@ -1,5 +1,5 @@
 export default {
-  init:function(){
+  init: function () {
     //SET UP VARS////////////////
     this.players = [];
     //////////////////////////////
@@ -7,7 +7,7 @@ export default {
           HEIGHT = 500;
 
     const VIEW_ANGLE = 45,
-          ASPECT = WIDTH/HEIGHT,
+          ASPECT = WIDTH / HEIGHT,
           NEAR = 0.1,
           FAR = 10000;
 
@@ -39,27 +39,58 @@ export default {
 
     // add to the scene
     scene.add(pointLight);
+
+    //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    var raycaster = new THREE.Raycaster();
+    this.mouseVector = new THREE.Vector3(0, 0, 0);
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    renderer.domElement.addEventListener( 'mousemove', (e) => {
+      //off by 8px and 30px 
+      //this.mouse.x = e.clientX - WIDTH / 2 + 8;
+      //this.mouse.y = - e.clientY + HEIGHT / 2 + 30;
+      this.mouse.x = (e.clientX / WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
+      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(camera);
+      raycaster.set(camera.position, this.mouseVector.sub(camera.position).normalize());
+      var intersects = raycaster.intersectObjects(scene.children);      
+      if (intersects.length) {
+        this.selected = intersects[0].object;
+        this.selected.scale.x = this.selected.radius * 1.2;
+        this.selected.scale.y = this.selected.radius * 1.2;
+        this.selected.scale.z = this.selected.radius * 1.2;
+        console.log(this.selected);
+      }
+    });
+    //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     var timer = 0;
 
-    var render = () => {
-      requestAnimationFrame(render);
-      timer++;
+    function animate() {
+      requestAnimationFrame(animate);
+      render();
+    }
+    function render() {
       var d = new Date();
-      pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime()/10) * 0.02);
-      pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime()/10) * 0.01);
+      pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
+      pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       renderer.render(scene, camera);
 
-      for(var x = 0; x < this.players.length; x++){
-        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500/this.players.length)/2 * (1 + (2 * x)) - 250;
+      timer += 1;
+      if (timer % 600 === 0) {
+        console.log('CHANGING MOUSE (', this.mouse.x, this.mouse.y, ')');
+      }
+      for (var x = 0; x < this.players.length; x++) {
+        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
     }
-    render();
+    animate();
   },
-  addPlayer: function(uid, color){
-    if(this.players.length < 5){
+  addPlayer: function(uid, color) {
+    if (this.players.length < 5) {
       this.players.push({
         uid,
-        x: this.players[this.players.length-1] ? this.players[this.players.length-1].x + 80 : -140,
+        x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
         y: 0,
         color,
       });      
@@ -67,7 +98,7 @@ export default {
       let sphereMaterial =
         new THREE.MeshLambertMaterial({
             color
-          });
+        });
       let radius = 20,
           segments = 16,
           rings = 16;
@@ -77,7 +108,7 @@ export default {
         sphereMaterial);
 
       sphere.name = uid;
-      sphere.position.x = this.players[this.players.length-1].x;
+      sphere.position.x = this.players[this.players.length - 1].x;
 
       // add the sphere to the scene
       this.scene.add(sphere);
@@ -85,15 +116,15 @@ export default {
       //too many dam players
     }
   },
-  removePlayer: function(uid){
+  removePlayer: function(uid) {
     this.scene.remove(this.scene.getObjectByName(uid));
-    for(var x = 0; x < this.players.length; x++){
-      if(this.players[x].uid === uid){
+    for (var x = 0; x < this.players.length; x++) {
+      if (this.players[x].uid === uid) {
         this.players.splice(x, 1);
       }
     }
   },
-  play:()=>{
+  play: ()=>{
     console.log('playing something');
-  }
+  },
 };
