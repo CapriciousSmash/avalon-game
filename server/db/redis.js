@@ -67,14 +67,6 @@ makeCache.prototype.remFromTeam = function(pid) {
 makeCache.prototype.getTeam = function() {
   return this.client.smembersAsync('TEAM');
 };
-// setVote - takes PID and vote to set the PID's vote to
-makeCache.prototype.setVote = function(pid, vote) {
-  this.client.setAsync(pid + ':VOTE', vote);
-};
-// getVote - takes PID and returns the vote tied to that PID
-makeCache.prototype.getVote = function(pid) {
-  return this.client.getAsync(pid + ':VOTE');
-};
 // getGameSize - returns the size of the game
 makeCache.prototype.getGameSize = function() {
   return this.client.getAsync('SIZE');
@@ -166,12 +158,10 @@ makeCache.prototype.getWinner = function() {
   return this.client.getAsync('WINNER');
 };
 // saveVoteCount - takes the PID of the user who has set their vote for the party
-makeCache.prototype.saveVoteCount = function(pid) {
-  this.getVote(pid)
-  .then(function(vote) {
-    this.client.rpushAsync('VOTECOUNT', vote);
-    this.client.rpushAsync('VOTEORDER', pid);
-  });
+makeCache.prototype.saveVoteCount = function(pid, vote) {
+  this.client.set(pid + ':VOTE', vote);
+  this.client.rpushAsync('VOTECOUNT', vote);
+  this.client.rpushAsync('VOTEORDER', pid);
 };
 // getVoteCount - returns the list of all the finalized votes
 makeCache.prototype.getVoteCount = function() {
@@ -196,11 +186,9 @@ makeCache.prototype.initQuestResult = function() {
   })
 };
 // saveQuestResult - takes the PID of the user who has set their decision for quest
-makeCache.prototype.saveQuestResult = function(pid) {
-  this.getVote(pid)
-  .then(function(vote) {
-    this.client.rpushAsync('QRESULT', vote);
-  });
+makeCache.prototype.saveQuestResult = function(pid, vote) {
+  this.client.set(pid + ':VOTE', vote);
+  this.client.rpushAsync('QRESULT', vote);
 };
 // getQuestResult - returns the array of all the quest decisions
 makeCache.prototype.getQuestResult = function() {
