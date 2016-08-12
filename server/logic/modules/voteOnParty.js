@@ -4,83 +4,106 @@ var chooseParty = require('./chooseParty').chooseParty;
 
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket) {
-  // Information needed from memcache
-  // - Current party 
-  var partyMembers = ['<-- FROM MEMCACHE -->'];
+  
+  memcache.setTurnPhase('VOTE');
 
-  // TODO: Set current game phase in memcache to 'VOTE'
+  memcache.getTeam().then(function(partyMembers) {
+    // Signal to players to begin voting. 
+    socket.emit('startVote', {
+      partyMembers 
+    });
 
-  // TODO: Signal to players to begin voting. 
-  socket.emit('startVote', {
-    partyMembers 
+    setTimeout(function() {
+      resolvePartyVote(memcache, socket);
+    }, 5000);
   });
 
-  // TODO: Set timer for resolution to give players time to vote.
-  setTimeout(function() {
-    resolvePartyVote(memcache, socket);
-  }, 5000);
 }
 
 var resolvePartyVote = function(memcache, socket) {
-  // Information needed from memcache
-  // - Player voting results
-  var voteResults = ['<-- FROM MEMCACHE -->'];
-  var accepts = 1; //<----------------------------------From Memcache
-  var vetoes = 0; //<-----------------------------------From Memcache
-  // - Current game phase
-  var gamePhase = 'VOTE'; //<---------------------------From Memcache
-  // - Current party rejections count
-  var partyRejections = '<-- FROM MEMCACHE -->';
+  
+  // TODO: If this function was called because timer runs out, then
+  // set some default value
 
-  // If current game phase is not 'VOTE', fizzle
-  if (gamePhase !== 'VOTE') {
-    return;
-  }
-
-  // TODO: Calculate player voting results
-  // Accepts > Rejects === Party accepted
-  // Rejects >= Accepts === Party rejected
-
-  var partyAccepted = accepts > vetoes ? true : false;
-  if (partyAccepted) {
-    // TODO: Signal to players (websockets) that the quest has been
-    // accepted
-    socket.emit('resolveVote', {
-      gameId: 5318008,
-      result: 'accepted'
-    });
-
-    // TODO: Set rejection count in memcache back to 0
-
-    // TODO: Set timer for startQuest
-    setTimeout(function() {
-      startQuest(memcache, socket);
-    }, 5000);
-  } else /* Party rejected */ {
-    // Signal to players (websockets) that the quest has been rejected
-    socket.emit('resolveVote', {
-      result: 'reject',
-      timesRejected: partyRejections + 1
-    });
-
-    // TODO: Increase veto count in memcache
-
-    // TODO: Check current rejection count from memcache
-    if (partyRejections >= 4) {
-
-      // TODO: Set winners of the game to minions in memcache
-
-      // TODO: Set timer for gameEnd with minion victory
-      setTimeout(function() {
-        gameEnd(memcache, socket);
-      }, 5000);
-    } else /* Veto count < 5 */ {
-      // TODO: Set timer for chooseParty
-      setTimeout(function() {
-        chooseParty(memcache, socket);
-      }, 5000);
+  // Check game Phase, if current phase is not 'VOTE' then fizzle
+  memcache.getTurnPhase().then(function(gamePhase) {
+    if (gamePhase !== 'VOTE') {
+      return;
     }
-  }
+    memcache.getVoteCount().then(function(voteCount) {
+      memcache.getVoteOrder().then(function(voteOrder) {
+        
+        // Getting a voteCount of boolean values and pIDs in vote order, 
+        // form an associative list between voter and result
+        var voteList = {};
+
+        for (var x = 0; x < voteCount.length; x++) {
+          voteList[voteOrder[x]] = voteCount[x];
+        }
+
+        // Tally the votes:
+        var accepts = voteCount.reduce(function(total, curr) {
+          return curr === true ? total + 1 : total;
+        }, 0);
+
+        var rejects = voteCount.reduce(function(total, curr) {
+          return curr === false ? total + 1 : total;
+        }, 0)
+
+        var partyAccepted = accepts > rejects ? true : false;
+
+        if (partyAccepted) {
+          // Signals to players that the quest has been accepted and who
+          // voted for and against the party
+          socket.emit('resolveVote', {
+            gameId: 5318008,
+            result: 'accepted',
+            voteList
+          });
+
+          // Reset rejection count in the memcache
+          memcache.resetVeto();
+
+          setTimeout(function() {
+            startQuest(memcache, socket);
+          }, 5000);
+
+        } else /* Party rejected */ {
+
+          memcache.incrVeto().then(function(vetoCount) {
+            // Signal to players that the quest has been rejected
+            socket.emit('resolveVote', {
+              gameId: 5318008,
+              result: 'rejected',
+              timesRejected: vetoCount
+            });
+
+            if (vetoCount >= 5) {
+              // Set winners to minions in memcache and call the end of the game
+              memcache.setWinner('MINIONS');
+
+              setTimeout(function() {
+                gameEnd(memcache, socket);
+              }, 5000);
+
+            } else {
+
+              setTimeout(function() {
+                chooseParty(memcache, socket);
+              }, 5000);
+
+            }
+
+          });
+
+        }
+
+        memcache.clearVotes();
+
+      });
+    });
+
+  });
 
 };
 

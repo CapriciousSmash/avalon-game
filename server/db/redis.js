@@ -24,8 +24,8 @@ makeCache.prototype.init = function(pidArray) {
   }
 
   this.client.setAsync('STAGE:SIZE', pidArray.length);
-  this.client.setAsync('STAGE:ROUND', 1);
-  this.client.setAsync('STAGE:PHASE', 'startGame');
+  this.client.setAsync('STAGE:ROUND', 0);
+  this.client.setAsync('STAGE:PHASE', 'GAME START');
   this.client.setAsync('SCORE:WIN', 0);
   this.client.setAsync('SCORE:LOSS', 0);
   this.client.setAsync('VETO', 0);
@@ -134,7 +134,7 @@ makeCache.prototype.getMguess = function() {
 // setMerlin - takes the PID of Merlin and sets that player's role to Merlin
 makeCache.prototype.setMerlin = function(pid) {
   this.client.setAsync('MERLIN', pid);
-  this.client.setAsync(pid + ':ROLE', 'merlin');
+  // this.client.setAsync(pid + ':ROLE', 'merlin');
 };
 // getMerlin - returns the PID of the player currently assigned to the role of Merlin
 makeCache.prototype.getMerlin = function() {
@@ -143,7 +143,7 @@ makeCache.prototype.getMerlin = function() {
 // setAssassin - takes the PID of the Assassin and sets that player's role to Assassin
 makeCache.prototype.setAssassin = function(pid) {
   this.client.setAsync('ASSASSIN', pid);
-  this.client.setAsync(pid + ':ROLE', 'assassin');
+  // this.client.setAsync(pid + ':ROLE', 'assassin');
 };
 // getAssassin - return the PID of the player currently assigned to the role of Assassin
 makeCache.prototype.getAssassin = function() {
