@@ -1,7 +1,7 @@
-var Promise = requre('bluebird');
+var Promise = require('bluebird');
 var db = require('redis');
-Promise.promisifyAll(redis.RedisClient.prototype);
-Promise.promisifyAll(redis.Multi.prototype);
+Promise.promisifyAll(db.RedisClient.prototype);
+Promise.promisifyAll(db.Multi.prototype);
 
 // Class that creates new DB instances and client connections for each game
 // Initialize Redis either with heroku if .env included or local redis
