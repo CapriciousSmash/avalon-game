@@ -18,7 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    getGameSize
     setGameStage
     getGameStage
     setTurnPhase
@@ -88,6 +87,18 @@ makeCache.prototype.getVote = function(pid) {
   return this.client.getAsync(pid + ':VOTE');
 };
 
-// getGameSize
+// getGameSize - returns the size of the game
+makeCache.prototype.getGameSize = function() {
+  return this.client.getAsync('STAGE:SIZE');
+};
+
+// setGameStage - takes the phase and sets it in the memcache
+makeCache.prototype.setGameStage = function(phase) {
+  this.client.setAsync('STAGE:PHASE', phase);
+};
+// getGameStage - returns the phase currently stored in the memcache
+makeCache.prototype.getGameStage = function() {
+  return this.client.getAsync('STAGE:PHASE');
+};
 
 module.exports = new makeCache();
