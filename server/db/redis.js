@@ -18,9 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    getPids
-    setRole
-    getRole
     setVote
     getVote
     setGameSize
@@ -65,4 +62,13 @@ makeCache.prototype.getPids = function() {
   return this.client.smembersAsync('PIDS');
 };
 
+// setRole - takes PID and the role to set the PID's role to
+makeCache.prototype.setRole = function(pid, role) {
+  this.client.setAsync(pid + ':ROLE', role);
+};
+
+// getRole - takes PID and returns the role tied to that PID
+makeCache.prototype.getRole = function(pid) {
+  return this.client.getAsync(pid + ':ROLE');
+};
 module.exports = new makeCache();
