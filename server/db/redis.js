@@ -18,7 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    setGameSize
     getGameSize
     setGameStage
     getGameStage
@@ -45,14 +44,23 @@ var makeCache = function(gameNumber) {
     getWinner
 */
 
-// setPids - Takes an array of PIDs and populates the db's
-//           list and set default for pid based properties
-makeCache.prototype.setPids = function(pidArray) {
+// init - Takes an array of PIDs and populates the db's
+//        properties with their initial values.
+makeCache.prototype.init = function(pidArray) {
   for (var i = 0; i < pidArray; i++) {
     this.client.saddAsync('PIDS', pidArray[i]);
-    this.client.setAsync(pidArray[i] + ':ROLE', 'none');
+    this.client.setAsync(pidArray[i] + ':ROLE', null);
     this.client.setAsync(pidArray[i] + ':VOTE', 'false');
   }
+
+  this.client.setAsync('STAGE:SIZE', pidArray.length);
+  this.client.setAsync('STAGE:ROUND', 1);
+  this.client.setAsync('STAGE:PHASE', 'startGame');
+  this.client.setAsync('GAMESCORE:WIN', 0);
+  this.client.setAsync('GAMESCORE:LOSS', 0);
+  this.client.setAsync('VETO', 0);
+  this.client.setAsync('MGUESS', null);
+  this.client.setAsync('WINNER', null);
 };
 
 // getPids - Takes nothing, returns array of PIDs
@@ -79,5 +87,7 @@ makeCache.prototype.setVote = function(pid, vote) {
 makeCache.prototype.getVote = function(pid) {
   return this.client.getAsync(pid + ':VOTE');
 };
+
+// getGameSize
 
 module.exports = new makeCache();
