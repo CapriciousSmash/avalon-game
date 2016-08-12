@@ -29,7 +29,7 @@ const Lobby = React.createClass ({
 
     socket.on('startGame', ()=>{
       $('.loading').removeClass('hidden');
-      setTimeout(this.props.setGameState, 3000);
+      setTimeout(this.props.setGameState, 10);
     });
   },
   readyHandler: function(e) {

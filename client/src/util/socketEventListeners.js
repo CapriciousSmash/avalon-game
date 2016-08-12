@@ -16,7 +16,6 @@ var pickMerlin = (socket) => {
 module.exports = {
   AllListeners: function(socket) {
     socket.on('assignRoles', function(data) {
-      game.changeColor();
       // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
       // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
       // $('#gameContainer').append($yesButton, $noButton);
