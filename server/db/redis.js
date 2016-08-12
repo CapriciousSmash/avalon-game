@@ -12,8 +12,6 @@ var makeCache = function(gameNumber) {
   this.client.on('error', function(err) {
     console.log('ERROR' + err);
   });
-
-
 }
 
 // init - Takes an array of PIDs and populates the db's
@@ -49,22 +47,30 @@ makeCache.prototype.setRole = function(pid, role) {
 makeCache.prototype.getRole = function(pid) {
   return this.client.getAsync(pid + ':ROLE');
 };
-
+// addToTeam - takes PID of player to add to team
+makeCache.prototype.addToTeam = function(pid) {
+  this.client.saddAsync('TEAM', pid);
+};
+// remFromTeam - takes PID of player to remove from team
+makeCache.prototype.remFromTeam = function(pid) {
+  this.client.sremAsync('TEAM', pid);
+};
+// getTeam - returns the PIDs of all players on the team
+makeCache.prototype.getTeam = function() {
+  return this.client.smembersAsync('TEAM');
+};
 // setVote - takes PID and vote to set the PID's vote to
 makeCache.prototype.setVote = function(pid, vote) {
   this.client.setAsync(pid + ':VOTE', vote);
 };
-
 // getVote - takes PID and returns the vote tied to that PID
 makeCache.prototype.getVote = function(pid) {
   return this.client.getAsync(pid + ':VOTE');
 };
-
 // getGameSize - returns the size of the game
 makeCache.prototype.getGameSize = function() {
   return this.client.getAsync('SIZE');
 };
-
 // setTurnPhase - takes the phase and sets it in the memcache
 makeCache.prototype.setTurnPhase = function(phase) {
   this.client.setAsync('STAGE:PHASE', phase);
