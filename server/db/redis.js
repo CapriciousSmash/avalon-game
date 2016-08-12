@@ -20,12 +20,6 @@ var makeCache = function(gameNumber) {
   Methods for the cache
     saveVoteCount
     saveQuestResult
-    setMGuess
-    getMGuess
-    setMerlin
-    getMerlin
-    setAssassin
-    getAssassin
     setWinner
     getWinner
 */
@@ -138,6 +132,24 @@ makeCache.prototype.setMguess = function(mGuess) {
 // getMguess - returns the current Mguess
 makeCache.prototype.getMguess = function() {
   return this.client.getAsync('MGUESS');
+};
+// setMerlin - takes the PID of Merlin and sets that player's role to Merlin
+makeCache.prototype.setMerlin = function(pid) {
+  this.client.setAsync('MERLIN', pid);
+  this.client.setAsync(pid + ':ROLE', 'merlin');
+};
+// getMerlin - returns the PID of the player currently assigned to the role of Merlin
+makeCache.prototype.getMerlin = function() {
+  return this.client.getAsync('MERLIN');
+};
+// setAssassin - takes the PID of the Assassin and sets that player's role to Assassin
+makeCache.prototype.setAssassin = function(pid) {
+  this.client.setAsync('ASSASSIN', pid);
+  this.client.setAsync(pid + ':ROLE', 'assassin');
+};
+// getAssassin - return the PID of the player currently assigned to the role of Assassin
+makeCache.prototype.getAssassin = function() {
+  return this.client.getAsync('ASSASSIN');
 };
 
 module.exports = new makeCache();
