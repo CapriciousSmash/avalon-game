@@ -16,6 +16,7 @@ export default {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
+    $gameContainer.append(this.renderer.domElement);
     
     this.camera = new THREE.PerspectiveCamera(
         VIEW_ANGLE, ASPECT, NEAR, FAR
@@ -34,8 +35,7 @@ export default {
       y: 0
     };
 
-    $gameContainer.append(this.renderer.domElement);
-
+    this.textureLoader = new THREE.TextureLoader();
     //////////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -104,7 +104,25 @@ export default {
       }
     }
   },
+  showSign: function(stage) {
+    let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
+    let plane = new THREE.PlaneGeometry(200, 100);
+    let material = new THREE.MeshBasicMaterial({
+      map: texture
+    });
+
+    let sign = new THREE.Mesh(plane, material);
+
+    sign.position.set(0, 110, 20);
+    sign.name = stage;
+    this.scene.add(sign);
+  },
+  hideSign: function(stage) {
+    this.scene.remove(this.scene.getObjectByName(stage));
+  },
   stabMerlin: function(sendPickedMerlin) {
+    this.showSign('stabMerlin');
+
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
       console.log('{', e.clientX, e.clientY, '}');
@@ -123,10 +141,13 @@ export default {
         //sendPickedMerlin(this.selected.name);
         sendPickedMerlin('selectedPlayer');
       }
+      this.hideSign('stabMerlin');
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     });
   },
   pickParty: function(sendPickedParty, partyNumber) {
+    this.showSign('pickParty');
+
     this.party = [];
 
     let pickParty;
@@ -151,6 +172,7 @@ export default {
         console.log('sending the chosen members');
         //sendPickedParty(this.party);
         sendPickedParty(['playa1', 'playa2', 'playaplaya']);
+        this.hideSign('pickParty');
         this.renderer.domElement.removeEventListener('click', pickParty);
       }
     });    
