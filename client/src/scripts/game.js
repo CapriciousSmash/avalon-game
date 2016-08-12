@@ -41,25 +41,10 @@ export default {
     scene.add(pointLight);
 
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    let sphereMaterial =
-      new THREE.MeshLambertMaterial({color: 0xFFFFFF});
-    let radius = 10,
-        segments = 16,
-        rings = 16;
-
-    let mouse = new THREE.Mesh(
-      new THREE.SphereGeometry(radius, segments, rings),
-      sphereMaterial);
-
-    mouse.name = 'mouse';
-    mouse.position.x = 0;
-    mouse.position.y = 0;
     this.mouse = {
       x: 0,
       y: 0
     };
-
-    this.scene.add(mouse);
 
     var raycaster = new THREE.Raycaster();
     this.mouseVector = new THREE.Vector3(0, 0, 0);
@@ -82,7 +67,6 @@ export default {
 
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    var timer = 0;
     var render = () => {
       requestAnimationFrame(render);
       var d = new Date();
@@ -90,10 +74,6 @@ export default {
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       renderer.render(scene, camera);
 
-      timer += 1;
-      if (timer % 600 === 0) {
-        console.log('CHANGING MOUSE (', this.mouse.x, this.mouse.y, ')');
-      }
       // this.scene.getObjectByName('mouse').position.x = this.mouse.x;
       // this.scene.getObjectByName('mouse').position.y = this.mouse.y;
 
