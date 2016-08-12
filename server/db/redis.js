@@ -18,7 +18,6 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    setPids
     getPids
     setRole
     getRole
@@ -53,12 +52,17 @@ var makeCache = function(gameNumber) {
 
 // setPids - Takes an array of PIDs and populates the db's
 //           list and set default for pid based properties
-makeCache.prototype.setPids(pidArray) {
+makeCache.prototype.setPids = function(pidArray) {
   for (var i = 0; i < pidArray; i++) {
     this.client.saddAsync('PIDS', pidArray[i]);
     this.client.setAsync(pidArray[i] + ':ROLE', 'none');
     this.client.setAsync(pidArray[i] + ':VOTE', 'false');
   }
+};
+
+// getPids - Takes nothing, returns array of PIDs
+makeCache.prototype.getPids = function() {
+  return this.client.smembersAsync('PIDS');
 };
 
 module.exports = new makeCache();
