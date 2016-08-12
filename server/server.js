@@ -113,7 +113,7 @@ io.on('connection', (socket)=>{
     // logicFilter.questVote(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('stabMerlin', function(data) {
-    console.log('stabMerlin');
+    console.log('stabMerlin', data);
     // logicFilter.stabMerlin(['<-- PASS IN MEMCACHE -->'], io, data);
   });
 });

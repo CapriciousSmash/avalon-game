@@ -5,17 +5,17 @@ export default {
     this.party = [];
 
     //SET UP SCENE////////////////
-    var $gameContainer = $('#gameContainer');
-    const WIDTH = window.innerWidth,
-          HEIGHT = window.innerHeight;
+    let $gameContainer = $('#gameContainer');
+    this.WIDTH = window.innerWidth,
+    this.HEIGHT = window.innerHeight;
 
     const VIEW_ANGLE = 45,
-          ASPECT = WIDTH / HEIGHT,
+          ASPECT = this.WIDTH / this.HEIGHT,
           NEAR = 0.1,
           FAR = 10000;
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(WIDTH, HEIGHT);
+    this.renderer.setSize(this.WIDTH, this.HEIGHT);
     
     this.camera = new THREE.PerspectiveCamera(
         VIEW_ANGLE, ASPECT, NEAR, FAR
@@ -37,7 +37,7 @@ export default {
     $gameContainer.append(this.renderer.domElement);
 
     //////////////////////////////
-    var pointLight = new THREE.PointLight(0xFFFFFF);
+    let pointLight = new THREE.PointLight(0xFFFFFF);
 
     // set its position
     pointLight.position.x = 10;
@@ -47,29 +47,8 @@ export default {
     // add to the scene
     this.scene.add(pointLight);
 
-    //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    console.log('Trial 11');
-
-    this.renderer.domElement.addEventListener( 'click', (e) => {
-      //off by 8px and 30px 
-      console.log('{', e.clientX, e.clientY, '}');
-      this.mouse.x = (e.clientX / WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
-
-      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
-
-      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
-
-      let intersects = this.raycaster.intersectObjects(this.scene.children);      
-      if (intersects.length) {
-        this.selected = intersects[0].object;
-        this.selected.material.color.setHex('0xFFFFFF');
-        console.log(this.selected);
-      }
-    });
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    var render = () => {
+    //RENDER//////////////////////////
+    let render = () => {
 
       requestAnimationFrame(render);
 
@@ -81,7 +60,7 @@ export default {
       // this.scene.getObjectByName('mouse').position.x = this.mouse.x;
       // this.scene.getObjectByName('mouse').position.y = this.mouse.y;
 
-      for (var x = 0; x < this.players.length; x++) {
+      for (let x = 0; x < this.players.length; x++) {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
     };
@@ -119,16 +98,36 @@ export default {
   },
   removePlayer: function(uid) {
     this.scene.remove(this.scene.getObjectByName(uid));
-    for (var x = 0; x < this.players.length; x++) {
+    for (let x = 0; x < this.players.length; x++) {
       if (this.players[x].uid === uid) {
         this.players.splice(x, 1);
       }
     }
   },
-  stabMerlin: function() {
+  stabMerlin: function(pickMerlin) {
+    console.log('Stabbin merlin!');
 
+    let stabMerlin;
+    this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
+      console.log('{', e.clientX, e.clientY, '}');
+      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+
+      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
+
+      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
+
+      let intersects = this.raycaster.intersectObjects(this.scene.children);      
+      if (intersects.length) {
+        this.selected = intersects[0].object;
+        this.selected.material.color.setHex('0xFFFFFF');
+        console.log(this.selected);
+        pickMerlin('selectedPlayer');
+      }
+      this.renderer.domElement.removeEventListener('click', stabMerlin);
+    });
   },
-  pickParty: function(){
+  pickParty: function() {
     return this.party;
   },
   play: ()=>{

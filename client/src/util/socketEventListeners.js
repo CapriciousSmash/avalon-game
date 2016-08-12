@@ -2,16 +2,13 @@ import game from '../scripts/game';
 
 var partyLeaderPickParty = (socket) => {
   socket.emit('pickParty', ['player1', 'player2', 'player3']);
-}
+};
 var voteOnParty = (socket) => {       
   socket.emit('voteOnParty', true);
-}
+};
 var voteOnQuest = (socket) => {
   socket.emit('voteOnQuest', true);
-}
-var pickMerlin = (socket) => {
-  socket.emit('stabMerlin', 'player');
-}
+};
 
 module.exports = {
   AllListeners: function(socket) {
@@ -40,6 +37,9 @@ module.exports = {
       console.log('Data I got from resolveQuest', data);
     });
     socket.on('gameEnd', function(data) {
+      game.stabMerlin((player) => {
+        socket.emit('stabMerlin', player);
+      });
       console.log('Data I got from gameEnd', data);
     });
     socket.on('resolveMerlin', function(data) {
