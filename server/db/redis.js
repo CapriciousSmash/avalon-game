@@ -18,10 +18,8 @@ var makeCache = function(gameNumber) {
 
 /*
   Methods for the cache
-    setGameStage
-    getGameStage
-    setTurnPhase
-    getTurnPhase
+    incrRound
+    getRound
     setLeader
     getLeader
     getVeto
@@ -89,16 +87,24 @@ makeCache.prototype.getVote = function(pid) {
 
 // getGameSize - returns the size of the game
 makeCache.prototype.getGameSize = function() {
-  return this.client.getAsync('STAGE:SIZE');
+  return this.client.getAsync('SIZE');
 };
 
-// setGameStage - takes the phase and sets it in the memcache
-makeCache.prototype.setGameStage = function(phase) {
+// setTurnPhase - takes the phase and sets it in the memcache
+makeCache.prototype.setTurnPhase = function(phase) {
   this.client.setAsync('STAGE:PHASE', phase);
 };
-// getGameStage - returns the phase currently stored in the memcache
-makeCache.prototype.getGameStage = function() {
+// getTurnPhase - returns the phase currently stored in the memcache
+makeCache.prototype.getTurnPhase = function() {
   return this.client.getAsync('STAGE:PHASE');
+};
+// incrRound - increase the round to the next, returns the next round
+makeCache.prototype.incrRound = function() {
+  return this.client.incrAsync('STAGE:ROUND');
+};
+// getRound - returns the current round
+makeCache.prototype.getRound = function() {
+  return this.client.getAsync('STAGE:ROUND');
 };
 
 module.exports = new makeCache();
