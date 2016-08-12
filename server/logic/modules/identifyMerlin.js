@@ -5,9 +5,10 @@ var gameOver = require('./gameOver').gameOver;
 module.exports.identifyMerlin = function(memcache, socket) {
   // Information needed from memcache
   // - Identify of Assassin
-  var assassinId = '<-- FROM MEMCACHE -->';
+  var assassinId = memcache.getAssassin();
 
   // TODO: Set current game phase in memcache to 'ID MERLIN'
+  memcache.setTurnPhase('ID MERLIN');
 
   // TODO: Signal to players that the Assassin must make a decision to 
   // identify Merlin
@@ -24,39 +25,49 @@ module.exports.identifyMerlin = function(memcache, socket) {
 
 var resolveIdMerlin = function(memcache, socket) {
   // TODO: If the current game phase is not 'ID MERLIN', fizzle
-  var gamePhase = '<-- FROM MEMCACHE -->';
-  if (gamePhase !== 'ID MERLIN') {
-  	return;
-  }
+  memcache.getTurnPhase()
+  .then(function(gamePhase) {
+    if (gamePhase !== 'ID MERLIN') {
+      return;
+    }
 
-  // Information needed from memcache
-  // - The identify of merlin
-  var merlinId = '<-- FROM MEMCACHE -->';
-  // - The choice of Assassin for the identify of merlin
-  var assassinChoice = '<-- FROM MEMCACHE -->';
+    // Information needed from memcache
+    // - The identify of merlin
+    // - The choice of Assassin for the identify of merlin
+    var merlinId, assassinChoice;
 
-  // TODO: If identify of merlin === Assassin's choice, then reverse
-  // winner in memcache to the minions
+    // TODO: If identify of merlin === Assassin's choice, then reverse
+    // winner in memcache to the minions
+    memcache.getMerlin()
+    .then(function(merlin) {
+      merlinId = merlin;
+    })
+    .then(memcache.getMguess)
+    .then(function(mGuess) {
+      assassinChoice = mGuess;
+      if (merlinId === assassinChoice) {
+        // TODO: Signal to players that Assassins' choice was correct
+        socket.emit('resolveMerlin', {
+          correctChoice: true
+        });
 
-  if (merlinId === assassinChoice) {
-  	// TODO: Signal to players that Assassins' choice was correct
-  	socket.emit('resolveMerlin', {
-  	  correctChoice: true
-  	});
+        // TODO: Set memcache winning side to minions
+        memcache.setWinner(false);
+      } else /* Assassin choice ID !== Merlin ID */ {
+        // TODO: Signal to the players that the Assassin's choice was
+        // incorrect and reveal the identity of Merlin
+        socket.emit('resolveMerlin', {
+          correctChoice: false
+        });
+        memcache.setWinner(true);
+      }
+    })
 
-  	// TODO: Set memcache winning side to minions
-  } else /* Assassin choice ID !== Merlin ID */ {
-  	// TODO: Signal to the players that the Assassin's choice was
-  	// incorrect and reveal the identity of Merlin
-  	socket.emit('resolveMerlin', {
-  	  correctChoice: false
-  	});
-  }
-
-  // TODO: Set timer for gameOver
-  setTimeout(function() {
-  	gameOver(memcache, socket);
-  }, 5000);
+    // TODO: Set timer for gameOver
+    setTimeout(function() {
+      gameOver(memcache, socket);
+    }, 5000);
+  });
 };
 
 module.exports.resolveIdMerlin = resolveIdMerlin;
