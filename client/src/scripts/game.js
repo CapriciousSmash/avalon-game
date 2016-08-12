@@ -47,15 +47,17 @@ export default {
       y: 0
     };
 
+    console.log('Trial 1');
+
     var raycaster = new THREE.Raycaster();
     this.mouseVector = new THREE.Vector3(0, 0, 0);
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
     renderer.domElement.addEventListener( 'click', (e) => {
       //off by 8px and 30px 
-
+      console.log('{', e.clientX, e.clientY, '}');
       this.mouse.x = (e.clientX / WIDTH) * 2 - 1;
-      this.mouse.y = - ((e.clientY) / HEIGHT) * 2 + 1;
+      this.mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
 
       this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(camera);
 
