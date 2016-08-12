@@ -3,8 +3,8 @@ export default {
     //SET UP VARS////////////////
     this.players = [];
     //////////////////////////////
-    const WIDTH = 500,
-          HEIGHT = 500;
+    const WIDTH = window.innerWidth,
+          HEIGHT = window.innerHeight;
 
     const VIEW_ANGLE = 45,
           ASPECT = WIDTH / HEIGHT,
@@ -41,6 +41,7 @@ export default {
     scene.add(pointLight);
 
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     this.mouse = {
       x: 0,
       y: 0
@@ -52,11 +53,15 @@ export default {
     ////////////////////////////////////////////////
     renderer.domElement.addEventListener( 'click', (e) => {
       //off by 8px and 30px 
+
       this.mouse.x = (e.clientX / WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / HEIGHT) * 2 + 1;
+      this.mouse.y = - ((e.clientY) / HEIGHT) * 2 + 1;
+
       this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(camera);
+
       raycaster.set(camera.position, this.mouseVector.sub(camera.position).normalize());
-      var intersects = raycaster.intersectObjects(scene.children);      
+
+      let intersects = raycaster.intersectObjects(scene.children);      
       if (intersects.length) {
         this.selected = intersects[0].object;
         this.selected.material.color.setHex('0xFFFFFF');
@@ -64,12 +69,12 @@ export default {
       }
     });
 
-
     //MOUSE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     var render = () => {
+
       requestAnimationFrame(render);
-      var d = new Date();
+
+      let d = new Date();
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       renderer.render(scene, camera);
