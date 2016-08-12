@@ -99,7 +99,7 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('pickParty', function(data) {
-    console.log('pickParty');
+    console.log('pickParty', data);
     // logicFilter.pickParty(['<-- PASS IN MEMCACHE -->'], io, data);
   });
   socket.on('voteOnParty', function(data) {

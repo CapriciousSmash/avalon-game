@@ -1,8 +1,5 @@
 import game from '../scripts/game';
 
-var partyLeaderPickParty = (socket) => {
-  socket.emit('pickParty', ['player1', 'player2', 'player3']);
-};
 var voteOnParty = (socket) => {       
   socket.emit('voteOnParty', true);
 };
@@ -16,6 +13,9 @@ module.exports = {
       // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
       // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
       // $('#gameContainer').append($yesButton, $noButton);
+      game.pickParty(party => {
+        socket.emit('pickParty', party);
+      }, 3);
       console.log('Data I got from assignRoles', data);
     });
     socket.on('sendParty', function(data) {
@@ -37,7 +37,7 @@ module.exports = {
       console.log('Data I got from resolveQuest', data);
     });
     socket.on('gameEnd', function(data) {
-      game.stabMerlin((player) => {
+      game.stabMerlin(player => {
         socket.emit('stabMerlin', player);
       });
       console.log('Data I got from gameEnd', data);

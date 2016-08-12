@@ -104,9 +104,7 @@ export default {
       }
     }
   },
-  stabMerlin: function(pickMerlin) {
-    console.log('Stabbin merlin!');
-
+  stabMerlin: function(sendPickedMerlin) {
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
       console.log('{', e.clientX, e.clientY, '}');
@@ -122,13 +120,40 @@ export default {
         this.selected = intersects[0].object;
         this.selected.material.color.setHex('0xFFFFFF');
         console.log(this.selected);
-        pickMerlin('selectedPlayer');
+        //sendPickedMerlin(this.selected.name);
+        sendPickedMerlin('selectedPlayer');
       }
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     });
   },
-  pickParty: function() {
-    return this.party;
+  pickParty: function(sendPickedParty, partyNumber) {
+    this.party = [];
+
+    let pickParty;
+    this.renderer.domElement.addEventListener('click', pickParty = (e) => {
+      console.log('{', e.clientX, e.clientY, '}');
+      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+
+      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
+
+      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
+
+      let intersects = this.raycaster.intersectObjects(this.scene.children);      
+      if (intersects.length) {
+        this.selected = intersects[0].object;
+        this.selected.material.color.setHex('0xFFFFFF');
+        console.log(this.selected);
+        this.party.push(this.selected.name);
+      }
+
+      if (this.party.length >= partyNumber) {
+        console.log('sending the chosen members');
+        //sendPickedParty(this.party);
+        sendPickedParty(['playa1', 'playa2', 'playaplaya']);
+        this.renderer.domElement.removeEventListener('click', pickParty);
+      }
+    });    
   },
   play: ()=>{
     console.log('playing something');
