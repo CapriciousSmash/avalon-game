@@ -5,35 +5,42 @@ var increaseGames = require('../../db/controller/index.js').increaseGames;
 module.exports.gameEnd = function(memcache, socket) {
   // Information needed from memcache
   // - Game winner (knights or minions)
-  var winners = memcache.getWinner();
+  var winners, minions; 
   // - Identify of the minions
-  var minions = memcache.getMinions();
+  memcache.getWinner()
+  .then(function(winner) {
+    winners = winner;
+  })
+  .then(memcache.getMinions)
+  .then(function(mins) {
+    minions = mins;
 
-  // TODO: Change current game phase to 'GAME END' in memcache
-  memcache.setTurnPhase('GAME END');
+    // TODO: Change current game phase to 'GAME END' in memcache
+    memcache.setTurnPhase('GAME END');
 
-  // TODO: Inform the players of the winners of the game based on
-  // the rounds and inform of the identify of the minions
+    // TODO: Inform the players of the winners of the game based on
+    // the rounds and inform of the identify of the minions
 
-  socket.emit('gameEnd', {
-    gameId: 5318008,
-    winners,
-    minions
+    socket.emit('gameEnd', {
+      gameId: 5318008,
+      winners,
+      minions
+    });
+
+    // TODO: If special character for merlin and assassin were included in the 
+    // game, and the knights were winners, allow the assassin to identify merlin:
+    if (winners === true && merlinId) {
+    	// TODO: Set timer for identifyMerlin
+    	setTimeout(function() {
+    	  identifyMerlin(memcache, socket);
+    	}, 5000000);
+    } else {
+    	// TODO: Set timer for gameOver
+    	setTimeout(function() {
+    	  gameOver(memcache, socket);
+    	}, 5000);
+    }
   });
-
-  // TODO: If special character for merlin and assassin were included in the 
-  // game, and the knights were winners, allow the assassin to identify merlin:
-  if (winners === true && merlinId) {
-  	// TODO: Set timer for identifyMerlin
-  	setTimeout(function() {
-  	  identifyMerlin(memcache, socket);
-  	}, 5000000);
-  } else {
-  	// TODO: Set timer for gameOver
-  	setTimeout(function() {
-  	  gameOver(memcache, socket);
-  	}, 5000);
-  }
 };
 
 // TODO: Import commands to access persistent database to update points
