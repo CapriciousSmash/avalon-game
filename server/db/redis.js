@@ -16,14 +16,6 @@ var makeCache = function(gameNumber) {
 
 }
 
-/*
-  Methods for the cache
-    saveVoteCount
-    saveQuestResult
-    setWinner
-    getWinner
-*/
-
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
 makeCache.prototype.init = function(pidArray) {
@@ -151,5 +143,36 @@ makeCache.prototype.setAssassin = function(pid) {
 makeCache.prototype.getAssassin = function() {
   return this.client.getAsync('ASSASSIN');
 };
+// saveVoteCount - takes the PID of the user who has set their vote for the party
+makeCache.prototype.saveVoteCount = function(pid) {
+  this.getVote(pid)
+  .then(function(vote) {
+    this.client.saddAsync('VOTECOUNT', vote);
+  });
+};
+// getVoteCount - returns the list of all the finalized votes
+makeCache.prototype.getVoteCount = function() {
+  return this.client.smembersAsync('VOTECOUNT');
+};
+// initQuestResult - takes the PID of the team and sets their votes before opening them for change
+makeCache.prototype.initQuestResult = function() {
+  this.getPids()
+  .then(function(pids) {
+    for (var i = 0; i < pids.length; i++) {
+      this.setVote(pids[i], true);
+    }
+  })
+};
+// saveQuestResult - takes the PID of the user who has set their decision for quest
+makeCache.prototype.saveQuestResult = function(pid) {
+  this.getVote(pid)
+  .then(function(vote) {
+    this.client.saddAsync('QRESULT', vote);
+  });
+};
+// getQuestResult - returns the array of all the quest decisions
+makeCache.prototype.getQuestResult = function() {
+  return this.client.smembersAsync('QRESULT');
+}
 
 module.exports = new makeCache();
