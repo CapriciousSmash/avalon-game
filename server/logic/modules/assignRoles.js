@@ -4,6 +4,7 @@ module.exports.assignRoles = function(memcache, socket) {
   // Note: memcache needs to store the current stage in the game.
   // TODO: 
   // memcache set current stage to 'roles'
+  memcache.setTurnPhase('ROLES');
 
   // randomly determine each player's role.  Assign only one Merlin and one Assassin
   // Knights are good guys, minions are bad guys

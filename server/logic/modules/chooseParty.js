@@ -3,6 +3,8 @@ var voteOnParty = require('./voteOnParty').voteOnParty;
 // The current party leader must choose the requisite number of players to go on a Quest
 module.exports.chooseParty = function(memcache, socket) {
   
+  memcache.setTurnPhase('PARTY');
+
   // Get current round
   memcache.incrRound().then(function(currentRound) {
     memcache.getPids().then(function(pidsList) {
@@ -40,7 +42,7 @@ module.exports.chooseParty = function(memcache, socket) {
 
         // The current leader should be interpreted by the actual current leader on the
         // client side to know that they should decide the party size based on the limit set
-        socket.emit('sendParty', {
+        socket.emit('chooseParty', {
           gameId: 5318008,
           partySize,
           currentLeader
