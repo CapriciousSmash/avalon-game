@@ -26,7 +26,7 @@ app.use(session({
   secret: '8SER9M9jXS',
   saveUninitialized: true,
   resave: true
-   }));
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -53,11 +53,7 @@ io.on('connection', (socket)=>{
   //Socket Listeners
   //Lobby
   socket.on('lobby', function(lobbyId) {
-    socket.emit('lobbyInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
-    });
-    socket.broadcast.emit('lobbyInfo', {
+    io.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
     });
@@ -70,31 +66,29 @@ io.on('connection', (socket)=>{
         startGame = false;
       }
     }
-
     socket.broadcast.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
     });    
     
     if (startGame) {
-      io.emit('startGame');
+      io.emit('startGame', players);
       var pidsList = [];
       for (var x = 0; x < players.length; x++) {
         pidsList.push(players[x].uid.slice(2));
       }
       memcache.init(pidsList).then(function() {
-        setTimeout(function(){
-          game(memcache, io, 'GAME START')
+        setTimeout(function() {
+          game(memcache, io, 'GAME START');
         }, 5000);
       });
     }
   });
+
   //Game
   socket.on('userColor', function(color) {
     var p = players[deepSearch(socket.id, players)];
     p.color = color;
-    socket.broadcast.emit('newPeer', p);
-    socket.emit('allPeers', players);
   });
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id);

@@ -15,7 +15,6 @@ class Game extends React.Component {
     socketListeners.AllListeners(socket);
   }
   componentDidMount() {
-    game.init();
     function randomHexColor() {
       var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
       var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
@@ -23,20 +22,14 @@ class Game extends React.Component {
 
       return Number('0x' + (hred + hgreen + hblue).toUpperCase());
     }
+
     //Connect to server
     var socket = this.props.socket;
     var userColor = randomHexColor();
     socket.emit('userColor', userColor);
       
-    //Add peers who were already in the game
-    socket.on('allPeers', function(players) {
-      for (let p in players) {
-        game.addPlayer(players[p].uid, players[p].color);
-      }
-    });
-    //Add in new peer to the game
+    //Peer presence
     socket.on('newPeer', function(player) {
-      game.addPlayer(player.uid, player.color);
       // Later connect new peer's audio
       // var conn = peer.connect(uid);
 
@@ -55,6 +48,14 @@ class Game extends React.Component {
     // });
     socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
+    });
+
+    //Start the game
+    socket.on('startGame', function(players) {
+      game.init();
+      for (let p in players) {
+        game.addPlayer(players[p].uid, players[p].color);
+      }
     });
   }
   render() {
@@ -78,6 +79,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
-//export default Game;
 
 
