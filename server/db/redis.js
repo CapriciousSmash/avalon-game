@@ -206,9 +206,35 @@ makeCache.prototype.getQuestResult = function() {
 makeCache.prototype.clearQuestResults = function() {
   return this.client.delAsync('QRESULT');
 };
+// clear - deletes all stored values
+makeCache.prototype.clear = function() {
+  return this.getPids()
+  .then(function(pids) {
+    for (var i = 0; i < pids.length; i++) {
+      this.client.delAsync(pids + ':NUM');
+      this.client.delAsync(pids + ':ROLE');
+      this.client.delAsync(pids + ':VOTE');
+    }
+    this.client.delAsync('SIZE');
+    this.client.delAsync('STAGE:ROUND');
+    this.client.delAsync('STAGE:PHASE');
+    this.client.delAsync('LEADER');
+    this.client.delAsync('TEAM');
+    this.client.delAsync('VETO');
+    this.client.delAsync('QRESULT');
+    this.client.delAsync('VOTECOUNT');
+    this.client.delAsync('SCORE:WIN');
+    this.client.delAsync('SCORE:LOSS');
+    this.client.delAsync('MGUESS');
+    this.client.delAsync('MERLIN');
+    this.client.delAsync('ASSASSIN');
+    this.client.delAsync('WINNER');
+    this.client.delAsync('PIDS');
+  })
+};
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
-  return this.client.quit();
+  return this.client.clear().then(this.client.quit);
 };
 
 module.exports = makeCache;
