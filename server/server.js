@@ -98,15 +98,19 @@ io.on('connection', (socket)=>{
   //GAME INIT=============================================
   socket.on('startGame', function() {
     socket.emit('allPeers', players);
-    var pidsList = [];
-    for (var x = 0; x < players.length; x++) {
-      pidsList.push(players[x].uid.slice(2));
+    //Only game master can start the game
+    if (socket.id.slice(2) === players[0].uid.slice(2)) {
+      console.log('STARTING', socket.id.slice(2), players[0].uid.slice(2));
+      var pidsList = [];
+      for (var x = 0; x < players.length; x++) {
+        pidsList.push(players[x].uid.slice(2));
+      }
+      memcache.init(pidsList).then(function() {
+        setTimeout(function() {
+          game(memcache, io, 'GAME START');
+        }, 5000);
+      });
     }
-    memcache.init(pidsList).then(function() {
-      setTimeout(function() {
-        game(memcache, io, 'GAME START');
-      }, 5000);
-    });
   });
 
   //IN GAME ACTIONS========================================
