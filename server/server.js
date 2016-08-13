@@ -91,6 +91,7 @@ io.on('connection', (socket)=>{
     }
   });
 
+
   //GAME INIT=============================================
   socket.on('startGame', function() {
     socket.emit('allPeers', players);
