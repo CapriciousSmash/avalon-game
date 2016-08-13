@@ -1,5 +1,5 @@
 var sequelize = require('../sequelize.js').sequelize;
-var User = requre('../sequelize.js').User;
+var User = require('../sequelize.js').User;
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt-nodejs');
 

@@ -1,5 +1,4 @@
 var Sequelize = require('sequelize');
-var config = require('../config/config.js');
 var bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
