@@ -10,6 +10,9 @@ class Game extends React.Component {
   constructor() {
     super();
   }
+  componentWillMount() {
+    webSockets.userInit(this.props.socket);
+  }
   componentDidMount() {
     var socket = this.props.socket;
     webSockets.gameInit(socket);

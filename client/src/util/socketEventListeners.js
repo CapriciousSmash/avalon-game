@@ -1,8 +1,7 @@
 import game from '../scripts/game';
 
 module.exports = {
-  gameInit: function(socket) {
-    game.init();
+  userInit: function(socket) {
     function randomHexColor() {
       var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
       var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
@@ -14,6 +13,9 @@ module.exports = {
     //Give user a color
     var userColor = randomHexColor();
     socket.emit('userColor', userColor);
+  },
+  gameInit: function(socket) {
+    game.init();
       
     //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {

@@ -43,11 +43,17 @@ function deepSearch(id, arr) {
 
 var players = [];
 io.on('connection', (socket)=>{
+  //PLAYER==================================================
   //Init Player
   players.push({
     uid: socket.id, 
     color: null,
     ready: false
+  });
+  //Give player color
+  socket.on('userColor', function(color) {
+    var p = players[deepSearch(socket.id, players)];
+    p.color = color;
   });
   //Remove Player
   socket.on('disconnect', function() {
@@ -89,13 +95,8 @@ io.on('connection', (socket)=>{
   });
 
   //GAME INIT=============================================
-  socket.on('userColor', function(color) {
-    var p = players[deepSearch(socket.id, players)];
-    p.color = color;
-    socket.broadcast.emit('newPeer', p);
-    socket.emit('allPeers', players);
-  });
   socket.on('startGame', function() {
+    socket.emit('allPeers', players);
     var pidsList = [];
     for (var x = 0; x < players.length; x++) {
       pidsList.push(players[x].uid.slice(2));
