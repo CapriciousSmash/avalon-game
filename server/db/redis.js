@@ -19,7 +19,7 @@ var makeCache = function(gameNumber) {
 makeCache.prototype.init = function(pidArray) {
   for (var i = 0; i < pidArray; i++) {
     this.client.saddAsync('PIDS', pidArray[i]);
-    this.client.setAsync(pidArray[i] + ':ROLE', null);
+    this.client.setAsync(pidArray[i] + ':ROLE', 'none');
     this.client.setAsync(pidArray[i] + ':VOTE', 'false');
   }
 
@@ -29,8 +29,8 @@ makeCache.prototype.init = function(pidArray) {
   this.client.setAsync('SCORE:WIN', 0);
   this.client.setAsync('SCORE:LOSS', 0);
   this.client.setAsync('VETO', 0);
-  this.client.setAsync('MGUESS', null);
-  this.client.setAsync('WINNER', null);
+  this.client.setAsync('MGUESS', 'none');
+  return this.client.setAsync('WINNER', 'none');
 };
 
 // getPids - Takes nothing, returns array of PIDs
@@ -41,7 +41,7 @@ makeCache.prototype.getPids = function() {
 // setRole - takes PID and the role to set the PID's role to
 makeCache.prototype.setRole = function(pid, role) {
   this.client.setAsync(pid + ':ROLE', role);
-  this.client.saddAsync(role, pid);
+  return this.client.saddAsync(role, pid);
 };
 // getKnights - returns a list of all the knights
 makeCache.prototype.getKnights = function() {
@@ -57,11 +57,11 @@ makeCache.prototype.getRole = function(pid) {
 };
 // addToTeam - takes PID of player to add to team
 makeCache.prototype.addToTeam = function(pid) {
-  this.client.saddAsync('TEAM', pid);
+  return this.client.saddAsync('TEAM', pid);
 };
 // remFromTeam - takes PID of player to remove from team
 makeCache.prototype.remFromTeam = function(pid) {
-  this.client.sremAsync('TEAM', pid);
+  return this.client.sremAsync('TEAM', pid);
 };
 // getTeam - returns the PIDs of all players on the team
 makeCache.prototype.getTeam = function() {
@@ -73,7 +73,7 @@ makeCache.prototype.getGameSize = function() {
 };
 // setTurnPhase - takes the phase and sets it in the memcache
 makeCache.prototype.setTurnPhase = function(phase) {
-  this.client.setAsync('STAGE:PHASE', phase);
+  return this.client.setAsync('STAGE:PHASE', phase);
 };
 // getTurnPhase - returns the phase currently stored in the memcache
 makeCache.prototype.getTurnPhase = function() {
@@ -89,7 +89,7 @@ makeCache.prototype.getRound = function() {
 };
 // setLeader - takes the next leader and sets it
 makeCache.prototype.setLeader = function(leader) {
-  this.client.setAsync('LEADER', leader);
+  return this.client.setAsync('LEADER', leader);
 };
 // getLeader - returns the current leader
 makeCache.prototype.getLeader = function() {
@@ -105,7 +105,7 @@ makeCache.prototype.getVeto = function() {
 };
 // resetVeto - resets veto count to 0
 makeCache.prototype.resetVeto = function() {
-  this.client.setAsync('VETO', 0);
+  return this.client.setAsync('VETO', 0);
 };
 // incrWin - increases win count and returns update value
 makeCache.prototype.incrWin = function() {
@@ -125,7 +125,7 @@ makeCache.prototype.getLoss = function() {
 };
 // setMguess - takes the PID of the Mguess and updates it in memcache
 makeCache.prototype.setMguess = function(mGuess) {
-  this.client.setAsync('MGUESS', mGuess);
+  return this.client.setAsync('MGUESS', mGuess);
 };
 // getMguess - returns the current Mguess
 makeCache.prototype.getMguess = function() {
@@ -133,7 +133,7 @@ makeCache.prototype.getMguess = function() {
 };
 // setMerlin - takes the PID of Merlin and sets that player's role to Merlin
 makeCache.prototype.setMerlin = function(pid) {
-  this.client.setAsync('MERLIN', pid);
+  return this.client.setAsync('MERLIN', pid);
   // this.client.setAsync(pid + ':ROLE', 'merlin');
 };
 // getMerlin - returns the PID of the player currently assigned to the role of Merlin
@@ -142,7 +142,7 @@ makeCache.prototype.getMerlin = function() {
 };
 // setAssassin - takes the PID of the Assassin and sets that player's role to Assassin
 makeCache.prototype.setAssassin = function(pid) {
-  this.client.setAsync('ASSASSIN', pid);
+  return this.client.setAsync('ASSASSIN', pid);
   // this.client.setAsync(pid + ':ROLE', 'assassin');
 };
 // getAssassin - return the PID of the player currently assigned to the role of Assassin
@@ -151,7 +151,7 @@ makeCache.prototype.getAssassin = function() {
 };
 // setWinner - takes true or false for if the knights or minions win
 makeCache.prototype.setWinner = function(winner) {
-  this.client.setAsync('WINNER', winner);
+  return this.client.setAsync('WINNER', winner);
 };
 // getWinner - returns true or false for if the knights or minions win
 makeCache.prototype.getWinner = function() {
@@ -161,7 +161,7 @@ makeCache.prototype.getWinner = function() {
 makeCache.prototype.saveVoteCount = function(pid, vote) {
   this.client.set(pid + ':VOTE', vote);
   this.client.rpushAsync('VOTECOUNT', vote);
-  this.client.rpushAsync('VOTEORDER', pid);
+  return this.client.rpushAsync('VOTEORDER', pid);
 };
 // getVoteCount - returns the list of all the finalized votes
 makeCache.prototype.getVoteCount = function() {
@@ -174,11 +174,11 @@ makeCache.prototype.getVoteOrder = function() {
 // clearVoteOrder - clears the vote order to be newly populated
 makeCache.prototype.clearVotes = function() {
   this.client.delAsync('VOTEORDER');
-  this.client.delAsync('VOTECOUNT');
+  return this.client.delAsync('VOTECOUNT');
 };
 // initQuestResult - takes the PID of the team and sets their votes before opening them for change
 makeCache.prototype.initQuestResult = function() {
-  this.getPids()
+  return this.getPids()
   .then(function(pids) {
     for (var i = 0; i < pids.length; i++) {
       this.setVote(pids[i], true);
@@ -188,7 +188,7 @@ makeCache.prototype.initQuestResult = function() {
 // saveQuestResult - takes the PID of the user who has set their decision for quest
 makeCache.prototype.saveQuestResult = function(pid, vote) {
   this.client.set(pid + ':VOTE', vote);
-  this.client.rpushAsync('QRESULT', vote);
+  return this.client.rpushAsync('QRESULT', vote);
 };
 // getQuestResult - returns the array of all the quest decisions
 makeCache.prototype.getQuestResult = function() {
@@ -204,11 +204,11 @@ makeCache.prototype.getQuestResult = function() {
 }
 // clearQuestResults - clears the quest results to be used once again
 makeCache.prototype.clearQuestResults = function() {
-  this.client.delAsync('QRESULT');
+  return this.client.delAsync('QRESULT');
 };
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
-  this.client.quit();
+  return this.client.quit();
 };
 
 module.exports = makeCache;
