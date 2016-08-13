@@ -48,9 +48,6 @@ module.exports = {
   },
   allListeners: function(socket) {
     socket.on('assignRoles', function(data) {
-      // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
-      // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
-      // $('#gameContainer').append($yesButton, $noButton);
       game.pickParty(party => {
         socket.emit('pickParty', {
           playerId: party
