@@ -137,9 +137,9 @@ export default {
       if (intersects.length) {
         this.selected = intersects[0].object;
         this.selected.material.color.setHex('0xFFFFFF');
-        console.log(this.selected);
+        console.log(this.selected.name);
         //sendPickedMerlin(this.selected.name);
-        sendPickedMerlin('selectedPlayer');
+        sendPickedMerlin(this.selected.name.slice(2));
       }
       this.hideSign('stabMerlin');
       this.renderer.domElement.removeEventListener('click', stabMerlin);
@@ -164,15 +164,15 @@ export default {
       if (intersects.length) {
         this.selected = intersects[0].object;
         this.selected.material.color.setHex('0xFFFFFF');
-        console.log(this.selected);
         this.party.push(this.selected.name);
+        console.log('sending the chosen member', this.selected.name);
+        sendPickedParty(this.selected.name.slice(2));
       }
 
       if (this.party.length >= partyNumber) {
-        console.log('sending the chosen members');
         //sendPickedParty(this.party);
-        sendPickedParty(['playa1', 'playa2', 'playaplaya']);
         this.hideSign('pickParty');
+        //This needs to be moved to resolvedParty
         this.renderer.domElement.removeEventListener('click', pickParty);
       }
     });

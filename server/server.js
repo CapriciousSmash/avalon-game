@@ -106,20 +106,26 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('pickParty', function(data) {
+    //playerId ---> person being 
     console.log('pickParty', data);
     logicFilter.pickParty(memcache, io, data);
   });
   socket.on('voteOnParty', function(data) {
+    //playerId
+    //vote ---> boolean
     console.log('voteOnParty', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
     logicFilter.partyVote(memcache, io, data);
   });
   socket.on('voteOnQuest', function(data) {
+    //playerId
+    //vote ---> boolean
     console.log('voteOnQuest', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
     logicFilter.questVote(memcache, io, data);
   });
   socket.on('stabMerlin', function(data) {
+    //merlinId
     console.log('stabMerlin', data);
     logicFilter.stabMerlin(memcache, io, data);
   });
