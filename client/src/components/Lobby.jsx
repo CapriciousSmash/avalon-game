@@ -21,6 +21,8 @@ const Lobby = React.createClass ({
     //Tell server that player is in lobby, request lobby info
     socket.emit('lobby', 0);
     socket.on('lobbyInfo', function(lobbyInfo) {
+      console.log('currentUser',this.props.currentUser);
+      console.log('gm', lobbyInfo.gm);
       this.setState({
         gm: lobbyInfo.gm,
         players: lobbyInfo.players
@@ -65,14 +67,14 @@ const Lobby = React.createClass ({
         </div>
         <div id="playerList">
           {
-            ('/#' + this.props.currentUser.uid) === this.state.gm.uid ?
+            (this.props.currentUser.uid) === this.state.gm.uid ?
             <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 
             : 
             <div key={ this.state.gm.uid }><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
           }  
           {
             this.state.players.map(player => {
-              if (player.uid === ('/#' + this.props.currentUser.uid)) {
+              if (player.uid === (this.props.currentUser.uid)) {
                 return (
                   <div key={ player.uid }>
                     <h2>-(me){ player.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h2>

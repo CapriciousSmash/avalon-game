@@ -65,7 +65,7 @@ module.exports = {
     socket.on('startVote', function(data) {
       game.createVoteButtons(voteOnParty => {
         socket.emit('voteOnParty', {
-          playerId: socket.id,
+          playerId: socket.id.slice(2),
           vote: voteOnParty
         });
       });
@@ -77,7 +77,7 @@ module.exports = {
     socket.on('startQuest', function(data) {
       game.createQuestButtons( voteOnQuest => {
         socket.emit('voteOnQuest', {
-          playerId: socket.id,
+          playerId: socket.id.slice(2),
           vote: voteOnQuest
         });
       });
