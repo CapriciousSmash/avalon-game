@@ -85,6 +85,11 @@ var gameOver = function(memcache, socket) {
       increaseGames(pids[i]);
     }
   })
+  .then(function() {
+    setTimeout(function() {
+      memcache.quit();
+    }, 120000)
+  })
 };
 
 module.exports.gameOver = gameOver;
