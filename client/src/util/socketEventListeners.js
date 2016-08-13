@@ -1,7 +1,7 @@
 import game from '../scripts/game';
 
 module.exports = {
-  AllListeners: function(socket) {
+  allListeners: function(socket) {
     socket.on('assignRoles', function(data) {
       // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
       // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
@@ -56,5 +56,8 @@ module.exports = {
     socket.on('resolveMerlin', function(data) {
       console.log('Data I got from resolveMerlin', data);
     });
+  },
+  startGame: function(socket) {
+    socket.emit('startGame');
   }
 }

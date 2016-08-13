@@ -4,17 +4,16 @@ import { bindActionCreators } from 'redux';
 
 import game from '../scripts/game.js';
 
-import socketListeners from '../util/socketEventListeners';
+import webSockets from '../util/socketEventListeners';
 
 class Game extends React.Component {
   constructor() {
     super();
   }
-  componentWillMount() {
-    var socket = this.props.socket;
-    socketListeners.AllListeners(socket);
-  }
   componentDidMount() {
+    var socket = this.props.socket;
+    webSockets.allListeners(socket);
+    webSockets.startGame(socket);
     game.init();
     function randomHexColor() {
       var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
