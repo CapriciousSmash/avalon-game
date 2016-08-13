@@ -14,7 +14,7 @@ module.exports.chooseParty = function(memcache, socket) {
       // prevLeader should be the ID of the previous leader [string]
       memcache.getLeader()
       .then(function(prevLeader) {
-        var oldIdx = pidsList.indexof(prevLeader);
+        var oldIdx = pidsList.indexOf(prevLeader);
         var newIdx = pidsList[oldIdx + 1] ? oldIdx + 1 : 0;
         var currentLeader = pidsList[newIdx];
 
