@@ -9,7 +9,7 @@ var passport = require('passport');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
-var logicFilter = require('./logic/logic-intervene').gameFilter;
+var logicFilter = require('./logic/logic-intervene');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -78,14 +78,15 @@ io.on('connection', (socket)=>{
     
     if (startGame) {
       io.emit('startGame');
-      setTimeout(function(){
-        var pidsList = [];
-        for (var x = 0; x < players.length; x++) {
-          pidsList.push(players[x].uid);
-        }
-        memcache.init(pidsList);
-        game(memcache, io, 'GAME START');
-      },5000);
+      var pidsList = [];
+      for (var x = 0; x < players.length; x++) {
+        pidsList.push(players[x].uid.slice(2));
+      }
+      memcache.init(pidsList).then(function() {
+        setTimeout(function(){
+          game(memcache, io, 'GAME START')
+        }, 5000);
+      });
     }
   });
   //Game

@@ -17,12 +17,12 @@ var makeCache = function(gameNumber) {
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
 makeCache.prototype.init = function(pidArray) {
-  for (var i = 0; i < pidArray; i++) {
+  for (var i = 0; i < pidArray.length; i++) {
     this.client.saddAsync('PIDS', pidArray[i]);
     this.client.setAsync(pidArray[i] + ':ROLE', 'none');
     this.client.setAsync(pidArray[i] + ':VOTE', 'false');
   }
-
+  this.client.smembersAsync('PIDS');
   this.client.setAsync('STAGE:SIZE', pidArray.length);
   this.client.setAsync('STAGE:ROUND', 0);
   this.client.setAsync('STAGE:PHASE', 'GAME START');
