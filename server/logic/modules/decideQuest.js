@@ -36,6 +36,8 @@ var resolveQuest = function(memcache, socket) {
       return;
     }
 
+    memcache.incrRound();
+
     // Information needed from memcache
     // - Current party composition
     var partyMembers;

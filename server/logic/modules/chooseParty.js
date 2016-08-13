@@ -6,7 +6,7 @@ var chooseParty = function(memcache, socket) {
   memcache.setTurnPhase('PARTY');
 
   // Get current round
-  memcache.incrRound().then(function(currentRound) {
+  memcache.getRound().then(function(currentRound) {
     memcache.getPids().then(function(pidsList) {
       var numPlayers = pidsList.length;
       // Find previous party leader and change
