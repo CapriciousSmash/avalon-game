@@ -1,9 +1,8 @@
 var Sequelize = require('sequelize');
-var config = require('../config/config.js');
 var bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
-var sequelize = new Sequelize(process.env.POSTGRES_URL, {
+var sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   port: 5432,
@@ -31,7 +30,7 @@ var User = sequelize.define('user', {
   }
 });
 
-User.isValidPassword(password, id) {
+User.isValidPassword = function(password, id) {
   // passed in a password and a userId
   // look up the password attached to the userId
   return this.find({id: id})
@@ -45,7 +44,7 @@ User.isValidPassword(password, id) {
     });
 }
 
-User.generateHash(password) {
+User.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(16));
 }
 
