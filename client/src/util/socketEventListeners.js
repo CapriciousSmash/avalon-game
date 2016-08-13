@@ -1,11 +1,53 @@
 import game from '../scripts/game';
 
 module.exports = {
+  userInit: function(socket) {
+    function randomHexColor() {
+      var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
+      var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
+      var hblue = (Math.floor(Math.random() * 180) + 20).toString(16);
+
+      return Number('0x' + (hred + hgreen + hblue).toUpperCase());
+    }
+
+    //Give user a color
+    var userColor = randomHexColor();
+    socket.emit('userColor', userColor);
+  },
+  gameInit: function(socket) {
+    game.init();
+      
+    //Add all the people in the game to canvas
+    socket.on('allPeers', function(players) {
+      for (let p in players) {
+        game.addPlayer(players[p].uid, players[p].color);
+      }
+    });
+
+    //Add in new peer to the game
+    socket.on('newPeer', function(player) {
+      // Later connect new peer's audio
+      // var conn = peer.connect(uid);
+
+      // conn.on('open', function(){
+      //   conn.send('hey newbie');
+      //   conn.on('data', function(data){
+      //     console.log('(old)Received some greetings:', data);
+      //   });
+      // });
+    });
+    // peer.on('connection', function(conn){
+    //   conn.on('data', function(data){
+    //     console.log('(new)Received some greetings:', data);
+    //   });
+    //   conn.send('Hey gramps!');
+    // });
+    socket.on('peerLeft', function(uid) {
+      game.removePlayer(uid);
+    });
+  },
   allListeners: function(socket) {
     socket.on('assignRoles', function(data) {
-      // var $yesButton = $('<button id="yes"></button>').text('YES!').attr('onclick', party);
-      // var $noButton = $('<button id="yes"></button>').text('NO!').attr('onclick', party);
-      // $('#gameContainer').append($yesButton, $noButton);
       game.pickParty(party => {
         socket.emit('pickParty', {
           playerId: party
