@@ -211,4 +211,4 @@ makeCache.prototype.quit = function() {
   this.client.quit();
 };
 
-module.exports = new makeCache();
+module.exports = makeCache;
