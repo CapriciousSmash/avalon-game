@@ -43,15 +43,23 @@ function deepSearch(id, arr) {
 
 var players = [];
 io.on('connection', (socket)=>{
-  //Init player
+  //Init Player
   players.push({
     uid: socket.id, 
     color: null,
     ready: false
   });
+  //Remove Player
+  socket.on('disconnect', function() {
+    io.emit('peerLeft', socket.id);
+    players.splice(deepSearch(socket.id, players), 1);
+    io.emit('lobbyInfo', {
+      gm: players[0],
+      players: players.slice(1, players.length)
+    });
+  });
 
-  //Socket Listeners
-  //Lobby
+  //LOBBY==================================================
   socket.on('lobby', function(lobbyId) {
     socket.emit('lobbyInfo', {
       gm: players[0],
@@ -64,21 +72,28 @@ io.on('connection', (socket)=>{
   });
   socket.on('ready', function(playerReady) {
     players[deepSearch(socket.id, players)].ready = playerReady;
-    var startGame = true;
+    var everyoneReady = true;
     for (var x = 0; x < players.length; x++) {
       if (!players[x].ready) {
-        startGame = false;
+        everyoneReady = false;
       }
     }
-
     socket.broadcast.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
     });    
     
-    if (startGame) {
+    if (everyoneReady) {
       io.emit('leaveLobby');
     }
+  });
+
+  //GAME INIT=============================================
+  socket.on('userColor', function(color) {
+    var p = players[deepSearch(socket.id, players)];
+    p.color = color;
+    socket.broadcast.emit('newPeer', p);
+    socket.emit('allPeers', players);
   });
   socket.on('startGame', function() {
     var pidsList = [];
@@ -92,21 +107,7 @@ io.on('connection', (socket)=>{
     });
   });
 
-  //Game
-  socket.on('userColor', function(color) {
-    var p = players[deepSearch(socket.id, players)];
-    p.color = color;
-    socket.broadcast.emit('newPeer', p);
-    socket.emit('allPeers', players);
-  });
-  socket.on('disconnect', function() {
-    io.emit('peerLeft', socket.id);
-    players.splice(deepSearch(socket.id, players), 1);
-    io.emit('lobbyInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
-    });
-  });
+  //IN GAME ACTIONS========================================
 
   socket.on('pickParty', function(data) {
     //playerId ---> person being 
