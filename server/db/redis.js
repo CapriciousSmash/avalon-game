@@ -208,28 +208,28 @@ makeCache.prototype.clearQuestResults = function() {
 };
 // clear - deletes all stored values
 makeCache.prototype.clear = function() {
+  var context = this;
   return this.getPids()
   .then(function(pids) {
     for (var i = 0; i < pids.length; i++) {
-      this.client.delAsync(pids + ':NUM');
-      this.client.delAsync(pids + ':ROLE');
-      this.client.delAsync(pids + ':VOTE');
+      context.client.delAsync(pids[i] + ':ROLE');
+      context.client.delAsync(pids[i] + ':VOTE');
     }
-    this.client.delAsync('SIZE');
-    this.client.delAsync('STAGE:ROUND');
-    this.client.delAsync('STAGE:PHASE');
-    this.client.delAsync('LEADER');
-    this.client.delAsync('TEAM');
-    this.client.delAsync('VETO');
-    this.client.delAsync('QRESULT');
-    this.client.delAsync('VOTECOUNT');
-    this.client.delAsync('SCORE:WIN');
-    this.client.delAsync('SCORE:LOSS');
-    this.client.delAsync('MGUESS');
-    this.client.delAsync('MERLIN');
-    this.client.delAsync('ASSASSIN');
-    this.client.delAsync('WINNER');
-    this.client.delAsync('PIDS');
+    context.client.delAsync('SIZE');
+    context.client.delAsync('STAGE:ROUND');
+    context.client.delAsync('STAGE:PHASE');
+    context.client.delAsync('LEADER');
+    context.client.delAsync('TEAM');
+    context.client.delAsync('VETO');
+    context.client.delAsync('QRESULT');
+    context.client.delAsync('VOTECOUNT');
+    context.client.delAsync('SCORE:WIN');
+    context.client.delAsync('SCORE:LOSS');
+    context.client.delAsync('MGUESS');
+    context.client.delAsync('MERLIN');
+    context.client.delAsync('ASSASSIN');
+    context.client.delAsync('WINNER');
+    context.client.delAsync('PIDS');
   })
 };
 // quit - closes the client connection
