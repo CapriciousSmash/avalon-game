@@ -89,8 +89,3 @@ var resolveParty = function(memcache, socket) {
 };
 
 module.exports.resolveParty = resolveParty;
-
-
-
-
-
