@@ -164,9 +164,12 @@ export default {
       if (intersects.length) {
         this.selected = intersects[0].object;
         this.selected.material.color.setHex('0xFFFFFF');
-        this.party.push(this.selected.name);
-        console.log('sending the chosen member', this.selected.name);
-        sendPickedParty(this.selected.name.slice(2));
+
+        if( this.party.indexOf(this.selected.name) < 0 ) {
+          console.log('sending the chosen member', this.selected.name);
+          this.party.push(this.selected.name);
+          sendPickedParty(this.selected.name.slice(2));
+        }
       }
 
       if (this.party.length >= partyNumber) {

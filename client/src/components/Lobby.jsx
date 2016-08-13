@@ -27,7 +27,7 @@ const Lobby = React.createClass ({
       });
     }.bind(this));
 
-    socket.on('startGame', ()=>{
+    socket.on('leaveLobby', () => {
       $('.loading').removeClass('hidden');
       setTimeout(this.props.setGameState, 10);
     });

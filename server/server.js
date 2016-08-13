@@ -77,18 +77,21 @@ io.on('connection', (socket)=>{
     });    
     
     if (startGame) {
-      io.emit('startGame');
-      var pidsList = [];
-      for (var x = 0; x < players.length; x++) {
-        pidsList.push(players[x].uid.slice(2));
-      }
-      memcache.init(pidsList).then(function() {
-        setTimeout(function(){
-          game(memcache, io, 'GAME START')
-        }, 5000);
-      });
+      io.emit('leaveLobby');
     }
   });
+  socket.on('startGame', function() {
+    var pidsList = [];
+    for (var x = 0; x < players.length; x++) {
+      pidsList.push(players[x].uid.slice(2));
+    }
+    memcache.init(pidsList).then(function() {
+      setTimeout(function(){
+        game(memcache, io, 'GAME START')
+      }, 5000);
+    });
+  });
+
   //Game
   socket.on('userColor', function(color) {
     var p = players[deepSearch(socket.id, players)];
