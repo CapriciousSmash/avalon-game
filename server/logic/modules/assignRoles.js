@@ -25,7 +25,7 @@ module.exports.assignRoles = function(memcache, socket) {
     // 10 = 6k + 4m
     console.log('pidsList in assignRoles', pidsList);
     // Assign the players to Knights or Minions
-    var party = randomizeRoles(knights, minions, pidsList);
+    var party = randomizeRoles(knights, minions, pidsList.slice());
     console.log('party in assignRoles', party);
     // Make a random member of each side Merlin or the Assassin respectively
     party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
