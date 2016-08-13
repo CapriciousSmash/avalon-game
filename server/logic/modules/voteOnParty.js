@@ -3,7 +3,7 @@ var gameEnd = require('./gameOver').gameEnd;
 var chooseParty = require('./chooseParty').chooseParty;
 
 // Sets up the players to vote on the party chosen by the party leader. 
-module.exports.voteOnParty = function(memcache, socket) {
+module.exports.voteOnParty = function(memcache, socket, chooseParty) {
   
   memcache.setTurnPhase('VOTE');
 
@@ -14,13 +14,13 @@ module.exports.voteOnParty = function(memcache, socket) {
     });
 
     setTimeout(function() {
-      resolvePartyVote(memcache, socket);
+      resolvePartyVote(memcache, socket, chooseParty);
     }, 5000);
   });
 
 }
 
-var resolvePartyVote = function(memcache, socket) {
+var resolvePartyVote = function(memcache, socket, chooseParty) {
   
   // TODO: If this function was called because timer runs out, then
   // set some default value

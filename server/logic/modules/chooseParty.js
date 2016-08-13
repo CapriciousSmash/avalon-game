@@ -1,7 +1,7 @@
 var voteOnParty = require('./voteOnParty').voteOnParty;
 
 // The current party leader must choose the requisite number of players to go on a Quest
-module.exports.chooseParty = function(memcache, socket) {
+var chooseParty = function(memcache, socket) {
   
   memcache.setTurnPhase('PARTY');
 
@@ -80,7 +80,7 @@ var resolveParty = function(memcache, socket) {
       });
 
       setTimeout(function() {
-        voteOnParty(memcache, socket);
+        voteOnParty(memcache, socket, chooseParty);
       }, 5000);
 
     });
@@ -88,4 +88,5 @@ var resolveParty = function(memcache, socket) {
 
 };
 
+module.exports.chooseParty = chooseParty;
 module.exports.resolveParty = resolveParty;

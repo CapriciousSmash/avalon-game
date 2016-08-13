@@ -11,7 +11,9 @@ module.exports.gameEnd = function(memcache, socket) {
   .then(function(winner) {
     winners = winner;
   })
-  .then(memcache.getMinions)
+  .then(function() {
+    return memcache.getMinions();
+  })
   .then(function(mins) {
     minions = mins;
 
