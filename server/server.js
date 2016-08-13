@@ -84,11 +84,11 @@ io.on('connection', (socket)=>{
       });
     }
   });
+
   //Game
   socket.on('userColor', function(color) {
     var p = players[deepSearch(socket.id, players)];
     p.color = color;
-    socket.emit('allPeers', players);
   });
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id);
