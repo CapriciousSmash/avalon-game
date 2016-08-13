@@ -1,6 +1,7 @@
 var chooseParty = require('./chooseParty').chooseParty;
 
 module.exports.assignRoles = function(memcache, socket) {
+  console.log('assigning roles');
   // Note: memcache needs to store the current stage in the game.
   // TODO: 
   // memcache set current stage to 'roles'
@@ -23,10 +24,8 @@ module.exports.assignRoles = function(memcache, socket) {
     //  8 = 5k + 3m
     //  9 = 6k + 3m
     // 10 = 6k + 4m
-    console.log('pidsList in assignRoles', pidsList);
     // Assign the players to Knights or Minions
-    var party = randomizeRoles(knights, minions, pidsList);
-    console.log('party in assignRoles', party);
+    var party = randomizeRoles(knights, minions, pidsList.slice());
     // Make a random member of each side Merlin or the Assassin respectively
     party.merlin = party.knights[Math.floor(Math.random() * party.knights.length)];
     party.assassin = party.minions[Math.floor(Math.random() * party.knights.length)];

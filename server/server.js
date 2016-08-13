@@ -31,6 +31,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var memcache = new redisDb(5138008);
+memcache.clear();
 
 //Utility, move elsewhere
 function deepSearch(id, arr) {

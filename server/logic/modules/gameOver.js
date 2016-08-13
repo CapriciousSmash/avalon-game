@@ -3,6 +3,7 @@ var increasePoints = require('../../db/controller/index.js').increaseScore;
 var increaseGames = require('../../db/controller/index.js').increaseGames;
 // Functions that take place on the game is over
 module.exports.gameEnd = function(memcache, socket) {
+  console.log('game is ending');
   // Information needed from memcache
   // - Game winner (knights or minions)
   var winners, minions; 
@@ -11,7 +12,9 @@ module.exports.gameEnd = function(memcache, socket) {
   .then(function(winner) {
     winners = winner;
   })
-  .then(memcache.getMinions)
+  .then(function() {
+    return memcache.getMinions();
+  })
   .then(function(mins) {
     minions = mins;
 
@@ -47,6 +50,7 @@ module.exports.gameEnd = function(memcache, socket) {
 
 // Final game results: 
 var gameOver = function(memcache, socket) {
+  console.log('game is over');
   // Information needed from memcache
   // - Game winning side
   var winners = memcache.getWinner();
@@ -65,7 +69,7 @@ var gameOver = function(memcache, socket) {
     memcache.getKnights()
     .then(function(knights) {
       for (var i = 0; i < knights.length; i++) {
-        increasePoints(knights[i]);
+        // increasePoints(knights[i]);
       }
     })
   } else /* Game winners are minions */ {
@@ -73,7 +77,7 @@ var gameOver = function(memcache, socket) {
     memcache.getMinions()
     .then(function(minions) {
       for (var i = 0; i < minions.length; i++) {
-        increasePoints(minions[i]);
+        // increasePoints(minions[i]);
       }
     })
   }
@@ -82,8 +86,13 @@ var gameOver = function(memcache, socket) {
   memcache.getPids()
   .then(function(pids) {
     for (var i = 0; i < pids.length; i++) {
-      increaseGames(pids[i]);
+      // increaseGames(pids[i]);
     }
+  })
+  .then(function() {
+    setTimeout(function() {
+      memcache.quit();
+    }, 120000)
   })
 };
 

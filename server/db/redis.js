@@ -41,6 +41,7 @@ makeCache.prototype.getPids = function() {
 // setRole - takes PID and the role to set the PID's role to
 makeCache.prototype.setRole = function(pid, role) {
   this.client.setAsync(pid + ':ROLE', role);
+  this.client.saddAsync(role + 'S', pid);
   return this.client.saddAsync(role, pid);
 };
 // getKnights - returns a list of all the knights
@@ -206,9 +207,35 @@ makeCache.prototype.getQuestResult = function() {
 makeCache.prototype.clearQuestResults = function() {
   return this.client.delAsync('QRESULT');
 };
+// clear - deletes all stored values
+makeCache.prototype.clear = function() {
+  var context = this;
+  return this.getPids()
+  .then(function(pids) {
+    for (var i = 0; i < pids.length; i++) {
+      context.client.delAsync(pids[i] + ':ROLE');
+      context.client.delAsync(pids[i] + ':VOTE');
+    }
+    context.client.delAsync('SIZE');
+    context.client.delAsync('STAGE:ROUND');
+    context.client.delAsync('STAGE:PHASE');
+    context.client.delAsync('LEADER');
+    context.client.delAsync('TEAM');
+    context.client.delAsync('VETO');
+    context.client.delAsync('QRESULT');
+    context.client.delAsync('VOTECOUNT');
+    context.client.delAsync('SCORE:WIN');
+    context.client.delAsync('SCORE:LOSS');
+    context.client.delAsync('MGUESS');
+    context.client.delAsync('MERLIN');
+    context.client.delAsync('ASSASSIN');
+    context.client.delAsync('WINNER');
+    context.client.delAsync('PIDS');
+  })
+};
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
-  return this.client.quit();
+  return this.client.clear().then(this.client.quit);
 };
 
 module.exports = makeCache;

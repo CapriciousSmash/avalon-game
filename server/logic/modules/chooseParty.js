@@ -1,8 +1,8 @@
 var voteOnParty = require('./voteOnParty').voteOnParty;
 
 // The current party leader must choose the requisite number of players to go on a Quest
-module.exports.chooseParty = function(memcache, socket) {
-  
+var chooseParty = function(memcache, socket) {
+  console.log('choosing party');
   memcache.setTurnPhase('PARTY');
 
   // Get current round
@@ -12,8 +12,9 @@ module.exports.chooseParty = function(memcache, socket) {
       // Find previous party leader and change
 
       // prevLeader should be the ID of the previous leader [string]
-      memcache.getLeader(function(prevLeader) {
-        var oldIdx = pidsList.indexof(prevLeader);
+      memcache.getLeader()
+      .then(function(prevLeader) {
+        var oldIdx = pidsList.indexOf(prevLeader);
         var newIdx = pidsList[oldIdx + 1] ? oldIdx + 1 : 0;
         var currentLeader = pidsList[newIdx];
 
@@ -59,9 +60,10 @@ module.exports.chooseParty = function(memcache, socket) {
 };
 
 var resolveParty = function(memcache, socket) {
-  
+  console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
-  memcache.getTurnPhase(function(gamePhase) {
+  memcache.getTurnPhase()
+  .then(function(gamePhase) {
     if (gamePhase !== 'PARTY') {
       return;
     }
@@ -70,14 +72,15 @@ var resolveParty = function(memcache, socket) {
     // be enough party members so there should be a default sent
 
     // Party members should have been set by a previous socket. 
-    memcache.getTeam(function(partyMembers) {
+    memcache.getTeam()
+    .then(function(partyMembers) {
       socket.emit('resolveParty', {
         gameId: 5318008,
         partyMembers,
       });
 
       setTimeout(function() {
-        voteOnParty(memcache, socket);
+        voteOnParty(memcache, socket, chooseParty);
       }, 5000);
 
     });
@@ -85,9 +88,5 @@ var resolveParty = function(memcache, socket) {
 
 };
 
+module.exports.chooseParty = chooseParty;
 module.exports.resolveParty = resolveParty;
-
-
-
-
-
