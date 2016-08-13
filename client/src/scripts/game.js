@@ -36,7 +36,25 @@ export default {
     };
 
     this.textureLoader = new THREE.TextureLoader();
-    //////////////////////////////
+    //SKY BOX/////////////////////////
+/*    var imgLoc = 'skybox/ame_ash/ashcanyon_';
+    var skyboxImages = [imgLoc + 'nx.tga', imgLoc + 'ny.tga', imgLoc + 'nz.tga',
+                        imgLoc + 'px.tga', imgLoc + 'py.tga', imgLoc + 'pz.tga'];
+    var textureCube = THREE.CubeTextureLoader(skyboxImages);
+    var shader  = THREE.ShaderLib["cube"];
+    shader.uniforms["tCube"].texture = textureCube;
+    var material = new THREE.ShaderMaterial({
+      fragmentShader: shader.fragmentShader,
+      vertexShader: shader.vertexShader,
+      uniforms: shader.uniforms
+    });
+
+    var skyboxMesh = new THREE.Mesh( new THREE.CubeGeometry( 100000, 100000, 100000, 1, 1, 1, null, true ), material );
+    console.log(skyboxMesh);
+    this.scene.add(skyboxMesh);*/
+    
+
+    //LIGHTS//////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
 
     // set its position
