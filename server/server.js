@@ -30,6 +30,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+var memcache = new redisDb(5138008);
 
 //Utility, move elsewhere
 function deepSearch(id, arr) {
@@ -78,7 +79,12 @@ io.on('connection', (socket)=>{
     if (startGame) {
       io.emit('startGame');
       setTimeout(function(){
-        game(players, io, 'GAME START');
+        var pidsList = [];
+        for (var x = 0; x < players.length; x++) {
+          pidsList.push(players[x].uid);
+        }
+        memcache.init(pidsList);
+        game(memcache, io, 'GAME START');
       },5000);
     }
   });
@@ -100,21 +106,21 @@ io.on('connection', (socket)=>{
 
   socket.on('pickParty', function(data) {
     console.log('pickParty', data);
-    // logicFilter.pickParty(['<-- PASS IN MEMCACHE -->'], io, data);
+    logicFilter.pickParty(memcache, io, data);
   });
   socket.on('voteOnParty', function(data) {
     console.log('voteOnParty');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    // logicFilter.partyVote(['<-- PASS IN MEMCACHE -->'], io, data);
+    logicFilter.partyVote(memcache, io, data);
   });
   socket.on('voteOnQuest', function(data) {
     console.log('voteOnQuest');
     // TODO: Ensure that votes are not duplicated and came from valid players
-    // logicFilter.questVote(['<-- PASS IN MEMCACHE -->'], io, data);
+    logicFilter.questVote(memcache, io, data);
   });
   socket.on('stabMerlin', function(data) {
     console.log('stabMerlin', data);
-    // logicFilter.stabMerlin(['<-- PASS IN MEMCACHE -->'], io, data);
+    logicFilter.stabMerlin(memcache, io, data);
   });
 });
 // serve index.html for rest
