@@ -85,7 +85,7 @@ io.on('connection', (socket)=>{
       gm: players[0],
       players: players.slice(1, players.length)
     });    
-    
+
     if (everyoneReady) {
       io.emit('leaveLobby');
     }
