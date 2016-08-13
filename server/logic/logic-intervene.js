@@ -20,21 +20,28 @@ var teamBuilder = [
 // party leader makes a choice on the party before the timer runs out
 module.exports.pickParty = function(memcache, socket, data) {
 
-  memcache.addToTeam(data.playerId).then(function() {
-    
-    memcache.getTeam().then(function(partyList) {
-      var partyCount = partyList.length;
+  memcache.getTeam().then(function(teamList) {
+    if(teamList.indexOf(data.playerId) > 0) {
+      return;
+    }
+    memcache.addToTeam(data.playerId).then(function() {
+      
+      memcache.getTeam().then(function(partyList) {
+        var partyCount = partyList.length;
 
-      memcache.getPids().then(function(pidsList) {
-        memcache.getRound().then(function(currentRound) {
-          if (partyCount === teamBuilder[pidsList.length - 5][currentRound - 1]) {
-            gameLogic(memcache, socket, 'RESOLVE PARTY');
-          }
+        memcache.getPids().then(function(pidsList) {
+          memcache.getRound().then(function(currentRound) {
+            if (partyCount === teamBuilder[pidsList.length - 5][currentRound - 1]) {
+              gameLogic(memcache, socket, 'RESOLVE PARTY');
+            }
+          });
         });
       });
-    });
 
+    });
+    
   });
+
  
 };
 
@@ -64,7 +71,7 @@ module.exports.partyVote = function(memcache, socket, data) {
 // party more quickly if all votes are in
 module.exports.questVote = function(memcache, socket, data) {
   
-  memcache.saveQuestResult().then(function() {
+  memcache.saveQuestResult(data.playerId, data.vote).then(function() {
     memcache.getQuestResult(function(qResults) {
       var voteCount = qResults.length;
 
