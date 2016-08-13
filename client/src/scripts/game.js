@@ -176,18 +176,83 @@ export default {
         this.renderer.domElement.removeEventListener('click', pickParty);
       }
     });
-  },    
-  createQuestButtons: function() {
-    var geometry = new THREE.BoxGeometry(30,10,10);
-    var successMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF})
-    var success = new THREE.Mesh(geometry, successMaterial);
-    success.position.set(100,100,0);
+  },
+  createVoteButtons: function(voteOnParty) {
+    let geometry = new THREE.BoxGeometry(30,10,10);
+    let acceptMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF})
+    let accept = new THREE.Mesh(geometry, acceptMaterial);
+    accept.position.set(100,100,0);
+    accept.name = 'accept';
 
-    var failMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
-    var fail = new THREE.Mesh(geometry, failMaterial)
-    fail.position.set(100, 80, 0);
+    let rejectMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
+    let reject = new THREE.Mesh(geometry, rejectMaterial)
+    reject.position.set(100, 100 - 20, 0);
+    reject.name = 'reject';
+
+    this.scene.add(accept);
+    this.scene.add(reject);
+
+    let partyVote;
+    this.renderer.domElement.addEventListener('click', partyVote = (e) => {
+      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+
+      this.mouseVector.set(this.mouse.x, this.mouse.y, 0).unproject(this.camera)
+
+      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
+
+      let intersects = this.raycaster.intersectObjects(this.scene.children);
+      console.log(intersects)
+
+      if (intersects.length) {
+        const vote = intersects[0].object.name === 'reject' ? false : true;
+        voteOnParty(vote);
+
+        let acceptObject = this.scene.getObjectByName('accept');
+        let rejectObject = this.scene.getObjectByName('reject');
+        this.scene.remove(acceptObject);
+        this.scene.remove(rejectObject);
+        this.renderer.domElement.removeEventListener('click', partyVote);
+      }
+    });
+  },   
+  createQuestButtons: function(voteOnQuest) {
+    let geometry = new THREE.BoxGeometry(30,10,10);
+    let successMaterial = new THREE.MeshBasicMaterial({color: 0x0000FF})
+    let success = new THREE.Mesh(geometry, successMaterial);
+    success.position.set(100,100,0);
+    success.name = 'success';
+
+    let failMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
+    let fail = new THREE.Mesh(geometry, failMaterial)
+    fail.position.set(100, 100 - 20, 0);
+    fail.name = 'fail';
+
     this.scene.add(success);
     this.scene.add(fail);
+
+
+    let questVote;
+    this.renderer.domElement.addEventListener('click', questVote = (e) => {
+      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+
+      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
+
+      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
+
+      let intersects = this.raycaster.intersectObjects(this.scene.children);
+      if (intersects.length) {
+        const vote = intersects[0].object.name === 'fail' ? false : true;
+        voteOnQuest(vote);
+
+        let successObject = this.scene.getObjectByName('success');
+        let failObject = this.scene.getObjectByName('fail');
+        this.scene.remove(successObject);
+        this.scene.remove(failObject);
+        this.renderer.domElement.removeEventListener('click', questVote);
+      }
+    });
   },
   play: ()=>{
     console.log('playing something');

@@ -110,12 +110,12 @@ io.on('connection', (socket)=>{
     logicFilter.pickParty(memcache, io, data);
   });
   socket.on('voteOnParty', function(data) {
-    console.log('voteOnParty');
+    console.log('voteOnParty', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
     logicFilter.partyVote(memcache, io, data);
   });
   socket.on('voteOnQuest', function(data) {
-    console.log('voteOnQuest');
+    console.log('voteOnQuest', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
     logicFilter.questVote(memcache, io, data);
   });

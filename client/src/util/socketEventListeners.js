@@ -1,12 +1,5 @@
 import game from '../scripts/game';
 
-var voteOnParty = (socket) => {       
-  socket.emit('voteOnParty', true);
-};
-var voteOnQuest = (socket) => {
-  socket.emit('voteOnQuest', true);
-};
-
 module.exports = {
   AllListeners: function(socket) {
     socket.on('assignRoles', function(data) {
@@ -18,20 +11,25 @@ module.exports = {
       }, 3);
       console.log('Data I got from assignRoles', data);
     });
-    socket.on('chooseParty', function(data) {
-      game.createQuestButtons();
+    socket.on('sendParty', function(data) {
       console.log('Data I got from sendParty', data);
     });
     socket.on('resolveParty', function(data) {
       console.log('Data I got from resolveParty', data);
     });
     socket.on('startVote', function(data) {
+      game.createVoteButtons(voteOnParty => {
+        socket.emit('voteOnParty', voteOnParty);
+      })
       console.log('Data I got from startVote', data);
     });
     socket.on('resolveVote', function(data) {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
+      game.createQuestButtons( voteOnQuest => {
+        socket.emit('voteOnQuest', voteOnQuest);
+      });
       console.log('Data I got from startQuest', data);
     });
     socket.on('resolveQuest', function(data) {
