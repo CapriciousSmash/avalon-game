@@ -26,7 +26,7 @@ app.use(session({
   secret: '8SER9M9jXS',
   saveUninitialized: true,
   resave: true
-   }));
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -78,8 +78,8 @@ io.on('connection', (socket)=>{
         pidsList.push(players[x].uid.slice(2));
       }
       memcache.init(pidsList).then(function() {
-        setTimeout(function(){
-          game(memcache, io, 'GAME START')
+        setTimeout(function() {
+          game(memcache, io, 'GAME START');
         }, 5000);
       });
     }
