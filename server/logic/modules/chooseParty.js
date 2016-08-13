@@ -2,7 +2,7 @@ var voteOnParty = require('./voteOnParty').voteOnParty;
 
 // The current party leader must choose the requisite number of players to go on a Quest
 var chooseParty = function(memcache, socket) {
-  
+  console.log('choosing party');
   memcache.setTurnPhase('PARTY');
 
   // Get current round
@@ -60,7 +60,7 @@ var chooseParty = function(memcache, socket) {
 };
 
 var resolveParty = function(memcache, socket) {
-  
+  console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
   memcache.getTurnPhase()
   .then(function(gamePhase) {

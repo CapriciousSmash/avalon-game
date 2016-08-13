@@ -4,7 +4,7 @@ var chooseParty = require('./chooseParty').chooseParty;
 
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket, chooseParty) {
-  
+  console.log('voting on party');
   memcache.setTurnPhase('VOTE');
 
   memcache.getTeam().then(function(partyMembers) {
@@ -21,7 +21,7 @@ module.exports.voteOnParty = function(memcache, socket, chooseParty) {
 }
 
 var resolvePartyVote = function(memcache, socket, chooseParty) {
-  
+  console.log('resolving votes');
   // TODO: If this function was called because timer runs out, then
   // set some default value
 

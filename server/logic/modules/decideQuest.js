@@ -2,6 +2,7 @@ var gameEnd = require('./gameOver').gameEnd;
 var chooseParty = require('./chooseParty').chooseParty;
 
 module.exports.startQuest = function(memcache, socket) {
+  console.log('starting quest');
   // Information needed from memcache
   // - Current party composition
   var partyMembers;
@@ -26,6 +27,7 @@ module.exports.startQuest = function(memcache, socket) {
 };
 
 var resolveQuest = function(memcache, socket) {
+  console.log('resolving quest');
   var gamePhase;
   memcahce.getTurnPhase(function(phase) {
     gamePhase = phase;
