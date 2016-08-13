@@ -47,19 +47,19 @@ io.on('connection', (socket)=>{
   //PLAYER==================================================
   //Init Player
   players.push({
-    uid: socket.id, 
+    uid: socket.id.slice(2), 
     color: null,
     ready: false
   });
   //Give player color
   socket.on('userColor', function(color) {
-    var p = players[deepSearch(socket.id, players)];
+    var p = players[deepSearch(socket.id.slice(2), players)];
     p.color = color;
   });
   //Remove Player
   socket.on('disconnect', function() {
-    io.emit('peerLeft', socket.id);
-    players.splice(deepSearch(socket.id, players), 1);
+    io.emit('peerLeft', socket.id.slice(2));
+    players.splice(deepSearch(socket.id.slice(2), players), 1);
     io.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
@@ -78,7 +78,7 @@ io.on('connection', (socket)=>{
     });
   });
   socket.on('ready', function(playerReady) {
-    players[deepSearch(socket.id, players)].ready = playerReady;
+    players[deepSearch(socket.id.slice(2), players)].ready = playerReady;
     var everyoneReady = true;
     for (var x = 0; x < players.length; x++) {
       if (!players[x].ready) {
@@ -99,11 +99,11 @@ io.on('connection', (socket)=>{
   socket.on('startGame', function() {
     socket.emit('allPeers', players);
     //Only game master can start the game
-    if (socket.id.slice(2) === players[0].uid.slice(2)) {
-      console.log('STARTING', socket.id.slice(2), players[0].uid.slice(2));
+    if (socket.id.slice(2) === players[0].uid) {
+      console.log('STARTING', socket.id.slice(2), players[0].uid);
       var pidsList = [];
       for (var x = 0; x < players.length; x++) {
-        pidsList.push(players[x].uid.slice(2));
+        pidsList.push(players[x].uid);
       }
       memcache.init(pidsList).then(function() {
         setTimeout(function() {

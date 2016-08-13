@@ -139,11 +139,16 @@ export default {
         this.selected.material.color.setHex('0xFFFFFF');
         console.log(this.selected.name);
         //sendPickedMerlin(this.selected.name);
-        sendPickedMerlin(this.selected.name.slice(2));
+        sendPickedMerlin(this.selected.name);
       }
       this.hideSign('stabMerlin');
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     });
+
+    setTimeout(()=>{
+      sendPickedMerlin('No merlin selected');
+      this.renderer.domElement.removeEventListener('click', stabMerlin);
+    }, 5000);
   },
   pickParty: function(sendPickedParty, partyNumber) {
     this.showSign('pickParty');
@@ -168,17 +173,22 @@ export default {
         if( this.party.indexOf(this.selected.name) < 0 ) {
           console.log('sending the chosen member', this.selected.name);
           this.party.push(this.selected.name);
-          sendPickedParty(this.selected.name.slice(2));
         }
       }
 
       if (this.party.length >= partyNumber) {
-        //sendPickedParty(this.party);
+        sendPickedParty(this.party);
         this.hideSign('pickParty');
         //This needs to be moved to resolvedParty
         this.renderer.domElement.removeEventListener('click', pickParty);
       }
     });
+
+    setTimeout(()=>{
+      this.hideSign('pickParty');
+      sendPickedParty('no party members picked');
+      this.renderer.domElement.removeEventListener('click', pickParty);
+    }, 5000);
   },
   createVoteButtons: function(voteOnParty) {
     let geometry = new THREE.BoxGeometry(30,10,10);
