@@ -12,7 +12,8 @@ module.exports.chooseParty = function(memcache, socket) {
       // Find previous party leader and change
 
       // prevLeader should be the ID of the previous leader [string]
-      memcache.getLeader(function(prevLeader) {
+      memcache.getLeader()
+      .then(function(prevLeader) {
         var oldIdx = pidsList.indexof(prevLeader);
         var newIdx = pidsList[oldIdx + 1] ? oldIdx + 1 : 0;
         var currentLeader = pidsList[newIdx];
@@ -61,7 +62,8 @@ module.exports.chooseParty = function(memcache, socket) {
 var resolveParty = function(memcache, socket) {
   
   // Get current phase to decide whether this function should run or fizzle
-  memcache.getTurnPhase(function(gamePhase) {
+  memcache.getTurnPhase()
+  .then(function(gamePhase) {
     if (gamePhase !== 'PARTY') {
       return;
     }
@@ -70,7 +72,8 @@ var resolveParty = function(memcache, socket) {
     // be enough party members so there should be a default sent
 
     // Party members should have been set by a previous socket. 
-    memcache.getTeam(function(partyMembers) {
+    memcache.getTeam()
+    .then(function(partyMembers) {
       socket.emit('resolveParty', {
         gameId: 5318008,
         partyMembers,
