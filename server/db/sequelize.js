@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt-nodejs');
 
 // setup connection with postgresdb
-var sequelize = new Sequelize(process.env.POSTGRES_URL, {
+var sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   port: 5432,
