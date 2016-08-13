@@ -64,7 +64,7 @@ module.exports.partyVote = function(memcache, socket, data) {
 // party more quickly if all votes are in
 module.exports.questVote = function(memcache, socket, data) {
   
-  memcache.saveQuestResult().then(function() {
+  memcache.saveQuestResult(data.playerId, data.vote).then(function() {
     memcache.getQuestResult(function(qResults) {
       var voteCount = qResults.length;
 
