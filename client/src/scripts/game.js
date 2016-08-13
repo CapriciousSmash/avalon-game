@@ -146,7 +146,7 @@ export default {
     });
 
     setTimeout(()=>{
-      sendPickedMerlin('No merlin selected');
+      this.hideSign('stabMerlin');
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     }, 5000);
   },
@@ -186,7 +186,6 @@ export default {
 
     setTimeout(()=>{
       this.hideSign('pickParty');
-      sendPickedParty('no party members picked');
       this.renderer.domElement.removeEventListener('click', pickParty);
     }, 5000);
   },
