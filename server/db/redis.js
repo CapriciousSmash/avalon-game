@@ -41,8 +41,7 @@ makeCache.prototype.getPids = function() {
 // setRole - takes PID and the role to set the PID's role to
 makeCache.prototype.setRole = function(pid, role) {
   this.client.setAsync(pid + ':ROLE', role);
-  this.client.saddAsync(role + 'S', pid);
-  return this.client.saddAsync(role, pid);
+  return this.client.saddAsync(role + 'S', pid);
 };
 // getKnights - returns a list of all the knights
 makeCache.prototype.getKnights = function() {
@@ -235,7 +234,7 @@ makeCache.prototype.clear = function() {
 };
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
-  return this.client.clear().then(this.client.quit);
+  return this.clear().then(this.client.quit);
 };
 
 module.exports = makeCache;

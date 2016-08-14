@@ -68,11 +68,7 @@ io.on('connection', (socket)=>{
 
   //LOBBY==================================================
   socket.on('lobby', function(lobbyId) {
-    socket.emit('lobbyInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
-    });
-    socket.broadcast.emit('lobbyInfo', {
+    io.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
     });
@@ -89,11 +85,12 @@ io.on('connection', (socket)=>{
       gm: players[0],
       players: players.slice(1, players.length)
     });    
-    
+
     if (everyoneReady) {
       io.emit('leaveLobby');
     }
   });
+
 
   //GAME INIT=============================================
   socket.on('startGame', function() {

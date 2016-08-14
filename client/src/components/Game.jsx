@@ -40,6 +40,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
-//export default Game;
 
 
