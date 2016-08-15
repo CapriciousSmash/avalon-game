@@ -3,12 +3,7 @@ export default {
     //SET UP VARS////////////////
     this.players = [];
     this.party = [];
-    this.roleColors = {
-      good: 0xFF0000,
-      merlin: 0xffce00,
-      bad: 0x00b8ff,
-      assassin: 850000
-    };
+
     //SET UP SCENE////////////////
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
@@ -54,8 +49,7 @@ export default {
     // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
     //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
     //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
-
-/* REMOVED FOR MVP
+/*REMOVE SKYBOX FOR MVP
     this.cubeLoader = new THREE.CubeTextureLoader();
     this.cubeLoader.setPath('skybox/ame_ash/');
     var skyboxImages = ['px.png', 'nx.png',
