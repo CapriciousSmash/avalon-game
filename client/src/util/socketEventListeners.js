@@ -48,6 +48,7 @@ module.exports = {
   },
   allListeners: function(socket) {
     socket.on('assignRoles', function(data) {
+      //game.assignRoles(data, socket.id.slice(2), data[socket.id.slice(2)]);
       game.pickParty(party => {
         socket.emit('pickParty', {
           playerId: party
