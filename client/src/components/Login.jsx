@@ -3,7 +3,7 @@ import React from 'react';
 export default class SignIn extends React.Component {
   render() {
     return (
-      <form onSubmit="">
+      <form className="text-center" onSubmit="">
         <fieldset>
           <label>Username </label>
           <input placeholder='Username'></input>

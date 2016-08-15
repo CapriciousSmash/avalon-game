@@ -12,7 +12,7 @@ const Info = (props) => {
   console.log(props.activeSection);
   const renderSection = props.activeSection || 'GETTING STARTED';
   return (
-    <div>
+    <div className="text-center">
       <InfoBar onGotoSection={props.onGotoSection} />
       {
         // Function redirects to proper component:

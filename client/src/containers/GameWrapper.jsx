@@ -32,7 +32,7 @@ class GameWrapper extends React.Component {
   }
   render() {
     return (
-      <div> 
+      <div className='text-center'> 
         {this.props.playing ? <Game socket={this.socket}/> : <Lobby socket={this.socket}/>}
       </div>
     );

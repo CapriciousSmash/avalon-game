@@ -21,7 +21,7 @@ const Lobby = React.createClass ({
     //Tell server that player is in lobby, request lobby info
     socket.emit('lobby', 0);
     socket.on('lobbyInfo', function(lobbyInfo) {
-      console.log('currentUser',this.props.currentUser);
+      console.log('currentUser', this.props.currentUser);
       console.log('gm', lobbyInfo.gm);
       this.setState({
         gm: lobbyInfo.gm,
@@ -65,7 +65,7 @@ const Lobby = React.createClass ({
             <div className='bar seven'></div>   
           </div>
         </div>
-        <div id="playerList">
+        <div id="playerList" className='text-center'>
           {
             (this.props.currentUser.uid) === this.state.gm.uid ?
             <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 

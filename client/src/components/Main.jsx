@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 // 
 const Main = (props) => {
   return (
-    <div>
+    <div className='text-center'>
       <h1>Welcome!</h1>
       <div>
         {
