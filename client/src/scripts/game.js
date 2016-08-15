@@ -8,7 +8,7 @@ export default {
       merlin: 0x007cab,
       MINION: 0xFF0000,
       assassin: 0x850000,
-      default: 0xffce00
+      defaultColor: 0xffce00
     };
     //SET UP SCENE////////////////
     let $gameContainer = $('#gameContainer');
@@ -99,7 +99,7 @@ export default {
         x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
         y: 0,
         color,
-        role: this.roleColors[default]
+        role: this.roleColors['defaultColor']
       });      
 
       let sphereMaterial =
