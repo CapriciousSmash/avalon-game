@@ -3,7 +3,13 @@ export default {
     //SET UP VARS////////////////
     this.players = [];
     this.party = [];
-
+    this.roleColors = {
+      KNIGHT: 0x00b8ff,
+      merlin: 0x007cab,
+      MINION: 0xFF0000,
+      assassin: 0x850000,
+      defaultColor: 0xffce00
+    };
     //SET UP SCENE////////////////
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
@@ -86,13 +92,14 @@ export default {
     };
     render();
   },
-  addPlayer: function(uid, color) {
+  addPlayer: function(uid, color, role) {
     if (this.players.length < 5) {
       this.players.push({
         uid,
         x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
         y: 0,
         color,
+        role: this.roleColors['defaultColor']
       });      
 
       let sphereMaterial =
@@ -123,6 +130,18 @@ export default {
         this.players.splice(x, 1);
       }
     }
+  },
+  assignRoles: function(party, id, role) {
+    if(role === 'merlin' || role === 'assassin' || role === 'MINION'){
+      //every minion is shown as red
+      for (let player in party){
+        if (party[player] === 'MINION'){
+          this.scene.getObjectByName(player).material.color.setHex(roleColors['MINION']);
+        }
+      }
+    }
+    //give myself a color
+    this.scene.getObjectByName(id).material.color.setHex(roleColors[role]);
   },
   showSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
