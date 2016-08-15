@@ -40,11 +40,11 @@ module.exports.assignRoles = function(memcache, socket) {
       memcache.setRole(party.minions[y], 'MINION');
     }
     if (party.merlin) {
-      data['merlin'] = party.merlin;
+      data[party.merlin] = 'MERLIN';
       memcache.setMerlin(party.merlin);
     }
     if (party.assassin) {
-      data['assassin'] = party.assassin;
+      data[party.assassin] = 'ASSASSIN';
       memcache.setAssassin(party.assassin);
     }
 
