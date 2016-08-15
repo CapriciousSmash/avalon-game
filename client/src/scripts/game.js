@@ -8,7 +8,8 @@ export default {
       merlin: 0x007cab,
       MINION: 0xFF0000,
       assassin: 0x850000,
-      defaultColor: 0xffce00
+      //defaultColor: 0xffce00
+      defaultColor: 0x00b8ff
     };
     //SET UP SCENE////////////////
     let $gameContainer = $('#gameContainer');
@@ -132,10 +133,10 @@ export default {
     }
   },
   assignRoles: function(party, id, role) {
-    if(role === 'merlin' || role === 'assassin' || role === 'MINION'){
+    if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //every minion is shown as red
-      for (let player in party){
-        if (party[player] === 'MINION'){
+      for (let player in party) {
+        if (party[player] === 'MINION') {
           this.scene.getObjectByName(player).material.color.setHex(roleColors['MINION']);
         }
       }
