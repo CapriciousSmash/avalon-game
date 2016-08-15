@@ -12,7 +12,7 @@ import * as Actions from '../actions';
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <div className="cover-container">
         <NavBar />
         {this.props.children}
       </div>

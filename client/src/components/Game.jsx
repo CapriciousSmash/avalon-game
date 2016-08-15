@@ -20,10 +20,8 @@ class Game extends React.Component {
     webSockets.startGame(socket);
   }
   render() {
-    return (
-      <div> 
-        <div id="gameContainer"></div>
-      </div>
+    return ( 
+      <div id="gameContainer"></div>
     );
   }
 }

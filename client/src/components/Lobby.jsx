@@ -42,7 +42,7 @@ const Lobby = React.createClass ({
   },
   render: function() {
     return (
-      <div> 
+      <div className="inner cover"> 
         <h1>LOBBY</h1>
         <div className='loading hidden'>
           <div className='row'>
@@ -68,7 +68,7 @@ const Lobby = React.createClass ({
         <div id="playerList" className='text-center'>
           {
             (this.props.currentUser.uid) === this.state.gm.uid ?
-            <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 
+            <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button className="btn btn-lg btn-default" onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 
             : 
             <div key={ this.state.gm.uid }><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
           }  

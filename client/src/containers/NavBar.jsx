@@ -12,7 +12,7 @@ class NavBar extends React.Component {
   isAuthenticated() {
     if (this.props.auth) {
       return (
-        <ul className="nav navbar-nav">
+        <ul className="nav masthead-nav">
           <li>
             <Link to='main'>Stats</Link>
           </li>
@@ -26,7 +26,7 @@ class NavBar extends React.Component {
       );
     } else {
       return (
-        <ul className="nav navbar-nav"> 
+        <ul className="nav masthead-nav"> 
           <li>
             <Link to='main'>Stats</Link>
           </li>
@@ -43,11 +43,16 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-default">
-        <div>
-          {this.isAuthenticated()}
+      <div className="masthead clearfix">
+        <div className="inner">
+          <h3 className="masthead-brand"><Link to='main'>Avalon</Link></h3>
+          <nav>
+            <div>
+              {this.isAuthenticated()}
+            </div>
+          </nav>
         </div>
-      </nav>
+      </div>
     );
   }
   
