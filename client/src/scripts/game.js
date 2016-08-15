@@ -23,6 +23,7 @@ export default {
       );
     this.camera.position.z = 500;
 
+    this.textureLoader = new THREE.TextureLoader();
 
     this.scene = new THREE.Scene();
     this.scene.add(this.camera);
@@ -35,8 +36,30 @@ export default {
       y: 0
     };
 
-    this.textureLoader = new THREE.TextureLoader();
-    //////////////////////////////
+    document.addEventListener('mousemove', (e) => {
+      console.log('{', e.clientX, e.clientY, '}');
+      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+    }, false);
+
+    //SKY BOX///////////////////
+    //Todo: Convert to tga format, speedier loadup vs png
+    // this.TGAloader = new THREE.TGALoader();
+    // var imgLoc = 'skybox/ame_ash/ashcanyon_';
+    // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
+    //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
+    //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
+/*REMOVE SKYBOX FOR MVP
+    this.cubeLoader = new THREE.CubeTextureLoader();
+    this.cubeLoader.setPath('skybox/ame_ash/');
+    var skyboxImages = ['px.png', 'nx.png',
+                        'py.png', 'ny.png', 
+                        'pz.png', 'nz.png'];
+    var textureCube = this.cubeLoader.load(skyboxImages);
+    textureCube.format = THREE.RGBFormat;
+    this.scene.background = textureCube;*/
+
+    //LIGHTS//////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
 
     // set its position
@@ -56,9 +79,6 @@ export default {
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       this.renderer.render(this.scene, this.camera);
-
-      // this.scene.getObjectByName('mouse').position.x = this.mouse.x;
-      // this.scene.getObjectByName('mouse').position.y = this.mouse.y;
 
       for (let x = 0; x < this.players.length; x++) {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
@@ -106,7 +126,7 @@ export default {
   },
   showSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
-    let plane = new THREE.PlaneGeometry(200, 100);
+    let plane = new THREE.PlaneGeometry(512, 128);
     let material = new THREE.MeshBasicMaterial({
       map: texture
     });
@@ -125,9 +145,6 @@ export default {
 
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
-      console.log('{', e.clientX, e.clientY, '}');
-      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
 
       this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
 
@@ -157,9 +174,6 @@ export default {
 
     let pickParty;
     this.renderer.domElement.addEventListener('click', pickParty = (e) => {
-      console.log('{', e.clientX, e.clientY, '}');
-      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
 
       this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
 
