@@ -3,7 +3,12 @@ export default {
     //SET UP VARS////////////////
     this.players = [];
     this.party = [];
-
+    this.roleColors = {
+      good: 0xFF0000,
+      merlin: 0xffce00,
+      bad: 0x00b8ff,
+      assassin: 850000
+    };
     //SET UP SCENE////////////////
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
@@ -86,13 +91,14 @@ export default {
     };
     render();
   },
-  addPlayer: function(uid, color) {
+  addPlayer: function(uid, color, role) {
     if (this.players.length < 5) {
       this.players.push({
         uid,
         x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
         y: 0,
         color,
+        role: this.roleColors[role]
       });      
 
       let sphereMaterial =
