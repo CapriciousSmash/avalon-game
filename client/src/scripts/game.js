@@ -36,59 +36,46 @@ export default {
     };
 
     this.textureLoader = new THREE.TextureLoader();
-    //SKY BOX/////////////////////////
-/*    var imgLoc = 'skybox/ame_ash/ashcanyon_';
-    var skyboxImages = [imgLoc + 'nx.tga', imgLoc + 'ny.tga', imgLoc + 'nz.tga',
-                        imgLoc + 'px.tga', imgLoc + 'py.tga', imgLoc + 'pz.tga'];
-    var textureCube = THREE.CubeTextureLoader(skyboxImages);
-    var shader  = THREE.ShaderLib["cube"];
-    shader.uniforms["tCube"].texture = textureCube;
-    var material = new THREE.ShaderMaterial({
-      fragmentShader: shader.fragmentShader,
-      vertexShader: shader.vertexShader,
-      uniforms: shader.uniforms
-    });
 
-    var skyboxMesh = new THREE.Mesh( new THREE.CubeGeometry( 100000, 100000, 100000, 1, 1, 1, null, true ), material );
-    console.log(skyboxMesh);
-    this.scene.add(skyboxMesh);*/
-
-/*
-    var skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
-    var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
-    var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+    //SKY BOX///////////////////
+    //Todo: Convert to tga format, speedier loadup vs png
+    // this.TGAloader = new THREE.TGALoader();
+    // var imgLoc = 'skybox/ame_ash/ashcanyon_';
+    // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
+    //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
+    //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
+    /////////////////////////////////////////
+    // var skyboxMaterial = new THREE.MeshBasicMaterial({
+    //   color:0xffffff,
+    //   map: textureCube,
+    //   side: THREE.BackSide
+    // });
+    //var skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+    //var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
      
-    this.scene.add(skybox);*/
-
-    var imgLoc = 'skybox/ame_ash/ashcanyon_';
-    var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
-                        imgLoc + 'py.tga', imgLoc + 'ny.tga', 
-                        imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
-    this.TGAloader = new THREE.TGALoader();
-    //var textureCube = this.TGAloader.load();
+    //this.scene.add(skybox);
 
     this.cubeLoader = new THREE.CubeTextureLoader();
+    this.cubeLoader.setPath('skybox/ame_ash/');
+    var skyboxImages = ['px.png', 'nx.png',
+                        'py.png', 'ny.png', 
+                        'pz.png', 'nz.png'];
     var textureCube = this.cubeLoader.load(skyboxImages);
-    var skyboxMaterial = new THREE.MeshBasicMaterial({
-      color:0xffffff,
-      map: textureCube,
-      side: THREE.BackSide
-    });
-    var skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
-    var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
-     
-    this.scene.add(skybox);
-    /*let texture = this.loader.load('skybox/ame_ash/ashcanyon_nx.tga');
-    let plane = new THREE.PlaneGeometry(200, 100);
-    let material = new THREE.MeshBasicMaterial({
-      map: texture
-    });
+    textureCube.format = THREE.RGBFormat;
+    this.scene.background = textureCube;
 
-    let sign = new THREE.Mesh(plane, material);
+/////////////////////
+    // let texture = this.textureLoader.load('skybox/ame_ash/ashcanyon_px.png');
+    // let plane = new THREE.PlaneGeometry(512, 128);
+    // let material = new THREE.MeshBasicMaterial({
+    //   map: texture
+    // });
 
-    sign.position.set(0, 110, 20);
+    // let sign = new THREE.Mesh(plane, material);
 
-    this.scene.add(sign);*/
+    // sign.position.set(0, 110, 20);
+    // this.scene.add(sign);
+
 
     //LIGHTS//////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
@@ -160,7 +147,7 @@ export default {
   },
   showSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
-    let plane = new THREE.PlaneGeometry(200, 100);
+    let plane = new THREE.PlaneGeometry(512, 128);
     let material = new THREE.MeshBasicMaterial({
       map: texture
     });
