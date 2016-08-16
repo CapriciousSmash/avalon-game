@@ -95,17 +95,18 @@ export default {
       let numPlayers = this.players.length;
       for (let x = 0; x < numPlayers; x++) {
         let playerObj = this.scene.getObjectByName(this.players[x].uid);
-        if (playerObj.position.x !== (500 / numPlayers) / 2 * (1 + (2 * x)) - 250) {
-          playerObj.position.x = (500 / numPlayers) / 2 * (1 + (2 * x)) - 250;
-          
+        if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+          playerObj.position.x -= 2;
+        } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+          playerObj.position.x += 2;
         }
       }
 
 
-      // UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-      // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      // this.camera.lookAt(this.scene.position);
+    // UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+    // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+    // this.camera.lookAt(this.scene.position);
     };
     render();
   },
