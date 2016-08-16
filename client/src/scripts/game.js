@@ -53,14 +53,21 @@ export default {
       this.camMouse.y = (e.clientY - this.HEIGHT / 2);
     }, false);
 
-    //SKY BOX///////////////////
+    window.addEventListener('resize', ()=> {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    }, false );
+
+/*  //SKY BOX///////////////////
     //Todo: Convert to tga format, speedier loadup vs png
     // this.TGAloader = new THREE.TGALoader();
     // var imgLoc = 'skybox/ame_ash/ashcanyon_';
     // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
     //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
     //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
-/*REMOVE SKYBOX FOR MVP
+    ////REMOVE SKYBOX FOR MVP
     this.cubeLoader = new THREE.CubeTextureLoader();
     this.cubeLoader.setPath('skybox/ame_ash/');
     var skyboxImages = ['px.png', 'nx.png',
@@ -68,17 +75,11 @@ export default {
                         'pz.png', 'nz.png'];
     var textureCube = this.cubeLoader.load(skyboxImages);
     textureCube.format = THREE.RGBFormat;
-    this.scene.background = textureCube;*/
-
+    this.scene.background = textureCube;
+*/
     //LIGHTS//////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
-
-    // set its position
-    pointLight.position.x = 10;
-    pointLight.position.y = 50;
-    pointLight.position.z = 130;
-
-    // add to the scene
+    pointLight.position.set = (10, 50, 130);
     this.scene.add(pointLight);
 
     //RENDER//////////////////////////
@@ -91,8 +92,13 @@ export default {
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       this.renderer.render(this.scene, this.camera);
 
-      for (let x = 0; x < this.players.length; x++) {
-        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
+      let numPlayers = this.players.length;
+      for (let x = 0; x < numPlayers; x++) {
+        let playerObj = this.scene.getObjectByName(this.players[x].uid);
+        if (playerObj.position.x !== (500 / numPlayers) / 2 * (1 + (2 * x)) - 250) {
+          playerObj.position.x = (500 / numPlayers) / 2 * (1 + (2 * x)) - 250;
+          
+        }
       }
 
 
@@ -107,7 +113,7 @@ export default {
     if (this.players.length < 5) {
       this.players.push({
         uid,
-        x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
+        x: 0,
         y: 0,
         color,
         role: this.roleColors['defaultColor']
@@ -126,7 +132,7 @@ export default {
         sphereMaterial);
 
       sphere.name = uid;
-      sphere.position.x = this.players[this.players.length - 1].x;
+      sphere.position.x = 0;
 
       // add the sphere to the scene
       this.scene.add(sphere);
