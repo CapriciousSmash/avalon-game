@@ -18,6 +18,9 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
+
+    // Using self to maintain context in inner functions, but can probably be
+    // refactored by making those functions arrow functions
     var self = this;
 
     //SET UP SCENE////////////////
@@ -53,7 +56,6 @@ export default {
     this.scene.add(this.camera);
 
     // Camera VR controls: 
-
     this.controls = new OrbitControls(this.camera, this.element);
     this.controls.target.set(
       this.camera.position.x + 0.15,
@@ -182,7 +184,7 @@ export default {
       }
       // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
       // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      // this.camera.lookAt(this.scene.position);
+      this.camera.lookAt(this.scene.position);
 
     };
     render();
