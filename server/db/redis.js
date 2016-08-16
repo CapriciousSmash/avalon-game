@@ -209,7 +209,7 @@ makeCache.prototype.clearQuestResults = function() {
 };
 // clear - deletes all stored values
 makeCache.prototype.clear = function() {
-  return this.client.flushallAsync();
+  return this.client.flushdbAsync();
 };
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
