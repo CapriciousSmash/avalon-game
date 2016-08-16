@@ -94,19 +94,22 @@ export default {
       resize();
     }
 
+    // Resize sets up to change the size of the screen on mobile for full screen mode. 
     function resize() {
       var nativePixelRatio = window.devicePixelRatio = window.devicePixelRatio ||
       Math.round(window.screen.availWidth / document.documentElement.clientWidth);
 
       var devicePixelRatio = nativePixelRatio;
-      var width = window.innerWidth;// container.offsetWidth;
-      var height = window.innerHeight; // container.offsetHeight;
+      var width = window.innerWidth;
+      var height = window.innerHeight;
       self.camera.aspect = devicePixelRatio;
       self.camera.updateProjectionMatrix();
       self.renderer.setSize(width, height);
       self.effect.setSize(width, height);
     }
 
+    // Update calls the resize to adjust window when necessary and update teh camera
+    // controls for each render loop iteration
     function update() {
       resize();
       self.camera.updateProjectionMatrix();
@@ -170,6 +173,8 @@ export default {
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       update();
+      // Uncomment this.effect.render and comment out this.renderer.render for stereoeffect. 
+      // For non-stereoscopic view, recomment and uncomment this.renderer.render
       // this.effect.render(this.scene, this.camera);
       this.renderer.render(this.scene, this.camera);
 
@@ -182,9 +187,10 @@ export default {
           playerObj.position.x += 2;
         }
       }
+      // this code interferes with the VR camera. Commenting out for now. 
       // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
       // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      this.camera.lookAt(this.scene.position);
+      // this.camera.lookAt(this.scene.position);
 
     };
     render();
