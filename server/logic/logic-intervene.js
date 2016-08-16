@@ -20,6 +20,8 @@ var teamBuilder = [
 // party leader makes a choice on the party before the timer runs out
 module.exports.pickParty = function(memcache, socket, data) {
 
+  console.log('pick party data: ', data);
+
   memcache.getTeam().then(function(teamList) {
     if(teamList.indexOf(data.playerId) > 0) {
       return;
@@ -48,6 +50,8 @@ module.exports.pickParty = function(memcache, socket, data) {
 // partyVote is called to advance the game to the questing stage by resolving the
 // party more quickly if all votes are in
 module.exports.partyVote = function(memcache, socket, data) {
+
+  console.log('party vote data: ', data);
 
   var playerId = data.playerId;
 

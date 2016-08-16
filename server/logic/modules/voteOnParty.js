@@ -5,6 +5,7 @@ var chooseParty = require('./chooseParty').chooseParty;
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket, chooseParty) {
   console.log('voting on party');
+  console.log('voteOnParty chooseParty log: ', typeof chooseParty);
   memcache.setTurnPhase('VOTE');
 
   memcache.getTeam().then(function(partyMembers) {
@@ -28,10 +29,14 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
   // Check game Phase, if current phase is not 'VOTE' then fizzle
   memcache.getTurnPhase().then(function(gamePhase) {
     if (gamePhase !== 'VOTE') {
+      console.log('game phase not VOTE, fizzling -- ', gamePhase);
       return;
     }
     memcache.getVoteCount().then(function(voteCount) {
       memcache.getVoteOrder().then(function(voteOrder) {
+
+        console.log('vote count ', voteCount);
+        console.log('vote order ', voteOrder);
         
         // Getting a voteCount of boolean values and pIDs in vote order, 
         // form an associative list between voter and result
@@ -43,12 +48,16 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
 
         // Tally the votes:
         var accepts = voteCount.reduce(function(total, curr) {
-          return curr === true ? total + 1 : total;
+          return curr === 'true' ? total + 1 : total;
         }, 0);
 
+        console.log('accepts ', accepts);
+
         var rejects = voteCount.reduce(function(total, curr) {
-          return curr === false ? total + 1 : total;
-        }, 0)
+          return curr === 'false' ? total + 1 : total;
+        }, 0);
+
+        console.log('rejects ', rejects);
 
         var partyAccepted = accepts > rejects ? true : false;
 
@@ -65,7 +74,7 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
           memcache.resetVeto();
 
           setTimeout(function() {
-            startQuest(memcache, socket);
+            startQuest(memcache, socket, chooseParty);
           }, 5000);
 
         } else /* Party rejected */ {
@@ -78,16 +87,20 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
               timesRejected: vetoCount
             });
 
+            console.log('party rejected, vetoCount is: ', vetoCount);
+
             if (vetoCount >= 5) {
               // Set winners to minions in memcache and call the end of the game
               memcache.setWinner('MINIONS');
 
+              console.log('setting timeout in resolveParty for game end');
               setTimeout(function() {
                 gameEnd(memcache, socket);
               }, 5000);
 
             } else {
 
+              console.log('setting timeout for chooseParty in resolveParty');
               setTimeout(function() {
                 chooseParty(memcache, socket);
               }, 5000);

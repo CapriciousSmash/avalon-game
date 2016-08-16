@@ -19,13 +19,13 @@ module.exports.gameLogic = function(memcache, socket, type) {
     assignRoles(memcache, socket);
   }
   if (type === 'RESOLVE VOTE') {
-    resolvePartyVote(memcache, socket);
+    resolvePartyVote(memcache, socket, chooseParty);
   }
   if (type === 'RESOLVE PARTY') {
   	resolveParty(memcache, socket);
   }
   if (type === 'RESOLVE QUEST') {
-  	resolveQuest(memcache, socket);
+  	resolveQuest(memcache, socket, chooseParty);
   }
   if (type === 'RESOLVE MERLIN') {
   	resolveIdMerlin(memcache, socket);

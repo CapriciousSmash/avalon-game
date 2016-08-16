@@ -22,7 +22,7 @@ module.exports.gameEnd = function(memcache, socket) {
     memcache.setTurnPhase('GAME END');
 
     // TODO: Inform the players of the winners of the game based on
-    // the rounds and inform of the identify of the minions
+    // the rounds and inform of the identify of the minions d
 
     socket.emit('gameEnd', {
       gameId: 5318008,
@@ -66,6 +66,7 @@ var gameOver = function(memcache, socket) {
     });
 
     if (winners === true) {
+      console.log('GAME OVER KNIGHTS WIN');
       // TODO: Update knights' points in persistent database
       memcache.getKnights()
       .then(function(knights) {
@@ -74,6 +75,7 @@ var gameOver = function(memcache, socket) {
         }
       })
     } else /* Game winners are minions */ {
+      console.log('GAME OVER MINIONS WIN');
       // TODO Update minion's points in persistent database
       memcache.getMinions()
       .then(function(minions) {
@@ -94,6 +96,7 @@ var gameOver = function(memcache, socket) {
       setTimeout(function() {
         memcache.quit();
       }, 120000)
+
     })
   });
 };

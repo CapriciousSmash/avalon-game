@@ -41,6 +41,8 @@ const Lobby = React.createClass ({
     this.props.socket.emit('ready', !this.state.ready);
   },
   render: function() {
+    console.log('lobby function rendering');
+    console.log(this.props.currentUser.uid, this.state.gm.uid);
     return (
       <div className="inner cover"> 
         <h1>LOBBY</h1>
@@ -54,7 +56,7 @@ const Lobby = React.createClass ({
             <div className='bar six-inv'></div>    
             <div className='bar seven-inv'></div>   
           </div>    
-          <div className='loading-title'>L o a d i n g . . .</div>
+          <div className='loading-title'>L o a d i n g . . . .</div>
           <div className='row'>
             <div className='bar one'></div>
             <div className='bar two'></div>

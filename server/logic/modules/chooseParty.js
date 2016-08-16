@@ -41,6 +41,10 @@ var chooseParty = function(memcache, socket) {
 
         var partySize = teamBuilder[numPlayers - 5][currentRound - 1];
 
+        console.log('choose Party size: ', partySize);
+        console.log('party size is based on numPlayers - 5: ', numPlayers);
+        console.log('and party size is based on currentRound - 1: ', currentRound);
+
         // The current leader should be interpreted by the actual current leader on the
         // client side to know that they should decide the party size based on the limit set
         socket.emit('chooseParty', {
@@ -49,6 +53,7 @@ var chooseParty = function(memcache, socket) {
           currentLeader
         });
 
+        console.log('call setTimeout in chooseParty for resolveParty');
         setTimeout(function() {
           resolveParty(memcache, socket);
         }, 30000);
@@ -62,9 +67,11 @@ var chooseParty = function(memcache, socket) {
 var resolveParty = function(memcache, socket) {
   console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
+  console.log('resolveParty chooseParty log: ', typeof chooseParty);
   memcache.getTurnPhase()
   .then(function(gamePhase) {
     if (gamePhase !== 'PARTY') {
+      console.log('gamePhase not PARTY, fizzling');
       return;
     }
 
@@ -80,6 +87,7 @@ var resolveParty = function(memcache, socket) {
       });
 
       setTimeout(function() {
+        console.log('resolveParty setTimeout chooseParty log: ', chooseParty);
         voteOnParty(memcache, socket, chooseParty);
       }, 5000);
 
