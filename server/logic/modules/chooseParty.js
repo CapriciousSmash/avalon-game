@@ -51,7 +51,7 @@ var chooseParty = function(memcache, socket) {
 
         setTimeout(function() {
           resolveParty(memcache, socket);
-        }, 5000);
+        }, 30000);
 
       });
     });
