@@ -243,39 +243,48 @@ makeCache.prototype.initInfo = function(gameId, max = 10) {
   });
 };
 // getCapMax - takes the game id in question and returns number of the current capacity maximum
-makeCache.prototype.getCapMax = function(gameId) {
+makeCache.prototype.getCapMax = function() {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.getAsync(gameId + ':CAP:MAX')
+  return info.getAsync(this.gameNumber + ':CAP:MAX')
   .then(function() {
     return info.quit();
   });
 };
 // setCapMax - takes the game id and number to set new capacity maximum to
-makeCache.prototype.setCapMax = function(gameId, cap) {
+makeCache.prototype.setCapMax = function(cap) {
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
   // Check if cap is greater than 9
   if (cap > 9) {
     // if so, set it to 10
-    return info.setAsync(gameId + ':CAP:MAX', 10)
+    return info.setAsync(this.gameNumber + ':CAP:MAX', 10)
     .then(function() {
       return info.quit();
     })
   } else if (cap < 6) {
   // else if it's smaller than 6
     // set it to 5
-    return info.setAsync(gameId + ':CAP:MAX', 5)
+    return info.setAsync(this.gameNumber + ':CAP:MAX', 5)
     .then(function() {
       return info.quit();
     })
   } else {
   // else
     // set it to the number passed in
-    return info.setAsync(gameId + ':CAP:MAX', cap)
+    return info.setAsync(this.gameNumber + ':CAP:MAX', cap)
     .then(function() {
       return info.quit();
     })
   }
 };
 // getPlayerCount - returns the current player count
+makeCache.prototype.getPlayerCount = function() {
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  return info.getAsync(this.gameNumber + ':CAP:CUR')
+  .then(function(num) {
+    info.quit();
+    return num;
+  })
+};
 // incrPlayerCount - increases player count and returns new value
 // decrPlayerCount - decreases player count and returns new value
 // setStatus - takes a string to update the current game status
