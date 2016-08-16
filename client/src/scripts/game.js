@@ -1,6 +1,6 @@
 export default {
   init: function () {
-    //SET UP VARS////////////////
+    //SET UP VARS////////////////////////////////
     this.players = [];
     this.party = [];
     this.roleColors = {
@@ -11,7 +11,7 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
-    //SET UP SCENE////////////////
+    //SET UP SCENE///////////////////////////////
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
     this.HEIGHT = window.innerHeight;
@@ -36,15 +36,13 @@ export default {
     this.scene.add(this.camera);
 
     this.raycaster = new THREE.Raycaster();
-
-    this.mouse = {
-      x: 0,
-      y: 0
-    };
     this.camMouse = {
       x: 0,
       y: 0
     }; 
+    this.mouse = new THREE.Vector2();
+
+    //MAIN DOCUMENT LISTENERS/////////////////////
     document.addEventListener('mousemove', (e) => {
       //console.log('{', e.clientX, e.clientY, '}');
       this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
@@ -60,7 +58,7 @@ export default {
       this.renderer.setSize( window.innerWidth, window.innerHeight );
     }, false );
 
-/*  //SKY BOX///////////////////
+/*  //SKY BOX///////////////////////////////////
     //Todo: Convert to tga format, speedier loadup vs png
     // this.TGAloader = new THREE.TGALoader();
     // var imgLoc = 'skybox/ame_ash/ashcanyon_';
@@ -77,12 +75,12 @@ export default {
     textureCube.format = THREE.RGBFormat;
     this.scene.background = textureCube;
 */
-    //LIGHTS//////////////////////////
+    //LIGHTS////////////////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
     pointLight.position.set = (10, 50, 130);
     this.scene.add(pointLight);
 
-    //RENDER//////////////////////////
+    //RENDER////////////////////////////////////
     let render = () => {
 
       requestAnimationFrame(render);
@@ -101,17 +99,14 @@ export default {
           playerObj.position.x += 2;
         }
       }
-
-
-    // UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-    // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-    // this.camera.lookAt(this.scene.position);
+    this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+    this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+    this.camera.lookAt(this.scene.position);
     };
     render();
   },
   addPlayer: function(uid, color, role) {
-    if (this.players.length < 5) {
+    if (this.players.length <= 10) {
       this.players.push({
         uid,
         x: 0,
@@ -164,9 +159,7 @@ export default {
   showSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
     let plane = new THREE.PlaneGeometry(512, 128);
-    let material = new THREE.MeshBasicMaterial({
-      map: texture
-    });
+    let material = new THREE.MeshBasicMaterial({ map: texture });
 
     let sign = new THREE.Mesh(plane, material);
 
@@ -182,7 +175,6 @@ export default {
 
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
-
       let hitObject = this.intersect();   
       if (hitObject) {
         this.selected = hitObject;
@@ -303,12 +295,11 @@ export default {
     }, 30000);
   },
   intersect: function() {
-    let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
-
-    this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
-
+    //let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
+    //this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
+    //let intersected = this.raycaster.intersectObjects(this.scene.children);
+    this.raycaster.setFromCamera( this.mouse, this.camera);
     let intersected = this.raycaster.intersectObjects(this.scene.children);
-
     if (intersected[0]) {
       return intersected[0].object;
     }
