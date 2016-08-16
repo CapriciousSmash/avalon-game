@@ -1,6 +1,6 @@
 export default {
   init: function () {
-    //SET UP VARS////////////////
+    //SET UP VARS////////////////////////////////
     this.players = [];
     this.party = [];
     this.roleColors = {
@@ -11,7 +11,7 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
-    //SET UP SCENE////////////////
+    //SET UP SCENE///////////////////////////////
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
     this.HEIGHT = window.innerHeight;
@@ -36,15 +36,13 @@ export default {
     this.scene.add(this.camera);
 
     this.raycaster = new THREE.Raycaster();
-
-    this.mouse = {
-      x: 0,
-      y: 0
-    };
     this.camMouse = {
       x: 0,
       y: 0
     }; 
+    this.mouse = new THREE.Vector2();
+
+    //MAIN DOCUMENT LISTENERS/////////////////////
     document.addEventListener('mousemove', (e) => {
       //console.log('{', e.clientX, e.clientY, '}');
       this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
@@ -53,14 +51,21 @@ export default {
       this.camMouse.y = (e.clientY - this.HEIGHT / 2);
     }, false);
 
-    //SKY BOX///////////////////
+    window.addEventListener('resize', ()=> {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+
+      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    }, false );
+
+/*  //SKY BOX///////////////////////////////////
     //Todo: Convert to tga format, speedier loadup vs png
     // this.TGAloader = new THREE.TGALoader();
     // var imgLoc = 'skybox/ame_ash/ashcanyon_';
     // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
     //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
     //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
-/*REMOVE SKYBOX FOR MVP
+    ////REMOVE SKYBOX FOR MVP
     this.cubeLoader = new THREE.CubeTextureLoader();
     this.cubeLoader.setPath('skybox/ame_ash/');
     var skyboxImages = ['px.png', 'nx.png',
@@ -68,20 +73,14 @@ export default {
                         'pz.png', 'nz.png'];
     var textureCube = this.cubeLoader.load(skyboxImages);
     textureCube.format = THREE.RGBFormat;
-    this.scene.background = textureCube;*/
-
-    //LIGHTS//////////////////////////
+    this.scene.background = textureCube;
+*/
+    //LIGHTS////////////////////////////////////
     let pointLight = new THREE.PointLight(0xFFFFFF);
-
-    // set its position
-    pointLight.position.x = 10;
-    pointLight.position.y = 50;
-    pointLight.position.z = 130;
-
-    // add to the scene
+    pointLight.position.set = (10, 50, 130);
     this.scene.add(pointLight);
 
-    //RENDER//////////////////////////
+    //RENDER////////////////////////////////////
     let render = () => {
 
       requestAnimationFrame(render);
@@ -91,23 +90,26 @@ export default {
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       this.renderer.render(this.scene, this.camera);
 
-      for (let x = 0; x < this.players.length; x++) {
-        (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
+      let numPlayers = this.players.length;
+      for (let x = 0; x < numPlayers; x++) {
+        let playerObj = this.scene.getObjectByName(this.players[x].uid);
+        if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+          playerObj.position.x -= 2;
+        } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+          playerObj.position.x += 2;
+        }
       }
-
-
-      // UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-      // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      // this.camera.lookAt(this.scene.position);
+    this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+    this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+    this.camera.lookAt(this.scene.position);
     };
     render();
   },
   addPlayer: function(uid, color, role) {
-    if (this.players.length < 5) {
+    if (this.players.length <= 10) {
       this.players.push({
         uid,
-        x: this.players[this.players.length - 1] ? this.players[this.players.length - 1].x + 80 : -140,
+        x: 0,
         y: 0,
         color,
         role: this.roleColors['defaultColor']
@@ -126,7 +128,7 @@ export default {
         sphereMaterial);
 
       sphere.name = uid;
-      sphere.position.x = this.players[this.players.length - 1].x;
+      sphere.position.x = 0;
 
       // add the sphere to the scene
       this.scene.add(sphere);
@@ -157,9 +159,7 @@ export default {
   showSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
     let plane = new THREE.PlaneGeometry(512, 128);
-    let material = new THREE.MeshBasicMaterial({
-      map: texture
-    });
+    let material = new THREE.MeshBasicMaterial({ map: texture });
 
     let sign = new THREE.Mesh(plane, material);
 
@@ -175,7 +175,6 @@ export default {
 
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
-
       let hitObject = this.intersect();   
       if (hitObject) {
         this.selected = hitObject;
@@ -296,12 +295,11 @@ export default {
     }, 30000);
   },
   intersect: function() {
-    let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
-
-    this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
-
+    //let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
+    //this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
+    //let intersected = this.raycaster.intersectObjects(this.scene.children);
+    this.raycaster.setFromCamera( this.mouse, this.camera);
     let intersected = this.raycaster.intersectObjects(this.scene.children);
-
     if (intersected[0]) {
       return intersected[0].object;
     }
