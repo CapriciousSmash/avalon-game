@@ -95,9 +95,9 @@ export default {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
 
-      //this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-      //this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      //this.camera.lookAt(this.scene.position);
+      this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+      this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+      this.camera.lookAt(this.scene.position);
     };
     render();
   },
@@ -289,7 +289,11 @@ export default {
 
     this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
 
-    let intersects = this.raycaster.intersectObjects(this.scene.children);
-    return intersects[0].object || null;
+    let intersected = this.raycaster.intersectObjects(this.scene.children);
+
+    if (intersected[0]) {
+      return intersected[0].object;
+    }
+    return null;
   }
 };
