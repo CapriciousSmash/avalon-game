@@ -24,7 +24,7 @@ makeCache.prototype.init = function(pidArray) {
   }
   this.client.smembersAsync('PIDS');
   this.client.setAsync('STAGE:SIZE', pidArray.length);
-  this.client.setAsync('STAGE:ROUND', 0);
+  this.client.setAsync('STAGE:ROUND', 1);
   this.client.setAsync('STAGE:PHASE', 'GAME START');
   this.client.setAsync('SCORE:WIN', 0);
   this.client.setAsync('SCORE:LOSS', 0);
@@ -35,6 +35,8 @@ makeCache.prototype.init = function(pidArray) {
 
 // getPids - Takes nothing, returns array of PIDs
 makeCache.prototype.getPids = function() {
+  console.log('memcache getPIDs client check: ', this.client);
+  console.log('--------------------------------------------');
   return this.client.smembersAsync('PIDS');
 };
 
@@ -200,6 +202,7 @@ makeCache.prototype.getQuestResult = function() {
               randoIndex = Math.floor(Math.random() * i);
               randoResults.push(qresults.splice(randoIndex), 1);
             }
+            return randoResults;
           });
 }
 // clearQuestResults - clears the quest results to be used once again

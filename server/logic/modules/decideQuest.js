@@ -5,11 +5,14 @@ module.exports.startQuest = function(memcache, socket) {
   console.log('starting quest');
   // Information needed from memcache
   // - Current party composition
+  memcache.setTurnPhase('QUEST');
+  console.log('after set turn phase to quest');
+
   var partyMembers;
-  memcache.getTeam(function(party) {
+  memcache.getTeam().then(function(party) {
+    console.log('inside get team for starting quest');
     partyMembers = party;
     // TODO: Set current game phase in memcache to 'QUEST'
-    memcache.setTurnPhase('QUEST');
 
     // TODO: Signal to players that the quest has started and the party members
     // must vote on the result. The signal should also target the quest party
@@ -20,6 +23,7 @@ module.exports.startQuest = function(memcache, socket) {
     });
 
     // TODO: Start timer for resolveQuest
+    console.log('set timeout for resolve quest');
     setTimeout(function() {
       resolveQuest(memcache, socket);
     }, 30000);
@@ -29,7 +33,7 @@ module.exports.startQuest = function(memcache, socket) {
 var resolveQuest = function(memcache, socket) {
   console.log('resolving quest');
   var gamePhase;
-  memcahce.getTurnPhase(function(phase) {
+  memcache.getTurnPhase().then(function(phase) {
     gamePhase = phase;
     // If the current game phase isn't 'QUEST', fizzle
     if (gamePhase !== 'QUEST') {
@@ -60,19 +64,23 @@ var resolveQuest = function(memcache, socket) {
     .then(function(team) {
       partyMembers = team.slice();
     })
-    .then(memcache.getPids)
+    .then(function() {
+      memcache.getPids()
     .then(function(pids) {
       totalPlayers = pids.length;
     })
-    .then(memcache.getWin)
+    .then(function() {
+      memcache.getWin()
     .then(function(wins) {
       numSuccess = wins;
     })
-    .then(memcache.getLoss)
+    .then(function() {
+      memcache.getLoss()
     .then(function(loss) {
       numFailures = loss;
     })
-    .then(memcache.getQuestResult)
+    .then(function() {
+      memcache.getQuestResult()
     .then(function(results) {
       playerVotes = results.slice();
       for (var i = 0; i < playerVotes.length; i++) {
@@ -136,7 +144,7 @@ var resolveQuest = function(memcache, socket) {
           }, 5000);
         }
       }
-    })
+    }) }); }); }); }); 
   });
 };
 
