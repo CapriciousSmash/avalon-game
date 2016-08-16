@@ -6,22 +6,25 @@ module.exports.identifyMerlin = function(memcache, socket) {
   console.log('identifying Merlin');
   // Information needed from memcache
   // - Identify of Assassin
-  var assassinId = memcache.getAssassin();
+  memcache.getAssassin()
+  .then(function(assassinId) {
 
-  // TODO: Set current game phase in memcache to 'ID MERLIN'
-  memcache.setTurnPhase('ID MERLIN');
 
-  // TODO: Signal to players that the Assassin must make a decision to 
-  // identify Merlin
-  socket.emit('chooseMerlin', {
-  	gameId: 5318008,
-  	assassinId
+    // TODO: Set current game phase in memcache to 'ID MERLIN'
+    memcache.setTurnPhase('ID MERLIN');
+
+    // TODO: Signal to players that the Assassin must make a decision to 
+    // identify Merlin
+    socket.emit('chooseMerlin', {
+      gameId: 5318008,
+      assassinId
+    });
+
+    // TODO: Set timer for resolveIdMerlin
+    setTimeout(function() {
+      resolveIdMerlin(memcache, socket);
+    }, 5000);
   });
-
-  // TODO: Set timer for resolveIdMerlin
-  setTimeout(function() {
-  	resolveIdMerlin();
-  }, 5000);
 };
 
 var resolveIdMerlin = function(memcache, socket) {

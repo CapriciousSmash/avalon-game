@@ -53,47 +53,49 @@ var gameOver = function(memcache, socket) {
   console.log('game is over');
   // Information needed from memcache
   // - Game winning side
-  var winners = memcache.getWinner();
+  memcache.getWinner()
+  .then( function (winner) {
 
-  // TODO: Change current game phase to 'GAME OVER'
-  memcache.setTurnPhase('GAME OVER');
+    // TODO: Change current game phase to 'GAME OVER'
+    memcache.setTurnPhase('GAME OVER');
 
-  // TODO: Signal to players the final winners 
-  socket.emit('gameOver', {
-  	gameId: 5318008,
-  	winners
-  });
+    // TODO: Signal to players the final winners 
+    socket.emit('gameOver', {
+      gameId: 5318008,
+      winners
+    });
 
-  if (winners === true) {
-  	// TODO: Update knights' points in persistent database
-    memcache.getKnights()
-    .then(function(knights) {
-      for (var i = 0; i < knights.length; i++) {
-        // increasePoints(knights[i]);
-      }
-    })
-  } else /* Game winners are minions */ {
-  	// TODO Update minion's points in persistent database
-    memcache.getMinions()
-    .then(function(minions) {
-      for (var i = 0; i < minions.length; i++) {
-        // increasePoints(minions[i]);
-      }
-    })
-  }
-
-  // TODO: Update game count of all players
-  memcache.getPids()
-  .then(function(pids) {
-    for (var i = 0; i < pids.length; i++) {
-      // increaseGames(pids[i]);
+    if (winners === true) {
+      // TODO: Update knights' points in persistent database
+      memcache.getKnights()
+      .then(function(knights) {
+        for (var i = 0; i < knights.length; i++) {
+          // increasePoints(knights[i]);
+        }
+      })
+    } else /* Game winners are minions */ {
+      // TODO Update minion's points in persistent database
+      memcache.getMinions()
+      .then(function(minions) {
+        for (var i = 0; i < minions.length; i++) {
+          // increasePoints(minions[i]);
+        }
+      })
     }
-  })
-  .then(function() {
-    setTimeout(function() {
-      memcache.quit();
-    }, 120000)
-  })
+
+    // TODO: Update game count of all players
+    memcache.getPids()
+    .then(function(pids) {
+      for (var i = 0; i < pids.length; i++) {
+        // increaseGames(pids[i]);
+      }
+    })
+    .then(function() {
+      setTimeout(function() {
+        memcache.quit();
+      }, 120000)
+    })
+  });
 };
 
 module.exports.gameOver = gameOver;
