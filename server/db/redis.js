@@ -244,21 +244,36 @@ makeCache.prototype.initInfo = function(gameId, max = 10) {
 };
 // getCapMax - takes the game id in question and returns number of the current capacity maximum
 makeCache.prototype.getCapMax = function(gameId) {
-  return this.info.getAsync(gameId + ':CAP:MAX');
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  return info.getAsync(gameId + ':CAP:MAX')
+  .then(function() {
+    return info.quit();
+  });
 };
 // setCapMax - takes the game id and number to set new capacity maximum to
 makeCache.prototype.setCapMax = function(gameId, cap) {
   // Check if cap is greater than 9
   if (cap > 9) {
     // if so, set it to 10
-    this.info.setAsync()
-  }
+    return info.setAsync(gameId + ':CAP:MAX', 10)
+    .then(function() {
+      return info.quit();
+    })
+  } else if (cap < 6) {
   // else if it's smaller than 6
     // set it to 5
+    return info.setAsync(gameId + ':CAP:MAX', 5)
+    .then(function() {
+      return info.quit();
+    })
+  } else {
   // else
     // set it to the number passed in
-
-  // return a call to the current cap so it can be used with other promises
+    return info.setAsync(gameId + ':CAP:MAX', cap)
+    .then(function() {
+      return info.quit();
+    })
+  }
 };
 // getPlayerCount - returns the current player count
 // incrPlayerCount - increases player count and returns new value
