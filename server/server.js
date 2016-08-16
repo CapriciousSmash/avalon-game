@@ -6,6 +6,7 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var path = require('path');
 var passport = require('passport');
+var shortid = require('shortid');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -43,6 +44,7 @@ function deepSearch(id, arr) {
 }
 
 var players = [];
+var rooms = {};
 io.on('connection', (socket)=>{
   //PLAYER==================================================
   //Init Player
@@ -65,7 +67,19 @@ io.on('connection', (socket)=>{
       players: players.slice(1, players.length)
     });
   });
-
+  //ROOMS==================================================
+  socket.on('joinRoom', function(data) {
+    if (io.sockets.adapter.rooms[data.room] > 10) {
+      socket.emit('joinResponse', false);  
+    } else {
+      socket.join(data.room);
+      socket.emit('joinResponse', true);  
+    }
+  });
+  socket.on('leaveRoom', function(data) {
+    socket.leave(data.room);
+    //refresh page for everyone else
+  });
   //LOBBY==================================================
   socket.on('lobby', function(lobbyId) {
     io.emit('lobbyInfo', {
