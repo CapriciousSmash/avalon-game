@@ -5,3 +5,5 @@ export const LOGGED_OUT = 'LOGGED_OUT';
 export const CHANGE_INFO = 'CHANGE_INFO';
 
 export const CHANGE_GAME_STATE = 'CHANGE_GAME_STATE';
+
+export const LOBBY_ROOM = 'LOBBY_ROOM';
