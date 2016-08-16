@@ -36,17 +36,21 @@ export default {
     this.scene.add(this.camera);
 
     this.raycaster = new THREE.Raycaster();
-    this.mouseVector = new THREE.Vector3(0, 0, 0);
 
     this.mouse = {
       x: 0,
       y: 0
     };
-
+    this.camMouse = {
+      x: 0,
+      y: 0
+    }; 
     document.addEventListener('mousemove', (e) => {
-      console.log('{', e.clientX, e.clientY, '}');
+      //console.log('{', e.clientX, e.clientY, '}');
       this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
       this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+      this.camMouse.x = (e.clientX - this.WIDTH / 2);
+      this.camMouse.y = (e.clientY - this.HEIGHT / 2);
     }, false);
 
     //SKY BOX///////////////////
@@ -90,6 +94,12 @@ export default {
       for (let x = 0; x < this.players.length; x++) {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
+
+
+      //UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+      //this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+      //this.camera.lookAt(this.scene.position);
     };
     render();
   },
@@ -166,16 +176,11 @@ export default {
     let stabMerlin;
     this.renderer.domElement.addEventListener('click', stabMerlin = (e) => {
 
-      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
-
-      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
-
-      let intersects = this.raycaster.intersectObjects(this.scene.children);      
-      if (intersects.length) {
-        this.selected = intersects[0].object;
+      let hitObject = this.intersect();   
+      if (hitObject) {
+        this.selected = hitObject;
         this.selected.material.color.setHex('0xFFFFFF');
         console.log(this.selected.name);
-        //sendPickedMerlin(this.selected.name);
         sendPickedMerlin(this.selected.name);
       }
       this.hideSign('stabMerlin');
@@ -196,16 +201,13 @@ export default {
     let pickParty;
     this.renderer.domElement.addEventListener('click', pickParty = (e) => {
 
-      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
-
-      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
-
-      let intersects = this.raycaster.intersectObjects(this.scene.children);      
-      if (intersects.length) {
-        this.selected = intersects[0].object;
+      let hitObject = this.intersect();   
+      console.log('HIT', hitObject);
+      if (hitObject) {
+        this.selected = hitObject;
         this.selected.material.color.setHex('0xFFFFFF');
 
-        if( this.party.indexOf(this.selected.name) < 0 ) {
+        if (this.party.indexOf(this.selected.name) < 0) {
           console.log('sending the chosen member', this.selected.name);
           this.party.push(this.selected.name);
         }
@@ -226,14 +228,14 @@ export default {
     }, 30000);
   },
   createVoteButtons: function(voteOnParty) {
-    let geometry = new THREE.BoxGeometry(30,10,10);
-    let acceptMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF})
+    let geometry = new THREE.BoxGeometry(30, 10, 10);
+    let acceptMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
     let accept = new THREE.Mesh(geometry, acceptMaterial);
-    accept.position.set(100,100,0);
+    accept.position.set(100, 100, 0);
     accept.name = 'accept';
 
     let rejectMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
-    let reject = new THREE.Mesh(geometry, rejectMaterial)
+    let reject = new THREE.Mesh(geometry, rejectMaterial);
     reject.position.set(100, 100 - 20, 0);
     reject.name = 'reject';
 
@@ -242,18 +244,9 @@ export default {
 
     let partyVote;
     this.renderer.domElement.addEventListener('click', partyVote = (e) => {
-      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
-
-      this.mouseVector.set(this.mouse.x, this.mouse.y, 0).unproject(this.camera)
-
-      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
-
-      let intersects = this.raycaster.intersectObjects(this.scene.children);
-      console.log(intersects)
-
-      if (intersects.length) {
-        const vote = intersects[0].object.name === 'reject' ? false : true;
+      let hitObject = this.intersect();   
+      if (hitObject) {
+        const vote = hitObject.name === 'reject' ? false : true;
         voteOnParty(vote);
 
         let acceptObject = this.scene.getObjectByName('accept');
@@ -268,14 +261,14 @@ export default {
     }, 30000);
   },   
   createQuestButtons: function(voteOnQuest) {
-    let geometry = new THREE.BoxGeometry(30,10,10);
-    let successMaterial = new THREE.MeshBasicMaterial({color: 0x0000FF})
+    let geometry = new THREE.BoxGeometry(30, 10, 10);
+    let successMaterial = new THREE.MeshBasicMaterial({color: 0x0000FF});
     let success = new THREE.Mesh(geometry, successMaterial);
-    success.position.set(100,100,0);
+    success.position.set(100, 100, 0);
     success.name = 'success';
 
     let failMaterial = new THREE.MeshBasicMaterial({color: 0xFF0000});
-    let fail = new THREE.Mesh(geometry, failMaterial)
+    let fail = new THREE.Mesh(geometry, failMaterial);
     fail.position.set(100, 100 - 20, 0);
     fail.name = 'fail';
 
@@ -285,16 +278,9 @@ export default {
 
     let questVote;
     this.renderer.domElement.addEventListener('click', questVote = (e) => {
-      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
-
-      this.mouseVector.set( this.mouse.x, this.mouse.y, 0 ).unproject(this.camera);
-
-      this.raycaster.set(this.camera.position, this.mouseVector.sub(this.camera.position).normalize());
-
-      let intersects = this.raycaster.intersectObjects(this.scene.children);
-      if (intersects.length) {
-        const vote = intersects[0].object.name === 'fail' ? false : true;
+      let hitObject = this.intersect();   
+      if (hitObject) {
+        const vote = hitObject.object.name === 'fail' ? false : true;
         voteOnQuest(vote);
 
         let successObject = this.scene.getObjectByName('success');
@@ -309,7 +295,16 @@ export default {
       this.renderer.domElement.removeEventListener('click', questVote);
     }, 30000);
   },
-  play: ()=>{
-    console.log('playing something');
-  },
+  intersect: function() {
+    let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
+
+    this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
+
+    let intersected = this.raycaster.intersectObjects(this.scene.children);
+
+    if (intersected[0]) {
+      return intersected[0].object;
+    }
+    return null;
+  }
 };
