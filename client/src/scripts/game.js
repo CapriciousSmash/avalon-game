@@ -263,6 +263,9 @@ export default {
         this.renderer.domElement.removeEventListener('click', partyVote);
       }
     });
+    setTimeout(()=>{
+      this.renderer.domElement.removeEventListener('click', partyVote);
+    }, 30000);
   },   
   createQuestButtons: function(voteOnQuest) {
     let geometry = new THREE.BoxGeometry(30,10,10);
