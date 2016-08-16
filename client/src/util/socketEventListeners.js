@@ -88,13 +88,16 @@ module.exports = {
       console.log('Data I got from resolveQuest', data);
     });
     socket.on('gameEnd', function(data) {
+      console.log('Data I got from gameEnd', data);
+    });
+    socket.on('chooseMerlin', function(data) {
       game.stabMerlin(player => {
         socket.emit('stabMerlin', 
           {
-            merlindId: player
+            merlindId: player,
+            playerId: socket.id.slice(2)
           });
       });
-      console.log('Data I got from gameEnd', data);
     });
     socket.on('resolveMerlin', function(data) {
       console.log('Data I got from resolveMerlin', data);

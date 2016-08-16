@@ -283,7 +283,7 @@ export default {
 
     setTimeout(()=>{
       this.hideSign('stabMerlin');
-      sendPickedMerlin('No merlin selected');
+      //Send nothing, taken care of on serverside
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     }, 5000);
   },
