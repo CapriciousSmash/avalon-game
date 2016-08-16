@@ -1,7 +1,7 @@
 // This function allows us to create a threeJS element that will effectively take
 // the place of the renderer and bring the application into a stereoscopic view instead
 
-THREE.StereoEffect = function(renderer) {
+var StereoEffect = function(renderer) {
   
   this.separation = 3;
 
@@ -111,4 +111,4 @@ THREE.StereoEffect = function(renderer) {
 
 };
 
-export default THREE.StereoEffect;
+export default StereoEffect;

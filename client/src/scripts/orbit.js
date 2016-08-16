@@ -1,7 +1,7 @@
 // From Google web VR 
 // Creates camera movement based on phone movements. 
 
-THREE.OrbitControls = function (object, domElement) {
+var OrbitControls = function (object, domElement) {
 
   this.object = object;
   this.domElement = (domElement !== undefined) ? domElement : document;
@@ -57,7 +57,7 @@ THREE.OrbitControls = function (object, domElement) {
 
   // internals
 
-  var self = this;
+  var scope = this;
 
   var EPS = 0.000001;
 
@@ -636,6 +636,6 @@ THREE.OrbitControls = function (object, domElement) {
 
 };
 
-THREE.OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
+OrbitControls.prototype = Object.create(THREE.EventDispatcher.prototype);
 
-export default THREE.OrbitControls;
+export default OrbitControls;
