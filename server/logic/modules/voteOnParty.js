@@ -15,7 +15,7 @@ module.exports.voteOnParty = function(memcache, socket, chooseParty) {
 
     setTimeout(function() {
       resolvePartyVote(memcache, socket, chooseParty);
-    }, 5000);
+    }, 30000);
   });
 
 }

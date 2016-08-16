@@ -184,6 +184,7 @@ export default {
 
     setTimeout(()=>{
       this.hideSign('stabMerlin');
+      sendPickedMerlin('No merlin selected');
       this.renderer.domElement.removeEventListener('click', stabMerlin);
     }, 5000);
   },
@@ -220,8 +221,9 @@ export default {
 
     setTimeout(()=>{
       this.hideSign('pickParty');
+      sendPickedParty('no party members picked');
       this.renderer.domElement.removeEventListener('click', pickParty);
-    }, 5000);
+    }, 30000);
   },
   createVoteButtons: function(voteOnParty) {
     let geometry = new THREE.BoxGeometry(30,10,10);
@@ -261,6 +263,9 @@ export default {
         this.renderer.domElement.removeEventListener('click', partyVote);
       }
     });
+    setTimeout(()=>{
+      this.renderer.domElement.removeEventListener('click', partyVote);
+    }, 30000);
   },   
   createQuestButtons: function(voteOnQuest) {
     let geometry = new THREE.BoxGeometry(30,10,10);
@@ -299,6 +304,10 @@ export default {
         this.renderer.domElement.removeEventListener('click', questVote);
       }
     });
+
+    setTimeout(()=>{
+      this.renderer.domElement.removeEventListener('click', questVote);
+    }, 30000);
   },
   play: ()=>{
     console.log('playing something');

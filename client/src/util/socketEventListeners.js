@@ -50,15 +50,15 @@ module.exports = {
     socket.on('assignRoles', function(data) {
       console.log('THEY BE', data);
       //game.assignRoles(data, socket.id.slice(2), data[socket.id.slice(2)]);
+      console.log('Data I got from assignRoles', data);
+    });
+    socket.on('chooseParty', function(data) {
       game.pickParty(party => {
         socket.emit('pickParty', {
           playerId: party
         });
       // Need party number from data <-------------------------------
-      }, 2);
-      console.log('Data I got from assignRoles', data);
-    });
-    socket.on('chooseParty', function(data) {
+      });
       console.log('Data I got from sendParty', data);
     });
     socket.on('resolveParty', function(data) {

@@ -22,7 +22,7 @@ module.exports.startQuest = function(memcache, socket) {
     // TODO: Start timer for resolveQuest
     setTimeout(function() {
       resolveQuest(memcache, socket);
-    }, 5000);
+    }, 30000);
   });
 };
 
