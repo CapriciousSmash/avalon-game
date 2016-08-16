@@ -97,9 +97,9 @@ export default {
 
 
       // UNCOMMENT TO SEE CAMERA MOVEMENT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-      this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-      this.camera.lookAt(this.scene.position);
+      // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+      // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+      // this.camera.lookAt(this.scene.position);
     };
     render();
   },
