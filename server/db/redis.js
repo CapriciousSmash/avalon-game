@@ -35,8 +35,6 @@ makeCache.prototype.init = function(pidArray) {
 
 // getPids - Takes nothing, returns array of PIDs
 makeCache.prototype.getPids = function() {
-  console.log('memcache getPIDs client check: ', this.client);
-  console.log('--------------------------------------------');
   return this.client.smembersAsync('PIDS');
 };
 

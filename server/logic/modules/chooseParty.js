@@ -67,7 +67,7 @@ var chooseParty = function(memcache, socket) {
 var resolveParty = function(memcache, socket) {
   console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
-  console.log('resolveParty chooseParty log: ', chooseParty);
+  console.log('resolveParty chooseParty log: ', typeof chooseParty);
   memcache.getTurnPhase()
   .then(function(gamePhase) {
     if (gamePhase !== 'PARTY') {
