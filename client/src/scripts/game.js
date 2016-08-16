@@ -1,6 +1,13 @@
+import OrbitControls from './orbit';
+import orientationInit from './orientation';
+import StereoEffect from './stereoscopic.js';
+
 export default {
   init: function () {
-    //SET UP VARS////////////////////////////////
+
+    orientationInit();
+
+    //SET UP VARS////////////////
     this.players = [];
     this.party = [];
     this.roleColors = {
@@ -11,29 +18,107 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
-    //SET UP SCENE///////////////////////////////
+
+    // Using self to maintain context in inner functions, but can probably be
+    // refactored by making those functions arrow functions
+
+    var self = this;
+
+    //SET UP SCENE////////////////
+
+    // Scene related constant variables: 
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
     this.HEIGHT = window.innerHeight;
-
     const VIEW_ANGLE = 45,
           ASPECT = this.WIDTH / this.HEIGHT,
           NEAR = 0.1,
           FAR = 10000;
 
+    // Init scene
+    this.scene = new THREE.Scene();
+
+    // Init renderer
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
-    $gameContainer.append(this.renderer.domElement);
-    
+
+    this.element = this.renderer.domElement;
+    $gameContainer.append(this.element);
+
+    // Init stereo effect that will allow the game to be rendered in a stereoscopic
+    // view. Render with effect instead of renderer in render loop to get the view
+    this.effect = new StereoEffect(this.renderer);
+
+    // Init camera
     this.camera = new THREE.PerspectiveCamera(
         VIEW_ANGLE, ASPECT, NEAR, FAR
       );
     this.camera.position.z = 500;
-
-    this.textureLoader = new THREE.TextureLoader();
-
-    this.scene = new THREE.Scene();
     this.scene.add(this.camera);
+
+    // Camera VR controls: 
+    this.controls = new OrbitControls(this.camera, this.element);
+    this.controls.target.set(
+      this.camera.position.x + 0.15,
+      this.camera.position.y,
+      this.camera.position.z
+    );
+    this.controls.noPan = true;
+    this.controls.noZoom = true;
+
+    // setOrientationControls will only activate if the user is on mobile. Otherwise,
+    // no effect
+    function setOrientationControls(e) {
+      if (!e.alpha) {
+        return;
+      }
+      self.controls = new THREE.DeviceOrientationControls(this.camera, true);
+      self.controls.connect();
+      self.controls.update();
+      self.element.addEventListener('click', fullscreen, false);
+      window.removeEventListener('deviceorientation', setOrientationControls, true);
+    }
+
+    window.addEventListener('deviceorientation', setOrientationControls, true);
+
+    // Will allow the container to become full screen
+    function fullscreen() {
+      if ($gameContainer.requestFullscreen) {
+        $gameContainer.requestFullscreen();
+      } else if ($gameContainer.msRequestFullscreen) {
+        $gameContainer.msRequestFullscreen();
+      } else if ($gameContainer.mozRequestFullScreen) {
+        $gameContainer.mozRequestFullScreen();
+      } else if ($gameContainer.webkitRequestFullscreen) {
+        $gameContainer.webkitRequestFullscreen();
+      }
+      resize();
+    }
+
+    // Resize sets up to change the size of the screen on mobile for full screen mode. 
+    function resize() {
+      var nativePixelRatio = window.devicePixelRatio = window.devicePixelRatio ||
+      Math.round(window.screen.availWidth / document.documentElement.clientWidth);
+
+      var devicePixelRatio = nativePixelRatio;
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      self.camera.aspect = devicePixelRatio;
+      self.camera.updateProjectionMatrix();
+      self.renderer.setSize(width, height);
+      self.effect.setSize(width, height);
+    }
+
+    // Update calls the resize to adjust window when necessary and update teh camera
+    // controls for each render loop iteration
+    function update() {
+      resize();
+      self.camera.updateProjectionMatrix();
+      self.controls.update();
+    }
+    
+    this.textureLoader = new THREE.TextureLoader();
 
     this.raycaster = new THREE.Raycaster();
     this.camMouse = {
@@ -43,20 +128,20 @@ export default {
     this.mouse = new THREE.Vector2();
 
     //MAIN DOCUMENT LISTENERS/////////////////////
-    document.addEventListener('mousemove', (e) => {
-      //console.log('{', e.clientX, e.clientY, '}');
-      this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
-      this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
-      this.camMouse.x = (e.clientX - this.WIDTH / 2);
-      this.camMouse.y = (e.clientY - this.HEIGHT / 2);
-    }, false);
+    // document.addEventListener('mousemove', (e) => {
+    //   //console.log('{', e.clientX, e.clientY, '}');
+    //   this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+    //   this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+    //   this.camMouse.x = (e.clientX - this.WIDTH / 2);
+    //   this.camMouse.y = (e.clientY - this.HEIGHT / 2);
+    // }, false);
 
-    window.addEventListener('resize', ()=> {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
+    // window.addEventListener('resize', ()=> {
+    //   this.camera.aspect = window.innerWidth / window.innerHeight;
+    //   this.camera.updateProjectionMatrix();
 
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
-    }, false );
+    //   this.renderer.setSize( window.innerWidth, window.innerHeight );
+    // }, false );
 
 /*  //SKY BOX///////////////////////////////////
     //Todo: Convert to tga format, speedier loadup vs png
@@ -81,6 +166,7 @@ export default {
     this.scene.add(pointLight);
 
     //RENDER////////////////////////////////////
+
     let render = () => {
 
       requestAnimationFrame(render);
@@ -88,6 +174,11 @@ export default {
       let d = new Date();
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
+      update();
+
+      // Uncomment this.effect.render and comment out this.renderer.render for stereoeffect. 
+      // For non-stereoscopic view, recomment and uncomment this.renderer.render
+      // this.effect.render(this.scene, this.camera);
       this.renderer.render(this.scene, this.camera);
 
       let numPlayers = this.players.length;
@@ -99,13 +190,17 @@ export default {
           playerObj.position.x += 2;
         }
       }
-    this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-    this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-    this.camera.lookAt(this.scene.position);
+
+      // this code interferes with the VR camera. Commenting out for now. 
+      // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+      // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+      // this.camera.lookAt(this.scene.position);
+
     };
     render();
   },
   addPlayer: function(uid, color, role) {
+    console.log('add Player is running');
     if (this.players.length <= 10) {
       this.players.push({
         uid,
