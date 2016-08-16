@@ -280,7 +280,7 @@ export default {
     this.renderer.domElement.addEventListener('click', questVote = (e) => {
       let hitObject = this.intersect();   
       if (hitObject) {
-        const vote = hitObject.object.name === 'fail' ? false : true;
+        const vote = hitObject.name === 'fail' ? false : true;
         voteOnQuest(vote);
 
         let successObject = this.scene.getObjectByName('success');

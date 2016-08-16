@@ -74,7 +74,7 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
           memcache.resetVeto();
 
           setTimeout(function() {
-            startQuest(memcache, socket);
+            startQuest(memcache, socket, chooseParty);
           }, 5000);
 
         } else /* Party rejected */ {

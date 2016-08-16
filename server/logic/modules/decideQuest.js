@@ -1,7 +1,7 @@
 var gameEnd = require('./gameOver').gameEnd;
 var chooseParty = require('./chooseParty').chooseParty;
 
-module.exports.startQuest = function(memcache, socket) {
+module.exports.startQuest = function(memcache, socket, chooseParty) {
   console.log('starting quest');
   // Information needed from memcache
   // - Current party composition
@@ -25,12 +25,12 @@ module.exports.startQuest = function(memcache, socket) {
     // TODO: Start timer for resolveQuest
     console.log('set timeout for resolve quest');
     setTimeout(function() {
-      resolveQuest(memcache, socket);
+      resolveQuest(memcache, socket, chooseParty);
     }, 30000);
   });
 };
 
-var resolveQuest = function(memcache, socket) {
+var resolveQuest = function(memcache, socket, chooseParty) {
   console.log('resolving quest');
   var gamePhase;
   memcache.getTurnPhase().then(function(phase) {
