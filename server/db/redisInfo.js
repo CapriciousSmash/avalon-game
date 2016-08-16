@@ -13,6 +13,7 @@ var makeDBInfo = function() {
   });
 };
 
+// initInfo - initializes all the info for reference
 makeDBInfo.prototype.initInfo = function(gameIds, max) {
   var id;
   for (var i = 0; i < gameIds.length; i++) {
@@ -24,5 +25,14 @@ makeDBInfo.prototype.initInfo = function(gameIds, max) {
   }
   return this.client.smembersAsync('GAMEIDS');
 };
+// setCapMax - takes number to set new capacity maximum to
+// getCapMax - returns number of the current capacity maximum
+// getPlayerCount - returns the current player count
+// incrPlayerCount - increases player count and returns new value
+// decrPlayerCount - decreases player count and returns new value
+// setStatus - takes a string to update the current game status
+// getStatus - returns the current game status
+// getAllGIDs - returns all the game ids stored and utilized
+
 
 module.exports = makeDBInfo;
