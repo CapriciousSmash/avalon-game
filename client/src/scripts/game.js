@@ -21,6 +21,7 @@ export default {
 
     // Using self to maintain context in inner functions, but can probably be
     // refactored by making those functions arrow functions
+
     var self = this;
 
     //SET UP SCENE////////////////
@@ -100,6 +101,7 @@ export default {
       Math.round(window.screen.availWidth / document.documentElement.clientWidth);
 
       var devicePixelRatio = nativePixelRatio;
+
       var width = window.innerWidth;
       var height = window.innerHeight;
       self.camera.aspect = devicePixelRatio;
@@ -173,6 +175,7 @@ export default {
       pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       update();
+
       // Uncomment this.effect.render and comment out this.renderer.render for stereoeffect. 
       // For non-stereoscopic view, recomment and uncomment this.renderer.render
       // this.effect.render(this.scene, this.camera);
@@ -187,6 +190,7 @@ export default {
           playerObj.position.x += 2;
         }
       }
+
       // this code interferes with the VR camera. Commenting out for now. 
       // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
       // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
