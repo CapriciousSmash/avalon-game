@@ -209,35 +209,12 @@ makeCache.prototype.clearQuestResults = function() {
 };
 // clear - deletes all stored values
 makeCache.prototype.clear = function() {
-  var context = this;
-  return this.getPids()
-  .then(function(pids) {
-    for (var i = 0; i < pids.length; i++) {
-      context.client.delAsync(pids[i] + ':ROLE');
-      context.client.delAsync(pids[i] + ':VOTE');
-    }
-    context.client.delAsync('KNIGHTS');
-    context.client.delAsync('MINIONS');
-    context.client.delAsync('SIZE');
-    context.client.delAsync('STAGE:ROUND');
-    context.client.delAsync('STAGE:PHASE');
-    context.client.delAsync('LEADER');
-    context.client.delAsync('TEAM');
-    context.client.delAsync('VETO');
-    context.client.delAsync('QRESULT');
-    context.client.delAsync('VOTECOUNT');
-    context.client.delAsync('SCORE:WIN');
-    context.client.delAsync('SCORE:LOSS');
-    context.client.delAsync('MGUESS');
-    context.client.delAsync('MERLIN');
-    context.client.delAsync('ASSASSIN');
-    context.client.delAsync('WINNER');
-    context.client.delAsync('PIDS');
-  })
+  return this.client.flushallAsync();
 };
 // quit - closes the client connection
 makeCache.prototype.quit = function() {
-  return this.clear().then(this.client.quit);
+  return this.clear();
+  // .then(this.client.quit);
 };
 
 module.exports = makeCache;
