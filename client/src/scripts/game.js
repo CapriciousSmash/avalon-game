@@ -1,6 +1,17 @@
+import THREE.OrbitControls from './orbit';
+import orientationInit from '.orientation';
+import THREE.StereoEffect from './stereoscopic.js';
+
 export default {
   init: function () {
+<<<<<<< c348c188e0da0b43841de6214e11b7035a4fd86c
     //SET UP VARS////////////////////////////////
+=======
+
+    orientationInit();
+
+    //SET UP VARS////////////////
+>>>>>>> addition of VR game orientation module and begin edits to game script to allow VR elements.
     this.players = [];
     this.party = [];
     this.roleColors = {
@@ -11,29 +22,45 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
+<<<<<<< c348c188e0da0b43841de6214e11b7035a4fd86c
     //SET UP SCENE///////////////////////////////
+=======
+
+    //SET UP SCENE////////////////
+
+    // Scene related constant variables: 
+>>>>>>> addition of VR game orientation module and begin edits to game script to allow VR elements.
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
     this.HEIGHT = window.innerHeight;
-
     const VIEW_ANGLE = 45,
           ASPECT = this.WIDTH / this.HEIGHT,
           NEAR = 0.1,
           FAR = 10000;
 
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(this.WIDTH, this.HEIGHT);
-    $gameContainer.append(this.renderer.domElement);
-    
+    // Init scene
+    this.scene = new THREE.Scene();
+
+    // Init camera
     this.camera = new THREE.PerspectiveCamera(
         VIEW_ANGLE, ASPECT, NEAR, FAR
       );
     this.camera.position.z = 500;
+    this.scene.add(this.camera);
 
+    // Init renderer
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(this.WIDTH, this.HEIGHT);
+
+    this.element = this.renderer.domElement);
+    $gameContainer.append(this.element);
+
+    // Init stereo effect that will allow the game to be rendered in a stereoscopic
+    // view. Render with effect instead of renderer in render loop to get the view
+    this.effect = new THREE.StereoEffect(this.renderer);
+    
     this.textureLoader = new THREE.TextureLoader();
 
-    this.scene = new THREE.Scene();
-    this.scene.add(this.camera);
 
     this.raycaster = new THREE.Raycaster();
     this.camMouse = {
@@ -81,6 +108,7 @@ export default {
     this.scene.add(pointLight);
 
     //RENDER////////////////////////////////////
+
     let render = () => {
 
       requestAnimationFrame(render);
