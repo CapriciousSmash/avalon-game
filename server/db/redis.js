@@ -16,7 +16,8 @@ var makeCache = function(gameNumber) {
 
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
-makeCache.prototype.init = function(pidArray) {
+makeCache.prototype.init = function(gameId, pidArray) {
+  this.client.setAsync('GAMEID', gameId);
   for (var i = 0; i < pidArray.length; i++) {
     this.client.saddAsync('PIDS', pidArray[i]);
     this.client.setAsync(pidArray[i] + ':ROLE', 'none');

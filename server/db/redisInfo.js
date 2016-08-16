@@ -13,6 +13,16 @@ var makeDBInfo = function() {
   });
 };
 
-
+makeDBInfo.prototype.initInfo = function(gameIds, max) {
+  var id;
+  for (var i = 0; i < gameIds.length; i++) {
+    id = gameIds[i];
+    this.client.setAsync(id + ':CAP:MAX', max);
+    this.client.setAsync(id + ':CAP:CUR', 0);
+    this.client.setAsync(id + ':STATUS', 'Waiting');
+    this.client.saddAsync('GAMEIDS', id);
+  }
+  return this.client.smembersAsync('GAMEIDS');
+};
 
 module.exports = makeDBInfo;
