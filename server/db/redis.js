@@ -32,6 +32,22 @@ makeCache.prototype.init = function(gameId, pidArray) {
   this.client.setAsync('VETO', 0);
   this.client.setAsync('MGUESS', 'none');
   return this.client.setAsync('WINNER', 'none');
+
+  /*
+    This commented section is to be referenced when augmenting the origin init function
+
+    makeDBInfo.prototype.initInfo = function(gameIds, max) {
+    var id;
+    for (var i = 0; i < gameIds.length; i++) {
+      id = gameIds[i];
+      this.client.setAsync(id + ':CAP:MAX', max);
+      this.client.setAsync(id + ':CAP:CUR', 0);
+      this.client.setAsync(id + ':STATUS', 'Waiting');
+      this.client.saddAsync('GAMEIDS', id);
+    }
+    return this.client.smembersAsync('GAMEIDS');
+  };
+  */
 };
 
 // getPids - Takes nothing, returns array of PIDs
@@ -217,5 +233,34 @@ makeCache.prototype.quit = function() {
   return this.clear();
   // .then(this.client.quit);
 };
+
+// DB INFO
+// This section of handlers specifically interacts with how certain status and
+// situational information is handled for ease of use
+
+// getCapMax - takes the game id in question and returns number of the current capacity maximum
+makeDBInfo.prototype.getCapMax = function(gameId) {
+  return this.client.getAsync(gameId + ':CAP:MAX');
+};
+// setCapMax - takes the game id and number to set new capacity maximum to
+makeDBInfo.prototype.setCapMax = function(gameId, cap) {
+  // Check if cap is greater than 9
+  if (cap > 9) {
+    // if so, set it to 10
+    this.client.setAsync()
+  }
+  // else if it's smaller than 6
+    // set it to 5
+  // else
+    // set it to the number passed in
+
+  // return a call to the current cap so it can be used with other promises
+};
+// getPlayerCount - returns the current player count
+// incrPlayerCount - increases player count and returns new value
+// decrPlayerCount - decreases player count and returns new value
+// setStatus - takes a string to update the current game status
+// getStatus - returns the current game status
+// getAllGIDs - returns all the game ids stored and utilized
 
 module.exports = makeCache;
