@@ -12,7 +12,7 @@ var makeCache = function(gameNumber) {
   this.client.on('error', function(err) {
     console.log('ERROR' + err);
   });
-}
+};
 
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
