@@ -42,11 +42,22 @@ export default {
       x: 0,
       y: 0
     };
-
+    this.camMouse = {
+      x: 0,
+      y: 0
+    }; 
+    //MOUSE/////////////////////
+    // document.addEventListener('mousemove', (e) => {
+    //   console.log('{', e.clientX, e.clientY, '}');
+    //   this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
+    //   this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+    // }, false);
     document.addEventListener('mousemove', (e) => {
       console.log('{', e.clientX, e.clientY, '}');
       this.mouse.x = (e.clientX / this.WIDTH) * 2 - 1;
       this.mouse.y = - (e.clientY / this.HEIGHT) * 2 + 1;
+      this.camMouse.x = (e.clientX - this.WIDTH / 2);
+      this.camMouse.y = (e.clientY - this.HEIGHT / 2);
     }, false);
 
     //SKY BOX///////////////////
@@ -90,6 +101,10 @@ export default {
       for (let x = 0; x < this.players.length; x++) {
         (this.scene.getObjectByName(this.players[x].uid)).position.x = (500 / this.players.length) / 2 * (1 + (2 * x)) - 250;
       }
+
+      this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+      this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+      this.camera.lookAt(this.scene.position);
     };
     render();
   },
