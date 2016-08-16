@@ -39,7 +39,7 @@ var chooseParty = function(memcache, socket) {
           [3, 4, 4, 5, 5]
         ];
 
-        var partySize = teamBuilder[numPlayers - 5][currentRound - 1];
+        var partySize = teamBuilder[numPlayers - 5] ? teamBuilder[numPlayers - 5][currentRound - 1];
 
         console.log('choose Party size: ', partySize);
         console.log('party size is based on numPlayers - 5: ', numPlayers);
