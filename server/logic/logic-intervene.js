@@ -75,19 +75,31 @@ module.exports.partyVote = function(memcache, socket, data) {
 // party more quickly if all votes are in
 module.exports.questVote = function(memcache, socket, data) {
   
-  memcache.saveQuestResult(data.playerId, data.vote).then(function() {
-    memcache.getQuestResult(function(qResults) {
-      var voteCount = qResults.length;
+  // Test to see whether the player who voted should be voting
+  memcache.getTeam().then(function(partyList) {
+    if (partyList.indexOf(data.playerId) > -1) {
+      // Make sure votes were not duplicated
+      memcache.getQuestResult().then(function(qResults) {
 
-      memcache.getTeam().then(function(partyList) {
-        var numPartymembers = partyList.length;
+        if (qResults.indexOf(data.playerId) === -1) {
+          memcache.saveQuestResult(data.playerId, data.vote);
+          // If voting is complete, move onward.
+          var voteCount = qResults.length;
 
-        if (voteCount === numPartyMembers) {
-          gameLogic(memcache, socket, 'RESOLVE QUEST');
+          if (voteCount === partyList.length) {
+            console.log('All party votes are in, calling main game logic');
+            gameLogic(memcache, socket, 'RESOLVE QUEST');
+          }
+        } else {
+          console.log('Player voted already, fizzling');
         }
+
       });
-    });
+    } else {
+      console.log('Invalid voting detected. Ending function');
+    }
   });
+
 };
 
 
