@@ -246,7 +246,7 @@ export default {
     this.renderer.domElement.addEventListener('click', partyVote = (e) => {
       let hitObject = this.intersect();   
       if (hitObject) {
-        const vote = intersects[0].object.name === 'reject' ? false : true;
+        const vote = hitObject.name === 'reject' ? false : true;
         voteOnParty(vote);
 
         let acceptObject = this.scene.getObjectByName('accept');
