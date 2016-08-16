@@ -3,13 +3,13 @@ import React from 'react';
 export default class SignIn extends React.Component {
   render() {
     return (
-      <form onSubmit="">
+      <form className="text-center" onSubmit="">
         <fieldset>
-          <label>Username </label>
+          <h3>Username </h3>
           <input placeholder='Username'></input>
         </fieldset>
         <fieldset>
-          <label>Password </label>
+          <h3>Password </h3>
           <input placeholder='Password'></input>
         </fieldset>
       </form>

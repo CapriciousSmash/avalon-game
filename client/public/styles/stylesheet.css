@@ -110,3 +110,9 @@ body{
     height:10px;            
   }
 }
+
+#gameContainer{
+  position:absolute;
+  top: 100px;
+  left: 0;
+}

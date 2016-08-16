@@ -10,9 +10,9 @@ import * as Actions from '../actions';
 // the page and exists inside of the App container. 
 class NavBar extends React.Component {
   isAuthenticated() {
-    if(this.props.auth) {
+    if (this.props.auth) {
       return (
-        <ul>
+        <ul className="nav masthead-nav">
           <li>
             <Link to='main'>Stats</Link>
           </li>
@@ -23,10 +23,10 @@ class NavBar extends React.Component {
             <div>Placeholder for username</div>
           </li>
         </ul>
-      )
+      );
     } else {
       return (
-        <ul>
+        <ul className="nav masthead-nav"> 
           <li>
             <Link to='main'>Stats</Link>
           </li>
@@ -37,18 +37,23 @@ class NavBar extends React.Component {
             <Link to='signin'>Sign In</Link>
           </li>
         </ul>
-      )
+      );
     }
   }
 
   render() {
     return (
-      <nav>
-        <div>
-          {this.isAuthenticated()}
+      <div className="masthead clearfix">
+        <div className="inner">
+          <h3 className="masthead-brand"><Link to='main'>Avalon</Link></h3>
+          <nav>
+            <div>
+              {this.isAuthenticated()}
+            </div>
+          </nav>
         </div>
-      </nav>
-    )
+      </div>
+    );
   }
   
 }
