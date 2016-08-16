@@ -18,6 +18,7 @@ class GameWrapper extends React.Component {
     //refactor this!
     var login = this.props.login;
     var socket = this.socket;
+    
     //Connect to server
 
     socket.on('connect', function() {
