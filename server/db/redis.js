@@ -216,6 +216,8 @@ makeCache.prototype.clear = function() {
       context.client.delAsync(pids[i] + ':ROLE');
       context.client.delAsync(pids[i] + ':VOTE');
     }
+    context.client.delAsync('KNIGHTS');
+    context.client.delAsync('MINIONS');
     context.client.delAsync('SIZE');
     context.client.delAsync('STAGE:ROUND');
     context.client.delAsync('STAGE:PHASE');
