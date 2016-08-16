@@ -4,14 +4,10 @@ import THREE.StereoEffect from './stereoscopic.js';
 
 export default {
   init: function () {
-<<<<<<< c348c188e0da0b43841de6214e11b7035a4fd86c
-    //SET UP VARS////////////////////////////////
-=======
 
     orientationInit();
 
     //SET UP VARS////////////////
->>>>>>> addition of VR game orientation module and begin edits to game script to allow VR elements.
     this.players = [];
     this.party = [];
     this.roleColors = {
@@ -22,14 +18,10 @@ export default {
       //defaultColor: 0xffce00
       defaultColor: 0x00b8ff
     };
-<<<<<<< c348c188e0da0b43841de6214e11b7035a4fd86c
-    //SET UP SCENE///////////////////////////////
-=======
 
     //SET UP SCENE////////////////
 
     // Scene related constant variables: 
->>>>>>> addition of VR game orientation module and begin edits to game script to allow VR elements.
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
     this.HEIGHT = window.innerHeight;
