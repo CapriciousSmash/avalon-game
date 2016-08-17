@@ -250,35 +250,19 @@ makeCache.prototype.initInfo = function(gameId, max) {
 makeCache.prototype.getCapMax = function() {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
   return info.getAsync(this.gameNumber + ':CAP:MAX')
-  .then(function() {
-    return info.quit();
+  .then(function(res) {
+    info.quit();
+    return res;
   });
 };
 // setCapMax - takes the game id and number to set new capacity maximum to
 makeCache.prototype.setCapMax = function(cap) {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  // Check if cap is greater than 9
-  if (cap > 9) {
-    // if so, set it to 10
-    return info.setAsync(this.gameNumber + ':CAP:MAX', 10)
-    .then(function() {
-      return info.quit();
-    })
-  } else if (cap < 6) {
-  // else if it's smaller than 6
-    // set it to 5
-    return info.setAsync(this.gameNumber + ':CAP:MAX', 5)
-    .then(function() {
-      return info.quit();
-    })
-  } else {
-  // else
-    // set it to the number passed in
-    return info.setAsync(this.gameNumber + ':CAP:MAX', cap)
-    .then(function() {
-      return info.quit();
-    })
-  }
+  cap = cap < 6 ? 5 : cap > 9 ? 10 : cap || 10;
+  return info.setAsync(this.gameNumber + ':CAP:MAX', cap)
+  .then(function() {
+    return info.quit();
+  });
 };
 // setStatus - takes a string to update the current game status
 makeCache.prototype.setStatus = function(status) {
