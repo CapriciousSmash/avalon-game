@@ -32,7 +32,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var memcache = new redisDb(7);
+var memcache = new redisDb(4);
 memcache.clear();
 
 //Utility, move elsewhere
