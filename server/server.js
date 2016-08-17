@@ -33,8 +33,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var memcache = new redisDb(7);
-memcache.clear();
+var memcache = {};
+for (let x = 1; x <= 4; x ++) {
+  let id = shortid.generate();
+  memcache[id] = new redisDb(x);
+  memcache[id].clear();
+  memcache[id].initInfo(id);
+}
 
 //Utility, move elsewhere
 function deepSearch(id, arr) {
@@ -46,7 +51,6 @@ function deepSearch(id, arr) {
 }
 
 var players = [];
-var rooms = {};
 io.on('connection', (socket)=>{
   //PLAYER==================================================
   //Init Player
