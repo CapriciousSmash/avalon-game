@@ -4,10 +4,12 @@ require('dotenv').config();
 
 describe('Testing redis', function() {
   var redisDb = require('../server/db/redis.js')
+  var testPids = ['1', '2', '3', '4', '5'];
+  var testGid = 15;
   var testCache;
 
   beforeEach(function() {
-    testCache = new redisDb(15);
+    testCache = new redisDb(testGid);
   })
 
   it('should be able to access the redis db', function() {
@@ -22,14 +24,23 @@ describe('Testing redis', function() {
     })
   })
 
-  it('should be able to run a second test', function() {
-    var test = '5';
-    return testCache.data.setAsync('test', test)
+  it('init should set PIDS', function() {
+    return testCache.init(testPids, testGid)
     .then(function() {
-      return testCache.data.getAsync('test');
+      return testCache.getPids();
     })
-    .then(function(result) {
-      expect(result).to.equal(test);
+    .then(function(pids) {
+      expect(pids).to.deep.equal(testPids);
+    })
+  })
+
+  it('init should set GID', function() {
+    return testCache.init(testPids, testGid)
+    .then(function() {
+      return testCache.getGameID();
+    })
+    .then(function(gid) {
+      expect(Number(gid)).to.equal(testGid);
     })
   })
 
