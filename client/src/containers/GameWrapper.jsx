@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import io from 'socket.io-client';
 
-import login from '../actions/login';
+import * as Actions from '../actions';
 
 import Game from '../components/Game';
 import Lobby from '../components/Lobby';
@@ -16,7 +16,7 @@ class GameWrapper extends React.Component {
   }
   componentWillMount() {
     //refactor this!
-    var login = this.props.login;
+    var login = this.props.actions.login;
     var socket = this.socket;
     
     //Connect to server
@@ -30,22 +30,22 @@ class GameWrapper extends React.Component {
       peer.on('open', function(id) {
       });
     }.bind(this));
-  },
-  onClick(e) {
-    console.log(e);
-    this.props.actions.setLobbyRoom(1);
-  },
+  }
+
   render() {
-    var lobbyOrGame = 
-      (
-        <div className='buttons'>
-          <button className='button1' onClick={this.onClick} value='1'>Lobby Room 1</button>
-          <button className='button2' onClick={this.onClick} value='2'>Lobby Room 2</button>   
-          <button className='button3' onClick={this.onClick} value='3'>Lobby Room 3</button>   
-          <button className='button4' onClick={this.onClick} value='4'>Lobby Room 4</button>   
-        </div>
-      );
-    lobbyOrGame = this.props.lobbyNumber ? (this.props.playing ? <Game socket={this.socket}/> : <Lobby socket={this.socket} />) : lobbyOrGame;
+    var lobbyOrGame = this.props.playing ? 
+      <Game socket={this.socket}/>
+      :
+      // this.props.lobbyNumber ?  
+        <Lobby socket={this.socket} />
+        // : (
+        //   <div className='buttons'>
+        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='1'>Lobby Room 1</button>
+        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='2'>Lobby Room 2</button>   
+        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='3'>Lobby Room 3</button>   
+        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='4'>Lobby Room 4</button>   
+        //   </div>
+        // );
     return (
       <div className='text-center'>
         {lobbyOrGame} 
@@ -63,7 +63,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    login: bindActionCreators(login, dispatch)
+    actions: bindActionCreators(Actions, dispatch)
   };
 }
 
