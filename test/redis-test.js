@@ -10,8 +10,19 @@ describe('Testing redis', function() {
     testCache = new redisDb(15);
   })
 
-  it('should be able to set and get', function() {
+  it('should be able to access the redis db', function() {
     // do things
+    var test = '5';
+    return testCache.data.setAsync('test', test)
+    .then(function() {
+      return testCache.data.getAsync('test');
+    })
+    .then(function(result) {
+      expect(result).to.equal(test);
+    })
+  })
+
+  it('should be able to run a second test', function() {
     var test = '5';
     return testCache.data.setAsync('test', test)
     .then(function() {
