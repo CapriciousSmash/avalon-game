@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // Component Imports
 import App from './containers/App';
 import InfoWrapper from './containers/InfoWrapper';
-import LobbyRoom from './containers/LobbyRoom';
+import GameWrapper from './containers/GameWrapper';
 import Main from './components/Main';
 import Stats from './components/Stats';
 import Login from './components/Login';
@@ -26,7 +26,7 @@ ReactDOM.render(
         <Route path='gameinfo' component={InfoWrapper}></Route>
         <Route path='signin' component={Login}></Route>
         <Route path='signup' component={SignUp}></Route>
-        <Route path='game' component={LobbyRoom}></Route>
+        <Route path='game' component={GameWrapper}></Route>
       </Route>
     </Router>
   </Provider>,

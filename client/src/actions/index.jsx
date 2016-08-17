@@ -11,7 +11,6 @@ export function newInfoSection(pageName = 'GETTING STARTED') {
 
 // Action Creator for Lobby Room 
 export function setLobbyRoom(number) {
-  console.log(number);
   return {
     type: LOBBY,
     lobbyNumber: number

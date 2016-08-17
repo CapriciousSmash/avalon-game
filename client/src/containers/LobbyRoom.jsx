@@ -11,6 +11,7 @@ import * as Actions from '../actions';
 
 const LobbyRoom = React.createClass ({
   onClick: function(e) {
+    console.log(e);
     this.props.actions.setLobbyRoom(1);
   },
 

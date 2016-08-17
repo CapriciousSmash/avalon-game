@@ -30,11 +30,25 @@ class GameWrapper extends React.Component {
       peer.on('open', function(id) {
       });
     }.bind(this));
-  }
+  },
+  onClick(e) {
+    console.log(e);
+    this.props.actions.setLobbyRoom(1);
+  },
   render() {
+    var lobbyOrGame = 
+      (
+        <div className='buttons'>
+          <button className='button1' onClick={this.onClick} value='1'>Lobby Room 1</button>
+          <button className='button2' onClick={this.onClick} value='2'>Lobby Room 2</button>   
+          <button className='button3' onClick={this.onClick} value='3'>Lobby Room 3</button>   
+          <button className='button4' onClick={this.onClick} value='4'>Lobby Room 4</button>   
+        </div>
+      );
+    lobbyOrGame = this.props.lobbyNumber ? (this.props.playing ? <Game socket={this.socket}/> : <Lobby socket={this.socket} />) : lobbyOrGame;
     return (
-      <div className='text-center'> 
-        {this.props.playing ? <Game socket={this.socket}/> : <Lobby socket={this.socket}/>}
+      <div className='text-center'>
+        {lobbyOrGame} 
       </div>
     );
   }
@@ -43,7 +57,8 @@ class GameWrapper extends React.Component {
 function mapStateToProps(state) {
   return {
     playing: state.gameState,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    lobbyNumber: state.lobbyRoom.lobbyNumber
   };
 }
 function mapDispatchToProps(dispatch) {
