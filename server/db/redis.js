@@ -16,7 +16,7 @@ var makeCache = function(gameNumber) {
 
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
-makeCache.prototype.init = function(pidArray) {
+makeCache.prototype.init = function(pidArray, gameId) {
 
   // Initialize the game server to run a game
   this.data.setAsync('GAMEID', gameId);
@@ -40,7 +40,10 @@ makeCache.prototype.init = function(pidArray) {
 makeCache.prototype.getPids = function() {
   return this.data.smembersAsync('PIDS');
 };
-
+// getGameID - returns the id of the game (room name hex val)
+makeCache.prototype.getGameID = function() {
+  return this.data.getAsync('GAMEID');
+};
 // setRole - takes PID and the role to set the PID's role to
 makeCache.prototype.setRole = function(pid, role) {
   this.data.setAsync(pid + ':ROLE', role);
@@ -276,33 +279,6 @@ makeCache.prototype.setCapMax = function(cap) {
       return info.quit();
     })
   }
-};
-// getPlayerCount - returns the current player count
-makeCache.prototype.getPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.getAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(num) {
-    info.quit();
-    return num;
-  })
-};
-// incrPlayerCount - increases player count and returns new value
-makeCache.prototype.incrPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.incrAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(currPlayerCount) {
-    info.quit();
-    return currPlayerCount;
-  })
-};
-// decrPlayerCount - decreases player count and returns new value
-makeCache.prototype.decrPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.decrAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(currPlayerCount) {
-    info.quit();
-    return currPlayerCount;
-  })
 };
 // setStatus - takes a string to update the current game status
 makeCache.prototype.setStatus = function(status) {
