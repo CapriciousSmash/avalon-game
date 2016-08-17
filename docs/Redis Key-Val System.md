@@ -1,7 +1,7 @@
 Format to handle multiple, simultaneous Redis DB's spun as needed.
 Each DB is stored as a reference via it's Game ID (GID)
 
-Keys: GAMEID         [Number]
+Keys: GAMEID         [String]
       PIDS           [List - Number, PID:NUM]
       PID:ROLE       [String]
          :VOTE       [Bool]
@@ -26,6 +26,5 @@ Keys: GAMEID         [Number]
 DB Info - handler to track all of the info and setup about the db's handling the game logic
 
 Keys: GAMEID:CAP:MAX    [Number, 5 - 10]
-                :CUR    [Number, 0 - MAX]
              STATUS     [String, Ready-Running-Waiting]
       GAMEIDS           [Set - Strings]
