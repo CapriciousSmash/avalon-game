@@ -176,6 +176,8 @@ export default {
       pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
       update();
 
+      this.intersect();
+
       // Uncomment this.effect.render and comment out this.renderer.render for stereoeffect. 
       // For non-stereoscopic view, recomment and uncomment this.renderer.render
       // this.effect.render(this.scene, this.camera);
