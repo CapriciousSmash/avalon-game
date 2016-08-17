@@ -26,6 +26,5 @@ Keys: GAMEID         [String]
 DB Info - handler to track all of the info and setup about the db's handling the game logic
 
 Keys: GAMEID:CAP:MAX    [Number, 5 - 10]
-                :CUR    [Number, 0 - MAX]
              STATUS     [String, Ready-Running-Waiting]
       GAMEIDS           [Set - Strings]

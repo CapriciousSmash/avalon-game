@@ -280,33 +280,6 @@ makeCache.prototype.setCapMax = function(cap) {
     })
   }
 };
-// getPlayerCount - returns the current player count
-makeCache.prototype.getPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.getAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(num) {
-    info.quit();
-    return num;
-  })
-};
-// incrPlayerCount - increases player count and returns new value
-makeCache.prototype.incrPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.incrAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(currPlayerCount) {
-    info.quit();
-    return currPlayerCount;
-  })
-};
-// decrPlayerCount - decreases player count and returns new value
-makeCache.prototype.decrPlayerCount = function() {
-  var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.decrAsync(this.gameNumber + ':CAP:CUR')
-  .then(function(currPlayerCount) {
-    info.quit();
-    return currPlayerCount;
-  })
-};
 // setStatus - takes a string to update the current game status
 makeCache.prototype.setStatus = function(status) {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
