@@ -27,6 +27,8 @@ export default {
 
     //SET UP SCENE////////////////
 
+    // Add comment to change this file. 
+
     // Scene related constant variables: 
     let $gameContainer = $('#gameContainer');
     this.WIDTH = window.innerWidth,
