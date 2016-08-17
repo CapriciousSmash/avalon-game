@@ -25,7 +25,6 @@ makeCache.prototype.init = function(pidArray, gameId) {
     this.data.setAsync(pidArray[i] + ':ROLE', 'none');
     this.data.setAsync(pidArray[i] + ':VOTE', 'false');
   }
-  this.data.smembersAsync('PIDS');
   this.data.setAsync('STAGE:SIZE', pidArray.length);
   this.data.setAsync('STAGE:ROUND', 1);
   this.data.setAsync('STAGE:PHASE', 'GAME START');
@@ -33,7 +32,8 @@ makeCache.prototype.init = function(pidArray, gameId) {
   this.data.setAsync('SCORE:LOSS', 0);
   this.data.setAsync('VETO', 0);
   this.data.setAsync('MGUESS', 'none');
-  return this.data.setAsync('WINNER', 'none');
+  this.data.setAsync('WINNER', 'none');
+  return this.data.smembersAsync('PIDS');
 };
 
 // getPids - Takes nothing, returns array of PIDs

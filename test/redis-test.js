@@ -44,6 +44,24 @@ describe('Testing redis', function() {
     })
   })
 
+  it('init should set player\'s Role to none and vote to false', function() {
+    var role;
+    var vote;
+    return testCache.init(testPids, testGid)
+    .then(function() {
+      return testCache.getRole('1');
+    })
+    .then(function(res) {
+      role = res;
+      return testCache.data.getAsync('1:VOTE');
+    })
+    .then(function(res) {
+      vote = res;
+      expect(role).to.equal('none');
+      expect(vote).to.equal('false');
+    })
+  })
+
   afterEach(function() {
     testCache.clear();
     testCache.data.quit();
