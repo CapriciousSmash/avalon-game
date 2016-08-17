@@ -1,17 +1,20 @@
-import { LOBBY_ROOM } from '../actions/actionTypes';
+import { LOBBY } from '../actions/actionTypes';
 
 const initialState = {
-  active: LOBBY_ROOM
-}
+  active: 'LOBBY_ROOM'
+};
 
-export default function info(state = initialState, action) {
+export default function lobbyRoom(state = initialState, action) {
   switch (action.type) {
-    case LOBBY:
+    case 'LOBBY':
       return {
         ...state,
-        lobby: action.number
+        lobbyNumber: action.lobbyNumber 
       };
     default: 
-      return state;
+      return {
+        ...state,
+        lobbyNumber: undefined
+      }
   }
 }

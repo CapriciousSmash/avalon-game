@@ -48,7 +48,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    login: bindActionCreators(login, dispatch),
+    login: bindActionCreators(login, dispatch)
   };
 }
 

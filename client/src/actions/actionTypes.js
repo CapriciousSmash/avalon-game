@@ -6,4 +6,4 @@ export const CHANGE_INFO = 'CHANGE_INFO';
 
 export const CHANGE_GAME_STATE = 'CHANGE_GAME_STATE';
 
-export const LOBBY_ROOM = 'LOBBY_ROOM';
+export const LOBBY = 'LOBBY';

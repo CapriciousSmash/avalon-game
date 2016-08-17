@@ -9,29 +9,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-class LobbyRoom extends React.Component {
-  onClick(e) {
-    console.log(this);
-    $('.buttons').css('display', 'none');
-    ReactDOM.render(<GameWrapper />, document.getElementById('lobby') );
-  }
+const LobbyRoom = React.createClass ({
+  onClick: function(e) {
+    this.props.actions.setLobbyRoom(1);
+  },
 
-  render() {
+  render: function() {
+    var lobbyOrGame = 
+      (
+        <div className='buttons'>
+          <button className='button1' onClick={this.onClick} value='1'>Lobby Room 1</button>
+          <button className='button2' onClick={this.onClick} value='2'>Lobby Room 2</button>   
+          <button className='button3' onClick={this.onClick} value='3'>Lobby Room 3</button>   
+          <button className='button4' onClick={this.onClick} value='4'>Lobby Room 4</button>   
+        </div>
+      );
+    if (this.props.lobbyNumber) {
+      lobbyOrGame = (
+        <GameWrapper lobbyNumber={this.props.lobbyNumber} />
+      );
+    }
     return (
       <div id='lobby'>
-        <div className='buttons'>
-          <button className='button' onClick={this.onClick} value='1'>Lobby Room 1</button>
-          <button className='button' onClick={this.onClick} value='2'>Lobby Room 2</button>   
-          <button className='button' onClick={this.onClick} value='3'>Lobby Room 3</button>   
-          <button className='button' onClick={this.onClick} value='4'>Lobby Room 4</button>   
-        </div>
+        {lobbyOrGame}
       </div>
     )
   }
-}
+});
 
 function mapStateToProps(state) {
   return {
+    lobbyNumber: state.lobbyRoom.lobbyNumber
   };
 }
 
