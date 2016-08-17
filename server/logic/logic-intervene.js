@@ -105,8 +105,17 @@ module.exports.questVote = function(memcache, socket, data) {
 
 module.exports.stabMerlin = function(memcache, socket, data) {
 
-  memcache.setMerlin(data.merlinId).then(function() {
-    gameLogic(memcache, socket, 'RESOLVE MERLIN');
+  var playerId = data.playerId;
+
+  memcache.getAssassin().then(function(assassinId) {
+    
+    if (playerId === assassinId) {
+      memcache.setMguess(data.merlinId).then(function() {
+        gameLogic(memcache, socket, 'RESOLVE MERLIN');
+      });
+    } else {
+      console.log('Someone besides assassin tried to stab Merlin. Fizzling');
+    }
   });
   
 };
