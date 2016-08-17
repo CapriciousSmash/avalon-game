@@ -10,6 +10,7 @@ describe('Testing redis', function() {
 
   beforeEach(function() {
     testCache = new redisDb(testGid);
+    testCache.init(testPids, testGid);
   })
 
   it('should be able to access the redis db', function() {
@@ -25,40 +26,88 @@ describe('Testing redis', function() {
   })
 
   it('init should set PIDS', function() {
-    return testCache.init(testPids, testGid)
-    .then(function() {
-      return testCache.getPids();
-    })
+    return testCache.getPids()
     .then(function(pids) {
       expect(pids).to.deep.equal(testPids);
     })
   })
 
   it('init should set GID', function() {
-    return testCache.init(testPids, testGid)
-    .then(function() {
-      return testCache.getGameID();
-    })
+    return testCache.getGameID()
     .then(function(gid) {
       expect(Number(gid)).to.equal(testGid);
     })
   })
 
-  it('init should set player\'s Role to none and vote to false', function() {
-    var role;
-    var vote;
-    return testCache.init(testPids, testGid)
-    .then(function() {
-      return testCache.getRole('1');
+  describe('Testing Init and various Gets', function() {
+    it('init should set player\'s Role to none and vote to false', function() {
+      var role, vote;
+      return testCache.getRole('1')
+      .then(function(res) {
+        role = res;
+        return testCache.data.getAsync('1:VOTE');
+      })
+      .then(function(res) {
+        vote = res;
+        expect(role).to.equal('none');
+        expect(vote).to.equal('false');
+      })
     })
-    .then(function(res) {
-      role = res;
-      return testCache.data.getAsync('1:VOTE');
+
+    it('init should set the size of the game', function() {
+      return testCache.getGameSize()
+      .then(function(size) {
+        expect(size).to.equal(testPids.length + '');
+      })
     })
-    .then(function(res) {
-      vote = res;
-      expect(role).to.equal('none');
-      expect(vote).to.equal('false');
+
+    it('init should set round to 1', function() {
+      return testCache.getRound()
+      .then(function(round) {
+        expect(round).to.equal('1');
+      })
+    })
+
+    it('init should set phase to GAME START', function() {
+      return testCache.getTurnPhase()
+      .then(function(phase) {
+        expect(phase).to.equal('GAME START');
+      })
+    })
+
+    it('init should set wins and losses to 0', function() {
+      var wins, losses;
+      return testCache.getWin()
+      .then(function(res) {
+        wins = res;
+        return testCache.getLoss();
+      })
+      .then(function(res) {
+        losses = res;
+        expect(wins).to.equal('0');
+        expect(losses).to.equal('0');
+      })
+    })
+
+    it('init should set veto to 0', function() {
+      return testCache.getVeto()
+      .then(function(veto) {
+        expect(veto).to.equal('0');
+      })
+    })
+
+    it('init should set Merlin guess to none', function() {
+      return testCache.getMguess()
+      .then(function(mguess) {
+        expect(mguess).to.equal('none');
+      })
+    })
+
+    it('init should set winner to none', function() {
+      return testCache.getWinner()
+      .then(function(winner) {
+        expect(winner).to.equal('none');
+      })
     })
   })
 
