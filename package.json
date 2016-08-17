@@ -8,8 +8,8 @@
     "start": "node server/server.js",
     "prod:buildclient": "npm install && webpack",
     "prod:buildclientwatch": "webpack-dev-server",
-    "build": "npm run prod:buildclient",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build": "webpack",
+    "test": "mocha test/index.js --bail"
   },
   "repository": {
     "type": "git",
