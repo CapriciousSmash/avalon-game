@@ -312,6 +312,14 @@ makeCache.prototype.setStatus = function(status) {
   });
 };
 // getStatus - returns the current game status
+makeCache.prototype.getStatus = function() {
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  return info.getAsync(this.gameNumber + ':Status')
+  .then(function(status) {
+    info.quit();
+    return status;
+  })
+};
 // getAllGIDs - returns all the game ids stored and utilized
 
 module.exports = makeCache;
