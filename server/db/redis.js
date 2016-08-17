@@ -226,7 +226,8 @@ makeCache.prototype.quit = function() {
 
 // initInfo - takes the gameId and the max players for the game (default 10) and
 //            initializes the info for that db
-makeCache.prototype.initInfo = function(gameId, max = 10) {
+makeCache.prototype.initInfo = function(gameId, max) {
+  max = max || 10
 // Create connection to info DB and store the game's info
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
   return info.setAsync(gameId + ':CAP:MAX', max)
