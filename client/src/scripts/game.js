@@ -2,7 +2,7 @@ import init from '../util/gameSetup';
 
 export default {
   init: function () {
-    init().call(this);
+    init.call(this);
   },
   addPlayer: function(uid, color, role) {
     if (this.players.length <= 10) {
