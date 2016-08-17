@@ -25,7 +25,7 @@ makeCache.prototype.init = function(pidArray, gameId) {
     this.data.setAsync(pidArray[i] + ':ROLE', 'none');
     this.data.setAsync(pidArray[i] + ':VOTE', 'false');
   }
-  this.data.setAsync('STAGE:SIZE', pidArray.length);
+  this.data.setAsync('SIZE', pidArray.length);
   this.data.setAsync('STAGE:ROUND', 1);
   this.data.setAsync('STAGE:PHASE', 'GAME START');
   this.data.setAsync('SCORE:WIN', 0);
