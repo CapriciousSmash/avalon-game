@@ -23,24 +23,28 @@ module.exports.pickParty = function(memcache, socket, data) {
   console.log('pick party data: ', data);
 
   memcache.getTeam().then(function(teamList) {
-    if(teamList.indexOf(data.playerId) > 0) {
-      return;
-    }
-    memcache.addToTeam(data.playerId).then(function() {
-      
-      memcache.getTeam().then(function(partyList) {
-        var partyCount = partyList.length;
 
-        memcache.getPids().then(function(pidsList) {
-          memcache.getRound().then(function(currentRound) {
-            if (partyCount === teamBuilder[pidsList.length - 5][currentRound - 1]) {
-              gameLogic(memcache, socket, 'RESOLVE PARTY');
-            }
+    for (let x = 0; x < data.length; x++) {
+      if (teamList.indexOf(data[x].playerId) > 0) {
+        return;
+      }
+      memcache.addToTeam(data[x].playerId).then(function() {
+        
+        memcache.getTeam().then(function(partyList) {
+          var partyCount = partyList.length;
+
+          memcache.getPids().then(function(pidsList) {
+            memcache.getRound().then(function(currentRound) {
+              if (partyCount === teamBuilder[pidsList.length - 5][currentRound - 1]) {
+                gameLogic(memcache, socket, 'RESOLVE PARTY');
+              }
+            });
           });
         });
-      });
 
-    });
+      });
+      
+    }
     
   });
 

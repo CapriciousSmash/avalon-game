@@ -54,7 +54,7 @@ module.exports = {
     socket.on('chooseParty', function(data) {
       game.pickParty(party => {
         socket.emit('pickParty', {
-          playerId: party
+          partyList: party
         });
       // Need party number from data <-------------------------------
       });
@@ -64,7 +64,7 @@ module.exports = {
       console.log('Data I got from resolveParty', data);
     });
     socket.on('startVote', function(data) {
-      game.createVoteButtons(voteOnParty => {
+      game.partyButtons(voteOnParty => {
         socket.emit('voteOnParty', {
           playerId: socket.id.slice(2),
           vote: voteOnParty
@@ -76,7 +76,8 @@ module.exports = {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
-      game.createQuestButtons( voteOnQuest => {
+      game.questButtons( voteOnQuest => {
+
         socket.emit('voteOnQuest', {
           playerId: socket.id.slice(2),
           vote: voteOnQuest
@@ -94,7 +95,7 @@ module.exports = {
       game.stabMerlin(player => {
         socket.emit('stabMerlin', 
           {
-            merlindId: player,
+            merlindId: player[0],
             playerId: socket.id.slice(2)
           });
       });
