@@ -321,5 +321,13 @@ makeCache.prototype.getStatus = function() {
   })
 };
 // getAllGIDs - returns all the game ids stored and utilized
+makeCache.prototype.getAllGIDs = function() {
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  return info.smembersAsync('GAMEIDS')
+  .then(function(gameIds) {
+    info.quit();
+    return gameIds;
+  })
+};
 
 module.exports = makeCache;
