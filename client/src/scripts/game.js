@@ -8,6 +8,7 @@ export default {
     orientationInit();
 
     //SET UP VARS////////////////
+    this.dummyVariable = 0;
     this.players = [];
     this.party = [];
     this.roleColors = {
