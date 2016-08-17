@@ -304,6 +304,13 @@ makeCache.prototype.decrPlayerCount = function() {
   })
 };
 // setStatus - takes a string to update the current game status
+makeCache.prototype.setStatus = function(status) {
+  var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  return info.setAsync(this.gameNumber + ':STATUS', status)
+  .then(function() {
+    return info.quit();
+  });
+};
 // getStatus - returns the current game status
 // getAllGIDs - returns all the game ids stored and utilized
 
