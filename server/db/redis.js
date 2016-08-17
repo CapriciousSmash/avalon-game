@@ -16,7 +16,7 @@ var makeCache = function(gameNumber) {
 
 // init - Takes an array of PIDs and populates the db's
 //        properties with their initial values.
-makeCache.prototype.init = function(pidArray) {
+makeCache.prototype.init = function(pidArray, gameId) {
 
   // Initialize the game server to run a game
   this.data.setAsync('GAMEID', gameId);
@@ -40,7 +40,10 @@ makeCache.prototype.init = function(pidArray) {
 makeCache.prototype.getPids = function() {
   return this.data.smembersAsync('PIDS');
 };
-
+// getGameID - returns the id of the game (room name hex val)
+makeCache.prototype.getGameID = function() {
+  return this.data.getAsync('GAMEID');
+};
 // setRole - takes PID and the role to set the PID's role to
 makeCache.prototype.setRole = function(pid, role) {
   this.data.setAsync(pid + ':ROLE', role);

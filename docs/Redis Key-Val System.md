@@ -1,7 +1,7 @@
 Format to handle multiple, simultaneous Redis DB's spun as needed.
 Each DB is stored as a reference via it's Game ID (GID)
 
-Keys: GAMEID         [Number]
+Keys: GAMEID         [String]
       PIDS           [List - Number, PID:NUM]
       PID:ROLE       [String]
          :VOTE       [Bool]
