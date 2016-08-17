@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import * as Actions from '../actions';
 
 import Game from '../components/Game';
-import Lobby from '../components/Lobby';
+import Room from '../components/Room';
 
 class GameWrapper extends React.Component {
   constructor() {
@@ -33,22 +33,22 @@ class GameWrapper extends React.Component {
   }
 
   render() {
-    var lobbyOrGame = this.props.playing ? 
+    var matchMaking = this.props.playing ? 
       <Game socket={this.socket}/>
       :
-      // this.props.lobbyNumber ?  
-        <Lobby socket={this.socket} />
+      // this.props.roomNumber ?  
+        <Room socket={this.socket} />
         // : (
         //   <div className='buttons'>
-        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='1'>Lobby Room 1</button>
-        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='2'>Lobby Room 2</button>   
-        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='3'>Lobby Room 3</button>   
-        //     <button className='button' onClick={(e) => this.props.actions.setLobbyRoom(e.target.value)} value='4'>Lobby Room 4</button>   
+        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='1'>Lobby Room 1</button>
+        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='2'>Lobby Room 2</button>   
+        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='3'>Lobby Room 3</button>   
+        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='4'>Lobby Room 4</button>   
         //   </div>
         // );
     return (
       <div className='text-center'>
-        {lobbyOrGame} 
+        {matchMaking} 
       </div>
     );
   }
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
   return {
     playing: state.gameState,
     currentUser: state.currentUser,
-    lobbyNumber: state.lobbyRoom.lobbyNumber
+    roomNumber: state.room.roomNumber
   };
 }
 function mapDispatchToProps(dispatch) {

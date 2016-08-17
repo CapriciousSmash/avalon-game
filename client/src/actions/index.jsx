@@ -1,6 +1,6 @@
 import { LOGGED_IN, LOGGED_OUT } from './actionTypes';
 import { CHANGE_INFO } from './actionTypes';
-import { LOBBY } from './actionTypes';
+import { LOBBY, ROOM } from './actionTypes';
 
 // Action Creators for Game Info page: 
 export function newInfoSection(pageName = 'GETTING STARTED') {
@@ -11,10 +11,10 @@ export function newInfoSection(pageName = 'GETTING STARTED') {
 }
 
 // Action Creator for GameWrapper
-export function setLobbyRoom(number) {
+export function setGameRoom(number) {
   return {
-    type: LOBBY,
-    lobbyNumber: number
+    type: ROOM,
+    roomNumber: number
   }
 }
 

@@ -7,3 +7,4 @@ export const CHANGE_INFO = 'CHANGE_INFO';
 export const CHANGE_GAME_STATE = 'CHANGE_GAME_STATE';
 
 export const LOBBY = 'LOBBY';
+export const ROOM = 'ROOM'

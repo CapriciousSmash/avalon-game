@@ -6,14 +6,14 @@ import auth from './auth';
 import currentUser from './user';
 import info from './info';
 import gameState from './state';
-import lobbyRoom from './lobby';
+import room from './room';
 
 const rootReducer = combineReducers({
   auth,
   currentUser,
   info,
   gameState,
-  lobbyRoom
+  room
 });
 
 export default rootReducer;
