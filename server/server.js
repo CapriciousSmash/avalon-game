@@ -49,7 +49,8 @@ for (var x = 1; x <= 4; x ++) {
   lobbyState.push({
     id: id,
     status: memcache[id].getStatus,
-    max: memcache[id].getCapMax
+    //For some reason memcache[id] cannot get the cap max
+    max: memcache[id].getCapMax || 10
   });  
 }
 
@@ -63,6 +64,11 @@ function deepSearch(id, arr) {
 }
 
 io.on('connection', (socket)=>{
+  //Join lobby immediately
+  socket.join('capri0sun');
+  socket.emit('lobbyInfo', lobbyState);
+  
+
   //PLAYER==================================================
   //Remove Player
   socket.on('disconnect', function() {
@@ -91,7 +97,6 @@ io.on('connection', (socket)=>{
   });
 
   //LOBBY==================================================
-  socket.emit('lobbyInfo', lobbyState);
   socket.on('joinRoom', function(newRoomId) {
     //Leave lobby and enter room
     socket.leave('capri0sun');    
