@@ -12,7 +12,7 @@ import Room from '../components/Room';
 class GameWrapper extends React.Component {
   constructor() {
     super();
-    this.socket = io('capri0sun');
+    this.socket = io();
   }
   componentWillMount() {
     //refactor this!
@@ -21,6 +21,7 @@ class GameWrapper extends React.Component {
 
     //Connect to server
     socket.on('connect', function() {
+      console.log('CONNECTED TO SERVER');
       login(this.socket.id);
       
       const peer = new Peer (this.socket.id, {host: 'ancient-caverns-19863.herokuapp.com', port: '', secure: 'true'});
