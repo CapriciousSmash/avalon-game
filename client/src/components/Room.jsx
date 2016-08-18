@@ -19,7 +19,7 @@ const Lobby = React.createClass ({
     var socket = this.props.socket;
     
     //Tell server that player entered the room, ask server for data
-    socket.emit('inRoom', roomNumber);
+    socket.emit('inRoom', this.props.roomNumber);
     socket.on('roomInfo', function(lobbyInfo) {
       console.log('currentUser', this.props.currentUser);
       console.log('gm', lobbyInfo.gm);
@@ -38,7 +38,12 @@ const Lobby = React.createClass ({
     this.setState({
       ready: !this.state.ready
     });
-    this.props.socket.emit('ready', !this.state.ready);
+    this.props.socket.emit('ready', 
+      {
+        roomId: this.props.roomNumber,
+        state: !this.state.ready
+      }
+    );
   },
   render: function() {
     console.log('lobby function rendering');

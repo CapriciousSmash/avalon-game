@@ -12,7 +12,6 @@ var shortid = require('shortid');
 var game = require('./logic/logic-main').gameLogic;
 var logicFilter = require('./logic/logic-intervene');
 
-// Added comment to be able to trigger a push :)
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -33,12 +32,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+/////////////////////////////////////////////////////////////////////
+
 var memcache = {};
+var lobbyState = [];
+var players = {};
 for (let x = 1; x <= 4; x ++) {
+  //Initialize redis database
   let id = shortid.generate();
   memcache[id] = new redisDb(x);
   memcache[id].clear();
   memcache[id].initInfo(id);
+  
+  //Initialize server side save state variables
+  players[id] = [];
+  lobbyState.push({
+    id: id,
+    status: memcache[id].getStatus,
+    max: memcache[id].getCapMax
+  });  
 }
 
 //Utility, move elsewhere
@@ -49,40 +61,25 @@ function deepSearch(id, arr) {
     }
   }
 }
-function updateLobbyState(lobbyState) {
-  lobbyState = [];
-  for (var prop in memcache) {
-    lobbyState.push({
-      id: prop,
-      status: memcache[prop].getStatus,
-      max: memcache[prop].getCapMax
-    });
-  }
-}
-var lobbyState = [];
-updateLobbyState(lobbyState);
 
-var players = [];
 io.on('connection', (socket)=>{
   //PLAYER==================================================
-  //Init Player
-  players.push({
-    uid: socket.id.slice(2), 
-    color: null,
-    ready: false
-  });
+  //players.push({ uid: socket.id.slice(2), color: null, ready: false});
+
+  /*Disabled because everyone starts with same color aside from user
   //Give player color
   socket.on('userColor', function(color) {
     var p = players[deepSearch(socket.id.slice(2), players)];
     p.color = color;
-  });
+  });*/
+
   //Remove Player
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
-    players.splice(deepSearch(socket.id.slice(2), players), 1);
+    players[0].splice(deepSearch(socket.id.slice(2), players[0]), 1);
     io.emit('lobbyInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
+      gm: players[0][0],
+      players: players[0].slice(1, players[0].length)
     });
   });
 
@@ -92,8 +89,12 @@ io.on('connection', (socket)=>{
     if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
       socket.emit('joinResponse', false);  
     } else {
-      socket.join(data);
-      socket.emit('joinResponse', true);
+      socket.join(roomId);
+      players[roomId].push({
+        uid: socket.id.slice(2), 
+        color: 0xffce00,
+        ready: false
+      });
       if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
         lobbyState[roomId].status = 'ready';
         memcache[roomId].setStatus('ready');
@@ -103,35 +104,42 @@ io.on('connection', (socket)=>{
     }
   });
   socket.on('leaveRoom', function(data) {
+    io.emit('peerLeft', socket.id.slice(2));
+    players[data.roomId].splice(deepSearch(socket.id.slice(2), players[data.roomId]), 1);    
+    socket.broadcast.to(data.roomId).emit('roomInfo', {
+      gm: players[data.roomId][0],
+      players: players[data.roomId].slice(1, playersForRoom.length)
+    });  
     socket.leave(data.room);
     if (lobbyState[roomId].status === 'ready') {
       lobbyState[roomId].status = 'waiting';
       memcache[roomId].setStatus('waiting');
-      io.emit('lobbyInfo', lobbyState);      
+      io.emit('lobbyInfo', lobbyState);
     }  
-  });
   //ROOM==================================================
+  });
   socket.on('inRoom', function(roomId) {
-    io.emit('lobbyInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
+    io.to(roomId).emit('roomInfo', {
+      gm: players[roomId][0],
+      players: players[roomId].slice(1, players[roomId].length)
     });
   });
-  socket.on('ready', function(playerReady) {
-    players[deepSearch(socket.id.slice(2), players)].ready = playerReady;
+  socket.on('ready', function(data) {
+    players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
     var everyoneReady = true;
-    for (var x = 0; x < players.length; x++) {
-      if (!players[x].ready) {
+    let playersForRoom = players[data.roomId];
+    for (var x = 0, max = playersForRoom.length; x < max; x++) {
+      if (!playersForRoom[x].ready) {
         everyoneReady = false;
       }
     }
-    socket.broadcast.emit('roomInfo', {
-      gm: players[0],
-      players: players.slice(1, players.length)
+    socket.broadcast.to(data.roomId).emit('roomInfo', {
+      gm: playersForRoom[0],
+      players: playersForRoom.slice(1, playersForRoom.length)
     });    
 
     if (everyoneReady) {
-      io.emit('leaveRoomStartGame');
+      io.to(data.roomId).emit('leaveRoomStartGame');
     }
   });
   //GAME INIT=============================================

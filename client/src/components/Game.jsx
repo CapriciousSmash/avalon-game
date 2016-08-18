@@ -10,9 +10,10 @@ class Game extends React.Component {
   constructor() {
     super();
   }
+  /*Disabled because everyone starts with same color aside from user
   componentWillMount() {
     webSockets.userInit(this.props.socket);
-  }
+  }*/
   componentDidMount() {
     var socket = this.props.socket;
     webSockets.gameInit(socket);
