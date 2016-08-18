@@ -76,12 +76,16 @@ io.on('connection', (socket)=>{
   //Remove Player
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
-    players[0].splice(deepSearch(socket.id.slice(2), players[0]), 1);
-    io.emit('lobbyInfo', {
-      gm: players[0][0],
-      players: players[0].slice(1, players[0].length)
-    });
+    //players[0].splice(deepSearch(socket.id.slice(2), players[0]), 1);
+    //io.emit('lobbyInfo', {
+    //  gm: players[0][0],
+    //  players: players[0].slice(1, players[0].length)
+    //});
   });
+
+  //TODO!!!: Make sure everyone connects to a set lobby roomnumber
+  //LOBBY NUMBER : capri0sun
+  //Create function for people leaving/joining room
 
   //LOBBY==================================================
   socket.emit('lobbyInfo', lobbyState);
