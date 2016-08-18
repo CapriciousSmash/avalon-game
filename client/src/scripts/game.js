@@ -28,4 +28,5 @@ export default {
   pickParty: inGame.pickParty,
   partyButtons: inGame.partyButtons,
   questButtons: inGame.questButtons,
+
 };

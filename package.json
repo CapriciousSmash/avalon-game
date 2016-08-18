@@ -4,10 +4,11 @@
   "description": "Avalon game rendered in 3 Dimensional multiplayer",
   "main": "index.js",
   "scripts": {
+
     "start": "node server/server.js",
-    "prod:buildclient": "webpack",
+    "prod:buildclient": "npm install && webpack",
     "prod:buildclientwatch": "webpack-dev-server",
-    "build": "webpack",
+    "build": "npm run prod:buildclient",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {

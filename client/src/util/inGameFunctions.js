@@ -1,4 +1,5 @@
 module.exports = {
+  // When a player joins the game
   addPlayer: function(uid, color, role) {
     this.players.push({
       uid,
@@ -32,6 +33,7 @@ module.exports = {
       }
     }
   },
+  // Assign roles attaches the roles of the game to the player objects
   assignRoles: function(party, id, role) {
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
@@ -53,8 +55,9 @@ module.exports = {
       this.removeClickEventListener();
     }, 5000);
   },
+  // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber) {
-    this.addClickEventListener('pickParty', partyNumber, sendPickedParty);
+    this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
 
     setTimeout(()=>{
       //Remove sign and click event listener if no choice made      
@@ -62,18 +65,20 @@ module.exports = {
       this.removeClickEventListener();
     }, 30000);
   },
+  // TODO: Pending field test to determine whether the buttons are well placed
+  // at these new coordinates. 
   partyButtons: function(voteOnParty) {
     this.addButton(
       'accept', 
       0xFFFFFF, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -80, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -100, posz: 0 }
     );
     this.addButton(
       'reject', 
       0xFF0000, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -100, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -100, posz: 0 }
     );
 
     //All stages will have signs but not all stages will have buttons
@@ -85,7 +90,7 @@ module.exports = {
       this.removeObject('reject');      
     };
 
-    this.addClickEventListener('approveParty', 1, votePartyCallback);
+    this.addClickEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
 
     setTimeout(()=>{
       this.removeObject('approveParty'); 
@@ -93,19 +98,21 @@ module.exports = {
       this.removeObject('reject');       
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
-  },   
+  },
+  // TODO: Pending field tes to determine whether these buttons are
+  // well placed at these coordinates 
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
       0x0000FF, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -80, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -100, posz: 0 }
     );    
     this.addButton(
       'fail', 
       0xFF0000, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -100, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -100, posz: 0 }
     );      
 
     //All stages will have signs but not all stages will have buttons
@@ -117,7 +124,7 @@ module.exports = {
       this.removeObject('fail');      
     };
 
-    this.addClickEventListener('passQuest', 1, voteQuestCallback);
+    this.addClickEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
 
     setTimeout(()=>{
       this.removeObject('passQuest');

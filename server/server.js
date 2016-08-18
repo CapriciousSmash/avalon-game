@@ -174,7 +174,7 @@ io.on('connection', (socket)=>{
     }
   });
 
-  //IN GAME ACTIONS========================================
+  //IN GAME ACTIONS=======================================
 
   socket.on('pickParty', function(data) {
     //playerId ---> person being 
