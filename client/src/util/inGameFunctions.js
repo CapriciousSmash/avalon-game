@@ -67,18 +67,18 @@ module.exports = {
       'accept', 
       0xFFFFFF, 
       { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: 100, posz: 0 }
+      { posx: 100, posy: -80, posz: 0 }
     );
     this.addButton(
       'reject', 
       0xFF0000, 
       { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: 80, posz: 0 }
+      { posx: 100, posy: -100, posz: 0 }
     );
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
-    let votePartyCallback = (choice) =>{
+    const votePartyCallback = (choice) => {
       voteOnParty(choice[0] === 'reject' ? false : true);
       
       this.removeObject('accept');
@@ -96,18 +96,18 @@ module.exports = {
       'success', 
       0x0000FF, 
       { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: 100, posz: 0 }
+      { posx: 100, posy: -80, posz: 0 }
     );    
     this.addButton(
       'fail', 
       0xFF0000, 
       { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: 80, posz: 0 }
+      { posx: 100, posy: -100, posz: 0 }
     );      
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
-    let voteQuestCallback = (choice) =>{
+    const voteQuestCallback = (choice) =>{
       voteOnParty(choice[0] === 'fail' ? false : true);
       //remove buttons
       this.removeObject('accept');
