@@ -54,7 +54,7 @@ module.exports = {
     }, 5000);
   },
   pickParty: function(sendPickedParty, partyNumber) {
-    this.addClickEventListener('pickParty', partyNumber, sendPickedParty);
+    this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
 
     setTimeout(()=>{
       //Remove sign and click event listener if no choice made      
