@@ -85,45 +85,59 @@ io.on('connection', (socket)=>{
 
   //LOBBY==================================================
   socket.emit('lobbyInfo', lobbyState);
-  socket.on('joinRoom', function(roomId) {
-    if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
-      socket.emit('joinResponse', false);  
+  socket.on('joinRoom', function(newRoomId) {
+    //Leave lobby and enter room
+    socket.leave('capri0sun');    
+    if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
+      //Too many people in the room
+      socket.emit('joinResponse'. false);
     } else {
-      socket.join(roomId);
-      players[roomId].push({
+      //join the room and add to list of players of that room
+      socket.join(newRoomId);
+      players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
         ready: false
       });
-      if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
-        lobbyState[roomId].status = 'ready';
-        memcache[roomId].setStatus('ready');
-        io.emit('lobbyInfo', lobbyState);
-        //refresh page for everyone else
+      if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
+        //Max number of people in room, change status
+        lobbyState[newRoomId].status = 'ready';
+        memcache[newRoomId].setStatus('ready');
+        //Tell people in the lobby new lobby state
+        io.to('capri0sun').emit('lobbyState', lobbyState);
+        //Tell people in the room you are joining
+        io.to(newRoomId).emit('roomInfo', {
+          gm: players[oldRoomId][0],
+          players: players[newRoomId].slice(1, players[newRoomId].length)        
+        });
       }
     }
   });
-  socket.on('leaveRoom', function(data) {
+  socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));
-    players[data.roomId].splice(deepSearch(socket.id.slice(2), players[data.roomId]), 1);    
-    socket.broadcast.to(data.roomId).emit('roomInfo', {
-      gm: players[data.roomId][0],
-      players: players[data.roomId].slice(1, playersForRoom.length)
-    });  
-    socket.leave(data.room);
-    if (lobbyState[roomId].status === 'ready') {
-      lobbyState[roomId].status = 'waiting';
-      memcache[roomId].setStatus('waiting');
-      io.emit('lobbyInfo', lobbyState);
-    }  
-  //ROOM==================================================
+    //Leave room and join lobby
+    socket.leave(oldRoomId);
+    socket.join('capri0sun');
+    players[oldRoomId].splice(deepSearch(uid, players[oldRoomId]), 1);
+    if (lobbyState[oldRoomId].status === 'ready') {
+      //emit the to room you are leaving
+      lobbyState[oldRoomId].status = 'waiting';
+      memcache[oldRoomId].setStatus('waiting');
+      io.to(oldRoomId).emit('roomInfo', {
+        gm: players[oldRoomId][0],
+        players: players[oldRoomId].slice(1, players[oldRoomId].length)        
+      });
+      io.to('capri0sun').emit('lobbyState', lobbyState);
+    }
   });
+  //ROOM==================================================
+/*Redundant
   socket.on('inRoom', function(roomId) {
     io.to(roomId).emit('roomInfo', {
       gm: players[roomId][0],
       players: players[roomId].slice(1, players[roomId].length)
     });
-  });
+  });*/
   socket.on('ready', function(data) {
     players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
     var everyoneReady = true;
