@@ -131,13 +131,6 @@ io.on('connection', (socket)=>{
     }
   });
   //ROOM==================================================
-/*Redundant
-  socket.on('inRoom', function(roomId) {
-    io.to(roomId).emit('roomInfo', {
-      gm: players[roomId][0],
-      players: players[roomId].slice(1, players[roomId].length)
-    });
-  });*/
   socket.on('ready', function(data) {
     players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
     var everyoneReady = true;
