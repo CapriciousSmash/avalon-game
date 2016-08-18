@@ -49,6 +49,18 @@ function deepSearch(id, arr) {
     }
   }
 }
+function updateLobbyState(lobbyState) {
+  lobbyState = [];
+  for (var prop in memcache) {
+    lobbyState.push({
+      id: prop,
+      status: memcache[prop].getStatus,
+      max: memcache[prop].getCapMax
+    });
+  }
+}
+var lobbyState = [];
+updateLobbyState(lobbyState);
 
 var players = [];
 io.on('connection', (socket)=>{
@@ -74,17 +86,29 @@ io.on('connection', (socket)=>{
     });
   });
   //ROOMS==================================================
-  socket.on('joinRoom', function(data) {
-    if (io.sockets.adapter.rooms[data.room] > 10) {
+
+  socket.emit('lobbyInfo', lobbyState);
+  socket.on('joinRoom', function(roomId) {
+    if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
       socket.emit('joinResponse', false);  
     } else {
-      socket.join(data.room);
-      socket.emit('joinResponse', true);  
+      socket.join(data);
+      socket.emit('joinResponse', true);
+      if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
+        lobbyState[roomId].status = 'ready';
+        memcache[roomId].setStatus('ready');
+        io.emit('lobbyInfo', lobbyState);
+        //refresh page for everyone else
+      }
     }
   });
   socket.on('leaveRoom', function(data) {
     socket.leave(data.room);
-    //refresh page for everyone else
+    if (lobbyState[roomId].status === 'ready') {
+      lobbyState[roomId].status = 'waiting';
+      memcache[roomId].setStatus('waiting');
+      io.emit('lobbyInfo', lobbyState);      
+    }  
   });
   //LOBBY==================================================
   socket.on('lobby', function(lobbyId) {
