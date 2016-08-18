@@ -445,13 +445,10 @@ describe('Testing redis', function() {
         expect(res).to.not.deep.equal(inOrder);
       });
     });
-
-
   });
 
-
   afterEach(function() {
-    testCache.flushall();
+    testCache.data.flushall();
     testCache.data.quit();
   });
 
