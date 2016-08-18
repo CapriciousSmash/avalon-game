@@ -12,7 +12,7 @@ import Room from '../components/Room';
 class GameWrapper extends React.Component {
   constructor() {
     super();
-    this.socket = io();
+    this.socket = io('capri0sun');
   }
   componentWillMount() {
     //refactor this!
