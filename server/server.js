@@ -85,8 +85,8 @@ io.on('connection', (socket)=>{
           gm: players[roomId][0],
           players: players[roomId].slice(1, players[roomId].length)        
         });
-        io.to('capri0sun').emit('lobbyState', lobbyState);
       }
+      io.to('capri0sun').emit('lobbyState', lobbyState);
     }
   });
 
@@ -157,8 +157,8 @@ io.on('connection', (socket)=>{
     }
   });
   //GAME INIT=============================================
-  socket.on('startGame', function(roomId) {
-    socket.emit('allPeers', players);
+  socket.on('leaveRoomStartGame', function(roomId) {
+    socket.to(roomId).emit('allPeers', players[roomId]);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {
       console.log('STARTING', socket.id.slice(2), players[roomId][0].uid);
@@ -166,9 +166,9 @@ io.on('connection', (socket)=>{
       for (var x = 0; x < players.length; x++) {
         pidsList.push(players[roomId][x].uid);
       }
-      memcache.init(pidsList).then(function() {
+      memcache[roomId].init(pidsList).then(function() {
         setTimeout(function() {
-          game(memcache, io, 'GAME START');
+          game(memcache[roomId], io, 'GAME START');
         }, 5000);
       });
     }
