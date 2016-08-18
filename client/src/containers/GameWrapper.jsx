@@ -30,6 +30,10 @@ class GameWrapper extends React.Component {
       peer.on('open', function(id) {
       });
     }.bind(this));
+    socket.on('lobbyInfo', function(lobbyState) {
+      //Gives you array of room objects
+      //ie: [{id: 'something', status: 'something', max: 'something'},...]
+    });
   }
 
   render() {
@@ -37,15 +41,18 @@ class GameWrapper extends React.Component {
       <Game socket={this.socket}/>
       :
       // this.props.roomNumber ?  
-        <Room socket={this.socket} />
-        // : (
-        //   <div className='buttons'>
-        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='1'>Lobby Room 1</button>
-        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='2'>Lobby Room 2</button>   
-        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='3'>Lobby Room 3</button>   
-        //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='4'>Lobby Room 4</button>   
-        //   </div>
-        // );
+      <Room socket={this.socket} />
+      // : (
+      //   <div className='buttons'>
+      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='1'>Lobby Room 1</button>
+      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='2'>Lobby Room 2</button>   
+      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='3'>Lobby Room 3</button>   
+      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='4'>Lobby Room 4</button>   
+      //   </div>
+      // );
+
+      //Todo: When clicking to join a room, send off signal 'joinRoom'
+      //with room id. Send as string.
     return (
       <div className='text-center'>
         {matchMaking} 

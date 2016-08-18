@@ -1,6 +1,7 @@
 import game from '../scripts/game';
 
 module.exports = {
+/*Disabled because everyone starts with same color aside from user
   userInit: function(socket) {
     function randomHexColor() {
       var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
@@ -13,7 +14,7 @@ module.exports = {
     //Give user a color
     var userColor = randomHexColor();
     socket.emit('userColor', userColor);
-  },
+  },*/
   gameInit: function(socket) {
     game.init();
       
