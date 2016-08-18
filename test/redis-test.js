@@ -440,14 +440,18 @@ describe('Testing redis', function() {
 
         expect(numResults.true).to.equal(3);
         expect(numResults.false).to.equal(2);
+        // This test will sometimes fail as radnomness can
+        // put the results back into the original order
         expect(res).to.not.deep.equal(inOrder);
       });
     });
+
+
   });
 
 
   afterEach(function() {
-    testCache.clear();
+    testCache.flushall();
     testCache.data.quit();
   });
 
