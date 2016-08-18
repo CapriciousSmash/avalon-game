@@ -9,7 +9,7 @@
     "prod:buildclient": "npm install && webpack",
     "prod:buildclientwatch": "webpack-dev-server",
     "build": "webpack",
-    "test": "mocha test/index.js --bail"
+    "test": "mocha test/index.js --bail -R nyan"
   },
   "repository": {
     "type": "git",
