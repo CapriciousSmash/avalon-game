@@ -64,23 +64,30 @@ function deepSearch(id, arr) {
 
 io.on('connection', (socket)=>{
   //PLAYER==================================================
-  //players.push({ uid: socket.id.slice(2), color: null, ready: false});
-
-  /*Disabled because everyone starts with same color aside from user
-  //Give player color
-  socket.on('userColor', function(color) {
-    var p = players[deepSearch(socket.id.slice(2), players)];
-    p.color = color;
-  });*/
-
   //Remove Player
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
-    //players[0].splice(deepSearch(socket.id.slice(2), players[0]), 1);
-    //io.emit('lobbyInfo', {
-    //  gm: players[0][0],
-    //  players: players[0].slice(1, players[0].length)
-    //});
+
+    //Have to find the player in the room, find better optimization
+    var roomId;
+    for (var prop in players) {
+      if ( deepSearch(socket.id.slice(2), players[prop])) {
+        roomId = prop;
+        players[prop].splice(deepSearch(socket.id.slice(2), players[prop]), 1);
+      }
+    }
+    if (roomId) {
+      if (lobbyState[roomId].status === 'ready') {
+        //emit the to room you are leaving
+        lobbyState[roomId].status = 'waiting';
+        memcache[roomId].setStatus('waiting');
+        io.to(roomId).emit('roomInfo', {
+          gm: players[roomId][0],
+          players: players[roomId].slice(1, players[roomId].length)        
+        });
+        io.to('capri0sun').emit('lobbyState', lobbyState);
+      }
+    }
   });
 
   //LOBBY==================================================
@@ -118,7 +125,7 @@ io.on('connection', (socket)=>{
     //Leave room and join lobby
     socket.leave(oldRoomId);
     socket.join('capri0sun');
-    players[oldRoomId].splice(deepSearch(uid, players[oldRoomId]), 1);
+    players[oldRoomId].splice(deepSearch(socket.id.slice(2), players[oldRoomId]), 1);
     if (lobbyState[oldRoomId].status === 'ready') {
       //emit the to room you are leaving
       lobbyState[oldRoomId].status = 'waiting';
@@ -150,14 +157,14 @@ io.on('connection', (socket)=>{
     }
   });
   //GAME INIT=============================================
-  socket.on('startGame', function() {
+  socket.on('startGame', function(roomId) {
     socket.emit('allPeers', players);
     //Only game master can start the game
-    if (socket.id.slice(2) === players[0].uid) {
-      console.log('STARTING', socket.id.slice(2), players[0].uid);
+    if (socket.id.slice(2) === players[roomId][0].uid) {
+      console.log('STARTING', socket.id.slice(2), players[roomId][0].uid);
       var pidsList = [];
       for (var x = 0; x < players.length; x++) {
-        pidsList.push(players[x].uid);
+        pidsList.push(players[roomId][x].uid);
       }
       memcache.init(pidsList).then(function() {
         setTimeout(function() {
