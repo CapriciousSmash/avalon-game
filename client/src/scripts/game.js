@@ -6,9 +6,6 @@ import helper from '../util/helperFunctions';
 THREE:  WIDTH, HEIGHT, scene, renderer, element, camera,
         pointLight, textureLoader, raycaster, camMouse, mouse
 
-        Eat face
-
-<<<<<<< c291eb953861ae5fa09d7dc59fedf346d718d1e8
 GAME VARS: players, roleColors, selected, clickEvent
 */
 
