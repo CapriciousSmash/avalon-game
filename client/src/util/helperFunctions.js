@@ -1,12 +1,26 @@
 export default {
+  // Using threeJS raycaster to map our object selection attempts to something in the 3D matrix
   intersect: function() {
+    // Old code: probably should delete: 
     //let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
     //this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
     //let intersected = this.raycaster.intersectObjects(this.scene.children);
-    this.raycaster.setFromCamera( this.mouse, this.camera);
-    let intersected = this.raycaster.intersectObjects(this.scene.children);
-    if (intersected[0]) {
-      return intersected[0].object;
+
+    // If the user is usingVR, the raycaster should only use the camera, while the 
+    // non-VR version should apply both camera and mouse
+    if (this.usingVR) {
+      this.raycaster.setFromCamera(
+        this.camera.getWorldPosition(), 
+        this.camera.getWorldDirection()
+      );
+    } else {
+      this.raycaster.setFromCamera(this.mouse, this.camera); 
+    }
+
+    this.intersected = this.raycaster.intersectObjects(this.scene.children);
+
+    if (this.intersected[0]) {
+      return this.intersected[0].object;
     }
     return null;
   },

@@ -22,23 +22,6 @@ module.exports.pickParty = function(memcache, socket, data) {
 
   console.log('pick party data: ', data);
 
-<<<<<<< c291eb953861ae5fa09d7dc59fedf346d718d1e8
-  memcache.getTeam().then(function(teamList) {
-    if (teamList.indexOf(data.playerId) > 0) {
-      return;
-    }
-    memcache.addToTeam(data.playerId).then(function() {
-      
-      memcache.getTeam().then(function(partyList) {
-        var partyCount = partyList.length;
-
-        memcache.getPids().then(function(pidsList) {
-          memcache.getRound().then(function(currentRound) {
-            if (partyCount === teamBuilder[pidsList.length - 5][currentRound - 1]) {
-              gameLogic(memcache, socket, 'RESOLVE PARTY');
-            }
-          });
-=======
   memcache.getPids().then(function(pidsList) {
     memcache.getRound().then(function(currentRound) {
 
@@ -70,7 +53,6 @@ module.exports.pickParty = function(memcache, socket, data) {
         // go on to the next phase
         partyList.forEach(function addToMemTeam(personId) {
           memcache.addToTeam(personId);
->>>>>>> finalize VR selections
         });
 
         setTimeout(function() {

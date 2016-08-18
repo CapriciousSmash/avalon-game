@@ -66,14 +66,14 @@ module.exports = {
     this.addButton(
       'accept', 
       0xFFFFFF, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -80, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -100, posz: 0 }
     );
     this.addButton(
       'reject', 
       0xFF0000, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -100, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -100, posz: 0 }
     );
 
     //All stages will have signs but not all stages will have buttons
@@ -98,14 +98,14 @@ module.exports = {
     this.addButton(
       'success', 
       0x0000FF, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -80, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -100, posz: 0 }
     );    
     this.addButton(
       'fail', 
       0xFF0000, 
-      { lenx: 30, leny: 10, lenz: 10 }, 
-      { posx: 100, posy: -100, posz: 0 }
+      { lenx: 35, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -100, posz: 0 }
     );      
 
     //All stages will have signs but not all stages will have buttons
