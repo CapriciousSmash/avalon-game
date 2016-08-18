@@ -25,21 +25,64 @@ describe('Testing redis', function() {
     })
   })
 
-  it('init should set PIDS', function() {
-    return testCache.getPids()
-    .then(function(pids) {
-      expect(pids).to.deep.equal(testPids);
-    })
-  })
+  describe('Testing Info Methods', function() {
 
-  it('init should set GID', function() {
-    return testCache.getGameID()
-    .then(function(gid) {
-      expect(Number(gid)).to.equal(testGid);
+    it('initInfo defaults max to 10', function() {
+      return testCache.initInfo(testGid)
+      .then(function() {
+        return testCache.getCapMax();
+      })
+      .then(function(cap) {
+        expect(cap).to.equal('10');
+      })
+    })
+
+    it('initInfo sets max to a minimum of 5', function() {
+      return testCache.initInfo(testGid, 4)
+      .then(function() {
+        return testCache.getCapMax();
+      })
+      .then(function(cap) {
+        expect(cap).to.equal('5');
+      })
+    })
+
+    it('initInfo sets max to a maximum of 10', function() {
+      return testCache.initInfo(testGid, 11)
+      .then(function() {
+        return testCache.getCapMax();
+      })
+      .then(function(cap) {
+        expect(cap).to.equal('10');
+      })
+    })
+
+    it('initInfo sets status to waiting', function() {
+      return testCache.initInfo(testGid)
+      .then(function() {
+        return testCache.getStatus();
+      })
+      .then(function(status) {
+        expect(status).to.equal('waiting');
+      })
     })
   })
 
   describe('Testing Init and various Gets', function() {
+    it('init should set PIDS', function() {
+      return testCache.getPids()
+      .then(function(pids) {
+        expect(pids).to.deep.equal(testPids);
+      })
+    })
+
+    it('init should set GID', function() {
+      return testCache.getGameID()
+      .then(function(gid) {
+        expect(Number(gid)).to.equal(testGid);
+      })
+    })
+
     it('init should set player\'s Role to none and vote to false', function() {
       var role, vote;
       return testCache.getRole('1')

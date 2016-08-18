@@ -238,7 +238,7 @@ makeCache.prototype.initInfo = function(gameId, max) {
     return info.setAsync(gameId + ':CAP:CUR', 0);
   })
   .then(function() {
-    return info.setAsync(gameId + 'STATUS', 'waiting');
+    return info.setAsync(gameId + ':STATUS', 'waiting');
   })
   .then(function() {
     return info.saddAsync('GAMEIDS', gameId);
@@ -275,11 +275,11 @@ makeCache.prototype.setStatus = function(status) {
 // getStatus - returns the current game status
 makeCache.prototype.getStatus = function() {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.getAsync(this.gameNumber + ':Status')
-  .then(function(status) {
+  return info.getAsync(this.gameNumber + ':STATUS')
+  .then(function(res) {
     info.quit();
-    return status;
-  })
+    return res;
+  });
 };
 // getAllGIDs - returns all the game ids stored and utilized
 makeCache.prototype.getAllGIDs = function() {
