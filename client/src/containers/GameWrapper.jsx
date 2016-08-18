@@ -18,9 +18,8 @@ class GameWrapper extends React.Component {
     //refactor this!
     var login = this.props.actions.login;
     var socket = this.socket;
-    
-    //Connect to server
 
+    //Connect to server
     socket.on('connect', function() {
       login(this.socket.id);
       
@@ -33,23 +32,48 @@ class GameWrapper extends React.Component {
     socket.on('lobbyInfo', function(lobbyState) {
       //Gives you array of room objects
       //ie: [{id: 'something', status: 'something', max: 'something'},...]
-    });
+      this.setState({
+        1: {
+          id:lobbyState[0].id,
+          status: lobbyState[0].status
+        },
+        2: {
+          id:lobbyState[1].id,
+          status: lobbyState[1].status
+        },
+        3: {
+          id:lobbyState[2].id,
+          status: lobbyState[2].status
+        },
+        4: {
+          id:lobbyState[3].id,
+          status: lobbyState[3].status
+        }
+      });
+    }.bind(this));
+  }
+
+  onClick(e) {
+    var socket = this.socket;
+    this.props.actions.setGameRoom(e.target.value);
+    console.log('This is what I am sending back to June', this.state[e.target.value].id)
+    socket.emit('joinRoom', this.state[e.target.value].id);
   }
 
   render() {
     var matchMaking = this.props.playing ? 
       <Game socket={this.socket}/>
       :
-      // this.props.roomNumber ?  
+      this.props.roomNumber ?  
       <Room socket={this.socket} />
-      // : (
-      //   <div className='buttons'>
-      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='1'>Lobby Room 1</button>
-      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='2'>Lobby Room 2</button>   
-      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='3'>Lobby Room 3</button>   
-      //     <button className='button' onClick={(e) => this.props.actions.setGameRoom(e.target.value)} value='4'>Lobby Room 4</button>   
-      //   </div>
-      // );
+      : (
+        <div className='buttons'>
+          <button className='button' onClick={this.onClick.bind(this)} value='1'>Lobby Room 1</button>
+          <button className='button' onClick={this.onClick.bind(this)} value='2'>Lobby Room 2</button>   
+          <button className='button' onClick={this.onClick.bind(this)} value='3'>Lobby Room 3</button>   
+          <button className='button' onClick={this.onClick.bind(this)} value='4'>Lobby Room 4</button>   
+        </div>
+      );
 
       //Todo: When clicking to join a room, send off signal 'joinRoom'
       //with room id. Send as string.
