@@ -24,6 +24,7 @@ export default {
     }
     return null;
   },
+  // Adds display text to the screen to inform users of current game stage or progress
   addSign: function(stage) {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
     let plane = new THREE.PlaneGeometry(512, 128);
@@ -35,6 +36,8 @@ export default {
     sign.name = stage;
     this.scene.add(sign);
   },
+  // Adds the relevant buttons to the screen to allow users to perform actions appropriate
+  // to the game phase
   addButton: function(name, color, size, position) {
     let geometry = new THREE.BoxGeometry(size.lenx, size.leny, size.lenz);
     let material = new THREE.MeshBasicMaterial({color});
