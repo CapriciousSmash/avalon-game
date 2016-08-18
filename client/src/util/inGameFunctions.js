@@ -88,6 +88,9 @@ module.exports = {
     this.addClickEventListener('approveParty', 1, votePartyCallback);
 
     setTimeout(()=>{
+      this.removeObject('approveParty'); 
+      this.removeObject('accept');
+      this.removeObject('reject');       
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   },   
@@ -117,6 +120,9 @@ module.exports = {
     this.addClickEventListener('passQuest', 1, voteQuestCallback);
 
     setTimeout(()=>{
+      this.removeObject('passQuest');
+      this.removeObject('accept');
+      this.removeObject('reject');        
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   }
