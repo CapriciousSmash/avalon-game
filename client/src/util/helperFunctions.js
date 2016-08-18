@@ -40,6 +40,9 @@ export default {
     this.renderer.domElement.addEventListener('click', this.clickEvent = (e) => {
       let hitObject = this.intersect();
       if (hitObject) {
+        console.log('hitObject', hitObject);
+        //change clicked to pink color
+        this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
         if (this.selected.indexOf(hitObject.name) < 0) {
           this.selected.push(hitObject.name);
         }
