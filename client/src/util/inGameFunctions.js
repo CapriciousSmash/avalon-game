@@ -62,6 +62,8 @@ module.exports = {
       this.removeClickEventListener();
     }, 30000);
   },
+  // TODO: Pending field test to determine whether the buttons are well placed
+  // at these new coordinates. 
   partyButtons: function(voteOnParty) {
     this.addButton(
       'accept', 
@@ -93,7 +95,9 @@ module.exports = {
       this.removeObject('reject');       
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
-  },   
+  },
+  // TODO: Pending field tes to determine whether these buttons are
+  // well placed at these coordinates 
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
