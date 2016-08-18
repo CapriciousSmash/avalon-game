@@ -21,6 +21,9 @@ module.exports.gameLogic = function(memcache, socket, type) {
   if (type === 'RESOLVE VOTE') {
     resolvePartyVote(memcache, socket, chooseParty);
   }
+  if (type === 'CHOOSE PARTY') {
+    chooseParty(memcache, socket);
+  }
   if (type === 'RESOLVE PARTY') {
   	resolveParty(memcache, socket);
   }

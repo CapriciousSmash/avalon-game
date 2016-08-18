@@ -22,6 +22,7 @@ module.exports.pickParty = function(memcache, socket, data) {
 
   console.log('pick party data: ', data);
 
+<<<<<<< c291eb953861ae5fa09d7dc59fedf346d718d1e8
   memcache.getTeam().then(function(teamList) {
     if (teamList.indexOf(data.playerId) > 0) {
       return;
@@ -37,13 +38,55 @@ module.exports.pickParty = function(memcache, socket, data) {
               gameLogic(memcache, socket, 'RESOLVE PARTY');
             }
           });
+=======
+  memcache.getPids().then(function(pidsList) {
+    memcache.getRound().then(function(currentRound) {
+
+      var partyList = data.partyList;
+
+      // Find the correct number of players that needs to be in the party by
+      // using the teamBuilder cheatsheet
+      var numPlayers = pidsList.length;
+      if (numPlayers < 5 || numPlayers > 10) {
+        numPlayers = 5;
+      }
+
+      if (partyList.length === teamBuilder[numPlayers - 5][currentRound - 1]) {
+        // Ensures partyList only contains unique values:
+        var hashSearch = {};
+        for (var x = 0; x < partyList.length; x++) {
+          if (hashSearch[partyList[x]]) {
+
+            console.log('Error: Repeated party member');
+            socket.emit('Invalid Party', {message: 'invalid party chosen - repeated characters'});
+            return gameLogic(memcache, socket, 'CHOOSE PARTY');
+
+          } else {
+            hashSearch[partyList[x]] = true;
+          }
+        }
+
+        // If we have made it this far, nothing died. Time to add members to the memcache team and
+        // go on to the next phase
+        partyList.forEach(function addToMemTeam(personId) {
+          memcache.addToTeam(personId);
+>>>>>>> finalize VR selections
         });
-      });
+
+        setTimeout(function() {
+          gameLogic(memcache, socket, 'RESOLVE PARTY');
+        }, 1000);
+
+      } else {
+
+        console.log('Error: Wrong number of party members');
+        socket.emit('Invalid Party', {message: 'invalid party chosen - wrong number of characters'});
+        return gameLogic(memcache, socket, 'CHOOSE PARTY');
+
+      }
 
     });
-    
   });
-
  
 };
 
