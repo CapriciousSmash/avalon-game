@@ -1,4 +1,5 @@
 module.exports = {
+  // When a player joins the game
   addPlayer: function(uid, color, role) {
     this.players.push({
       uid,
@@ -32,6 +33,7 @@ module.exports = {
       }
     }
   },
+  // Assign roles attaches the roles of the game to the player objects
   assignRoles: function(party, id, role) {
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
@@ -53,6 +55,7 @@ module.exports = {
       this.removeClickEventListener();
     }, 5000);
   },
+  // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber) {
     this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
 

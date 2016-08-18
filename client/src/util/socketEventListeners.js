@@ -53,13 +53,15 @@ module.exports = {
       console.log('Data I got from assignRoles', data);
     });
     socket.on('chooseParty', function(data) {
-      game.pickParty(party => {
-        socket.emit('pickParty', {
-          partyList: party
+      if (data.currentLeader === socket.id) {
+        game.pickParty(party => {
+          socket.emit('pickParty', {
+            partyList: party
+          });
+        // Need party number from data <-------------------------------
         });
-      // Need party number from data <-------------------------------
-      });
-      console.log('Data I got from sendParty', data);
+        console.log('Data I got from sendParty', data);
+      }
     });
     socket.on('resolveParty', function(data) {
       console.log('Data I got from resolveParty', data);
