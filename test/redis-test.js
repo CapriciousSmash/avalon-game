@@ -66,6 +66,32 @@ describe('Testing redis', function() {
         expect(status).to.equal('waiting');
       })
     })
+
+    it('setCapMax changes cap', function() {
+      return testCache.initInfo(testGid)
+      .then(function() {
+        return testCache.setCapMax(5);
+      })
+      .then(function() {
+        return testCache.getCapMax();
+      })
+      .then(function(res) {
+        expect(res).to.equal('5');
+      })
+    })
+
+    it('setStatus changes status', function() {
+      return testCache.initInfo(testGid)
+      .then(function() {
+        return testCache.setStatus('ready');
+      })
+      .then(function() {
+        return testCache.getStatus();
+      })
+      .then(function(res) {
+        expect(res).to.equal('ready');
+      })
+    })
   })
 
   describe('Testing Init and various Gets', function() {
