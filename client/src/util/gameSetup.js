@@ -1,7 +1,32 @@
+function render() {
+  requestAnimationFrame(render.bind(this));
+
+  let d = new Date();
+  this.pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
+  this.pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
+
+  this.intersect();
+
+  this.renderer.render(this.scene, this.camera);
+
+  let numPlayers = this.players.length;
+  for (let x = 0; x < numPlayers; x++) {
+    let playerObj = this.scene.getObjectByName(this.players[x].uid);
+    if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+      playerObj.position.x -= 2;
+    } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+      playerObj.position.x += 2;
+    }
+  }
+
+  this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
+  this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
+  this.camera.lookAt(this.scene.position);
+}
+
 export default function init() {
   //SET UP VARS////////////////
   this.players = [];
-  this.party = [];
   this.roleColors = {
     KNIGHT: 0x00b8ff,
     merlin: 0x007cab,
@@ -10,9 +35,8 @@ export default function init() {
     //defaultColor: 0xffce00
     defaultColor: 0x00b8ff
   };
+
   //SET UP SCENE////////////////
-  
-  // Scene related constant variables: 
   let $gameContainer = $('#gameContainer');
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
@@ -81,38 +105,9 @@ export default function init() {
   this.scene.background = textureCube;
 */
   //LIGHTS////////////////////////////////////
-  let pointLight = new THREE.PointLight(0xFFFFFF);
-  pointLight.position.set = (10, 50, 130);
-  this.scene.add(pointLight);
+  this.pointLight = new THREE.PointLight(0xFFFFFF);
+  this.pointLight.position.set = (10, 50, 130);
+  this.scene.add(this.pointLight);
 
-  //RENDER////////////////////////////////////
-
-  let render = () => {
-
-    requestAnimationFrame(render);
-
-    let d = new Date();
-    pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
-    pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
-
-    this.intersect();
-
-    this.renderer.render(this.scene, this.camera);
-
-    let numPlayers = this.players.length;
-    for (let x = 0; x < numPlayers; x++) {
-      let playerObj = this.scene.getObjectByName(this.players[x].uid);
-      if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-        playerObj.position.x -= 2;
-      } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-        playerObj.position.x += 2;
-      }
-    }
-
-    this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-    this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-    this.camera.lookAt(this.scene.position);
-
-  };
-  render();
+  render.call(this);
 }

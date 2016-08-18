@@ -23,7 +23,7 @@ module.exports.pickParty = function(memcache, socket, data) {
   console.log('pick party data: ', data);
 
   memcache.getTeam().then(function(teamList) {
-    if(teamList.indexOf(data.playerId) > 0) {
+    if (teamList.indexOf(data.playerId) > 0) {
       return;
     }
     memcache.addToTeam(data.playerId).then(function() {
