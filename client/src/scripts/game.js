@@ -1,29 +1,31 @@
 import init from '../util/gameSetup';
-import inGame from '../util/inGameFunction';
+import inGame from '../util/inGameFunctions';
+import helper from '../util/helperFunctions';
+
+/*CONTENTS
+THREE:  WIDTH, HEIGHT, scene, renderer, element, camera,
+        pointLight, textureLoader, raycaster, camMouse, mouse
+
+GAME VARS: players, roleColors, selected, clickEvent
+*/
 
 export default {
   init: function() {
-   init.call(this); 
+    init.call(this); 
   },
-  intersect: function() {
-    //let mouseVector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0).unproject(this.camera);
-    //this.raycaster.set(this.camera.position, mouseVector.sub(this.camera.position).normalize());
-    //let intersected = this.raycaster.intersectObjects(this.scene.children);
-    this.raycaster.setFromCamera( this.mouse, this.camera);
-    let intersected = this.raycaster.intersectObjects(this.scene.children);
-    if (intersected[0]) {
-      return intersected[0].object;
-    }
-    return null;
-  },
+  // Helper functions
+  intersect: helper.intersect,
+  addSign: helper.addSign,
+  addButton: helper.addButton,
+  removeObject: helper.removeObject,
+  addClickEventListener: helper.addClickEventListener,
+  removeClickEventListener: helper.removeClickEventListener,
 
   // In-game functions
   addPlayer: inGame.addPlayer,
   removePlayer: inGame.removePlayer,
   assignRoles: inGame.assignRoles,
-  showSign: inGame.showSign,
-  hideSign: inGame.hideSign,
   pickParty: inGame.pickParty,
-  createVoteButtons: inGame.createVoteButtons,
-  createQuestButtons: inGame.createQuestButtons,
+  partyButtons: inGame.partyButtons,
+  questButtons: inGame.questButtons,
 };
