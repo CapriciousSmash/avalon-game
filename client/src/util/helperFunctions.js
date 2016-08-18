@@ -47,24 +47,31 @@ export default {
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
   },
-  addClickEventListener: function(signName, maxSelects, callback) {
+  addClickEventListener: function(signName, maxSelects, callback, options) {
     this.selected = [];
     this.addSign(signName);
 
     this.renderer.domElement.addEventListener('click', this.clickEvent = (e) => {
-      let hitObject = this.intersect();
-      if (hitObject) {
+      // Temporary click listener while I figure out where to add in the VR selection
+      // code:
+      let hitObjecct = this.intersected.length > 0 ? this.intersected[0].object : null;
+
+      if(!hitObject) {
+        return;
+      }
+      if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
+      } else if (hitObject) {
         console.log('hitObject', hitObject);
         //change clicked to pink color
         this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
         if (this.selected.indexOf(hitObject.name) < 0) {
           this.selected.push(hitObject.name);
         }
-      }
-      if (this.selected.length >= maxSelects) {
-        callback(this.selected);
-        this.removeObject(signName);
-        this.removeClickEventListener(this.clickEvent);
+        if (this.selected.length >= maxSelects) {
+          callback(this.selected);
+          this.removeObject(signName);
+          this.removeClickEventListener(this.clickEvent);
+        }     
       }
     });
   },

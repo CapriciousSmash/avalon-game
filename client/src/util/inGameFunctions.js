@@ -87,7 +87,7 @@ module.exports = {
       this.removeObject('reject');      
     };
 
-    this.addClickEventListener('approveParty', 1, votePartyCallback);
+    this.addClickEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
 
     setTimeout(()=>{
       this.removeObject('approveParty'); 
@@ -121,7 +121,7 @@ module.exports = {
       this.removeObject('fail');      
     };
 
-    this.addClickEventListener('passQuest', 1, voteQuestCallback);
+    this.addClickEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
 
     setTimeout(()=>{
       this.removeObject('passQuest');
