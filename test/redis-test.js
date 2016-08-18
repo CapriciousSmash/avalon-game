@@ -415,7 +415,33 @@ describe('Testing redis', function() {
       })
       .then(function(res) {
         expect(res).to.deep.equal(['true']);
+      });
+    });
+
+    it('should return the results in a random order', function() {
+      var inOrder = ['true', 'false', 'true', 'false', 'true'];
+      testCache.saveQuestResult(1, true);
+      testCache.saveQuestResult(2, false);
+      testCache.saveQuestResult(3, true);
+      testCache.saveQuestResult(4, false);
+      return testCache.saveQuestResult(5, true)
+      .then(function() {
+        return testCache.getQuestResult();
       })
+      .then(function(res) {
+        var numResults = {
+          true: 0,
+          false: 0
+        };
+
+        for(var i = 0; i < res.length; i++) {
+          numResults[res[i]]++;
+        }
+
+        expect(numResults.true).to.equal(3);
+        expect(numResults.false).to.equal(2);
+        expect(res).to.not.deep.equal(inOrder);
+      });
     });
   });
 

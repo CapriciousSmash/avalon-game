@@ -202,7 +202,7 @@ makeCache.prototype.getQuestResult = function() {
           .then(function(qresults) {
             var randoResults = [];
             var randoIndex;
-            for (var i = 0; i < qresults.length;) {
+            for (var i = qresults.length - 1; i > -1; i = qresults.length - 1) {
               randoIndex = Math.floor(Math.random() * i);
               randoResults.push(qresults.splice(randoIndex, 1)[0]);
             }
