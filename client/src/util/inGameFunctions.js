@@ -113,16 +113,16 @@ module.exports = {
     const voteQuestCallback = (choice) =>{
       voteOnParty(choice[0] === 'fail' ? false : true);
       //remove buttons
-      this.removeObject('accept');
-      this.removeObject('reject');      
+      this.removeObject('success');
+      this.removeObject('fail');      
     };
 
     this.addClickEventListener('passQuest', 1, voteQuestCallback);
 
     setTimeout(()=>{
       this.removeObject('passQuest');
-      this.removeObject('accept');
-      this.removeObject('reject');        
+      this.removeObject('success');
+      this.removeObject('fail');        
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   }
