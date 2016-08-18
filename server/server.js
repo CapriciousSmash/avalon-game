@@ -37,9 +37,9 @@ app.use(passport.session());
 var memcache = {};
 var lobbyState = [];
 var players = {};
-for (let x = 1; x <= 4; x ++) {
+for (var x = 1; x <= 4; x ++) {
   //Initialize redis database
-  let id = shortid.generate();
+  var id = shortid.generate();
   memcache[id] = new redisDb(x);
   memcache[id].clear();
   memcache[id].initInfo(id);
@@ -131,7 +131,7 @@ io.on('connection', (socket)=>{
   socket.on('ready', function(data) {
     players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
     var everyoneReady = true;
-    let playersForRoom = players[data.roomId];
+    var playersForRoom = players[data.roomId];
     for (var x = 0, max = playersForRoom.length; x < max; x++) {
       if (!playersForRoom[x].ready) {
         everyoneReady = false;
