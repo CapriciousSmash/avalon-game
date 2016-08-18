@@ -85,8 +85,8 @@ io.on('connection', (socket)=>{
       players: players.slice(1, players.length)
     });
   });
-  //ROOMS==================================================
 
+  //LOBBY==================================================
   socket.emit('lobbyInfo', lobbyState);
   socket.on('joinRoom', function(roomId) {
     if (io.sockets.adapter.rooms[roomId] >= lobbyState[roomId].max) {
@@ -110,8 +110,8 @@ io.on('connection', (socket)=>{
       io.emit('lobbyInfo', lobbyState);      
     }  
   });
-  //LOBBY==================================================
-  socket.on('lobby', function(lobbyId) {
+  //ROOM==================================================
+  socket.on('inRoom', function(roomId) {
     io.emit('lobbyInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
@@ -125,17 +125,15 @@ io.on('connection', (socket)=>{
         everyoneReady = false;
       }
     }
-    socket.broadcast.emit('lobbyInfo', {
+    socket.broadcast.emit('roomInfo', {
       gm: players[0],
       players: players.slice(1, players.length)
     });    
 
     if (everyoneReady) {
-      io.emit('leaveLobby');
+      io.emit('leaveRoomStartGame');
     }
   });
-
-
   //GAME INIT=============================================
   socket.on('startGame', function() {
     socket.emit('allPeers', players);
