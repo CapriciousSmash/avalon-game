@@ -64,8 +64,8 @@ class GameWrapper extends React.Component {
         );
     var vrSetting = (
       <div>
-        <button onClick={ e => this.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
-        <button onClick={ e => this.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
+        <button onClick={ e => this.props.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
+        <button onClick={ e => this.props.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
       </div>
     );
 
