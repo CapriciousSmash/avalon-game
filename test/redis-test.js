@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var Promise = require('bluebird');
 require('dotenv').config();
 
-describe('Testing redis', function() {
+xdescribe('Testing redis', function() {
   var redisDb = require('../server/db/redis.js')
   var testPids = ['1', '2', '3', '4', '5'];
   var testGid = 15;

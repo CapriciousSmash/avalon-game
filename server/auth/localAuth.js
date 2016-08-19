@@ -11,7 +11,7 @@ module.exports = function(User) {
     if (!req.user) {
       User.findOrCreate({where: {
         username: username,
-        password: User.generateHash
+        password: User.generateHash(password)
       }})
       .then(function(user) {
         done(null, user);
