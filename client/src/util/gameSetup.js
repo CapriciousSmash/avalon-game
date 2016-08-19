@@ -22,6 +22,7 @@ function render() {
   // Render stereo or normal effect based on whether user chose VR experience
   if (this.usingVR) {
     this.effect.render(this.scene, this.camera);
+    this.selectionDetection();
   } else {
     this.renderer.render(this.scene, this.camera);
   }
@@ -53,7 +54,6 @@ export default function init(usingVR) {
     merlin: 0x007cab,
     MINION: 0xFF0000,
     assassin: 0x850000,
-    //defaultColor: 0xffce00
     defaultColor: 0x00b8ff
   };
   this.WIDTH = window.innerWidth,
@@ -65,6 +65,13 @@ export default function init(usingVR) {
   // usingVR is passed in from websocket listeners and will tell our program
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
   this.usingVR = usingVR === undefined ? false : usingVR;
+
+  // VR VARIABLES ///////////////////////////
+  if (this.usingVR) {
+    this.VRSelectionTimer = 0;
+    this.VRLastSelected = null;
+    this.VREventListeners = [];
+  }
 
   //SET UP SCENE ////////////////////////////
 
@@ -140,10 +147,10 @@ export default function init(usingVR) {
 
     var width = window.innerWidth;
     var height = window.innerHeight;
-    self.camera.aspect = devicePixelRatio;
-    self.camera.updateProjectionMatrix();
-    self.renderer.setSize(width, height);
-    self.effect.setSize(width, height);
+    this.camera.aspect = devicePixelRatio;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+    this.effect.setSize(width, height);
   }
 
   // LIGHTS /////////////////////////////////////////
