@@ -19,7 +19,6 @@ class Game extends React.Component {
     webSockets.gameInit(socket);
 
     $('.loading').removeClass('hidden');
-    console.log('heyooo');
     socket.emit('startGame', this.props.roomNumber);
     
     setTimeout(()=>{
