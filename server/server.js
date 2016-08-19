@@ -174,11 +174,11 @@ io.on('connection', (socket)=>{
     }
   });
   //GAME INIT=============================================
-  socket.on('startGame', function(roomId) {
-    console.log('STARTING THE GAME', roomId);
-    socket.to(roomId).emit('allPeers', players[roomId]);
+  socket.on('startGame', function(roomId, person) {
+    console.log('STARTING THE GAME', roomId, '-', person);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {
+      io.to(roomId).emit('allPeers', players[roomId]);
       var pidsList = [];
       for (var x = 0; x < players.length; x++) {
         pidsList.push(players[roomId][x].uid);

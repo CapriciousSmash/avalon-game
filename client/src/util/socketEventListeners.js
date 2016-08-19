@@ -17,9 +17,9 @@ module.exports = {
   },*/
   gameInit: function(socket) {
     game.init();
-      
     //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
+      console.log("Got em players", players);
       for (let p in players) {
         game.addPlayer(players[p].uid, players[p].color);
       }
@@ -36,6 +36,7 @@ module.exports = {
       //     console.log('(old)Received some greetings:', data);
       //   });
       // });
+
     });
     // peer.on('connection', function(conn){
     //   conn.on('data', function(data){
