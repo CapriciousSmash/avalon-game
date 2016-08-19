@@ -227,9 +227,9 @@ app.get('*', (req, res)=>{
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
-app.get('/login', passport.authenticate('local-login', {
+app.post('/login', passport.authenticate('local-login', {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/signin'
 }));
 
 app.get('/logout', (req, res) => {
