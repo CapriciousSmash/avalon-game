@@ -22,9 +22,12 @@ function render() {
   // Render stereo or normal effect based on whether user chose VR experience
   if (this.usingVR) {
     this.effect.render(this.scene, this.camera);
+    this.selectionDetection();
   } else {
     this.renderer.render(this.scene, this.camera);
   }
+
+  this.oliver.setDirection(this.camera.getWorldDirection());
 
   // Corrently position the players based on the number of current players 
   let numPlayers = this.players.length;
@@ -53,7 +56,6 @@ export default function init(usingVR) {
     merlin: 0x007cab,
     MINION: 0xFF0000,
     assassin: 0x850000,
-    //defaultColor: 0xffce00
     defaultColor: 0x00b8ff
   };
   this.WIDTH = window.innerWidth,
@@ -65,6 +67,13 @@ export default function init(usingVR) {
   // usingVR is passed in from websocket listeners and will tell our program
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
   this.usingVR = usingVR === undefined ? false : usingVR;
+
+  // VR VARIABLES ///////////////////////////
+  if (this.usingVR) {
+    this.VRSelectionTimer = 0;
+    this.VRLastSelected = null;
+    this.VREventListeners = [];
+  }
 
   //SET UP SCENE ////////////////////////////
 
@@ -140,10 +149,13 @@ export default function init(usingVR) {
 
     var width = window.innerWidth;
     var height = window.innerHeight;
-    self.camera.aspect = devicePixelRatio;
-    self.camera.updateProjectionMatrix();
-    self.renderer.setSize(width, height);
-    self.effect.setSize(width, height);
+    this.camera.aspect = devicePixelRatio;
+    this.camera.updateProjectionMatrix();
+    if (this.usingVR) {
+      this.effect.setSize(width, height);
+    } else {
+      this.renderer.setSize(width, height);
+    }
   }
 
   // LIGHTS /////////////////////////////////////////
@@ -169,6 +181,16 @@ export default function init(usingVR) {
     this.camMouse.x = (e.clientX - this.WIDTH / 2);
     this.camMouse.y = (e.clientY - this.HEIGHT / 2);
   }, false);
+
+  // ARROW HELPER TO SEE WHERE CAMERA IS POINTED ///
+
+  this.oliver = new THREE.ArrowHelper(
+    this.camera.getWorldDirection(), 
+    this.camera.getWorldPosition(),
+    500,
+    0xffff00
+  );
+  this.scene.add(this.oliver);
 
   // Commenting this section out as it interferes with the normal resizing
   // process

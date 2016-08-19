@@ -50,35 +50,49 @@ export default {
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
   },
+  // Options may include a choices array that denotes the possible objects that should be 
+  // getting clicked on. Allows for filtering of these objects. 
   addClickEventListener: function(signName, maxSelects, callback, options) {
     this.selected = [];
     this.addSign(signName);
 
     this.renderer.domElement.addEventListener('click', this.clickEvent = (e) => {
-      // Temporary click listener while I figure out where to add in the VR selection
-      // code:
-      let hitObjecct = this.intersected.length > 0 ? this.intersected[0].object : null;
-
-      if(!hitObject) {
-        return;
-      }
-      if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
-      } else if (hitObject) {
-        console.log('hitObject', hitObject);
-        //change clicked to pink color
-        this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
-        if (this.selected.indexOf(hitObject.name) < 0) {
-          this.selected.push(hitObject.name);
-        }
-        if (this.selected.length >= maxSelects) {
-          callback(this.selected);
-          this.removeObject(signName);
-          this.removeClickEventListener(this.clickEvent);
-        }     
-      }
+      // Code originally part of this click handler moved to itemSelection in order to be
+      // usable by both click and VR
+      this.itemSelection(signName, maxSelected, callback, options);
     });
   },
   removeClickEventListener: function() {
     this.renderer.domElement.removeEventListener('click', this.clickEvent);    
+  },
+  // Function that is called by either the click event listener or the VR selection 
+  itemSelection: function(signName, maxSelects, callback, options) {
+    
+    let hitObjecct = this.intersected.length > 0 ? this.intersected[0].object : null;
+
+    if(!hitObject) {
+      return;
+    }
+    if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
+      this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
+      if (this.selected.indexOf(hitObject.name) < 0) {
+        this.selected.push(hitObject.name);
+      }
+    } else if (hitObject) {
+      // Note: this may be useless code, but keeping until options.choices has been
+      // implemented for everything that might call this function
+      console.log('hitObject', hitObject);
+      //change clicked to pink color
+      this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
+      if (this.selected.indexOf(hitObject.name) < 0) {
+        this.selected.push(hitObject.name);
+      }
+    }
+    if (this.selected.length >= maxSelects) {
+      callback(this.selected);
+      this.removeObject(signName);
+      this.removeClickEventListener(this.clickEvent);
+    }     
+
   }
 };

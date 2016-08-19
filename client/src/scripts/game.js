@@ -1,6 +1,7 @@
 import init from '../util/gameSetup';
 import inGame from '../util/inGameFunctions';
 import helper from '../util/helperFunctions';
+import vrHelpers from '../util/vrHelpers';
 
 /*CONTENTS
 THREE:  WIDTH, HEIGHT, scene, renderer, element, camera,
@@ -28,5 +29,10 @@ export default {
   pickParty: inGame.pickParty,
   partyButtons: inGame.partyButtons,
   questButtons: inGame.questButtons,
+
+  // VR specific functions
+  addVRPressEventListener: vrHelpers.addVRPressEventListener,
+  removeVREventListener: vrHelpers.removeVREventListener,
+  selectionDetection: vrHelpers.selectionDetection
 
 };
