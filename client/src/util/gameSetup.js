@@ -68,7 +68,8 @@ export default function init(usingVR) {
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
   this.usingVR = usingVR === undefined ? false : usingVR;
 
-  this.usingVR = true;
+  // Uncomment this line to force VR mode. 
+  // this.usingVR = true;
 
   // VR VARIABLES ///////////////////////////
   if (this.usingVR) {
