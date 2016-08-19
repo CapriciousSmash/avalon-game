@@ -28,7 +28,7 @@ describe('Testing Postgres', function() {
     expect(hashpass).to.not.equal(password);
   });
 
-  xit('should find that the passwords match', function() {
+  it('should find that the passwords match', function() {
     this.timeout(0);
     return User.findOrCreate({where: {
       name: name2
@@ -46,7 +46,6 @@ describe('Testing Postgres', function() {
     return userHelpers.getScore(3)
     .then(function(res) {
       score = res[0];
-      games = res[1];
     })
     .then(function() {
       return userHelpers.increaseScore(3);
@@ -56,6 +55,22 @@ describe('Testing Postgres', function() {
     })
     .then(function(res) {
       expect(res[0]).to.equal((score + 1));
+    });
+  });
+
+  it('should increase games by 1', function() {
+    return userHelpers.getScore(3)
+    .then(function(res) {
+      games = res[1];
+    })
+    .then(function() {
+      return userHelpers.increaseGames(3);
+    })
+    .then(function() {
+      return userHelpers.getScore(3);
+    })
+    .then(function(res) {
+      expect(res[1]).to.equal((games + 1));
     });
   });
 });

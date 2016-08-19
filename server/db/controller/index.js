@@ -21,8 +21,7 @@ module.exports = {
     }})
     .then(function(user) {
       var points = user.points;
-      points++;
-      return User.update({points: points}, {where: {id: id}});
+      return User.update({points: points + 1}, {where: {id: id}});
     });
   },
   increaseGames: function(id) {
