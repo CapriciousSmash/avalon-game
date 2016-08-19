@@ -20,9 +20,6 @@ class GameWrapper extends React.Component {
     var socket = this.socket;
 
     //Connect to server
-    socket.on('hello', function(hi) {
-      console.log('server said', hi);
-    });
     socket.on('connect', function() {
       login(this.socket.id);
       
@@ -32,7 +29,7 @@ class GameWrapper extends React.Component {
       peer.on('open', function(id) {
       });
     }.bind(this));
-    
+
     socket.on('lobbyInfo', function(lobbyState) {
       this.setState({});
       var roomNumber = 1;

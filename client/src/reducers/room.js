@@ -12,9 +12,6 @@ export default function room(state = initialState, action) {
         roomNumber: action.roomNumber 
       };
     default: 
-      return {
-        ...state,
-        roomNumber: undefined
-      }
+      return state;
   }
 }

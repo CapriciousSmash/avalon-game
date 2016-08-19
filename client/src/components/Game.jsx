@@ -16,11 +16,12 @@ class Game extends React.Component {
   }*/
   componentDidMount() {
     var socket = this.props.socket;
+    console.log('THIS ROOM IS', this.props.roomNumber);
 
     $('.loading').removeClass('hidden');
     setTimeout(()=>{
       $('.loading').addClass('hidden');        
-      socket.emit('startGame');
+      socket.emit('startGame', this.props.roomNumber);
     }, 10);
 
     webSockets.gameInit(socket);
@@ -36,7 +37,7 @@ class Game extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    //currentUser: state.currentUser
+    roomNumber: state.room.roomNumber
   };
 }
 function mapDispatchToProps(dispatch) {
