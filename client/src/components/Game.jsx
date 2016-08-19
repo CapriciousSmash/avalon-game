@@ -22,12 +22,7 @@ class Game extends React.Component {
     socket.emit('startGame', this.props.roomNumber, socket.id.slice(2));
     
     setTimeout(()=>{
-<<<<<<< 9161bb8d695120b061d882831c6192379baa3221
       $('.loading').addClass('hidden'); 
-=======
-      $('.loading').addClass('hidden');
-      webSockets.startGame(socket, this.props.roomNumber);
->>>>>>> set up VR on client side. Pending additional refinement.
     }, 10);
 
     webSockets.allListeners(socket);
