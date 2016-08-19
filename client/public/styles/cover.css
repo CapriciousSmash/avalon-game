@@ -164,3 +164,7 @@ body {
     width: 700px;
   }
 }
+
+input {
+  color: #000;
+}
