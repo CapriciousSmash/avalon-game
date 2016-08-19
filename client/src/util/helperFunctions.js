@@ -59,7 +59,7 @@ export default {
     this.renderer.domElement.addEventListener('click', this.clickEvent = (e) => {
       // Code originally part of this click handler moved to itemSelection in order to be
       // usable by both click and VR
-      this.itemSelection(signName, maxSelected, callback, options);
+      this.itemSelection(signName, maxSelects, callback, options);
     });
   },
   removeClickEventListener: function() {

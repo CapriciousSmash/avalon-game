@@ -17,6 +17,10 @@ module.exports = {
   },*/
   gameInit: function(socket) {
     game.init();
+<<<<<<< 48f44f7affccc957096b2eb49f477fa186d5249f
+=======
+    console.log('after game init');
+>>>>>>> commit to rebase
     //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
       console.log("Got em players!", players);
