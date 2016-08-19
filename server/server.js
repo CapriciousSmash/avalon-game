@@ -46,12 +46,12 @@ for (var x = 1; x <= 4; x ++) {
   
   //Initialize server side save state variables
   players[id] = [];
-  lobbyState.push({
+  lobbyState[id] = {
     id: id,
     status: memcache[id].getStatus,
     //For some reason memcache[id] cannot get the cap max
     max: memcache[id].getCapMax || 10
-  });  
+  };  
 }
 
 //Utility, move elsewhere
