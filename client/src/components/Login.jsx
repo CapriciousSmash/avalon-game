@@ -7,10 +7,9 @@ export default class SignIn extends React.Component {
         <fieldset>
           <h3>Username </h3>
           <input placeholder='Username'></input>
-        </fieldset>
-        <fieldset>
           <h3>Password </h3>
-          <input placeholder='Password'></input>
+          <input placeholder='Password'></input><br />
+          <button type="submit" value="Submit">Submit</button>
         </fieldset>
       </form>
     )
