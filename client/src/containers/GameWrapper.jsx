@@ -20,8 +20,10 @@ class GameWrapper extends React.Component {
     var socket = this.socket;
 
     //Connect to server
+    socket.on('hello', function(hi){
+      console.log('server said', hi);
+    });
     socket.on('connect', function() {
-      console.log('CONNECTED TO SERVER');
       login(this.socket.id);
       
       const peer = new Peer (this.socket.id, {host: 'ancient-caverns-19863.herokuapp.com', port: '', secure: 'true'});
@@ -35,10 +37,9 @@ class GameWrapper extends React.Component {
       //ie: [{id: 'something', status: 'something', max: 'something'},...]
       this.setState({});
       var roomNumber = 1;
-      for(var key in lobbyState) {
-        console.log(key)
-        this.state[roomNumber] =  {
-          id:lobbyState[key].id,
+      for (var key in lobbyState) {
+        this.state[roomNumber] = {
+          id: key,
           status: lobbyState[key].status
         };
         roomNumber++;
@@ -48,9 +49,8 @@ class GameWrapper extends React.Component {
 
   onClick(e) {
     var socket = this.socket;
-    this.props.actions.setGameRoom(e.target.value);
-    console.log('This is what I am sending back to June', this.state[e.target.value].id)
-    socket.emit('joinRoom', this.state[e.target.value].id);
+    this.props.actions.setGameRoom(this.state[e.target.value].id);
+    console.log('This is what I am sending back to June', this.state[e.target.value].id);
   }
 
   render() {

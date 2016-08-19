@@ -35,7 +35,7 @@ app.use(passport.session());
 /////////////////////////////////////////////////////////////////////
 
 var memcache = {};
-var lobbyState = [];
+var lobbyState = {};
 var players = {};
 for (var x = 1; x <= 4; x ++) {
   //Initialize redis database
@@ -47,10 +47,8 @@ for (var x = 1; x <= 4; x ++) {
   //Initialize server side save state variables
   players[id] = [];
   lobbyState[id] = {
-    id: id,
-    status: memcache[id].getStatus,
-    //For some reason memcache[id] cannot get the cap max
-    max: memcache[id].getCapMax || 10
+    status: 'waiting',
+    max: 10
   };  
 }
 
@@ -66,6 +64,7 @@ function deepSearch(id, arr) {
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
+  console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState);
   
 
@@ -100,10 +99,9 @@ io.on('connection', (socket)=>{
   socket.on('joinRoom', function(newRoomId) {
     //Leave lobby and enter room
     socket.leave('capri0sun');    
-    if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
-      //Too many people in the room
-      socket.emit('joinResponse'. false);
-    } else {
+    var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
+    if (peopleInRoom.length < lobbyState[newRoomId].max) {
+      console.log('JOINING THE ROOM');
       //join the room and add to list of players of that room
       socket.join(newRoomId);
       players[newRoomId].push({
@@ -111,19 +109,28 @@ io.on('connection', (socket)=>{
         color: 0xffce00,
         ready: false
       });
-      if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
+        //Tell people in the room you are joining
+      io.to(newRoomId).emit('roomInfo', {
+        gm: players[newRoomId][0],
+        players: players[newRoomId].slice(1, players[newRoomId].length)        
+      });
+
+      //Tell people if the room is full after you join
+      if (io.sockets.adapter.rooms[newRoomId].length >= lobbyState[newRoomId].max) {
         //Max number of people in room, change status
         lobbyState[newRoomId].status = 'ready';
         memcache[newRoomId].setStatus('ready');
+        
         //Tell people in the lobby new lobby state
         io.to('capri0sun').emit('lobbyState', lobbyState);
-        //Tell people in the room you are joining
-        io.to(newRoomId).emit('roomInfo', {
-          gm: players[oldRoomId][0],
-          players: players[newRoomId].slice(1, players[newRoomId].length)        
-        });
       }
+    } else {    
+      //Too many people in the room
+      socket.emit('joinResponse'. false);
     }
+    // setTimeout(function() {
+    //   console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);
+    // }, 2000);
   });
   socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));

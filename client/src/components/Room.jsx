@@ -19,6 +19,7 @@ const Lobby = React.createClass ({
     var socket = this.props.socket;
 
     //Tell server that player entered the room
+    socket.emit('joinRoom', this.props.roomNumber);
     socket.on('roomInfo', function(roomInfo) {
       console.log('currentUser', this.props.currentUser);
       console.log('gm', roomInfo.gm);
