@@ -103,7 +103,7 @@ io.on('connection', (socket)=>{
       console.log('JOINING THE ROOM');
       //Join the room and add player to list of players of that room
       socket.join(newRoomId);
-      console.log('AFTER JOINING \n', io.sockets.adapter.rooms);  
+      console.log('AFTER JOINING \n', io.sockets.adapter.rooms);
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
@@ -179,7 +179,6 @@ io.on('connection', (socket)=>{
     socket.to(roomId).emit('allPeers', players[roomId]);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {
-      console.log('STARTING', socket.id.slice(2), players[roomId][0].uid);
       var pidsList = [];
       for (var x = 0; x < players.length; x++) {
         pidsList.push(players[roomId][x].uid);
