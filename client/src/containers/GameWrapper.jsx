@@ -63,7 +63,7 @@ class GameWrapper extends React.Component {
 
   render() {
     var matchMaking = this.props.playing ? 
-      <Game socket={this.socket}/>
+      <Game socket={this.socket} />
       :
       this.props.roomNumber ?  
       <Room socket={this.socket} />
