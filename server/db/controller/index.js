@@ -5,26 +5,33 @@ var bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
   getScore: function(id) {
-    return User.find({id: id})
+    return User.find({where: {
+      id: id
+    }})
     .then(function(user) {
-      var score = user.score;
+      var points = user.points;
       var games = user.games;
 
-      return [score, games].slice();
+      return [points, games].slice();
     });
   },
   increaseScore: function(id) {
-    return User.find({id: id})
+    return User.find({where: {
+      id: id
+    }})
     .then(function(user) {
-      var score = user.score;
-      User.update({score: score + 1}, {where: {id: id}});
+      var points = user.points;
+      points++;
+      return User.update({points: points}, {where: {id: id}});
     });
   },
   increaseGames: function(id) {
-    return User.find({id: id})
+    return User.find({where: {
+      id: id
+    }})
     .then(function(user) {
       var games = user.games;
-      User.update({games: games + 1}, {where: {id: id}});
+      return User.update({games: games + 1}, {where: {id: id}});
     });
   },
 }

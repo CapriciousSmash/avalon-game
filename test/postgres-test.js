@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var User = require('../server/db/sequelize.js').User;
 var sequelize = require('../server/db/sequelize.js').sequelize;
+var userHelpers = require('../server/db/controller/index.js');
 var Promise = require('bluebird');
 require('dotenv').config();
 
@@ -9,7 +10,8 @@ describe('Testing Postgres', function() {
   var name = 'testOtron';
   var name2 = 'tronOtest';
   var password = '123456';
-  var hashpass = User.generateHash(password);
+  var hashpass;// = User.generateHash(password);
+  var games, score;
 
   it('should add user', function() {
     return User.findOrCreate({where: {
@@ -26,7 +28,7 @@ describe('Testing Postgres', function() {
     expect(hashpass).to.not.equal(password);
   });
 
-  it('should find that the passwords match', function() {
+  xit('should find that the passwords match', function() {
     this.timeout(0);
     return User.findOrCreate({where: {
       name: name2
@@ -36,8 +38,24 @@ describe('Testing Postgres', function() {
       return User.isValidPassword(password, user[0].dataValues.id);
     })
     .then(function(res) {
-      console.log('res: ', res);
       expect(res).to.equal(true);
+    });
+  });
+
+  it('should increase score by 1', function() {
+    return userHelpers.getScore(3)
+    .then(function(res) {
+      score = res[0];
+      games = res[1];
+    })
+    .then(function() {
+      return userHelpers.increaseScore(3);
+    })
+    .then(function() {
+      return userHelpers.getScore(3);
+    })
+    .then(function(res) {
+      expect(res[0]).to.equal((score + 1));
     });
   });
 });
