@@ -168,3 +168,8 @@ body {
 input {
   color: #000;
 }
+
+button {
+  color: #000;
+  margin-top: 10px;
+}
