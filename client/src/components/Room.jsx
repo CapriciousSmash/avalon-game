@@ -28,11 +28,6 @@ const Lobby = React.createClass ({
         players: roomInfo.players
       });
     }.bind(this));
-
-    socket.on('leaveRoomStartGame', () => {
-      $('.loading').removeClass('hidden');
-      setTimeout(this.props.setGameState, 10);
-    });
   },
   readyHandler: function(e) {
     this.setState({

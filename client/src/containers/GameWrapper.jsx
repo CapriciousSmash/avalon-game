@@ -20,7 +20,7 @@ class GameWrapper extends React.Component {
     var socket = this.socket;
 
     //Connect to server
-    socket.on('hello', function(hi){
+    socket.on('hello', function(hi) {
       console.log('server said', hi);
     });
     socket.on('connect', function() {

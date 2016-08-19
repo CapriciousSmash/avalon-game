@@ -66,10 +66,8 @@ io.on('connection', (socket)=>{
   socket.join('capri0sun');
   console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState);
-  
 
   //PLAYER==================================================
-  //Remove Player
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
 
@@ -82,10 +80,11 @@ io.on('connection', (socket)=>{
       }
     }
     if (roomId) {
+      //If room was full show now there is a space available
       if (lobbyState[roomId].status === 'ready') {
-        //emit the to room you are leaving
         lobbyState[roomId].status = 'waiting';
         memcache[roomId].setStatus('waiting');
+        //emit the to room you are leaving
         io.to(roomId).emit('roomInfo', {
           gm: players[roomId][0],
           players: players[roomId].slice(1, players[roomId].length)        
@@ -102,14 +101,14 @@ io.on('connection', (socket)=>{
     var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
     if (peopleInRoom.length < lobbyState[newRoomId].max) {
       console.log('JOINING THE ROOM');
-      //join the room and add to list of players of that room
+      //Join the room and add player to list of players of that room
       socket.join(newRoomId);
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
         ready: false
       });
-        //Tell people in the room you are joining
+      //Tell people in the room you are joining
       io.to(newRoomId).emit('roomInfo', {
         gm: players[newRoomId][0],
         players: players[newRoomId].slice(1, players[newRoomId].length)        
@@ -117,41 +116,45 @@ io.on('connection', (socket)=>{
 
       //Tell people if the room is full after you join
       if (io.sockets.adapter.rooms[newRoomId].length >= lobbyState[newRoomId].max) {
-        //Max number of people in room, change status
         lobbyState[newRoomId].status = 'ready';
         memcache[newRoomId].setStatus('ready');
         
-        //Tell people in the lobby new lobby state
+        //Tell people in lobby the new room status
         io.to('capri0sun').emit('lobbyState', lobbyState);
       }
     } else {    
       //Too many people in the room
       socket.emit('joinResponse'. false);
     }
-    // setTimeout(function() {
-    //   console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);
-    // }, 2000);
   });
   socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));
+
     //Leave room and join lobby
     socket.leave(oldRoomId);
     socket.join('capri0sun');
     players[oldRoomId].splice(deepSearch(socket.id.slice(2), players[oldRoomId]), 1);
+
+    //Emit the to room you are leaving
+    io.to(oldRoomId).emit('roomInfo', {
+      gm: players[oldRoomId][0],
+      players: players[oldRoomId].slice(1, players[oldRoomId].length)        
+    });
+
+    //If room was full show now there is a space available    
     if (lobbyState[oldRoomId].status === 'ready') {
-      //emit the to room you are leaving
       lobbyState[oldRoomId].status = 'waiting';
       memcache[oldRoomId].setStatus('waiting');
-      io.to(oldRoomId).emit('roomInfo', {
-        gm: players[oldRoomId][0],
-        players: players[oldRoomId].slice(1, players[oldRoomId].length)        
-      });
+      //Tell people in lobby the new room status
       io.to('capri0sun').emit('lobbyState', lobbyState);
     }
   });
   //ROOM==================================================
   socket.on('ready', function(data) {
+    //Change the player's ready state
     players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
+
+    //Check to see if everyone is ready
     var everyoneReady = true;
     var playersForRoom = players[data.roomId];
     for (var x = 0, max = playersForRoom.length; x < max; x++) {
@@ -164,8 +167,9 @@ io.on('connection', (socket)=>{
       players: playersForRoom.slice(1, playersForRoom.length)
     });    
 
+    //Start the game if everyone is ready
     if (everyoneReady) {
-      io.to(data.roomId).emit('leaveRoomStartGame');
+      io.to(data.roomId).emit('startGameLoad');
     }
   });
   //GAME INIT=============================================
