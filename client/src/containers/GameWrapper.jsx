@@ -53,21 +53,25 @@ class GameWrapper extends React.Component {
       <Game socket={this.socket} />
       :
       this.props.roomNumber ?  
-      <Room socket={this.socket} />
-      : (
-        <div className='buttons'>
-          <button className='button' onClick={this.onClick.bind(this)} value='1'>Lobby Room 1</button>
-          <button className='button' onClick={this.onClick.bind(this)} value='2'>Lobby Room 2</button>   
-          <button className='button' onClick={this.onClick.bind(this)} value='3'>Lobby Room 3</button>   
-          <button className='button' onClick={this.onClick.bind(this)} value='4'>Lobby Room 4</button>   
-        </div>
-      );
+        <Room socket={this.socket} />
+        : 
+        (<div className='buttons'>
+            <button className='button' onClick={this.onClick.bind(this)} value='1'>Lobby Room 1</button>
+            <button className='button' onClick={this.onClick.bind(this)} value='2'>Lobby Room 2</button>   
+            <button className='button' onClick={this.onClick.bind(this)} value='3'>Lobby Room 3</button>   
+            <button className='button' onClick={this.onClick.bind(this)} value='4'>Lobby Room 4</button>   
+          </div>
+        );
+    var vrSetting = (
+      <div>
+        <button onClick={ e => this.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
+        <button onClick={ e => this.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
+      </div>
+    );
 
-      //Todo: When clicking to join a room, send off signal 'joinRoom'
-      //with room id. Send as string.
     return (
       <div className='text-center'>
-        {matchMaking} 
+        {this.props.vrSetting.vrSetting !== undefined ? matchMaking : vrSetting} 
       </div>
     );
   }
@@ -77,7 +81,8 @@ function mapStateToProps(state) {
   return {
     playing: state.gameState,
     currentUser: state.currentUser,
-    roomNumber: state.room.roomNumber
+    roomNumber: state.room.roomNumber,
+    vrSetting: state.vrSetting
   };
 }
 function mapDispatchToProps(dispatch) {
