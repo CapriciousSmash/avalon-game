@@ -28,6 +28,10 @@ const Lobby = React.createClass ({
         players: roomInfo.players
       });
     }.bind(this));
+
+    socket.on('leaveRoomGoToGamePage', () => {
+      this.props.setGameState();
+    });
   },
   readyHandler: function(e) {
     this.setState({

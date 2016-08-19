@@ -169,11 +169,11 @@ io.on('connection', (socket)=>{
 
     //Start the game if everyone is ready
     if (everyoneReady) {
-      io.to(data.roomId).emit('startGameLoad');
+      io.to(data.roomId).emit('leaveRoomGoToGamePage');
     }
   });
   //GAME INIT=============================================
-  socket.on('leaveRoomStartGame', function(roomId) {
+  socket.on('reallyStartGame', function(roomId) {
     socket.to(roomId).emit('allPeers', players[roomId]);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {

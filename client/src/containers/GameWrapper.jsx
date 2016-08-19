@@ -32,9 +32,8 @@ class GameWrapper extends React.Component {
       peer.on('open', function(id) {
       });
     }.bind(this));
+    
     socket.on('lobbyInfo', function(lobbyState) {
-      //Gives you array of room objects
-      //ie: [{id: 'something', status: 'something', max: 'something'},...]
       this.setState({});
       var roomNumber = 1;
       for (var key in lobbyState) {
