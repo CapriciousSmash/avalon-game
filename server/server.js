@@ -35,7 +35,7 @@ app.use(passport.session());
 /////////////////////////////////////////////////////////////////////
 
 var memcache = {};
-var lobbyState = [];
+var lobbyState = {};
 var players = {};
 for (var x = 1; x <= 4; x ++) {
   //Initialize redis database
@@ -47,10 +47,8 @@ for (var x = 1; x <= 4; x ++) {
   //Initialize server side save state variables
   players[id] = [];
   lobbyState[id] = {
-    id: id,
-    status: memcache[id].getStatus,
-    //For some reason memcache[id] cannot get the cap max
-    max: memcache[id].getCapMax || 10
+    status: 'waiting',
+    max: 10
   };  
 }
 
@@ -66,11 +64,10 @@ function deepSearch(id, arr) {
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
+  console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState);
-  
 
   //PLAYER==================================================
-  //Remove Player
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
 
@@ -83,10 +80,11 @@ io.on('connection', (socket)=>{
       }
     }
     if (roomId) {
+      //If room was full show now there is a space available
       if (lobbyState[roomId].status === 'ready') {
-        //emit the to room you are leaving
         lobbyState[roomId].status = 'waiting';
         memcache[roomId].setStatus('waiting');
+        //emit the to room you are leaving
         io.to(roomId).emit('roomInfo', {
           gm: players[roomId][0],
           players: players[roomId].slice(1, players[roomId].length)        
@@ -100,51 +98,64 @@ io.on('connection', (socket)=>{
   socket.on('joinRoom', function(newRoomId) {
     //Leave lobby and enter room
     socket.leave('capri0sun');    
-    if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
-      //Too many people in the room
-      socket.emit('joinResponse'. false);
-    } else {
-      //join the room and add to list of players of that room
+    var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
+    if (peopleInRoom.length < lobbyState[newRoomId].max) {
+      console.log('JOINING THE ROOM');
+      //Join the room and add player to list of players of that room
       socket.join(newRoomId);
+      console.log('AFTER JOINING \n', io.sockets.adapter.rooms);  
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
         ready: false
       });
-      if (io.sockets.adapter.rooms[newRoomId] >= lobbyState[newRoomId].max) {
-        //Max number of people in room, change status
+      //Tell people in the room you are joining
+      io.to(newRoomId).emit('roomInfo', {
+        gm: players[newRoomId][0],
+        players: players[newRoomId].slice(1, players[newRoomId].length)        
+      });
+
+      //Tell people if the room is full after you join
+      if (io.sockets.adapter.rooms[newRoomId].length >= lobbyState[newRoomId].max) {
         lobbyState[newRoomId].status = 'ready';
         memcache[newRoomId].setStatus('ready');
-        //Tell people in the lobby new lobby state
+        
+        //Tell people in lobby the new room status
         io.to('capri0sun').emit('lobbyState', lobbyState);
-        //Tell people in the room you are joining
-        io.to(newRoomId).emit('roomInfo', {
-          gm: players[oldRoomId][0],
-          players: players[newRoomId].slice(1, players[newRoomId].length)        
-        });
       }
+    } else {    
+      //Too many people in the room
+      socket.emit('joinResponse'. false);
     }
   });
   socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));
+
     //Leave room and join lobby
     socket.leave(oldRoomId);
     socket.join('capri0sun');
     players[oldRoomId].splice(deepSearch(socket.id.slice(2), players[oldRoomId]), 1);
+
+    //Emit the to room you are leaving
+    io.to(oldRoomId).emit('roomInfo', {
+      gm: players[oldRoomId][0],
+      players: players[oldRoomId].slice(1, players[oldRoomId].length)        
+    });
+
+    //If room was full show now there is a space available    
     if (lobbyState[oldRoomId].status === 'ready') {
-      //emit the to room you are leaving
       lobbyState[oldRoomId].status = 'waiting';
       memcache[oldRoomId].setStatus('waiting');
-      io.to(oldRoomId).emit('roomInfo', {
-        gm: players[oldRoomId][0],
-        players: players[oldRoomId].slice(1, players[oldRoomId].length)        
-      });
+      //Tell people in lobby the new room status
       io.to('capri0sun').emit('lobbyState', lobbyState);
     }
   });
   //ROOM==================================================
   socket.on('ready', function(data) {
+    //Change the player's ready state
     players[data.roomId][deepSearch(socket.id.slice(2), players[data.roomId])].ready = data.state;
+
+    //Check to see if everyone is ready
     var everyoneReady = true;
     var playersForRoom = players[data.roomId];
     for (var x = 0, max = playersForRoom.length; x < max; x++) {
@@ -157,12 +168,14 @@ io.on('connection', (socket)=>{
       players: playersForRoom.slice(1, playersForRoom.length)
     });    
 
+    //Start the game if everyone is ready
     if (everyoneReady) {
-      io.to(data.roomId).emit('leaveRoomStartGame');
+      io.to(data.roomId).emit('leaveRoomGoToGamePage');
     }
   });
   //GAME INIT=============================================
-  socket.on('leaveRoomStartGame', function(roomId) {
+  socket.on('startGame', function(roomId) {
+    console.log('STARTING THE GAME', roomId);
     socket.to(roomId).emit('allPeers', players[roomId]);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {
