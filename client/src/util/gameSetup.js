@@ -151,8 +151,11 @@ export default function init(usingVR) {
     var height = window.innerHeight;
     this.camera.aspect = devicePixelRatio;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height);
-    this.effect.setSize(width, height);
+    if (this.usingVR) {
+      this.effect.setSize(width, height);
+    } else {
+      this.renderer.setSize(width, height);
+    }
   }
 
   // LIGHTS /////////////////////////////////////////
