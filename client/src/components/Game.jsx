@@ -16,17 +16,16 @@ class Game extends React.Component {
   }*/
   componentDidMount() {
     var socket = this.props.socket;
-    console.log('THIS ROOM IS', this.props.roomNumber);
+    webSockets.gameInit(socket);
 
     $('.loading').removeClass('hidden');
+    socket.emit('startGame', this.props.roomNumber);
+    
     setTimeout(()=>{
-      $('.loading').addClass('hidden');        
-      socket.emit('startGame', this.props.roomNumber);
+      $('.loading').addClass('hidden'); 
     }, 10);
 
-    webSockets.gameInit(socket);
     webSockets.allListeners(socket);
-    webSockets.startGame(socket);
   }
   render() {
     return ( 

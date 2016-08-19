@@ -106,8 +106,5 @@ module.exports = {
     socket.on('resolveMerlin', function(data) {
       console.log('Data I got from resolveMerlin', data);
     });
-  },
-  startGame: function(socket) {
-    socket.emit('startGame');
   }
-}
+};
