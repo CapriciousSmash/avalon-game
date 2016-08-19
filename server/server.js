@@ -191,6 +191,10 @@ io.on('connection', (socket)=>{
     }
   });
 
+  socket.on('message', function(msg) {
+    console.log('pls work', msg);
+  });
+
   //IN GAME ACTIONS=======================================
 
   socket.on('pickParty', function(data) {
