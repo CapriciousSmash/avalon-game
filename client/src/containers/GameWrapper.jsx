@@ -46,7 +46,6 @@ class GameWrapper extends React.Component {
   onClick(e) {
     var socket = this.socket;
     this.props.actions.setGameRoom(this.state[e.target.value].id);
-    console.log('This is what I am sending back to June', this.state[e.target.value].id);
   }
 
   render() {
