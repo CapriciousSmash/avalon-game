@@ -27,6 +27,8 @@ function render() {
     this.renderer.render(this.scene, this.camera);
   }
 
+  this.oliver.setDirection(this.camera.getWorldDirection());
+
   // Corrently position the players based on the number of current players 
   let numPlayers = this.players.length;
   for (let x = 0; x < numPlayers; x++) {
@@ -176,6 +178,16 @@ export default function init(usingVR) {
     this.camMouse.x = (e.clientX - this.WIDTH / 2);
     this.camMouse.y = (e.clientY - this.HEIGHT / 2);
   }, false);
+
+  // ARROW HELPER TO SEE WHERE CAMERA IS POINTED ///
+
+  this.oliver = new THREE.ArrowHelper(
+    this.camera.getWorldDirection(), 
+    this.camera.getWorldPosition(),
+    500,
+    0xffff00
+  );
+  this.scene.add(this.oliver);
 
   // Commenting this section out as it interferes with the normal resizing
   // process
