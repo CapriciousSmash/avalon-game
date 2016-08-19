@@ -57,7 +57,11 @@ module.exports = {
   },
   // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber) {
-    this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
+    if (this.usingVR) {
+      this.addVRPressEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
+    } else {
+      this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party}); 
+    }
 
     setTimeout(()=>{
       //Remove sign and click event listener if no choice made      
@@ -90,7 +94,11 @@ module.exports = {
       this.removeObject('reject');      
     };
 
-    this.addClickEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
+    if (this.usingVR) {
+      this.addVRPressEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
+    } else {
+      this.addClickEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
+    }
 
     setTimeout(()=>{
       this.removeObject('approveParty'); 
@@ -124,7 +132,11 @@ module.exports = {
       this.removeObject('fail');      
     };
 
-    this.addClickEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
+    if (this.usingVR) {
+      this.addVRPressEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
+    } else {
+      this.addClickEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
+    }
 
     setTimeout(()=>{
       this.removeObject('passQuest');
