@@ -33,24 +33,16 @@ class GameWrapper extends React.Component {
     socket.on('lobbyInfo', function(lobbyState) {
       //Gives you array of room objects
       //ie: [{id: 'something', status: 'something', max: 'something'},...]
-      this.setState({
-        1: {
-          id:lobbyState[0].id,
-          status: lobbyState[0].status
-        },
-        2: {
-          id:lobbyState[1].id,
-          status: lobbyState[1].status
-        },
-        3: {
-          id:lobbyState[2].id,
-          status: lobbyState[2].status
-        },
-        4: {
-          id:lobbyState[3].id,
-          status: lobbyState[3].status
-        }
-      });
+      this.setState({});
+      var roomNumber = 1;
+      for(var key in lobbyState) {
+        console.log(key)
+        this.state[roomNumber] =  {
+          id:lobbyState[key].id,
+          status: lobbyState[key].status
+        };
+        roomNumber++;
+      }
     }.bind(this));
   }
 
@@ -63,7 +55,7 @@ class GameWrapper extends React.Component {
 
   render() {
     var matchMaking = this.props.playing ? 
-      <Game socket={this.socket}/>
+      <Game socket={this.socket} />
       :
       this.props.roomNumber ?  
       <Room socket={this.socket} />
