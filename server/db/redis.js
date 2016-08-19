@@ -25,15 +25,15 @@ makeCache.prototype.init = function(pidArray, gameId) {
     this.data.setAsync(pidArray[i] + ':ROLE', 'none');
     this.data.setAsync(pidArray[i] + ':VOTE', 'false');
   }
-  this.data.smembersAsync('PIDS');
-  this.data.setAsync('STAGE:SIZE', pidArray.length);
+  this.data.setAsync('SIZE', pidArray.length);
   this.data.setAsync('STAGE:ROUND', 1);
   this.data.setAsync('STAGE:PHASE', 'GAME START');
   this.data.setAsync('SCORE:WIN', 0);
   this.data.setAsync('SCORE:LOSS', 0);
   this.data.setAsync('VETO', 0);
   this.data.setAsync('MGUESS', 'none');
-  return this.data.setAsync('WINNER', 'none');
+  this.data.setAsync('WINNER', 'none');
+  return this.data.smembersAsync('PIDS');
 };
 
 // getPids - Takes nothing, returns array of PIDs
@@ -202,9 +202,9 @@ makeCache.prototype.getQuestResult = function() {
           .then(function(qresults) {
             var randoResults = [];
             var randoIndex;
-            for (var i = 0; i < qresults.length;) {
+            for (var i = qresults.length - 1; i > -1; i = qresults.length - 1) {
               randoIndex = Math.floor(Math.random() * i);
-              randoResults.push(qresults.splice(randoIndex), 1);
+              randoResults.push(qresults.splice(randoIndex, 1)[0]);
             }
             return randoResults;
           });
@@ -230,15 +230,15 @@ makeCache.prototype.quit = function() {
 // initInfo - takes the gameId and the max players for the game (default 10) and
 //            initializes the info for that db
 makeCache.prototype.initInfo = function(gameId, max) {
-  max = max || 10;
-// Create connection to info DB and store the game's info
+  max = max < 6 ? 5 : max > 9 ? 10 : max || 10;
+  // Create connection to info DB and store the game's info
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
   return info.setAsync(gameId + ':CAP:MAX', max)
   .then(function() {
     return info.setAsync(gameId + ':CAP:CUR', 0);
   })
   .then(function() {
-    return info.setAsync(gameId + 'STATUS', 'waiting');
+    return info.setAsync(gameId + ':STATUS', 'waiting');
   })
   .then(function() {
     return info.saddAsync('GAMEIDS', gameId);
@@ -250,35 +250,19 @@ makeCache.prototype.initInfo = function(gameId, max) {
 makeCache.prototype.getCapMax = function() {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
   return info.getAsync(this.gameNumber + ':CAP:MAX')
-  .then(function() {
-    return info.quit();
+  .then(function(res) {
+    info.quit();
+    return res;
   });
 };
 // setCapMax - takes the game id and number to set new capacity maximum to
 makeCache.prototype.setCapMax = function(cap) {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  // Check if cap is greater than 9
-  if (cap > 9) {
-    // if so, set it to 10
-    return info.setAsync(this.gameNumber + ':CAP:MAX', 10)
-    .then(function() {
-      return info.quit();
-    })
-  } else if (cap < 6) {
-  // else if it's smaller than 6
-    // set it to 5
-    return info.setAsync(this.gameNumber + ':CAP:MAX', 5)
-    .then(function() {
-      return info.quit();
-    })
-  } else {
-  // else
-    // set it to the number passed in
-    return info.setAsync(this.gameNumber + ':CAP:MAX', cap)
-    .then(function() {
-      return info.quit();
-    })
-  }
+  cap = cap < 6 ? 5 : cap > 9 ? 10 : cap || 10;
+  return info.setAsync(this.gameNumber + ':CAP:MAX', cap)
+  .then(function() {
+    return info.quit();
+  });
 };
 // setStatus - takes a string to update the current game status
 makeCache.prototype.setStatus = function(status) {
@@ -291,11 +275,11 @@ makeCache.prototype.setStatus = function(status) {
 // getStatus - returns the current game status
 makeCache.prototype.getStatus = function() {
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
-  return info.getAsync(this.gameNumber + ':Status')
-  .then(function(status) {
+  return info.getAsync(this.gameNumber + ':STATUS')
+  .then(function(res) {
     info.quit();
-    return status;
-  })
+    return res;
+  });
 };
 // getAllGIDs - returns all the game ids stored and utilized
 makeCache.prototype.getAllGIDs = function() {
