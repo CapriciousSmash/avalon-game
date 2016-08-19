@@ -13,7 +13,7 @@ function render() {
   this.pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
 
   // Update camera, controls, and size:
-  this.resize();
+  this.resize()
   this.camera.updateProjectionMatrix();
   this.controls.update();
 
@@ -21,13 +21,13 @@ function render() {
 
   // Render stereo or normal effect based on whether user chose VR experience
   if (this.usingVR) {
-    this.effect.render(this.scene, this.camera);
+    this.stereoEffect.render(this.scene, this.camera);
     this.selectionDetection();
   } else {
     this.renderer.render(this.scene, this.camera);
   }
 
-  // this.oliver.setDirection(this.camera.getWorldDirection());
+  this.oliver.setDirection(this.camera.getWorldDirection());
 
   // Corrently position the players based on the number of current players 
   let numPlayers = this.players.length;
@@ -68,10 +68,12 @@ export default function init(usingVR) {
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
   this.usingVR = usingVR === undefined ? false : usingVR;
 
+  this.usingVR = true;
+
   // VR VARIABLES ///////////////////////////
   if (this.usingVR) {
     this.VRSelectionTimer = 0;
-    this.VRLastSelected = null;
+    this.VRLastSelected = {};
     this.VREventListeners = [];
   }
 
@@ -92,7 +94,7 @@ export default function init(usingVR) {
   // allow the game to be rendered with a stereoscopic view. Then, the render loop
   // will render the scene with the effect object rather than directly with the 
   // WebGLRenderer. 
-  this.stereoEffect = usingVR ? new StereoEffect(this.renderer) : null;
+  this.stereoEffect = this.usingVR ? new StereoEffect(this.renderer) : null;
 
   //CAMERA AND VISUAL CONTROLS //////////////////
 
@@ -152,7 +154,7 @@ export default function init(usingVR) {
     this.camera.aspect = devicePixelRatio;
     this.camera.updateProjectionMatrix();
     if (this.usingVR) {
-      this.effect.setSize(width, height);
+      this.stereoEffect.setSize(width, height);
     } else {
       this.renderer.setSize(width, height);
     }
@@ -184,13 +186,13 @@ export default function init(usingVR) {
 
   // ARROW HELPER TO SEE WHERE CAMERA IS POINTED ///
 
-  // this.oliver = new THREE.ArrowHelper(
-  //   this.camera.getWorldDirection(), 
-  //   this.camera.getWorldPosition(),
-  //   500,
-  //   0xffff00
-  // );
-  // this.scene.add(this.oliver);
+  this.oliver = new THREE.ArrowHelper(
+    this.camera.getWorldDirection(), 
+    this.camera.getWorldPosition(),
+    500,
+    0xffff00
+  );
+  this.scene.add(this.oliver);
 
   // Commenting this section out as it interferes with the normal resizing
   // process

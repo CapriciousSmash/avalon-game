@@ -9,7 +9,7 @@ export default {
     // If the user is usingVR, the raycaster should only use the camera, while the 
     // non-VR version should apply both camera and mouse
     if (this.usingVR) {
-      this.raycaster.setFromCamera(
+      this.raycaster.set(
         this.camera.getWorldPosition(), 
         this.camera.getWorldDirection()
       );
