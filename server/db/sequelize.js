@@ -18,7 +18,7 @@ var sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 // user model
 var User = sequelize.define('user', {
-  username: {
+  name: {
     type: Sequelize.STRING(100),
     unique: true
   },
@@ -36,11 +36,12 @@ var User = sequelize.define('user', {
 User.isValidPassword = function(password, id) {
   // passed in a password and a userId
   // look up the password attached to the userId
-  return this.find({id: id})
+  return this.find({where: {
+    id: id
+    }})
     .then(function(user) {
-    // compare the passwords together
-    // return whether the passwords match
-      console.log('user in isValidPassword: ', user);
+      // compare the passwords together
+      // return whether the passwords match
       return bcrypt.compareSync(password, user.dataValues.password);
     })
     .catch(function(err) {

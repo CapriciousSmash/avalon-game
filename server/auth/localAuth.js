@@ -10,7 +10,7 @@ module.exports = function(User) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
       User.findOrCreate({where: {
-        username: username,
+        name: username,
         password: User.generateHash(password)
       }})
       .then(function(user) {
@@ -31,14 +31,14 @@ module.exports = function(User) {
   }, function(req, username, password, done) {
     // console.log('checking username', username);
     var foundUser;
-    return User.find({username: username})
+    return User.find({name: username})
       .then(function(user) {
         // console.log('checking username and password for ', user);
         if (user.length === 0) {
           return [false, user[0]];
         } else {
           foundUser = user[0];
-          return User.isValidPassword(password, user[0].id);
+          return User.isValidPassword(password, user.dataValues.id);
         }
       })
       .then(function(match) {

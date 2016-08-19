@@ -7,13 +7,13 @@ require('dotenv').config();
 describe('Testing Postgres', function() {
   // outline what to add to make sure to remove it
   var name = 'testOtron';
-  var name2 = 'testOtron2';
+  var name2 = 'tronOtest';
   var password = '123456';
   var hashpass = User.generateHash(password);
 
   it('should add user', function() {
     return User.findOrCreate({where: {
-      username: name,
+      name: name,
       password: password
     }})
     .then(function(user) {
@@ -27,9 +27,10 @@ describe('Testing Postgres', function() {
   });
 
   it('should find that the passwords match', function() {
+    this.timeout(0);
     return User.findOrCreate({where: {
-      username: name2,
-      password: hashpass
+      name: name2
+      // password:hashpass
     }})
     .then(function(user) {
       return User.isValidPassword(password, user[0].dataValues.id);
@@ -38,5 +39,5 @@ describe('Testing Postgres', function() {
       console.log('res: ', res);
       expect(res).to.equal(true);
     });
-  })
+  });
 });
