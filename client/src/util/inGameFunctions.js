@@ -92,10 +92,13 @@ module.exports = {
   },
   // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber) {
+    let pidsList = this.players.map(player => {
+      return player.uid;
+    });
     if (this.usingVR) {
-      this.addVRPressEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party});
+      this.addVRPressEventListener('pickParty', partyNumber, sendPickedParty, {choices: pidsList});
     } else {
-      this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: this.party}); 
+      this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: pidsList}); 
     }
 
     setTimeout(()=>{
@@ -161,7 +164,7 @@ module.exports = {
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
     const voteQuestCallback = (choice) =>{
-      voteOnParty(choice[0] === 'fail' ? false : true);
+      voteOnQuest(choice[0] === 'fail' ? false : true);
       //remove buttons
       this.removeObject('success');
       this.removeObject('fail');      

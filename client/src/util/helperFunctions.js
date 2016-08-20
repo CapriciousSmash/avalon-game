@@ -76,10 +76,17 @@ export default {
     if(!hitObject) {
       return;
     }
+    console.log('signName: ', signName);
+    console.log('maxselects', maxSelects);
+    console.log('type of callback: ', typeof callback);
+    console.log('comparing choices of ', options);
+    console.log('to hitobject named: ', hitObject.name);
     if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
+      console.log('check passed');
       this.scene.getObjectByName(hitObject.name).material.color.setHex(0xff69b4);        
       if (this.selected.indexOf(hitObject.name) < 0) {
         this.selected.push(hitObject.name);
+        console.log('added to selected. new selected: ', this.selected);
       }
     } 
     if (this.selected.length >= maxSelects) {
