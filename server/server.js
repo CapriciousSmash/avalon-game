@@ -242,6 +242,11 @@ app.post('/login', passport.authenticate('local-login', {
   failureRedirect: '/login'
 }));
 
+app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/main',
+  failureRedirect: '/signup'
+}));
+
 app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();

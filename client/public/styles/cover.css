@@ -173,3 +173,7 @@ button {
   color: #000;
   margin-top: 10px;
 }
+
+.loginsignup {
+  display: inline;
+}

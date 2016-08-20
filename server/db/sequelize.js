@@ -18,7 +18,7 @@ var sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 // user model
 var User = sequelize.define('user', {
-  name: {
+  username: {
     type: Sequelize.STRING(100),
     unique: true
   },

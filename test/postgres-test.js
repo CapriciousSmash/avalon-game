@@ -15,7 +15,7 @@ describe('Testing Postgres', function() {
 
   it('should add user', function() {
     return User.findOrCreate({where: {
-      name: name,
+      username: name,
       password: password
     }})
     .then(function(user) {
@@ -31,7 +31,7 @@ describe('Testing Postgres', function() {
   it('should find that the passwords match', function() {
     this.timeout(0);
     return User.findOrCreate({where: {
-      name: name2
+      username: name2
       // password:hashpass
     }})
     .then(function(user) {
