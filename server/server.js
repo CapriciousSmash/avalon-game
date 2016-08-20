@@ -78,6 +78,10 @@ function isLoggedIn(req, res, next) {
   res.redirect('/signin');
 }
 
+var setting = {
+  merlin: false,
+  assassin: false,
+};
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
@@ -112,16 +116,16 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('sendCheckBox', function(value){
-    if (setting['checkBox']) {
-      setting['checkBox'] = false;
+    if (setting[value]) {
+      setting[value] = false;
     } else {
-      setting['checkBox'] = true;
+      setting[value] = true;
     }
-    socket.broadcast.emit('receiveCheckBox', setting['checkBox']);
+    socket.broadcast.emit('receiveCheckBox', value, setting[value]);
   });
 
   socket.on('update', function(value){
-    io.emit('sendUpdate', setting['checkBox']);
+    io.emit('sendUpdate', value, setting[value]);
   });
 
   //LOBBY==================================================

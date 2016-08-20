@@ -1,42 +1,43 @@
 import React from 'react';
 
 export default class GameSetting extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
   }
 
   componentWillMount() {
     var socket = this.props.socket;
-    socket.on('receiveCheckBox', function(value) {
-      console.log('What boolean am I retrieving', value);
-      document.getElementById('first').checked = value;
-      document.getElementById('first').disabled = true;
+    socket.on('receiveCheckBox', function(person, value) {
+      console.log(person)
+      console.log(value)
+      document.getElementById(person).checked = value;
+      document.getElementById(person).disabled = true;
     });
-    socket.on('sendUpdate', function(value) {
-      document.getElementById('first').checked = value;
+    socket.on('sendUpdate', function(person, value) {
+      document.getElementById(person).checked = value;
     });
   }
 
   componentDidMount() {
     var socket = this.props.socket;
-    socket.emit('update', 'firstCheck');
+    socket.emit('update', 'merlin');
+    socket.emit('update', 'assassin');
   }
 
-  clickOnUserSide(value) {
+  clickOnUserSide(e) {
     var socket = this.props.socket;
-    console.log(value)
-    socket.emit('sendCheckBox', 'firstCheckbox');
+    socket.emit('sendCheckBox', e.target.id);
   }
 
   render() {
     return (
       <div>
         <label>
-          <input type='checkbox' id='first' value='firstCheckbox' onClick={this.clickOnUserSide.bind(this)}></input>
+          <input type='checkbox' id='merlin' onClick={this.clickOnUserSide.bind(this)}></input>
           Merlin
         </label>
         <label> 
-          <input type='checkbox' id='second' value='secondCheckbox' onClick={this.clickOnUserSide.bind(this)}></input>
+          <input type='checkbox' id='assassin' onClick={this.clickOnUserSide.bind(this)}></input>
           Assassin
         </label>
       </div>
