@@ -14,11 +14,11 @@ const Lobby = React.createClass ({
       ready: false
     };
   },
-  componentDidMount: function() {
+  componentWillMount: function() {
     //Connect to server
     var socket = this.props.socket;
 
-    //Tell server that player entered the room
+    // Tell server that player entered the room
     socket.emit('joinRoom', this.props.roomNumber);
     socket.on('roomInfo', function(roomInfo) {
       console.log('currentUser', this.props.currentUser);
@@ -96,9 +96,7 @@ const Lobby = React.createClass ({
           )
         }
         </div>
-        <div>
-          <GameSetting socket={this.props.socket}></GameSetting>
-        </div>
+        {this.state.gm.uid ? <GameSetting socket={this.props.socket} gm={this.state.gm.uid} currentUser={this.props.currentUser.uid}></GameSetting> : <div></div>}
       </div>
     );
   }
