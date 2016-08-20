@@ -8,20 +8,23 @@ export default class GameSetting extends React.Component {
   componentWillMount() {
     var socket = this.props.socket;
     socket.on('receiveCheckBox', function(person, value) {
-      console.log(person)
-      console.log(value)
       document.getElementById(person).checked = value;
-      document.getElementById(person).disabled = true;
     });
     socket.on('sendUpdate', function(person, value) {
       document.getElementById(person).checked = value;
     });
+
   }
 
   componentDidMount() {
     var socket = this.props.socket;
     socket.emit('update', 'merlin');
     socket.emit('update', 'assassin');
+
+    if (this.props.gm !== this.props.currentUser) {
+      document.getElementById('merlin').disabled = true;
+      document.getElementById('assassin').disabled = true;
+    }
   }
 
   clickOnUserSide(e) {
