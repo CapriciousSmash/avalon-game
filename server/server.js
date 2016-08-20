@@ -64,7 +64,7 @@ function deepSearch(id, arr) {
 var setting = {
   merlin: false,
   assassin: false,
-  capacity: 10
+  capacity: 5
 };
 io.on('connection', (socket)=>{
   //Join lobby immediately
@@ -105,11 +105,19 @@ io.on('connection', (socket)=>{
     } else {
       setting[value] = true;
     }
-    socket.broadcast.emit('receiveCheckBox', value, setting[value]);
+    socket.broadcast.emit('updateCharacter', value, setting[value]);
   });
 
-  socket.on('update', function(value){
-    io.emit('sendUpdate', value, setting[value]);
+  socket.on('capacity', function(value) {
+    io.emit('updateParty', value);
+  });
+
+  socket.on('updateOnCharacter', function(value){
+    io.emit('updateCharacter', value, setting[value]);
+  });
+
+  socket.on('updateOnParty', function(value){
+    io.emit('updateParty', setting[value]);
   });
 
   //LOBBY==================================================
