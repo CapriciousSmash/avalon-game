@@ -21,6 +21,7 @@ export default {
   removeObject: helper.removeObject,
   addClickEventListener: helper.addClickEventListener,
   removeClickEventListener: helper.removeClickEventListener,
+  itemSelection: helper.itemSelection,
 
   // In-game functions
   addPlayer: inGame.addPlayer,

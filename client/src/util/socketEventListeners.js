@@ -19,7 +19,7 @@ module.exports = {
     game.init();
     //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
-      console.log("Got em players", players);
+      console.log("Got em players!", players);
       for (let p in players) {
         game.addPlayer(players[p].uid, players[p].color);
       }

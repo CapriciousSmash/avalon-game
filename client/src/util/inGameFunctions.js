@@ -1,4 +1,6 @@
 module.exports = {
+  // Addition of all players at the beginning of the game:
+
   // When a player joins the game
   addPlayer: function(uid, color, role) {
     this.players.push({

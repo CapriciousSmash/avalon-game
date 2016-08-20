@@ -47,8 +47,13 @@ export default {
     let focusedObject = this.intersected[0].object;
     if (focusedObject.name === this.VRLastSelected.name) {
       this.VRSelectionTimer++;
+      if (this.VRSelectionTimer > 100) {
+        console.log('click detected!');
+        this.VRSelectionTimer = 0;
+      }
       if (this.VRSelectionTimer > 100 && this.VREventListeners.length > 0) {
-	    this.VREventListeners[0].callback();
+        this.VRSelectionTimer = 0;
+	      this.VREventListeners[0].callback();
       }
     } else {
       this.VRSelectionTimer = 0;
