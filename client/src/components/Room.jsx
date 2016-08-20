@@ -105,7 +105,8 @@ const Lobby = React.createClass ({
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
-    roomNumber: state.room.roomNumber
+    roomNumber: state.room.roomNumber,
+    vrSetting: state.vrSetting.vrSetting
   };
 }
 function mapDispatchToProps(dispatch) {

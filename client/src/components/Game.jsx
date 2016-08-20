@@ -36,7 +36,8 @@ class Game extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    roomNumber: state.room.roomNumber
+    roomNumber: state.room.roomNumber,
+    vrSetting: state.vrSetting.vrSetting
   };
 }
 function mapDispatchToProps(dispatch) {

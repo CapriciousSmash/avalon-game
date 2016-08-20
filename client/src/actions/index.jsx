@@ -15,7 +15,7 @@ export function setGameRoom(number) {
   return {
     type: ROOM,
     roomNumber: number
-  }
+  };
 }
 
 // Action Creator for GameWrapper
@@ -26,5 +26,12 @@ export function login(user){
     settings: {
       username: 'cat'
     }
-  }
+  };
+}
+
+export function vrSetting(type, setting) {
+  return {
+    type: type,
+    vrSetting: setting
+  };
 }

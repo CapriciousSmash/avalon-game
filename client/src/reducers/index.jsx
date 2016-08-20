@@ -7,13 +7,15 @@ import currentUser from './user';
 import info from './info';
 import gameState from './state';
 import room from './room';
+import vrSetting from './vrSetting';
 
 const rootReducer = combineReducers({
   auth,
   currentUser,
   info,
   gameState,
-  room
+  room,
+  vrSetting
 });
 
 export default rootReducer;
