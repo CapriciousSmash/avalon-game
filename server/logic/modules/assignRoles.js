@@ -36,7 +36,7 @@ module.exports.assignRoles = function(memcache, socket) {
       memcache.setRole(party.knights[x], 'KNIGHT');
     } 
     for (var y = 0; y < party.minions.length; y++) {
-      data[party.minions[y]] = 'MINION'
+      data[party.minions[y]] = 'MINION';
       memcache.setRole(party.minions[y], 'MINION');
     }
     if (party.merlin) {
@@ -60,6 +60,7 @@ module.exports.assignRoles = function(memcache, socket) {
       // merlin: 'player1',
       // assassin: 'player2'
     // }
+    console.log('data for assignroles', data);
     socket.emit('assignRoles', data);
 
     setTimeout(function() {

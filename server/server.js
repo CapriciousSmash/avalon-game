@@ -180,9 +180,10 @@ io.on('connection', (socket)=>{
     if (socket.id.slice(2) === players[roomId][0].uid) {
       io.to(roomId).emit('allPeers', players[roomId]);
       var pidsList = [];
-      for (var x = 0; x < players.length; x++) {
+      for (var x = 0; x < players[roomId].length; x++) {
         pidsList.push(players[roomId][x].uid);
       }
+      console.log('pids list is ', pidsList);
       memcache[roomId].init(pidsList).then(function() {
         setTimeout(function() {
           game(memcache[roomId], io.to(roomId), 'GAME START');
