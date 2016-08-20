@@ -59,6 +59,7 @@ export default {
     this.renderer.domElement.addEventListener('click', this.clickEvent = (e) => {
       // Code originally part of this click handler moved to itemSelection in order to be
       // usable by both click and VR
+      console.log('click detected');
       this.itemSelection(signName, maxSelects, callback, options);
     });
   },
@@ -69,6 +70,8 @@ export default {
   itemSelection: function(signName, maxSelects, callback, options) {
     
     let hitObject = this.intersected.length > 0 ? this.intersected[0].object : null;
+
+    console.log('item selection run. hit object: ', hitObject);
 
     if(!hitObject) {
       return;
@@ -128,15 +131,15 @@ export default {
     }
 
     // Corrently position the players based on the number of current players 
-    let numPlayers = this.players.length;
-    for (let x = 0; x < numPlayers; x++) {
-      let playerObj = this.scene.getObjectByName(this.players[x].uid);
-      if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-        playerObj.position.x -= 2;
-      } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-        playerObj.position.x += 2;
-      }
-    }
+    // let numPlayers = this.players.length;
+    // for (let x = 0; x < numPlayers; x++) {
+    //   let playerObj = this.scene.getObjectByName(this.players[x].uid);
+    //   if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+    //     playerObj.position.x -= 2;
+    //   } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+    //     playerObj.position.x += 2;
+    //   }
+    // }
 
   }
 };

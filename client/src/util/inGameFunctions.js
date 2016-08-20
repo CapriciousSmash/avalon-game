@@ -32,7 +32,7 @@ module.exports = {
         playersWithPositions[y].pos);
     }
 
-  }
+  },
   // When a player joins the game
   addPlayer: function(uid, color, role, circlePos) {
     this.players.push({
