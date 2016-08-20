@@ -40,11 +40,11 @@ module.exports = function(User) {
     passReqToCallback: true
   }, function(req, username, password, done) {
     console.log('in auth');
-    // console.log('checking username', username);
+    console.log('checking username', username);
     var foundUser;
     return User.find({username: username})
       .then(function(user) {
-        // console.log('checking username and password for ', user);
+        console.log('checking username and password for ', user);
         if (user.length === 0) {
           console.log('no user');
           return [false, user[0]];
@@ -54,7 +54,7 @@ module.exports = function(User) {
         }
       })
       .then(function(match) {
-        // console.log('match', match, 'user', foundUser);
+        console.log('match', match, 'user', foundUser);
         if (match) {
           console.log('passwords match');
           return done(null, foundUser);
