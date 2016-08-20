@@ -239,7 +239,7 @@ app.get('*', function(req, res) {
 
 app.post('/login', passport.authenticate('local-login', {
   successRedirect: '/main',
-  failureRedirect: '/login'
+  failureRedirect: '/signin'
 }));
 
 app.post('/signup', passport.authenticate('local-signup', {

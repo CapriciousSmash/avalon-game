@@ -50,7 +50,7 @@ User.isValidPassword = function(password, id) {
 }
 
 User.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(16));
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 }
 
 User.sync();
