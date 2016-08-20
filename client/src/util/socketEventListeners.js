@@ -1,42 +1,26 @@
 import game from '../scripts/game';
 
 module.exports = {
-/*Disabled because everyone starts with same color aside from user
-  userInit: function(socket) {
-    function randomHexColor() {
-      var hred = (Math.floor(Math.random() * 180) + 20).toString(16);
-      var hgreen = (Math.floor(Math.random() * 180) + 20).toString(16);
-      var hblue = (Math.floor(Math.random() * 180) + 20).toString(16);
-
-      return Number('0x' + (hred + hgreen + hblue).toUpperCase());
-    }
-
-    //Give user a color
-    var userColor = randomHexColor();
-    socket.emit('userColor', userColor);
-  },*/
   gameInit: function(socket) {
     game.init();
     //Add all the people in the game to canvas
+    var conn = {};
+
     socket.on('allPeers', function(players) {
       for (let p in players) {
         game.addPlayer(players[p].uid, players[p].color);
+        //Connect everyone's audio
+        conn[players[p].uid] = peer.connect(players[p].uid);
+
+        conn.on('open', function() {
+          conn.send('hey newbie');
+          conn.on('data', function(data) {
+            console.log('(old)Received some greetings:', data);
+          });
+        });
       }
     });
 
-    //Add in new peer to the game
-    socket.on('newPeer', function(player) {
-      // Later connect new peer's audio
-      // var conn = peer.connect(uid);
-
-      // conn.on('open', function(){
-      //   conn.send('hey newbie');
-      //   conn.on('data', function(data){
-      //     console.log('(old)Received some greetings:', data);
-      //   });
-      // });
-
-    });
     // peer.on('connection', function(conn){
     //   conn.on('data', function(data){
     //     console.log('(new)Received some greetings:', data);
