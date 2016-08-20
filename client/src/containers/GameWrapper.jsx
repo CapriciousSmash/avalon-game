@@ -65,6 +65,8 @@ class GameWrapper extends React.Component {
     return (
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
+        <video height="300" id="localVideo"></video>
+        <div id="remotesVideos"></div>
       </div>
     );
   }
