@@ -8,7 +8,7 @@ require('dotenv').config();
 describe('Testing Postgres', function() {
   // outline what to add to make sure to remove it
   var name = 'testOtron';
-  var name2 = 'tronOtest';
+  var name2 = 'tron0test';
   var password = '123456';
   var hashpass;// = User.generateHash(password);
   var games, score;
@@ -19,7 +19,7 @@ describe('Testing Postgres', function() {
       password: password
     }})
     .then(function(user) {
-      expect(user[0].dataValues.name).to.equal(name);
+      expect(user[0].dataValues.username).to.equal(name);
       expect(user[0].dataValues.password).to.equal(password);
     });
   });
@@ -43,15 +43,15 @@ describe('Testing Postgres', function() {
   });
 
   it('should increase score by 1', function() {
-    return userHelpers.getScore(3)
+    return userHelpers.getScore(2)
     .then(function(res) {
       score = res[0];
     })
     .then(function() {
-      return userHelpers.increaseScore(3);
+      return userHelpers.increaseScore(2);
     })
     .then(function() {
-      return userHelpers.getScore(3);
+      return userHelpers.getScore(2);
     })
     .then(function(res) {
       expect(res[0]).to.equal((score + 1));
@@ -59,15 +59,15 @@ describe('Testing Postgres', function() {
   });
 
   it('should increase games by 1', function() {
-    return userHelpers.getScore(3)
+    return userHelpers.getScore(2)
     .then(function(res) {
       games = res[1];
     })
     .then(function() {
-      return userHelpers.increaseGames(3);
+      return userHelpers.increaseGames(2);
     })
     .then(function() {
-      return userHelpers.getScore(3);
+      return userHelpers.getScore(2);
     })
     .then(function(res) {
       expect(res[1]).to.equal((games + 1));
