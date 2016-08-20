@@ -68,7 +68,7 @@ export default {
   // Function that is called by either the click event listener or the VR selection 
   itemSelection: function(signName, maxSelects, callback, options) {
     
-    let hitObjecct = this.intersected.length > 0 ? this.intersected[0].object : null;
+    let hitObject = this.intersected.length > 0 ? this.intersected[0].object : null;
 
     if(!hitObject) {
       return;

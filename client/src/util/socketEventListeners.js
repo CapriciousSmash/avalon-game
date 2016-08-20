@@ -50,9 +50,9 @@ module.exports = {
   },
   allListeners: function(socket, roomId) {
     socket.on('assignRoles', function(data) {
-      console.log('assignROLES socket id', socket.id);
       game.assignRoles(data, socket.id, data[socket.id]);
       console.log('Data I got from assignRoles', data);
+      console.log('I AM', socket.id, ':', data[socket.id]);
     });
     socket.on('chooseParty', function(data) {
       if (data.currentLeader === socket.id) {
