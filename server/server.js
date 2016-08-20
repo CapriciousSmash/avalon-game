@@ -197,29 +197,29 @@ io.on('connection', (socket)=>{
 
   //IN GAME ACTIONS=======================================
 
-  socket.on('pickParty', function(data) {
+  socket.on('pickParty', function(data, roomId) {
     //playerId ---> person being 
     console.log('pickParty', data);
-    logicFilter.pickParty(memcache, io, data);
+    logicFilter.pickParty(memcache[roomId], io, data);
   });
-  socket.on('voteOnParty', function(data) {
+  socket.on('voteOnParty', function(data, roomId) {
     //playerId
     //vote ---> boolean
     console.log('voteOnParty', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter.partyVote(memcache, io, data);
+    logicFilter.partyVote(memcache[roomId], io, data);
   });
-  socket.on('voteOnQuest', function(data) {
+  socket.on('voteOnQuest', function(data, roomId) {
     //playerId
     //vote ---> boolean
     console.log('voteOnQuest', data);
     // TODO: Ensure that votes are not duplicated and came from valid players
-    logicFilter.questVote(memcache, io, data);
+    logicFilter.questVote(memcache[roomId], io, data);
   });
-  socket.on('stabMerlin', function(data) {
+  socket.on('stabMerlin', function(data, roomId) {
     //merlinId
     console.log('stabMerlin', data);
-    logicFilter.stabMerlin(memcache, io, data);
+    logicFilter.stabMerlin(memcache[roomId], io, data);
   });
 });
 // serve index.html for rest
