@@ -25,12 +25,12 @@ module.exports.gameLogic = function(memcache, socket, type) {
     chooseParty(memcache, socket);
   }
   if (type === 'RESOLVE PARTY') {
-  	resolveParty(memcache, socket);
+    resolveParty(memcache, socket);
   }
   if (type === 'RESOLVE QUEST') {
-  	resolveQuest(memcache, socket, chooseParty);
+    resolveQuest(memcache, socket, chooseParty);
   }
   if (type === 'RESOLVE MERLIN') {
-  	resolveIdMerlin(memcache, socket);
+    resolveIdMerlin(memcache, socket);
   }
 };

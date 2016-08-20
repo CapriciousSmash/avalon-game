@@ -36,7 +36,7 @@ module.exports.assignRoles = function(memcache, socket) {
       memcache.setRole(party.knights[x], 'KNIGHT');
     } 
     for (var y = 0; y < party.minions.length; y++) {
-      data[party.minions[y]] = 'MINION'
+      data[party.minions[y]] = 'MINION';
       memcache.setRole(party.minions[y], 'MINION');
     }
     if (party.merlin) {
@@ -60,6 +60,7 @@ module.exports.assignRoles = function(memcache, socket) {
       // merlin: 'player1',
       // assassin: 'player2'
     // }
+    console.log('data for assignroles', data);
     socket.emit('assignRoles', data);
 
     setTimeout(function() {
@@ -67,7 +68,7 @@ module.exports.assignRoles = function(memcache, socket) {
     }, 5000); 
 
   });
-}
+};
 
 // Takes in number of Knights, Minions, and an array of the player names/id
 // Returns an object with the group broken down into Merlin, Knights, Assassin, and minions
@@ -91,7 +92,7 @@ var randomizeRoles = function(numK, numM, players) {
       // If there are no more knight spots
       // make them a minion
       side = 1;
-    } else if (numM < 1){
+    } else if (numM < 1) {
       // if there are no more minion spots
       // make them a knight
       side = 0;
@@ -101,7 +102,7 @@ var randomizeRoles = function(numK, numM, players) {
     }
 
     // If 0
-    if (side === 0){
+    if (side === 0) {
       // Assign last player as a knight
       party.knights.push(players.pop());
       // Decrement knights
@@ -116,4 +117,4 @@ var randomizeRoles = function(numK, numM, players) {
 
   return party;
   // setTimeout for chooseParty
-}
+};

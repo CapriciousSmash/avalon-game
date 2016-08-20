@@ -40,8 +40,7 @@ module.exports = {
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
       for (let player in party) {
-        if (party[player] === 'MINION') {
-          console.log
+        if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
           this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
         }
       }
