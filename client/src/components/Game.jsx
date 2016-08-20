@@ -25,7 +25,7 @@ class Game extends React.Component {
       $('.loading').addClass('hidden'); 
     }, 10);
 
-    webSockets.allListeners(socket);
+    webSockets.allListeners(socket, this.props.roomNumber);
   }
   render() {
     return ( 

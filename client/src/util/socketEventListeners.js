@@ -48,9 +48,10 @@ module.exports = {
       game.removePlayer(uid);
     });
   },
-  allListeners: function(socket) {
+  allListeners: function(socket, roomId) {
     socket.on('assignRoles', function(data) {
-      //game.assignRoles(data, socket.id.slice(2), data[socket.id.slice(2)]);
+      console.log('assignROLES socket id', socket.id);
+      game.assignRoles(data, socket.id, data[socket.id]);
       console.log('Data I got from assignRoles', data);
     });
     socket.on('chooseParty', function(data) {
@@ -58,21 +59,21 @@ module.exports = {
         game.pickParty(party => {
           socket.emit('pickParty', {
             partyList: party
-          });
+          }, roomId);
         // Need party number from data <-------------------------------
         });
         console.log('Data I got from sendParty', data);
       }
-    });
+    }, roomId);
     socket.on('resolveParty', function(data) {
       console.log('Data I got from resolveParty', data);
     });
     socket.on('startVote', function(data) {
       game.partyButtons(voteOnParty => {
         socket.emit('voteOnParty', {
-          playerId: socket.id.slice(2),
+          playerId: socket.id,
           vote: voteOnParty
-        });
+        }, roomId);
       });
       console.log('Data I got from startVote', data);
     });
@@ -83,9 +84,9 @@ module.exports = {
       game.questButtons( voteOnQuest => {
 
         socket.emit('voteOnQuest', {
-          playerId: socket.id.slice(2),
+          playerId: socket.id,
           vote: voteOnQuest
-        });
+        }, roomId);
       });
       console.log('Data I got from startQuest', data);
     });
@@ -100,8 +101,8 @@ module.exports = {
         socket.emit('stabMerlin', 
           {
             merlindId: player[0],
-            playerId: socket.id.slice(2)
-          });
+            playerId: socket.id
+          }, roomId);
       });
     });
     socket.on('resolveMerlin', function(data) {
