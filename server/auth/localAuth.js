@@ -20,7 +20,7 @@ module.exports = function(User) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
       User.findOrCreate({where: {
-        name: username,
+        username: username,
         password: User.generateHash(password)
       }})
       .then(function(user) {
@@ -42,7 +42,7 @@ module.exports = function(User) {
     console.log('in auth');
     // console.log('checking username', username);
     var foundUser;
-    return User.find({name: username})
+    return User.find({username: username})
       .then(function(user) {
         // console.log('checking username and password for ', user);
         if (user.length === 0) {
