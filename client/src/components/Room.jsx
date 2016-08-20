@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import setGameState from '../actions/setGameState';
 
-//import GameSetting from './GameSetting';
+import GameSetting from './GameSetting';
 
 const Lobby = React.createClass ({
   getInitialState: function() {
@@ -96,7 +96,9 @@ const Lobby = React.createClass ({
           )
         }
         </div>
-        
+        <div>
+          <GameSetting socket={this.props.socket}></GameSetting>
+        </div>
       </div>
     );
   }
