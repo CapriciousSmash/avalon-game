@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var passport = require('passport');
 var shortid = require('shortid');
+var passportLocal = require('./auth/localAuth.js');
+var User = require('./db/sequelize.js');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -31,6 +33,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+passportLocal(User);
 
 /////////////////////////////////////////////////////////////////////
 
@@ -59,6 +62,13 @@ function deepSearch(id, arr) {
       return x;
     }
   }
+}
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
 }
 
 io.on('connection', (socket)=>{
@@ -223,16 +233,16 @@ io.on('connection', (socket)=>{
   });
 });
 // serve index.html for rest
-app.get('*', (req, res)=>{
+app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
 app.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/',
-  failureRedirect: '/signin'
+  successRedirect: '/main',
+  failureRedirect: '/login'
 }));
 
-app.get('/logout', (req, res) => {
+app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');

@@ -1,7 +1,17 @@
-var passport = request('passport');
-var LocalStrategy = request('passport-local');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
 //---------------------------Local Strategy-------------------------------------
 module.exports = function(User) {
+  passport.serializeUser(function(user, done) {
+      done(null, user.id);
+  });
+
+  // used to deserialize the user
+  passport.deserializeUser(function(id, done) {
+      User.findById(id, function(err, user) {
+          done(err, user);
+      });
+  });
   passport.use('local-signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -29,12 +39,14 @@ module.exports = function(User) {
     passwordField: 'password',
     passReqToCallback: true
   }, function(req, username, password, done) {
+    console.log('in auth');
     // console.log('checking username', username);
     var foundUser;
     return User.find({name: username})
       .then(function(user) {
         // console.log('checking username and password for ', user);
         if (user.length === 0) {
+          console.log('no user');
           return [false, user[0]];
         } else {
           foundUser = user[0];
@@ -44,8 +56,10 @@ module.exports = function(User) {
       .then(function(match) {
         // console.log('match', match, 'user', foundUser);
         if (match) {
+          console.log('passwords match');
           return done(null, foundUser);
         } else {
+          console.log('passwords don\'t match');
           return done(null, false);
         }
       })
