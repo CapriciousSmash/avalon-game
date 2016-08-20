@@ -8,7 +8,6 @@ import * as Actions from '../actions';
 
 import Game from '../components/Game';
 import Room from '../components/Room';
-import GameSetting from '../components/GameSetting';
 
 class GameWrapper extends React.Component {
   constructor() {
