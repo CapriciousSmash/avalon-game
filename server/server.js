@@ -100,7 +100,6 @@ io.on('connection', (socket)=>{
     socket.leave('capri0sun');    
     var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
     if (peopleInRoom.length < lobbyState[newRoomId].max) {
-      console.log('JOINING THE ROOM');
       //Join the room and add player to list of players of that room
       socket.join(newRoomId);
       console.log('AFTER JOINING \n', io.sockets.adapter.rooms);

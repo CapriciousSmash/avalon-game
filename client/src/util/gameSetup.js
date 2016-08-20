@@ -53,9 +53,9 @@ export default function init(usingVR) {
   this.players = [];
   this.roleColors = {
     KNIGHT: 0x00b8ff,
-    merlin: 0x007cab,
+    MERLIN: 0x007cab,
     MINION: 0xFF0000,
-    assassin: 0x850000,
+    ASSASSIN: 0x850000,
     defaultColor: 0x00b8ff
   };
   this.WIDTH = window.innerWidth,

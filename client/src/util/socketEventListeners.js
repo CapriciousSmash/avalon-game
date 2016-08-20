@@ -19,7 +19,6 @@ module.exports = {
     game.init();
     //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
-      console.log("Got em players!", players);
       for (let p in players) {
         game.addPlayer(players[p].uid, players[p].color);
       }
@@ -51,7 +50,6 @@ module.exports = {
   allListeners: function(socket, roomId) {
     socket.on('assignRoles', function(data) {
       game.assignRoles(data, socket.id, data[socket.id]);
-      console.log('Data I got from assignRoles', data);
       console.log('I AM', socket.id, ':', data[socket.id]);
     });
     socket.on('chooseParty', function(data) {
