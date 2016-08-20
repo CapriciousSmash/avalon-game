@@ -1,8 +1,40 @@
 module.exports = {
-  // Addition of all players at the beginning of the game:
+  // Addition of all players at the beginning of the game
+  // Expects an array of objects with uid and color property
+  addAllPlayers: function(players, selfId) {
+    // Create the order by adding everyone up to the selfId on the players
+    // list to the end of the render order and everyone after the selfId
+    // is found to the beginning of the render order
+    let renderOrderLeft = [];
+    let renderOrderRight = [];
 
+    for (let x = 0, foundSelf = false; x < players.length; x++) {
+      if (players[x].uid === selfId) {
+        foundSelf = true;
+      } else {
+        (foundSelf ? renderOrderLeft : renderOrderRight).push(players[x]);
+      }
+    }
+
+    let renderOrder = renderOrderLeft.concat(renderOrderRight);
+
+    // Set coordinates for each player based on render order
+    // Players will be in a circle around the central origin point, with 
+    // the camera taking the place of the current player at 0 degrees
+
+    let playersWithPositions = this.setCircleCoordinates(renderOrder);
+
+    for (let y = 0; y < playersWithPositions.length; y++) {
+      this.addPlayer(
+        playersWithPositions[y].uid, 
+        playersWithPositions[y].color, 
+        null, 
+        playersWithPositions[y].pos);
+    }
+
+  }
   // When a player joins the game
-  addPlayer: function(uid, color, role) {
+  addPlayer: function(uid, color, role, circlePos) {
     this.players.push({
       uid,
       x: 0,
@@ -24,6 +56,7 @@ module.exports = {
 
     sphere.name = uid;
     sphere.position.x = 0;
+    sphere.pos = circlePos;
 
     this.scene.add(sphere);
   },
