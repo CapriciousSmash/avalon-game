@@ -17,7 +17,6 @@ const Lobby = React.createClass ({
   componentDidMount: function() {
     //Connect to server
     var socket = this.props.socket;
-    console.log('this is the vrSetting',this.props.vrSetting)
 
     //Tell server that player entered the room
     socket.emit('joinRoom', this.props.roomNumber);
@@ -106,7 +105,8 @@ const Lobby = React.createClass ({
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
-    roomNumber: state.room.roomNumber
+    roomNumber: state.room.roomNumber,
+    vrSetting: state.vrSetting.vrSetting
   };
 }
 function mapDispatchToProps(dispatch) {

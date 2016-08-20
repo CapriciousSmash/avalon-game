@@ -1,6 +1,6 @@
 import { IS_VR, IS_3D } from '../actions/actionTypes';
 
-export default function room(state = {}, action) {
+export default function vrSetting(state = {}, action) {
   switch (action.type) {
     case IS_VR:
       return {

@@ -44,7 +44,6 @@ class GameWrapper extends React.Component {
   }
 
   onClick(e) {
-    var socket = this.socket;
     this.props.actions.setGameRoom(this.state[e.target.value].id);
   }
 
@@ -64,14 +63,14 @@ class GameWrapper extends React.Component {
         );
     var vrSetting = (
       <div>
-        <button onClick={ e => this.props.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
-        <button onClick={ e => this.props.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
+        <button onClick={ (e) => this.props.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
+        <button onClick={ (e) => this.props.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
       </div>
     );
 
     return (
       <div className='text-center'>
-        {this.props.vrSetting.vrSetting !== undefined ? matchMaking : vrSetting} 
+        {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
       </div>
     );
   }
@@ -82,7 +81,7 @@ function mapStateToProps(state) {
     playing: state.gameState,
     currentUser: state.currentUser,
     roomNumber: state.room.roomNumber,
-    vrSetting: state.vrSetting
+    vrSetting: state.vrSetting.vrSetting
   };
 }
 function mapDispatchToProps(dispatch) {
