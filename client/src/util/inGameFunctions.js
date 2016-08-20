@@ -41,12 +41,13 @@ module.exports = {
       //Show minions as red to these characters
       for (let player in party) {
         if (party[player] === 'MINION') {
-          this.scene.getObjectByName(player).material.color.setHex(roleColors['MINION']);
+          console.log
+          this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
         }
       }
     }
     //Give color to my character
-    this.scene.getObjectByName(id).material.color.setHex(roleColors[role]);
+    this.scene.getObjectByName(id).material.color.setHex(this.roleColors[role]);
   },
   stabMerlin: function(sendPickedMerlin) {
     this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);

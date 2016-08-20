@@ -185,7 +185,7 @@ io.on('connection', (socket)=>{
       }
       memcache[roomId].init(pidsList).then(function() {
         setTimeout(function() {
-          game(memcache[roomId], io, 'GAME START');
+          game(memcache[roomId], io.to(roomId), 'GAME START');
         }, 5000);
       });
     }
