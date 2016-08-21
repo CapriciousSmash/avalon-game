@@ -109,6 +109,7 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('capacity', function(value) {
+
     io.emit('updateParty', value);
   });
 
@@ -116,7 +117,12 @@ io.on('connection', (socket)=>{
     io.emit('updateCharacter', value, setting[value]);
   });
 
-  socket.on('updateOnParty', function(value){
+  socket.on('updateOnParty', function(roomId, value){
+    console.log('roomId',roomId);
+    // memcache[roomId].setCapMax()
+    // memcache[roomId].getCapMax().then(function(data){
+    //   console.log(data);
+    // })
     io.emit('updateParty', setting[value]);
   });
 
@@ -153,6 +159,7 @@ io.on('connection', (socket)=>{
       socket.emit('joinResponse'. false);
     }
   });
+
   socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));
 

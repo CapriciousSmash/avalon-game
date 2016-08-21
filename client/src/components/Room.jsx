@@ -96,7 +96,7 @@ const Lobby = React.createClass ({
           )
         }
         </div>
-        {this.state.gm.uid ? <GameSetting socket={this.props.socket} gm={this.state.gm.uid} currentUser={this.props.currentUser.uid}></GameSetting> : <div></div>}
+        {this.state.gm.uid ? <GameSetting socket={this.props.socket} gm={this.state.gm.uid} currentUser={this.props.currentUser.uid} roomNumber={this.props.roomNumber}></GameSetting> : <div></div>}
       </div>
     );
   }
