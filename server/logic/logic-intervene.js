@@ -56,6 +56,7 @@ module.exports.pickParty = function(memcache, socket, data) {
         });
 
         setTimeout(function() {
+          console.log('calling resolve party from game logic filter');
           gameLogic(memcache, socket, 'RESOLVE PARTY');
         }, 1000);
 
@@ -88,6 +89,7 @@ module.exports.partyVote = function(memcache, socket, data) {
         var numPlayers = pidsList.length;
 
         if (voteCount === numPlayers) {
+          console.log('calling resolve vote from game logic filters');
           gameLogic(memcache, socket, 'RESOLVE VOTE');
         }
       });

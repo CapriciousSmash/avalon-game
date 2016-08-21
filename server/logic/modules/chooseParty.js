@@ -53,8 +53,8 @@ var chooseParty = function(memcache, socket) {
           currentLeader
         });
 
-        console.log('call setTimeout in chooseParty for resolveParty');
         setTimeout(function() {
+          console.log('resolveParty called by setTimeout from chooseParty');
           resolveParty(memcache, socket);
         }, 30000);
 
@@ -71,6 +71,7 @@ var resolveParty = function(memcache, socket) {
   memcache.getTurnPhase()
   .then(function(gamePhase) {
     if (gamePhase !== 'PARTY') {
+      console.log('game phase is ', gamePhase);
       console.log('gamePhase not PARTY, fizzling');
       return;
     }
@@ -87,7 +88,7 @@ var resolveParty = function(memcache, socket) {
       });
 
       setTimeout(function() {
-        console.log('resolveParty setTimeout chooseParty log: ', chooseParty);
+        console.log('voteOnParty called by setTimeout from resolveParty');
         voteOnParty(memcache, socket, chooseParty);
       }, 5000);
 

@@ -55,11 +55,12 @@ module.exports = {
     socket.on('chooseParty', function(data) {
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
+          console.log('preparing to pick the party');
           socket.emit('pickParty', {
             partyList: party
           }, roomId);
         // Need party number from data <-------------------------------
-        });
+        }, data.partySize);
         console.log('Data I got from sendParty', data);
       }
     }, roomId);
@@ -79,7 +80,7 @@ module.exports = {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
-      game.questButtons( voteOnQuest => {
+      game.questButtons(voteOnQuest => {
 
         socket.emit('voteOnQuest', {
           playerId: socket.id,

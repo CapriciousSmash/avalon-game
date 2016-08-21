@@ -23,8 +23,8 @@ module.exports.startQuest = function(memcache, socket, chooseParty) {
     });
 
     // TODO: Start timer for resolveQuest
-    console.log('set timeout for resolve quest');
     setTimeout(function() {
+      console.log('call resolveQuest by setTimeout from startQuest');
       resolveQuest(memcache, socket, chooseParty);
     }, 30000);
   });
@@ -37,6 +37,8 @@ var resolveQuest = function(memcache, socket, chooseParty) {
     gamePhase = phase;
     // If the current game phase isn't 'QUEST', fizzle
     if (gamePhase !== 'QUEST') {
+      console.log('gamePhase is ', gamePhase);
+      console.log('gamePhase not QUEST, fizzling');
       return;
     }
 
@@ -94,6 +96,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
       questSucceeded = failureVotes < requiredVotesToFail ? true : false;
       if (questSucceeded) {
         // TODO: Inform (signal websocket) players that the quest succeeded
+        console.log('Quest succeeded');
         socket.emit('resolveQuest', {
           gameId: 5318008,
           result: 'success',
@@ -107,6 +110,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           memcache.setWinner(true);
           //  Set timer for gameEnd
           setTimeout(function() {
+            console.log('calling gameEnd by setTimeout from resolveQuest');
             gameEnd(memcache, socket);
           }, 5000);
 
@@ -115,11 +119,13 @@ var resolveQuest = function(memcache, socket, chooseParty) {
 
           // TODO: Set timer for chooseParty
           setTimeout(function() {
+            console.log('calling chooseParty by estTimeout from resolveQuest');
             chooseParty(memcache,socket);
           }, 5000);
         }
       } else /* Quest failed */ {
         // TODO: Inform (signal) players that the quest has failed
+        console.log('Quest has failed.');
         socket.emit('resolveQuest', {
           gameId: 5318008,
           result: 'failure',
@@ -133,6 +139,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           memcache.setwinner(false);
           // TODO: Set timer for gameEnd with minion victory
           setTimeout(function() {
+            console.log('calling gameEnd by setTimeout from resolveQuest');
             gameEnd(memcache, socket);
           }, 5000);
         } else /* Less than 3 quests have failed */ {
@@ -140,6 +147,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
 
           // TODO: Set timer for chooseParty
           setTimeout(function() {
+            console.log('calling chooseParty by estTimeout from resolveQuest');
             chooseParty(memcache, socket);
           }, 5000);
         }
