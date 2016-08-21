@@ -7,9 +7,9 @@ export default class SignIn extends React.Component {
         <form className="text-center" action="/login" method="post">
           <fieldset>
             <h3>Username </h3>
-            <input placeholder='Username'></input>
+            <input name="username" placeholder='Username'></input>
             <h3>Password </h3>
-            <input type='password' placeholder='Password'></input><br />
+            <input name="password" type='password' placeholder='Password'></input><br />
             <button type="submit" value="Submit">Submit</button>
           </fieldset>
         </form>

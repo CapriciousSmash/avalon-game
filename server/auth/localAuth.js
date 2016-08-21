@@ -1,7 +1,7 @@
-var passport = require('passport');
+// var passport = require('passport');
 var LocalStrategy = require('passport-local');
 //---------------------------Local Strategy-------------------------------------
-module.exports = function(User) {
+module.exports = function(passport, User) {
   passport.serializeUser(function(user, done) {
       done(null, user.id);
   });
@@ -12,11 +12,12 @@ module.exports = function(User) {
           done(err, user);
       });
   });
+
   passport.use('local-signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(req, username, password, done) {
+  }, function(username, password, done) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
       User.findOrCreate({where: {
@@ -38,11 +39,11 @@ module.exports = function(User) {
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(req, username, password, done) {
+  }, function(username, password, done) {
     console.log('in auth');
     console.log('checking username', username);
-    var foundUser;
-    return User.find({username: username})
+    var foundUser = 0;
+    return User.findOrCreate({username: username})
       .then(function(user) {
         console.log('checking username and password for ', user);
         if (user.length === 0) {

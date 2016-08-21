@@ -26,6 +26,7 @@ app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+passportLocal(passport, User);
 app.use(session({ 
   secret: '8SER9M9jXS',
   saveUninitialized: true,
@@ -33,7 +34,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passportLocal(User);
 
 /////////////////////////////////////////////////////////////////////
 
@@ -238,14 +238,18 @@ app.get('*', function(req, res) {
 });
 
 app.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/main',
-  failureRedirect: '/signin'
-}));
+    successRedirect: '/main',
+    failureRedirect: '/signup'
+  }));
 
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/main',
-  failureRedirect: '/signup'
-}));
+app.route('/signup')
+  .get((req, res) => {
+    res.render('signup');
+  })
+  .post(passport.authenticate('local-signup', {
+    successRedirect: '/main',
+    failureRedirect: '/signup'
+  }));
 
 app.get('/logout', function(req, res) {
   req.logout();
