@@ -22,12 +22,6 @@ class GameWrapper extends React.Component {
     //Connect to server
     socket.on('connect', function() {
       login(this.socket.id);
-      
-      const peer = new Peer (this.socket.id, {host: 'ancient-caverns-19863.herokuapp.com', port: '', secure: 'true'});
-      
-      //Connection for audio
-      peer.on('open', function(id) {
-      });
     }.bind(this));
 
     socket.on('lobbyInfo', function(lobbyState) {
@@ -71,6 +65,8 @@ class GameWrapper extends React.Component {
     return (
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
+        <video height="300" id="localVideo"></video>
+        <div id="remotesVideos"></div>
       </div>
     );
   }
