@@ -33,7 +33,7 @@ export default class GameSetting extends React.Component {
 
   pickPartyMembers(e) {
     var socket = this.props.socket;
-    socket.emit('capacity', e.target.value)
+    socket.emit('capacity', this.props.roomNumber, e.target.value)
   }
 
   click
