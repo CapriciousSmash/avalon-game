@@ -4,7 +4,7 @@ export default class SignIn extends React.Component {
   render() {
     return (
       <div className="loginsignup">
-        <form className="text-center" action="/login" method="post">
+        <form className="text-center" action="/signin" method="post">
           <fieldset>
             <h3>Username </h3>
             <input name="username" placeholder='Username'></input>
