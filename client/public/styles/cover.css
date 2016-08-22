@@ -64,7 +64,6 @@ body {
   padding: 30px;
 }
 
-
 /*
  * Header
  */
@@ -117,7 +116,6 @@ body {
 /*
  * Cover
  */
-
 .cover {
   padding: 0 20px;
 }
@@ -125,22 +123,6 @@ body {
   padding: 10px 20px;
   font-weight: bold;
 }
-
-
-/*
- * Footer
- */
-
-.babyFeet {
-  color: #999; /* IE8 proofing */
-  color: rgb(34, 71, 88);
-  letter-spacing: 3px;
-  position:fixed;
-  bottom:10px;
-  width: 100%;
-  margin: 0 auto;
-}
-
 
 /*
  * Affix and center
