@@ -19,6 +19,9 @@ var makeCache = function(gameNumber) {
 makeCache.prototype.init = function(pidArray, gameId) {
 
   // Initialize the game server to run a game
+  console.log('cache init: ');
+  console.log('pidArray: ', pidArray);
+  console.log('gameId: ', gameId);
   this.data.setAsync('GAMEID', gameId);
   for (var i = 0; i < pidArray.length; i++) {
     this.data.saddAsync('PIDS', pidArray[i]);

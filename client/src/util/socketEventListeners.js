@@ -7,6 +7,10 @@ module.exports = {
     var conn = {};
 
     socket.on('allPeers', function(players) {
+      // Original code, kept in comments while testing new code
+      // for (let p in players) {
+      //   game.addPlayer(players[p].uid, players[p].color);
+      // }
       game.addAllPlayers(players, socket.id);
     });
 

@@ -22,9 +22,14 @@ module.exports = {
     // Players will be in a circle around the central origin point, with 
     // the camera taking the place of the current player at 0 degrees
 
-    let playersWithPositions = this.setCircleCoordinates(renderOrder);
+    let playersWithPositions = this.setCircleCoordinates(renderOrder, 250);
+
+    console.log('playersWithPositions', playersWithPositions);
+
+
 
     for (let y = 0; y < playersWithPositions.length; y++) {
+      console.log('circle pos inside playersWithPositions', playersWithPositions[y].pos);
       this.addPlayer(
         playersWithPositions[y].uid, 
         playersWithPositions[y].color, 
@@ -35,12 +40,14 @@ module.exports = {
   },
   // When a player joins the game
   addPlayer: function(uid, color, role, circlePos) {
+    console.log('circlePos inside addPlayer', circlePos);
     this.players.push({
       uid,
       x: 0,
       y: 0,
       color,
-      role: this.roleColors['defaultColor']
+      role: this.roleColors['defaultColor'],
+      pos: circlePos
     });      
 
     let sphereMaterial =
@@ -73,16 +80,13 @@ module.exports = {
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
       for (let player in party) {
-        if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
-          this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
+        if (player !== id) {
+          if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
+            this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
+          }      
         }
       }
     }
-    //Give color to my character
-    //No longer needs a color since camera view is now the player
-    //Todo: Set player's role as text on div tag on top of canvas for reduce energy wasted on rendering
-    //      this information as a sign in the canvas
-    //this.scene.getObjectByName(id).material.color.setHex(this.roleColors[role]);
   },
   stabMerlin: function(sendPickedMerlin) {
     this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);

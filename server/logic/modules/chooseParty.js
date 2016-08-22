@@ -70,7 +70,7 @@ var resolveParty = function(memcache, socket) {
   console.log('resolveParty chooseParty log: ', typeof chooseParty);
   memcache.getTurnPhase()
   .then(function(gamePhase) {
-    if (gamePhase !== 'PARTY') {
+    if (gamePhase !== 'PARTY' && gamePhase !== null) {
       console.log('game phase is ', gamePhase);
       console.log('gamePhase not PARTY, fizzling');
       return;

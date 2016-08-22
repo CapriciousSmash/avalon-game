@@ -36,7 +36,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
   memcache.getTurnPhase().then(function(phase) {
     gamePhase = phase;
     // If the current game phase isn't 'QUEST', fizzle
-    if (gamePhase !== 'QUEST') {
+    if (gamePhase !== 'QUEST' && gamePhase !== null) {
       console.log('gamePhase is ', gamePhase);
       console.log('gamePhase not QUEST, fizzling');
       return;
