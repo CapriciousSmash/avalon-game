@@ -2,17 +2,7 @@
 var LocalStrategy = require('passport-local');
 //---------------------------Local Strategy-------------------------------------
 module.exports = function(passport, User) {
-  passport.serializeUser(function(user, done) {
-      done(null, user.id);
-  });
-
-  // used to deserialize the user
-  passport.deserializeUser(function(id, done) {
-      User.findById(id, function(err, user) {
-          done(err, user);
-      });
-  });
-
+  
   passport.use('local-signup', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -41,7 +31,7 @@ module.exports = function(passport, User) {
     passReqToCallback: true
   }, function(req, username, password, done) {
     console.log('checking username', username);
-    var foundUser = 0;
+    var foundUser;
     return User.find({where: {
         username: username
       }})
@@ -57,7 +47,7 @@ module.exports = function(passport, User) {
       })
       .then(function(match) {
         console.log('match', match, 'user', foundUser);
-        if (match) {
+        if (match && foundUser) {
           console.log('passwords match');
           return done(null, foundUser);
         } else {

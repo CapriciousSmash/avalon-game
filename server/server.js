@@ -17,16 +17,34 @@ var logicFilter = require('./logic/logic-intervene');
 
 var app = express();
 var port = process.env.PORT || 3000;
-var server = app.listen(port, ()=>{
-  console.log('Listening on port', port);
-});
-var io = require('socket.io').listen(server);
 
 app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 passportLocal(passport, User);
+
+passport.serializeUser(function(user, done) {
+  var userId;
+  console.log('serialize user', user);
+  if (Array.isArray(user)) {
+    userId = user[0].id;
+  } else {
+    userId = user.id;
+  }
+  return done(null, userId);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  console.log('deserialize');
+  return User.find({where: {
+      id: id
+    }})
+    .then((user) => done(null, user))
+    .catch((err) => done(err, null));
+});
+
 app.use(session({ 
   secret: '8SER9M9jXS',
   saveUninitialized: true,
@@ -34,6 +52,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+var server = app.listen(port, ()=>{
+  console.log('Listening on port', port);
+});
+var io = require('socket.io').listen(server);
 
 /////////////////////////////////////////////////////////////////////
 
@@ -237,8 +260,12 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
-app.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/main',
+app.route('/login')
+  .get(function(req, res) {
+    res.render('signin');
+  })
+  .post(passport.authenticate('local-login', {
+    successRedirect: '/',
     failureRedirect: '/signup'
   }));
 
