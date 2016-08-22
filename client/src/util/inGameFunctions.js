@@ -80,16 +80,13 @@ module.exports = {
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
       for (let player in party) {
-        if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
-          this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
+        if (player !== id) {
+          if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
+            this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
+          }      
         }
       }
     }
-    // No longer needs a color since camera view is now the player
-    // Todo: Set player's role as text on div tag on top of canvas for reduce energy wasted on rendering
-    //      this information as a sign in the canvas
-
-    // this.scene.getObjectByName(id).material.color.setHex(this.roleColors[role]);
   },
   stabMerlin: function(sendPickedMerlin) {
     this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
