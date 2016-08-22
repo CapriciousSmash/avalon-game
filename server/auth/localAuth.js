@@ -39,16 +39,17 @@ module.exports = function(passport, User) {
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(username, password, done) {
-    console.log('in auth');
+  }, function(req, username, password, done) {
     console.log('checking username', username);
     var foundUser = 0;
-    return User.findOrCreate({username: username})
+    return User.find({where: {
+        username: username
+      }})
       .then(function(user) {
         console.log('checking username and password for ', user);
-        if (user.length === 0) {
+        if (!user) {
           console.log('no user');
-          return [false, user[0]];
+          return [false, user];
         } else {
           foundUser = user[0];
           return User.isValidPassword(password, user.dataValues.id);
