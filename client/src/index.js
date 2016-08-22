@@ -6,6 +6,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './containers/App';
 import InfoWrapper from './containers/InfoWrapper';
 import GameWrapper from './containers/GameWrapper';
+import Landing from './components/Landing';
 import Main from './components/Main';
 import Stats from './components/Stats';
 import Login from './components/Login';
@@ -22,7 +23,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path='/' component={App}>
-        <IndexRoute component={Main}/>
+        <IndexRoute component={Landing}/>
+        <Route path='play' component={Main}/>
         <Route path='gameinfo' component={InfoWrapper}></Route>
         <Route path='signin' component={Login}></Route>
         <Route path='signup' component={SignUp}></Route>
