@@ -16,7 +16,7 @@ class App extends React.Component {
         <NavBar />
         {this.props.children}
       </div>
-    )
+    );
   }
 }
 
@@ -33,7 +33,7 @@ function mapStateToProps(state) {
 // creators to container as props
 function mapDispatchToProps(dispatch) {
   return {
-  	actions: bindActionCreators(Actions, dispatch)
+    actions: bindActionCreators(Actions, dispatch)
   };
 }
 
