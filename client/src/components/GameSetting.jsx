@@ -11,7 +11,7 @@ export default class GameSetting extends React.Component {
       document.getElementById(person).checked = value;
     });
     socket.on('updateParty', function(value) {
-      document.getElementById('capacity').innerHTML = value;
+      document.getElementById('capacity').selectedIndex = value - 5;
     });
   }
 
@@ -23,6 +23,7 @@ export default class GameSetting extends React.Component {
     if (this.props.gm !== this.props.currentUser) {
       document.getElementById('merlin').disabled = true;
       document.getElementById('assassin').disabled = true;
+      document.getElementById('capacity').disabled = true;
     }
   }
 
@@ -33,7 +34,7 @@ export default class GameSetting extends React.Component {
 
   pickPartyMembers(e) {
     var socket = this.props.socket;
-    socket.emit('capacity', this.props.roomNumber, e.target.value)
+    socket.emit('capacity', this.props.roomNumber, e.target.selectedIndex + 5)
   }
 
   click
@@ -42,23 +43,19 @@ export default class GameSetting extends React.Component {
       <div>
         <label>
           <input type='checkbox' id='merlin' onClick={this.pickSpecialCharacter.bind(this)}></input>
-          Merlin
+          {' Merlin '}
         </label>
         <label> 
           <input type='checkbox' id='assassin' onClick={this.pickSpecialCharacter.bind(this)}></input>
-          Assassin
+          {' Assassin '}
         </label>
         <div className='dropdown'>
-          <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-            Party Members
-            <span className="caret"></span>
-          </button>
-          <ul className='dropdown-menu'>
+          {'Party Members '}
+          <select id='capacity' onChange={this.pickPartyMembers.bind(this)}>
             {[5,6,7,8,9,10].map(value =>
-              <li key={value} value={value} onClick={this.pickPartyMembers.bind(this)}>{value}</li>
+              <option key={value} value={value}>{value}</option>
             )}
-          </ul>
-          <div id='capacity'></div>  
+          </select> 
         </div>
       </div>
     )
