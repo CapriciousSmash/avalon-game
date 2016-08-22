@@ -79,7 +79,10 @@ module.exports = {
       }
     }
     //Give color to my character
-    this.scene.getObjectByName(id).material.color.setHex(this.roleColors[role]);
+    //No longer needs a color since camera view is now the player
+    //Todo: Set player's role as text on div tag on top of canvas for reduce energy wasted on rendering
+    //      this information as a sign in the canvas
+    //this.scene.getObjectByName(id).material.color.setHex(this.roleColors[role]);
   },
   stabMerlin: function(sendPickedMerlin) {
     this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
