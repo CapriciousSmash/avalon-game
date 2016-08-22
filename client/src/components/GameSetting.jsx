@@ -19,7 +19,7 @@ export default class GameSetting extends React.Component {
     var socket = this.props.socket;
     socket.emit('updateOnCharacter', 'merlin');
     socket.emit('updateOnCharacter', 'assassin');
-    socket.emit('updateOnParty', 'capacity');
+    socket.emit('updateOnParty', this.props.roomNumber);
     if (this.props.gm !== this.props.currentUser) {
       document.getElementById('merlin').disabled = true;
       document.getElementById('assassin').disabled = true;
