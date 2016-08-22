@@ -22,7 +22,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path='/' component={App}>
-        <Route path='main' component={Main}></Route>
+        <IndexRoute component={Main}/>
         <Route path='gameinfo' component={InfoWrapper}></Route>
         <Route path='signin' component={Login}></Route>
         <Route path='signup' component={SignUp}></Route>
