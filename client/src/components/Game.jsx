@@ -18,6 +18,7 @@ class Game extends React.Component {
     var socket = this.props.socket;
     webSockets.gameInit(socket);
 
+    //Disable audio for testing purposes
     // var webrtc = new SimpleWebRTC({
     //   localVideoEl: '',
     //   remoteVideosEl: '',
@@ -36,9 +37,6 @@ class Game extends React.Component {
     //   webrtc.joinRoom(this.props.roomNumber);
     //   //webrtc.joinRoom('hahaha');
     // });
-
-
-
 
 
     $('.loading').removeClass('hidden');
