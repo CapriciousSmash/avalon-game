@@ -7,18 +7,7 @@ module.exports = {
     var conn = {};
 
     socket.on('allPeers', function(players) {
-      for (let p in players) {
-        game.addPlayer(players[p].uid, players[p].color);
-        //Connect everyone's audio
-        // conn[players[p].uid] = peer.connect(players[p].uid);
-
-        // conn.on('open', function() {
-        //   conn.send('hey newbie');
-        //   conn.on('data', function(data) {
-        //     console.log('(old)Received some greetings:', data);
-        //   });
-        // });
-      }
+      game.addAllPlayers(players, socket.id);
     });
 
     // peer.on('connection', function(conn){
