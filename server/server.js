@@ -8,7 +8,7 @@ var path = require('path');
 var passport = require('passport');
 var shortid = require('shortid');
 var passportLocal = require('./auth/localAuth.js');
-var User = require('./db/sequelize.js');
+var User = require('./db/sequelize.js').User;
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
