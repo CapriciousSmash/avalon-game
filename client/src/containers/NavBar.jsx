@@ -14,7 +14,7 @@ class NavBar extends React.Component {
       return (
         <ul className="nav masthead-nav">
           <li>
-            <Link to='/'>Stats</Link>
+            <Link to='play'>Play</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
@@ -28,7 +28,7 @@ class NavBar extends React.Component {
       return (
         <ul className="nav masthead-nav"> 
           <li>
-            <Link to='/'>Stats</Link>
+            <Link to='play'>Play</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
