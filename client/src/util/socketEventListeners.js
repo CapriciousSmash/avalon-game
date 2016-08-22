@@ -57,8 +57,6 @@ module.exports = {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
-      console.log('Party Members', data.partyMembers)
-      console.log('uid', socket.id);
       if(data.partyMembers.includes(socket.id)) {
         game.questButtons(voteOnQuest => {
           socket.emit('voteOnQuest', {
