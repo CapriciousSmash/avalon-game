@@ -22,9 +22,11 @@ export default {
   addClickEventListener: helper.addClickEventListener,
   removeClickEventListener: helper.removeClickEventListener,
   itemSelection: helper.itemSelection,
+  setCircleCoordinates: helper.setCircleCoordinates,
 
   // In-game functions
   addPlayer: inGame.addPlayer,
+  addAllPlayers: inGame.addAllPlayers,
   removePlayer: inGame.removePlayer,
   assignRoles: inGame.assignRoles,
   pickParty: inGame.pickParty,

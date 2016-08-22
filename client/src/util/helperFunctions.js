@@ -29,6 +29,7 @@ export default {
     let texture = this.textureLoader.load('images/button-text/' + stage + '.png');
     let plane = new THREE.PlaneGeometry(512, 128);
     let material = new THREE.MeshBasicMaterial({ map: texture });
+    material.transparent = true;
 
     let sign = new THREE.Mesh(plane, material);
 

@@ -126,7 +126,7 @@ export default function init(usingVR) {
     this.controls.update();
     this.element.addEventListener('click', fullscreen, false);
     window.removeEventListener('deviceorientation', setOrientationControls, true);
-  }
+  };
 
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
@@ -159,7 +159,7 @@ export default function init(usingVR) {
     } else {
       this.renderer.setSize(width, height);
     }
-  }
+  };
 
   // LIGHTS /////////////////////////////////////////
   this.pointLight = new THREE.PointLight(0xFFFFFF);
@@ -204,7 +204,7 @@ export default function init(usingVR) {
   //   this.renderer.setSize( window.innerWidth, window.innerHeight );
   // }, false );
 
-/*  //SKY BOX///////////////////////////////////
+  //SKY BOX///////////////////////////////////
   //Todo: Convert to tga format, speedier loadup vs png
   // this.TGAloader = new THREE.TGALoader();
   // var imgLoc = 'skybox/ame_ash/ashcanyon_';
@@ -214,13 +214,12 @@ export default function init(usingVR) {
   ////REMOVE SKYBOX FOR MVP
   this.cubeLoader = new THREE.CubeTextureLoader();
   this.cubeLoader.setPath('skybox/ame_ash/');
-  var skyboxImages = ['px.png', 'nx.png',
+  var skyboxImages = ['pz.png', 'nz.png',
                       'py.png', 'ny.png', 
-                      'pz.png', 'nz.png'];
+                      'px.png', 'nx.png'];
   var textureCube = this.cubeLoader.load(skyboxImages);
   textureCube.format = THREE.RGBFormat;
   this.scene.background = textureCube;
-*/
 
   render.call(this);
 }
