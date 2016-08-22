@@ -120,9 +120,9 @@ io.on('connection', (socket)=>{
   socket.on('updateOnParty', function(roomId, value){
     console.log('roomId',roomId);
     // memcache[roomId].setCapMax()
-    // memcache[roomId].getCapMax().then(function(data){
-    //   console.log(data);
-    // })
+    memcache[roomId].getCapMax().then(function(data){
+      console.log(data);
+    })
     io.emit('updateParty', setting[value]);
   });
 
