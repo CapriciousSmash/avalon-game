@@ -23,8 +23,10 @@ export default {
   removeClickEventListener: helper.removeClickEventListener,
   itemSelection: helper.itemSelection,
   setCircleCoordinates: helper.setCircleCoordinates,
+  positionPlayers: helper.positionPlayers,
 
   // In-game functions
+  addAllPlayers: inGame.addAllPlayers,
   addPlayer: inGame.addPlayer,
   addAllPlayers: inGame.addAllPlayers,
   removePlayer: inGame.removePlayer,

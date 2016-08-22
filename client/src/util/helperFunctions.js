@@ -77,6 +77,7 @@ export default {
     if(!hitObject) {
       return;
     }
+    
     console.log('signName: ', signName);
     console.log('maxselects', maxSelects);
     console.log('type of callback: ', typeof callback);
@@ -99,11 +100,11 @@ export default {
   },
   // Takes a list of players and sets them into a circle formation. 
   // Returns the same list of players with coordinate property added
-  setCircleCoordinates: function(players) {
+  setCircleCoordinates: function(players, radius) {
 
     // Interval is decided by players to render + the "self" player
     // Angle is in radians as Math.sin() works with radians instead of angles
-    let angle = (2 * Math.PI) / (players + 1);
+    let angle = (2 * Math.PI) / (players.length + 1);
 
     // Note: As the camera begins at z of the radius on the 3D plane, the "circle" 
     // the players will make will have z "x coordinteas" and x "y coordinates"
@@ -111,11 +112,11 @@ export default {
       let position = (x + 1) * angle;
       // coords are recorded in regards to the 3D plane
       let coords = {
-        x: Math.sin(position),
+        x: Math.floor(Math.sin(position) * radius),
         y: 0,
-        z: Math.cos(position)
+        z: Math.floor(Math.cos(position) * radius)
       }
-      players.pos = coords;
+      players[x].pos = coords;
     }
 
     return players;
@@ -131,10 +132,11 @@ export default {
       // If scene.getObjectByName returned a falsy value, this means that it is
       // the uid is of the "self" player
       if (playerObj) {
-        moveX = playerObj.position.x > playerObj.pos.x ? -2 : playerObj.position.x < playerObj.pos.x ? 2 : 0;
-        moveY = playerObj.position.x > playerObj.pos.x ? -2 : playerObj.position.x < playerObj.pos.x ? 2 : 0;
-        moveZ = playerObj.position.x > playerObj.pos.x ? -2 : playerObj.position.x < playerObj.pos.x ? 2 : 0;
+        let moveX = playerObj.position.x > players[x].pos.x ? -1 : playerObj.position.x < players[x].pos.x ? 1 : 0;
+        let moveZ = playerObj.position.z > players[x].pos.z ? -1 : playerObj.position.z < players[x].pos.z ? 1 : 0;
 
+        playerObj.position.x += moveX;
+        playerObj.position.z += moveZ;
       }
     }
 

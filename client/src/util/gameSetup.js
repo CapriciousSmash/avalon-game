@@ -29,16 +29,20 @@ function render() {
 
   this.oliver.setDirection(this.camera.getWorldDirection());
 
+  // TODO: Considerations for optimization: Find a way to cut off player positioning
+  // after the players are already correctly positioned
+  this.positionPlayers(this.players, this.scene);
+
   // Corrently position the players based on the number of current players 
-  let numPlayers = this.players.length;
-  for (let x = 0; x < numPlayers; x++) {
-    let playerObj = this.scene.getObjectByName(this.players[x].uid);
-    if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-      playerObj.position.x -= 2;
-    } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-      playerObj.position.x += 2;
-    }
-  }
+  // let numPlayers = this.players.length;
+  // for (let x = 0; x < numPlayers; x++) {
+  //   let playerObj = this.scene.getObjectByName(this.players[x].uid);
+  //   if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+  //     playerObj.position.x -= 2;
+  //   } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
+  //     playerObj.position.x += 2;
+  //   }
+  // }
 
   // Commenting out this code as it interferes with the new camera orbit system
   // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
@@ -103,7 +107,10 @@ export default function init(usingVR) {
   this.camera = new THREE.PerspectiveCamera(
       VIEW_ANGLE, ASPECT, NEAR, FAR
     );
-  this.camera.position.z = 500;
+  this.camera.position.x = 0;
+  this.camera.position.y = 0;
+  this.camera.position.z = 250;
+  this.camera.lookAt(new THREE.Vector3(0, 0, 0));
   this.scene.add(this.camera);
 
   // Camera controls (for both VR and nonVR users)
