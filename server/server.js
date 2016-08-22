@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var passport = require('passport');
 var shortid = require('shortid');
+var passportLocal = require('./auth/localAuth.js');
+var User = require('./db/sequelize.js').User;
+var cookieParser = require('cookie-parser');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -15,15 +18,13 @@ var logicFilter = require('./logic/logic-intervene');
 
 var app = express();
 var port = process.env.PORT || 3000;
-var server = app.listen(port, ()=>{
-  console.log('Listening on port', port);
-});
-var io = require('socket.io').listen(server);
 
 app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+passportLocal(passport, User);
+app.use(cookieParser());
 app.use(session({ 
   secret: '8SER9M9jXS',
   saveUninitialized: true,
@@ -31,6 +32,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+var server = app.listen(port, ()=>{
+  console.log('Listening on port', port);
+});
+var io = require('socket.io').listen(server);
 
 /////////////////////////////////////////////////////////////////////
 
@@ -59,6 +65,17 @@ function deepSearch(id, arr) {
       return x;
     }
   }
+}
+
+function isLoggedIn(req, res, next) {
+  var log = req.isAuthenticated();
+  console.log(log);
+  if(log) {
+    console.log('success');
+    return next();
+  }
+  console.log('failure');
+  res.redirect('/signin');
 }
 
 io.on('connection', (socket)=>{
@@ -223,17 +240,34 @@ io.on('connection', (socket)=>{
   });
 });
 // serve index.html for rest
-app.get('*', (req, res)=>{
+app.get('*',function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
-app.get('/login', passport.authenticate('local-login', {
-  successRedirect: '/',
-  failureRedirect: '/login'
-}));
+app.route('/signin')
+  .get(function(req, res) {
+    res.render('signin');
+  })
+  .post(passport.authenticate('local-login', {
+    successRedirect: '/',
+    failureRedirect: '/signup'
+  }));
 
-app.get('/logout', (req, res) => {
+app.route('/signup')
+  .get((req, res) => {
+    res.render('/signup');
+  })
+  .post(passport.authenticate('local-signup', {
+    successRedirect: '/main',
+    failureRedirect: '/signup'
+  }));
+
+app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');
 });
+
+app.get('/main', isLoggedIn, function(req, res) {
+  res.render('/main');
+})

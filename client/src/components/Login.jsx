@@ -3,16 +3,26 @@ import React from 'react';
 export default class SignIn extends React.Component {
   render() {
     return (
-      <form className="text-center" onSubmit="">
-        <fieldset>
-          <h3>Username </h3>
-          <input placeholder='Username'></input>
-        </fieldset>
-        <fieldset>
-          <h3>Password </h3>
-          <input placeholder='Password'></input>
-        </fieldset>
-      </form>
+      <div className="loginsignup">
+        <form className="text-center" action="/signin" method="post">
+          <fieldset>
+            <h3>Username </h3>
+            <input name="username" placeholder='Username'></input>
+            <h3>Password </h3>
+            <input name="password" type='password' placeholder='Password'></input><br />
+            <button type="submit" value="Submit">Submit</button>
+          </fieldset>
+        </form>
+        <form className="text-center" action="/signup" method="post">
+          <fieldset>
+            <h3>Username </h3>
+            <input placeholder='Username'></input>
+            <h3>Password </h3>
+            <input type='password' placeholder='Password'></input><br />
+            <button type="submit" value="signup">Sign Up</button>
+          </fieldset>
+        </form>
+      </div>
     )
   }
 }
