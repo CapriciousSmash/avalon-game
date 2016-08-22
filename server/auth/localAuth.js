@@ -2,6 +2,27 @@
 var LocalStrategy = require('passport-local');
 //---------------------------Local Strategy-------------------------------------
 module.exports = function(passport, User) {
+
+  passport.serializeUser(function(user, done) {
+    var userId;
+    console.log('serialize user', user);
+    if (Array.isArray(user)) {
+      userId = user[0].id;
+    } else {
+      userId = user.id;
+    }
+    return done(null, userId);
+  });
+
+  // used to deserialize the user
+  passport.deserializeUser(function(id, done) {
+    console.log('deserialize');
+    return User.find({where: {
+        id: id
+      }})
+      .then((user) => done(null, user))
+      .catch((err) => done(err, null));
+  });
   
   passport.use('local-signup', new LocalStrategy({
     usernameField: 'username',

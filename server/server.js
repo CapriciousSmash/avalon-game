@@ -9,6 +9,7 @@ var passport = require('passport');
 var shortid = require('shortid');
 var passportLocal = require('./auth/localAuth.js');
 var User = require('./db/sequelize.js').User;
+var cookieParser = require('cookie-parser');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -23,28 +24,7 @@ app.use(express.static(__dirname + '/../client/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 passportLocal(passport, User);
-
-passport.serializeUser(function(user, done) {
-  var userId;
-  console.log('serialize user', user);
-  if (Array.isArray(user)) {
-    userId = user[0].id;
-  } else {
-    userId = user.id;
-  }
-  return done(null, userId);
-});
-
-// used to deserialize the user
-passport.deserializeUser(function(id, done) {
-  console.log('deserialize');
-  return User.find({where: {
-      id: id
-    }})
-    .then((user) => done(null, user))
-    .catch((err) => done(err, null));
-});
-
+app.use(cookieParser());
 app.use(session({ 
   secret: '8SER9M9jXS',
   saveUninitialized: true,
@@ -88,10 +68,14 @@ function deepSearch(id, arr) {
 }
 
 function isLoggedIn(req, res, next) {
-  if(req.isAuthenticated()) {
+  var log = req.isAuthenticated();
+  console.log(log);
+  if(log) {
+    console.log('success');
     return next();
   }
-  res.redirect('/');
+  console.log('failure');
+  res.redirect('/signin');
 }
 
 io.on('connection', (socket)=>{
@@ -256,11 +240,11 @@ io.on('connection', (socket)=>{
   });
 });
 // serve index.html for rest
-app.get('*', function(req, res) {
+app.get('/',function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
-app.route('/login')
+app.route('/signin')
   .get(function(req, res) {
     res.render('signin');
   })
@@ -271,7 +255,7 @@ app.route('/login')
 
 app.route('/signup')
   .get((req, res) => {
-    res.render('signup');
+    res.render('/signup');
   })
   .post(passport.authenticate('local-signup', {
     successRedirect: '/main',
@@ -283,3 +267,7 @@ app.get('/logout', function(req, res) {
   req.session.destroy();
   res.redirect('/');
 });
+
+app.get('/main', isLoggedIn, function(req, res) {
+  res.render('/main');
+})
