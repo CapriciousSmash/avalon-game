@@ -233,6 +233,7 @@ makeCache.prototype.initInfo = function(gameId, max) {
   max = max < 6 ? 5 : max > 9 ? 10 : max || 10;
   // Create connection to info DB and store the game's info
   var info = db.createClient(process.env.REDIS_URL, {db: 0});
+  info.flushdbAsync();
   return info.setAsync(gameId + ':CAP:MAX', max)
   .then(function() {
     return info.setAsync(gameId + ':CAP:CUR', 0);
