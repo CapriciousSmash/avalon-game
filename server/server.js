@@ -108,8 +108,8 @@ io.on('connection', (socket)=>{
     socket.broadcast.emit('updateCharacter', value, setting[value]);
   });
 
-  socket.on('capacity', function(value) {
-
+  socket.on('capacity', function(roomId, value) {
+    memcache[roomId].setCapMax(value);
     io.emit('updateParty', value);
   });
 
@@ -119,11 +119,10 @@ io.on('connection', (socket)=>{
 
   socket.on('updateOnParty', function(roomId, value){
     console.log('roomId',roomId);
-    // memcache[roomId].setCapMax()
     memcache[roomId].getCapMax().then(function(data){
-      console.log(data);
+      data = data || 5;
+      io.emit('updateParty', data);
     })
-    io.emit('updateParty', setting[value]);
   });
 
   //LOBBY==================================================
