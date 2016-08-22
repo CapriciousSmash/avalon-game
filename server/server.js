@@ -200,7 +200,7 @@ io.on('connection', (socket)=>{
         pidsList.push(players[roomId][x].uid);
       }
       console.log('pids list is ', pidsList);
-      memcache[roomId].init(pidsList).then(function() {
+      memcache[roomId].init(pidsList, roomId).then(function() {
         setTimeout(function() {
           game(memcache[roomId], io.to(roomId), 'GAME START');
         }, 5000);
