@@ -32,7 +32,7 @@ describe('Testing Postgres', function() {
     this.timeout(0);
     return User.findOrCreate({where: {
       username: name2
-      // password:hashpass
+      // password: hashpass
     }})
     .then(function(user) {
       return User.isValidPassword(password, user[0].dataValues.id);

@@ -51,7 +51,7 @@ module.exports = function(passport, User) {
           console.log('no user');
           return [false, user];
         } else {
-          foundUser = user[0];
+          foundUser = user;
           return User.isValidPassword(password, user.dataValues.id);
         }
       })
