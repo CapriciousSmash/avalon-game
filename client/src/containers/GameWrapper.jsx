@@ -64,7 +64,6 @@ class GameWrapper extends React.Component {
     return (
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
-        {false ? <Game socket={this.socket}/> : <GameSetting socket={this.socket}/>}
       </div>
     );
   }
