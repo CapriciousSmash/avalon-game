@@ -61,6 +61,11 @@ function deepSearch(id, arr) {
   }
 }
 
+var setting = {
+  merlin: false,
+  assassin: false,
+  capacity: 5
+};
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
@@ -92,6 +97,32 @@ io.on('connection', (socket)=>{
       }
       io.to('capri0sun').emit('lobbyState', lobbyState);
     }
+  });
+
+  socket.on('sendCheckBox', function(value){
+    if (setting[value]) {
+      setting[value] = false;
+    } else {
+      setting[value] = true;
+    }
+    socket.broadcast.emit('updateCharacter', value, setting[value]);
+  });
+
+  socket.on('capacity', function(roomId, value) {
+    memcache[roomId].setCapMax(value);
+    io.emit('updateParty', value);
+  });
+
+  socket.on('updateOnCharacter', function(value){
+    io.emit('updateCharacter', value, setting[value]);
+  });
+
+  socket.on('updateOnParty', function(roomId, value){
+    console.log('roomId',roomId);
+    memcache[roomId].getCapMax().then(function(data){
+      data = data || 5;
+      io.emit('updateParty', data);
+    })
   });
 
   //LOBBY==================================================
@@ -127,6 +158,7 @@ io.on('connection', (socket)=>{
       socket.emit('joinResponse'. false);
     }
   });
+
   socket.on('leaveRoom', function(oldRoomId) {
     io.emit('peerLeft', socket.id.slice(2));
 

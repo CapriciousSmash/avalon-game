@@ -116,3 +116,8 @@ body{
   top: 100px;
   left: 0;
 }
+
+.dropdown-menu > li:hover {
+  background-color: #FFFF00;
+  color: #FFC0CB;
+}
