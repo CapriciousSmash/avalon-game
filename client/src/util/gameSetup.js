@@ -46,6 +46,9 @@ export default function init(usingVR) {
     ASSASSIN: 0x850000,
     defaultColor: 0x00b8ff
   };
+  this.gameState = {
+    currentRound: 1
+  };
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
   const VIEW_ANGLE = 45,

@@ -213,7 +213,16 @@ module.exports = {
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   },
-  addTokens: function(qResult) {
-    
+  addTokens: function(qResult, round, scene) {
+    let imageSrc = 'images/in-game/' + (qResult === 'SUCCESS' ? 'succeeded' : 'failed') + '.jpg';
+    let material = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture(imageSrc)});
+
+    let token = new THREE.Mesh(new THREE.CylinderGeometry(40, 40, 10), material);
+
+    token.position.z = 10;
+    token.position.x = -250 + (round * 35);
+
+    scene.add(token);
+
   }
 };
