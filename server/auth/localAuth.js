@@ -57,7 +57,7 @@ module.exports = function(passport, User) {
         username: username
       }})
       .then(function(user) {
-        console.log('checking username and password for ', user);
+        console.log('checking username and password for ');
         if (!user) {
           console.log('no user');
           return [false, user];
@@ -67,7 +67,7 @@ module.exports = function(passport, User) {
         }
       })
       .then(function(match) {
-        console.log('match', match, 'user', foundUser);
+        console.log('match', match);
         if (match && foundUser) {
           console.log('passwords match');
           return done(null, foundUser);
