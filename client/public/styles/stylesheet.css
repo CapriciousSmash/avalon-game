@@ -207,6 +207,7 @@ form button:hover {
 }
 .settingsContainer input,
 #capacity {
+  color:black;
   float:center;
 }
 .settingLabel{
