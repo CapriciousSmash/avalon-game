@@ -316,6 +316,18 @@ app.get('/game', isLoggedIn, function(req, res, next) {
 
 // serve index.html for rest
 app.get('*',function(req, res) {
+
+  var sessions = req.sessionStore.sessions;
+  console.log('sessions', sessions);
+  var userId;
+  for (var key in sessions) {
+    var uid = JSON.parse(sessions[key])
+    if (uid.passport && uid.passport.user) {
+      userId = uid.passport.user;
+    }
+  }
+  console.log('userId', userId);
+
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
