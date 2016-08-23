@@ -9,8 +9,8 @@ function render() {
 
   // Updates for lighting
   let d = new Date();
-  this.pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
-  this.pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
+  // this.pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
+  // this.pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
 
   // Update camera, controls, and size:
   this.resize()
@@ -173,7 +173,8 @@ export default function init(usingVR) {
 
   // LIGHTS /////////////////////////////////////////
   this.pointLight = new THREE.PointLight(0xFFFFFF);
-  this.pointLight.position.set = (10, 50, 130);
+  // this.pointLight.position.set = (10, 50, 130);
+  this.pointLight.position.set(10, 10, 30);
   this.scene.add(this.pointLight);
   
   this.textureLoader = new THREE.TextureLoader();

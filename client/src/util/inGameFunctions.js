@@ -7,7 +7,7 @@ module.exports = {
 
     let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
-    floor.position.y = -75;
+    floor.position.y = -80;
 
     this.scene.add(floor);
   },
@@ -140,15 +140,15 @@ module.exports = {
   partyButtons: function(voteOnParty) {
     this.addButton(
       'accept', 
-      0xFFFFFF, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/approve.jpg') }, 
       { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -100, posz: 0 }
+      { posx: -50, posy: -50, posz: 0 }
     );
     this.addButton(
       'reject', 
-      0xFF0000, 
+      { color: 0xFF0000 }, 
       { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -100, posz: 0 }
+      { posx: 50, posy: -50, posz: 0 }
     );
 
     //All stages will have signs but not all stages will have buttons
@@ -178,13 +178,13 @@ module.exports = {
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
-      0x0000FF, 
+      {color: 0x0000FF}, 
       { lenx: 35, leny: 80, lenz: 10 }, 
       { posx: -50, posy: -100, posz: 0 }
     );    
     this.addButton(
       'fail', 
-      0xFF0000, 
+      {color: 0xFF0000}, 
       { lenx: 35, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -100, posz: 0 }
     );      

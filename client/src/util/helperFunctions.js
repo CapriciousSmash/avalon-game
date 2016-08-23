@@ -39,9 +39,9 @@ export default {
   },
   // Adds the relevant buttons to the screen to allow users to perform actions appropriate
   // to the game phase
-  addButton: function(name, color, size, position) {
+  addButton: function(name, option, size, position) {
     let geometry = new THREE.BoxGeometry(size.lenx, size.leny, size.lenz);
-    let material = new THREE.MeshBasicMaterial({color});
+    let material = new THREE.MeshPhongMaterial(option);
     let button = new THREE.Mesh(geometry, material);
     button.position.set(position.posx, position.posy, position.posz);
     button.name = name;
