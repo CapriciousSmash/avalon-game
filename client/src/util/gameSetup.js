@@ -202,7 +202,7 @@ export default function init(usingVR) {
     this.camera.getWorldDirection(), 
     this.camera.getWorldPosition(),
     500,
-    0xffff00
+    0x53c670
   );
   this.scene.add(this.oliver);
 
