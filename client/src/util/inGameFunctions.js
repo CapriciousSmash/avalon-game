@@ -171,7 +171,7 @@ module.exports = {
     setTimeout(()=>{
       this.removeObject('approveParty'); 
       this.removeObject('accept');
-      this.removeObject('reject');       
+      this.removeObject('reject');
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   },
@@ -180,16 +180,16 @@ module.exports = {
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/success.jpg') }, 
       { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: -50, posy: -50, posz: 0 }
-    );    
+    );
     this.addButton(
       'fail', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/fail.jpg') }, 
       { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -50, posz: 0 }
-    );      
+    ); 
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
