@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class GameSetting extends React.Component {
   constructor() {
-    super()
+    super();
   }
 
   componentWillMount() {
@@ -34,30 +34,29 @@ export default class GameSetting extends React.Component {
 
   pickPartyMembers(e) {
     var socket = this.props.socket;
-    socket.emit('capacity', this.props.roomNumber, e.target.selectedIndex + 5)
+    socket.emit('capacity', this.props.roomNumber, e.target.selectedIndex + 5);
   }
 
-  click
   render() {
     return (
-      <div>
-        <label>
-          <input type='checkbox' id='merlin' onClick={this.pickSpecialCharacter.bind(this)}></input>
-          {' Merlin '}
-        </label>
-        <label> 
-          <input type='checkbox' id='assassin' onClick={this.pickSpecialCharacter.bind(this)}></input>
-          {' Assassin '}
-        </label>
-        <div className='dropdown'>
-          {'Party Members '}
+      <div className="container settingsContainer">
+        <div className="settingBox">
           <select id='capacity' onChange={this.pickPartyMembers.bind(this)}>
-            {[5,6,7,8,9,10].map(value =>
+            {[5, 6, 7, 8, 9, 10].map(value =>
               <option key={value} value={value}>{value}</option>
             )}
           </select> 
+          <span className="settingLabel">Party Member</span>
+        </div>
+        <div className="settingBox">
+          <input type='checkbox' id='merlin' onClick={this.pickSpecialCharacter.bind(this)}></input>
+          <span className="settingLabel">Merlin</span>
+        </div>
+        <div className="settingBox">
+          <input type='checkbox' id='assassin' onClick={this.pickSpecialCharacter.bind(this)}></input>
+          <span className="settingLabel">Assassin</span>
         </div>
       </div>
-    )
+    );
   }
 }
