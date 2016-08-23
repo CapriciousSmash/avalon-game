@@ -37,7 +37,7 @@ module.exports = {
             partyList: party
           }, roomId);
         // Need party number from data <-------------------------------
-        }, data.partySize);
+        }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
       }
     }, roomId);

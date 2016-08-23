@@ -48,6 +48,20 @@ export default {
 
     this.scene.add(button);
   },
+  addSelf: function(name) {
+    let sphereMaterial = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColor']});
+    let radius = 20,
+        segments = 16,
+        rings = 16;
+    let sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, segments, rings),
+      sphereMaterial);
+
+    sphere.position.set(0,0,0);
+    sphere.name = name;
+
+    this.scene.add(sphere);
+  },
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
   },
