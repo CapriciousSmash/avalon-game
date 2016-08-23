@@ -145,6 +145,6 @@ body {
 @media (min-width: 992px) {
   .masthead,
   .cover-container {
-    width: 700px;
+    width: 1000px;
   }
 }
