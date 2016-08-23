@@ -50,7 +50,8 @@ var chooseParty = function(memcache, socket) {
         socket.emit('chooseParty', {
           gameId: 5318008,
           partySize,
-          currentLeader
+          currentLeader,
+          currentRound
         });
 
         setTimeout(function() {

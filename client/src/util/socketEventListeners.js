@@ -30,6 +30,10 @@ module.exports = {
       console.log('I AM', socket.id, ':', data[socket.id]);
     });
     socket.on('chooseParty', function(data) {
+      // Update gamestate but safeguard against server having issues with memcache. 
+      game.gameState.currentRound = data.currentRound ? 
+        data.currentRound : game.gameState.currentRound;
+        
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
