@@ -291,7 +291,7 @@ app.route('/signup')
     res.render('/signup');
   })
   .post(passport.authenticate('local-signup', {
-    successRedirect: '/main',
+    successRedirect: '/',
     failureRedirect: '/signup'
   }));
 
