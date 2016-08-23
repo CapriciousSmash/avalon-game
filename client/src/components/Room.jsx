@@ -45,10 +45,9 @@ const Lobby = React.createClass ({
     );
   },
   render: function() {
-    console.log(this.props.currentUser.uid, this.state.gm.uid);
     return (
       <div className="inner cover"> 
-        <h1>LOBBY</h1>
+        <h1 className="sectionTitle">[ Waiting Room ]</h1>
         <div className='loading hidden'>
           <div className='row'>
             <div className='bar one-inv'></div>
@@ -70,33 +69,58 @@ const Lobby = React.createClass ({
             <div className='bar seven'></div>   
           </div>
         </div>
-        <div id="playerList" className='text-center'>
+        <div className='container playerList'>
+          <div className='gameMaster'>
           {
             (this.props.currentUser.uid) === this.state.gm.uid ?
-            <div key={ this.state.gm.uid }><h1>GM(me):{ this.state.gm.uid }<button className="btn btn-lg btn-default" onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h1></div> 
+            <div className="player" key={ this.state.gm.uid }>
+              <span className="playerLabel gameMasterLabel currentUser">GM(me):{ this.state.gm.uid }</span>
+              <button className="btn" onClick={ this.readyHandler }>
+                { this.state.ready ? 'Ready' : 'Not Ready' }
+              </button>
+            </div> 
             : 
-            <div key={ this.state.gm.uid }><h2>GM:{ this.state.gm.uid }</h2><p>{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</p></div>
+            <div className="player" key={ this.state.gm.uid }>
+              <span className="playerLabel gameMasterLabel">{ this.state.gm.uid }</span>
+              <span className="readyState">{ this.state.gm.ready ? 'Ready' : 'Not Ready' }</span>
+            </div>
           }  
+          </div>
+          
           {
             this.state.players.map(player => {
               if (player.uid === (this.props.currentUser.uid)) {
                 return (
-                  <div key={ player.uid }>
-                    <h2>-(me){ player.uid }<button onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }</button></h2>
+                  <div className="player" key={ player.uid }>
+                    <span className="playerLabel currentUser">{ player.uid }</span>
+                    <button className="btn" onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }
+                    </button>
                   </div>
                 );
               } else {
                 return (
-                  <div key={ player.uid }>
-                    <h3>-{ player.uid }<p>{ player.ready ? 'Ready' : 'Not Ready' }</p></h3>
+                  <div className="player" key={ player.uid }>
+                    <span className="playerLabel">{ player.uid }</span>
+                    <span className="readyState">{ player.ready ? 'Ready' : 'Not Ready' }</span>
                   </div>
                 );
               }
             }
           )
         }
+        {/*GAME SETTINGS ONLY FOR GAME MASTER*/}
         </div>
-        {this.state.gm.uid ? <GameSetting socket={this.props.socket} gm={this.state.gm.uid} currentUser={this.props.currentUser.uid} roomNumber={this.props.roomNumber}></GameSetting> : <div></div>}
+        {this.state.gm.uid 
+          ? 
+          <GameSetting 
+            socket={this.props.socket}
+            gm={this.state.gm.uid} 
+            currentUser={this.props.currentUser.uid} 
+            roomNumber={this.props.roomNumber}>
+          </GameSetting> 
+          : 
+          <div></div>
+        }
       </div>
     );
   }
