@@ -5,7 +5,7 @@ module.exports = function(passport, User) {
 
   passport.serializeUser(function(user, done) {
     var userId;
-    console.log('serialize user', user);
+    console.log('serialize user');
     if (Array.isArray(user)) {
       userId = user[0].id;
     } else {
@@ -16,7 +16,7 @@ module.exports = function(passport, User) {
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
-    console.log('deserialize');
+    console.log('deserialize user');
     return User.find({where: {
         id: id
       }})
