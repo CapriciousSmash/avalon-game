@@ -53,7 +53,7 @@ export default {
     let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
-    cylinder.position.set(0, -40, 150);
+    cylinder.position.set(0, -40, 225);
     cylinder.name = name;
 
     this.scene.add(cylinder);
