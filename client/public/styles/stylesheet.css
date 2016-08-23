@@ -1,12 +1,16 @@
+/*                                                       */
+/*----------------GENERAL CUSTOM STYLES------------------*/
+/*                                                       */
 .hidden{
   display: none;
 }
 .sectionTitle{
-
+  font-size: 2.5em;
+  font-weight: 300;
 }
 .container{
-  height:500px;
-  width:80%;
+  height: 500px;
+  width: 80%;
   min-width: 300px;
   margin-left: 10%;
   overflow: scroll;
@@ -15,11 +19,15 @@
     0px 200px 400px rgba(3,3,3,0.4) inset;
 }
 
+/*                                                 */
+/*----------------PER PAGE STYLES------------------*/
+/*                                                 */
+
 /*           */
 /*GAME CANVAS*/
 /*           */
 #gameContainer{
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
@@ -32,8 +40,8 @@
   color: #999; /* IE8 proofing */
   color: rgb(34, 71, 88);
   letter-spacing: 3px;
-  position:fixed;
-  bottom:10px;
+  position: fixed;
+  bottom: 10px;
   width: 100%;
   margin: 0 auto;
 }
@@ -53,13 +61,13 @@ form input {
 }
 form button {
   color: #000;
-  height:50px;
-  width:200px;
+  height: 45px;
+  width: 200px;
   font-size:2em;
   font-weight: 200;
   letter-spacing: 3px;
   background-color: rgba(255,255,255,0.6);
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 form button:hover {
   background-color: rgba(255,255,255,0.8);
@@ -70,13 +78,13 @@ form button:hover {
 /*PLAY*/
 /*    */
 .playButton {
-  height:80px;
-  width:200px;
-  font-size:2em;
+  height: 80px;
+  width: 200px;
+  font-size: 2em;
   font-weight: 200;
   letter-spacing: 3px;
   background-color: rgba(255,255,255,0.6);
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 .playButton:hover {
   background-color: rgba(255,255,255,0.8);
@@ -92,9 +100,6 @@ form button:hover {
   border-bottom: 1px solid rgba(255,255,255,0.2);
   height:60px;
   margin-top: 10px;
-/*  box-shadow: 
-    10px 0px 20px rgba(3,3,3,0.2) inset,
-    -10px 0px 20px rgba(3,3,3,0.2) inset;*/
 }
 .lobbyRoom:first-child{
   margin-top: 0;
@@ -154,10 +159,6 @@ form button:hover {
   height:10px;
 }
 .one{
-/*   animation-name: moving;
-  animation-duration:5s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite; */
   animation: moving 1s ease-in-out 0s infinite;  
 }
 .two{
