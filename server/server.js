@@ -302,3 +302,7 @@ app.get('/logout', function(req, res) {
   req.session.destroy();
   res.redirect('/');
 });
+
+app.get('/profile', function(req, res) {
+  // return information based on who's logged in
+});
