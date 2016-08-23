@@ -7,7 +7,7 @@ const Landing = (props) => {
     <div className="inner cover">
       <h2 className="cover-heading">Welcome!</h2>
       <div>
-        <p>Join us on an adventure with your friends. Mischeif and alliances made. Who knows.</p>
+        <p>Join us on an adventure with your friends. Alliances will be made and broken. Who knows what will happen...</p>
       </div>
     </div>
   );

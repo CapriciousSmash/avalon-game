@@ -26,7 +26,7 @@ const GameCardsNTokens = (props) => {
 const GameRules = (props) => {
   return (
   	<div>
-  	  <h1>Game Rules</h1>
+  	  <h1 className="sectionTitle">Game Rules</h1>
   	  <GameObjective />
   	</div>
   );
