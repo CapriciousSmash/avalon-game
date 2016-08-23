@@ -71,10 +71,11 @@ function isLoggedIn(req, res, next) {
   console.log(log);
   if (log) {
     console.log('success');
-    return next();
+    return true;//next();
   }
   console.log('failure');
-  res.redirect('/signin');
+  return false;
+  // res.redirect('/signin');
 }
 
 var setting = {
@@ -300,8 +301,4 @@ app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');
-});
-
-app.get('/main', isLoggedIn, function(req, res) {
-  res.render('/main');
 });
