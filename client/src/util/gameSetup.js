@@ -19,6 +19,7 @@ function render() {
 
   this.intersect();
 
+  this.oliver.setDirection(this.camera.getWorldDirection());
   // Render stereo or normal effect based on whether user chose VR experience
   if (this.usingVR) {
     this.stereoEffect.render(this.scene, this.camera);
@@ -26,8 +27,6 @@ function render() {
   } else {
     this.renderer.render(this.scene, this.camera);
   }
-
-  this.oliver.setDirection(this.camera.getWorldDirection());
 
   // TODO: Considerations for optimization: Find a way to cut off player positioning
   // after the players are already correctly positioned
@@ -88,6 +87,7 @@ export default function init(usingVR) {
   // Init scene
   this.scene = new THREE.Scene();
 
+
   // Init renderer
   this.renderer = new THREE.WebGLRenderer();
   this.renderer.setSize(this.WIDTH, this.HEIGHT);
@@ -101,15 +101,18 @@ export default function init(usingVR) {
   // WebGLRenderer. 
   this.stereoEffect = this.usingVR ? new StereoEffect(this.renderer) : null;
 
+  this.createFloor(this.scene);
   //CAMERA AND VISUAL CONTROLS //////////////////
 
   // Init camera
   this.camera = new THREE.PerspectiveCamera(
       VIEW_ANGLE, ASPECT, NEAR, FAR
     );
+
   this.camera.position.x = 0;
   this.camera.position.y = 0;
-  this.camera.position.z = 250;
+  this.camera.position.z = 400;
+
   this.camera.lookAt(new THREE.Vector3(0, 0, 0));
   this.scene.add(this.camera);
 

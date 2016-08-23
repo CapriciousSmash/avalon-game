@@ -1,4 +1,16 @@
 module.exports = {
+  createFloor: function() {
+    let floorMaterial = new THREE.MeshStandardMaterial(
+      {color: 0xff8011});
+
+    let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
+
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+
+    floor.position.y = -75;
+
+    this.scene.add(floor);
+  },
   // Addition of all players at the beginning of the game
   // Expects an array of objects with uid and color property
   addAllPlayers: function(players, selfId) {
@@ -61,6 +73,14 @@ module.exports = {
     let sphere = new THREE.Mesh(
       new THREE.SphereGeometry(radius, segments, rings),
       sphereMaterial);
+
+    let body = new THREE.Mesh(
+      new THREE.BoxGeometry(35, 65, 35),
+      sphereMaterial);
+
+    body.position.x = 0;
+    body.position.y = -50;
+    sphere.add(body);
 
     sphere.name = uid;
     sphere.position.x = 0;
