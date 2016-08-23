@@ -117,10 +117,13 @@ module.exports = {
     }, 5000);
   },
   // Allows the party leader to pick a party. 
-  pickParty: function(sendPickedParty, partyNumber) {
+  pickParty: function(sendPickedParty, partyNumber, name) {
     let pidsList = this.players.map(player => {
       return player.uid;
     });
+    pidsList.push(name);
+    console.log('name of user and pidslist',name, pidsList, this.players);
+    this.addSelf(name);
     if (this.usingVR) {
       this.addVRPressEventListener('pickParty', partyNumber, sendPickedParty, {choices: pidsList});
     } else {
@@ -128,7 +131,8 @@ module.exports = {
     }
 
     setTimeout(()=>{
-      //Remove sign and click event listener if no choice made      
+      //Remove sign and click event listener if no choice made
+      this.removeObject(name);     
       this.removeObject('pickParty');
       this.removeClickEventListener();
     }, 30000);

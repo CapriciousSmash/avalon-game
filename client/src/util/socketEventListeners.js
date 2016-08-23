@@ -37,11 +37,12 @@ module.exports = {
             partyList: party
           }, roomId);
         // Need party number from data <-------------------------------
-        }, data.partySize);
+        }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
       }
-    }, roomId);
+    }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
+      game.removeObject(socket.id)
       console.log('Data I got from resolveParty', data);
     });
     socket.on('startVote', function(data) {

@@ -18,6 +18,7 @@ export default {
   intersect: helper.intersect,
   addSign: helper.addSign,
   addButton: helper.addButton,
+  addSelf: helper.addSelf,
   removeObject: helper.removeObject,
   addClickEventListener: helper.addClickEventListener,
   removeClickEventListener: helper.removeClickEventListener,
