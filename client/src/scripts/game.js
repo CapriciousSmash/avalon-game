@@ -26,6 +26,7 @@ export default {
   positionPlayers: helper.positionPlayers,
 
   // In-game functions
+  createFloor: inGame.createFloor,
   addAllPlayers: inGame.addAllPlayers,
   addPlayer: inGame.addPlayer,
   addAllPlayers: inGame.addAllPlayers,

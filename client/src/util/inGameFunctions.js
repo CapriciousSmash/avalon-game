@@ -1,4 +1,16 @@
 module.exports = {
+  createFloor: function() {
+    let floorMaterial = new THREE.MeshPhongMaterial(
+      { map: THREE.ImageUtils.loadTexture('images/in-game/avalon-board.jpg') });
+
+    let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
+
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+
+    floor.position.y = -80;
+
+    this.scene.add(floor);
+  },
   // Addition of all players at the beginning of the game
   // Expects an array of objects with uid and color property
   addAllPlayers: function(players, selfId) {
@@ -26,8 +38,6 @@ module.exports = {
     let playersWithPositions = this.setCircleCoordinates(renderOrder, 250);
 
     console.log('playersWithPositions', playersWithPositions);
-
-
 
     for (let y = 0; y < playersWithPositions.length; y++) {
       console.log('circle pos inside playersWithPositions', playersWithPositions[y].pos);
@@ -61,6 +71,14 @@ module.exports = {
     let sphere = new THREE.Mesh(
       new THREE.SphereGeometry(radius, segments, rings),
       sphereMaterial);
+
+    let body = new THREE.Mesh(
+      new THREE.BoxGeometry(35, 65, 35),
+      sphereMaterial);
+
+    body.position.x = 0;
+    body.position.y = -50;
+    sphere.add(body);
 
     sphere.name = uid;
     sphere.position.x = 0;
@@ -120,15 +138,15 @@ module.exports = {
   partyButtons: function(voteOnParty) {
     this.addButton(
       'accept', 
-      0xFFFFFF, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -100, posz: 0 }
+      { map: THREE.ImageUtils.loadTexture('images/in-game/approve.jpg') }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -50, posz: 0 }
     );
     this.addButton(
       'reject', 
-      0xFF0000, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -100, posz: 0 }
+      { map: THREE.ImageUtils.loadTexture('images/in-game/reject.jpg') }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -50, posz: 0 }
     );
 
     //All stages will have signs but not all stages will have buttons
@@ -158,15 +176,15 @@ module.exports = {
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
-      0x0000FF, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -100, posz: 0 }
+      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -50, posz: 0 }
     );    
     this.addButton(
       'fail', 
-      0xFF0000, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -100, posz: 0 }
+      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -50, posz: 0 }
     );      
 
     //All stages will have signs but not all stages will have buttons
