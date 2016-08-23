@@ -19,11 +19,9 @@ a:hover {
   border: 1px solid #fff;
 }
 
-
 /*
  * Base structure
  */
-
 html,
 body {
   height: 100%;
@@ -127,7 +125,6 @@ body {
 /*
  * Affix and center
  */
-
 @media (min-width: 768px) {
   /* Pull out the header and footer */
   .masthead {
@@ -150,17 +147,4 @@ body {
   .cover-container {
     width: 700px;
   }
-}
-
-input {
-  color: #000;
-}
-
-button {
-  color: #000;
-  margin-top: 10px;
-}
-
-.loginsignup {
-  display: inline;
 }
