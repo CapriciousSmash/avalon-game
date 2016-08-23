@@ -284,7 +284,7 @@ app.route('/signin')
   })
   .post(passport.authenticate('local-login', {
     successRedirect: '/',
-    failureRedirect: '/signup'
+    failureRedirect: '/signin'
   }));
 
 app.route('/signup')
@@ -293,7 +293,7 @@ app.route('/signup')
   })
   .post(passport.authenticate('local-signup', {
     successRedirect: '/',
-    failureRedirect: '/signup'
+    failureRedirect: '/signin'
   }));
 
 app.get('/logout', function(req, res) {
