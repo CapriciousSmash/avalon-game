@@ -280,20 +280,12 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
-app.route('/signin')
-  .get(function(req, res) {
-    res.render('signin');
-  })
-  .post(passport.authenticate('local-login', {
+app.post('/signin', passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/signin'
   }));
 
-app.route('/signup')
-  .get((req, res) => {
-    res.render('/signup');
-  })
-  .post(passport.authenticate('local-signup', {
+app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/',
     failureRedirect: '/signin'
   }));

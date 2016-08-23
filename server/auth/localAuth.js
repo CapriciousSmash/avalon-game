@@ -4,14 +4,14 @@ var LocalStrategy = require('passport-local');
 module.exports = function(passport, User) {
 
   passport.serializeUser(function(user, done) {
-    var userId;
+    var uid;
     console.log('serialize user');
     if (Array.isArray(user)) {
-      userId = user[0].id;
+      uid = user[0].id;
     } else {
-      userId = user.id;
+      uid = user.id;
     }
-    return done(null, userId);
+    return done(null, uid);
   });
 
   // used to deserialize the user
