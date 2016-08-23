@@ -50,6 +50,7 @@
 /*LOGIN/SIGNUP*/
 /*            */
 .loginSignupContainer{
+  height:550px;
   padding: 5% 5%;
 }
 form label {
