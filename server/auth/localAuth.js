@@ -28,7 +28,7 @@ module.exports = function(passport, User) {
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
-  }, function(username, password, done) {
+  }, function(req, username, password, done) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
       User.findOrCreate({where: {
