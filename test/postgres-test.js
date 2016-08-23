@@ -3,14 +3,14 @@ var User = require('../server/db/sequelize.js').User;
 var sequelize = require('../server/db/sequelize.js').sequelize;
 var userHelpers = require('../server/db/controller/index.js');
 var Promise = require('bluebird');
-require('dotenv').config();
+require('dotenv').config({silent: true});
 
 describe('Testing Postgres', function() {
   // outline what to add to make sure to remove it
   var name = 'testOtron';
   var name2 = 'tron0test';
   var password = '123456';
-  var hashpass;// = User.generateHash(password);
+  var hashpass; // = User.generateHash(password);
   var games, score;
 
   it('should add user', function() {

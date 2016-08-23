@@ -1,9 +1,9 @@
 var expect = require('chai').expect;
 var Promise = require('bluebird');
-require('dotenv').config();
+require('dotenv').config({silent: true});
 
 describe('Testing redis', function() {
-  var redisDb = require('../server/db/redis.js')
+  var redisDb = require('../server/db/redis.js');
   var testPids = ['1', '2', '3', '4', '5'];
   var testGid = 15;
   var testCache;
@@ -203,8 +203,8 @@ describe('Testing redis', function() {
       .then(function() {
         return testCache.setRole(4, 'knight');
       })
-      then(function() {
-        return testCache.setRole(5, 'minion')
+      .then(function() {
+        return testCache.setRole(5, 'minion');
       })
       .then(function() {
         return testCache.getKnights();
@@ -434,7 +434,7 @@ describe('Testing redis', function() {
           false: 0
         };
 
-        for(var i = 0; i < res.length; i++) {
+        for (var i = 0; i < res.length; i++) {
           numResults[res[i]]++;
         }
 
