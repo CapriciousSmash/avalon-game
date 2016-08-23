@@ -209,6 +209,9 @@ form button:hover {
 #capacity {
   float:center;
 }
+.settingContainer input{
+  color:black;
+}
 .settingLabel{
   min-width: 100px;
   width:70%;
