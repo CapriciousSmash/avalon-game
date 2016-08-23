@@ -121,6 +121,7 @@ module.exports = {
     let pidsList = this.players.map(player => {
       return player.uid;
     });
+    pidsList.push(name);
     console.log('name of user and pidslist',name, pidsList, this.players);
     this.addSelf(name);
     if (this.usingVR) {

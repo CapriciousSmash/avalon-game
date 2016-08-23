@@ -49,18 +49,14 @@ export default {
     this.scene.add(button);
   },
   addSelf: function(name) {
-    let sphereMaterial = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColor']});
-    let radius = 20,
-        segments = 16,
-        rings = 16;
-    let sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(radius, segments, rings),
-      sphereMaterial);
+    let geometry = new THREE.CylinderGeometry( 0, 10, 20, 64 );
+    let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
+    let cylinder = new THREE.Mesh(geometry, material);
 
-    sphere.position.set(0,0,0);
-    sphere.name = name;
+    cylinder.position.set(0, 30, 0);
+    cylinder.name = name;
 
-    this.scene.add(sphere);
+    this.scene.add(cylinder);
   },
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
