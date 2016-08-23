@@ -10,6 +10,7 @@ var shortid = require('shortid');
 var passportLocal = require('./auth/localAuth.js');
 var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');
+var pgHelp = require('./db/controller/index.js');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -305,4 +306,6 @@ app.get('/logout', function(req, res) {
 
 app.get('/profile', function(req, res) {
   // return information based on who's logged in
+  var id;
+  pgHelp.getScore(id);
 });
