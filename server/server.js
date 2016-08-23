@@ -72,7 +72,7 @@ function isLoggedIn(req, res, next) {
   console.log(log);
   if (log) {
     console.log('success');
-    return next();
+    return true;//next();
   }
   console.log('failure');
   return res.redirect('/signin');
@@ -329,3 +329,11 @@ app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect: '/signin'
   }));
 
+<<<<<<< 0fb0a2c19247fc5fe4d805111412923841992a34
+=======
+app.get('/logout', function(req, res) {
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+});
+>>>>>>> Remove page request handler as it doesn't work with React
