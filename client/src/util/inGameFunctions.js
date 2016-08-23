@@ -39,8 +39,6 @@ module.exports = {
 
     console.log('playersWithPositions', playersWithPositions);
 
-
-
     for (let y = 0; y < playersWithPositions.length; y++) {
       console.log('circle pos inside playersWithPositions', playersWithPositions[y].pos);
       this.addPlayer(
@@ -146,7 +144,7 @@ module.exports = {
     );
     this.addButton(
       'reject', 
-      { color: 0xFF0000 }, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/reject.jpg') }, 
       { lenx: 35, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -50, posz: 0 }
     );
@@ -178,13 +176,13 @@ module.exports = {
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
-      {color: 0x0000FF}, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
       { lenx: 35, leny: 80, lenz: 10 }, 
       { posx: -50, posy: -100, posz: 0 }
     );    
     this.addButton(
       'fail', 
-      {color: 0xFF0000}, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
       { lenx: 35, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -100, posz: 0 }
     );      
