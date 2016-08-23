@@ -32,17 +32,6 @@ function render() {
   // after the players are already correctly positioned
   this.positionPlayers(this.players, this.scene);
 
-  // Corrently position the players based on the number of current players 
-  // let numPlayers = this.players.length;
-  // for (let x = 0; x < numPlayers; x++) {
-  //   let playerObj = this.scene.getObjectByName(this.players[x].uid);
-  //   if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-  //     playerObj.position.x -= 2;
-  //   } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-  //     playerObj.position.x += 2;
-  //   }
-  // }
-
   // Commenting out this code as it interferes with the new camera orbit system
   // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
   // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;

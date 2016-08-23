@@ -212,5 +212,8 @@ module.exports = {
       this.removeObject('fail');        
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
+  },
+  addTokens: function(qResult) {
+    
   }
 };
