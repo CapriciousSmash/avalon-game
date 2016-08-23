@@ -8,10 +8,13 @@
   <script src="//threejs.org/examples/js/loaders/TGALoader.js"></script>
   <script src="https://simplewebrtc.com/latest-v2.js"></script> 
 </head>
-<body>
+<body class='preload'>
+  <!-- <div class='preload'></div> -->
+
   <div class="site-wrapper">
     <div class="site-wrapper-inner" id="app"></div>
   </div>
+  <div class="babyFeet"> Made with &#9829; Capricious Smush</div>
 
   <!-- FONT -->
   <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
@@ -30,5 +33,20 @@
   <!-- CUSTOM CSS -->
   <link href="./styles/stylesheet.css" rel="stylesheet">
   <link href="./styles/cover.css" rel="stylesheet"> 
+
+  <script type='text/javascript'>
+    $(document).ready(function() {
+      //var url = 'http://www.nscblog.com/wp-content/uploads/2014/04/birds-314989.jpg';
+      var url = '../images/landing.jpeg';
+      var img = new Image();
+      img.onload = function() {
+        $('.preload').css({
+          'background': 'url(' + url + ') no-repeat center center fixed', 
+          'background-size' : 'cover'});
+        $('.preload').fadeIn(1500, 'swing');
+      };
+      img.src = url;
+    });
+  </script>
 </body>
 </html>

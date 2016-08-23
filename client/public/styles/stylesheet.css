@@ -1,11 +1,142 @@
-body{
-  margin:0;
-}
+/*                                                       */
+/*----------------GENERAL CUSTOM STYLES------------------*/
+/*                                                       */
 .hidden{
   display: none;
 }
+.sectionTitle{
+  font-size: 2.5em;
+  font-weight: 300;
+}
+.container{
+  height: 500px;
+  width: 80%;
+  min-width: 300px;
+  margin-left: 10%;
+  overflow: auto;
+  /*background-color: rgba(3,3,3,0.5);*/
+  box-shadow: 
+    0px 200px 400px rgba(3,3,3,0.4) inset;
+}
 
+/*                                                 */
+/*----------------PER PAGE STYLES------------------*/
+/*                                                 */
+
+/*           */
+/*GAME CANVAS*/
+/*           */
+#gameContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/*      */
+/*FOOTER*/
+/*      */
+.babyFeet {
+  color: #999; /* IE8 proofing */
+  color: rgb(34, 71, 88);
+  letter-spacing: 3px;
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/*            */
+/*LOGIN/SIGNUP*/
+/*            */
+.loginSignupContainer{
+  height:550px;
+  padding: 5% 5%;
+}
+form label {
+  font-weight: 300;
+  letter-spacing: 3px;
+}
+form input {
+  color: #000;
+}
+form button {
+  color: #000;
+  height: 45px;
+  width: 200px;
+  font-size:2em;
+  font-weight: 200;
+  letter-spacing: 3px;
+  background-color: rgba(255,255,255,0.6);
+  transition: all 0.5s ease;
+}
+form button:hover {
+  background-color: rgba(255,255,255,0.8);
+}
+
+
+/*    */
+/*PLAY*/
+/*    */
+.playButton {
+  height: 80px;
+  width: 200px;
+  font-size: 2em;
+  font-weight: 200;
+  letter-spacing: 3px;
+  background-color: rgba(255,255,255,0.6);
+  transition: all 0.5s ease;
+}
+.playButton:hover {
+  background-color: rgba(255,255,255,0.8);
+}
+
+/*      */
+/*LOBBY */
+/*      */
+.lobbyRoomContainer{
+  padding: 5% 7%;
+}
+.lobbyRoom{
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  height:60px;
+  margin-top: 10px;
+}
+.lobbyRoom:first-child{
+  margin-top: 0;
+}
+.lobbyRoom:last-child{
+  border: none;
+}
+/*does not work with ie8
+.lobbyRoom:not(:first-child){
+  margin-top:20px;
+}
+*/
+.lobbyRoomLabel{
+  color: rgba(255,255,255,0.8);
+  font-size: 1.25em;
+  letter-spacing: 5px;
+  line-height:50px;
+  float:left; 
+}
+.lobbyRoom button{
+  background-color:rgba(255,255,255,0.3);
+  color:rgba(255,255,255,0.8);
+  width:30%;
+  float:right;
+  transition: all 0.4s ease;
+  letter-spacing: 3px;
+  margin-top:7.5px;
+}
+.lobbyRoom button:hover{
+  background-color:rgba(255,255,255,0.5);
+}
+
+
+/*            */
 /*LOADING PAGE*/
+/*            */
 .loading{
   background-color:black;
   height:120px;
@@ -29,10 +160,6 @@ body{
   height:10px;
 }
 .one{
-/*   animation-name: moving;
-  animation-duration:5s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite; */
   animation: moving 1s ease-in-out 0s infinite;  
 }
 .two{
@@ -109,15 +236,4 @@ body{
     margin-top:40px;    
     height:10px;            
   }
-}
-
-#gameContainer{
-  position:absolute;
-  top: 0;
-  left: 0;
-}
-
-.dropdown-menu > li:hover {
-  background-color: #FFFF00;
-  color: #FFC0CB;
 }

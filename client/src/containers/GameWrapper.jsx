@@ -48,9 +48,12 @@ class GameWrapper extends React.Component {
       this.props.roomNumber ?  
         <Room socket={this.socket} />
         : 
-        (<div className='lobbyRoomContainer'>
-          {[1,2,3,4].map(roomNumber => 
-            <button className='lobbyRoom' key={roomNumber} onClick={this.onClick.bind(this)} value={roomNumber}>Lobby Room {roomNumber}</button>
+        (<div className='container lobbyRoomContainer'>
+          {[1, 2, 3, 4].map(roomNumber => 
+            <div className='lobbyRoom' >
+              <span className='lobbyRoomLabel'>Room {roomNumber}</span>
+              <button className='btn' key={roomNumber} onClick={this.onClick.bind(this)} value={roomNumber}>Join</button>
+            </div>
           )}
           </div>
         );

@@ -14,7 +14,7 @@ class NavBar extends React.Component {
       return (
         <ul className="nav masthead-nav">
           <li>
-            <Link to='main'>Stats</Link>
+            <Link to='play'>Play</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
@@ -28,7 +28,7 @@ class NavBar extends React.Component {
       return (
         <ul className="nav masthead-nav"> 
           <li>
-            <Link to='main'>Stats</Link>
+            <Link to='play'>Play</Link>
           </li>
           <li>
             <Link to='gameinfo'>Game Info</Link>
@@ -45,7 +45,7 @@ class NavBar extends React.Component {
     return (
       <div className="masthead clearfix">
         <div className="inner">
-          <h3 className="masthead-brand"><Link to='main'>Avalon</Link></h3>
+          <h3 className="masthead-brand"><Link to='/'>Avalon</Link></h3>
           <nav>
             <div>
               {this.isAuthenticated()}
