@@ -29,6 +29,7 @@ function render() {
   // TODO: Considerations for optimization: Find a way to cut off player positioning
   // after the players are already correctly positioned
   this.positionPlayers(this.players, this.scene);
+
 }
 
 export default function init(usingVR) {
