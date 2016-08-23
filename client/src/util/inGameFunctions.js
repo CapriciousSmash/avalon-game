@@ -1,7 +1,7 @@
 module.exports = {
   createFloor: function() {
-    let floorMaterial = new THREE.MeshStandardMaterial(
-      {color: 0xff8011});
+    let floorMaterial = new THREE.MeshPhongMaterial(
+      { map: THREE.ImageUtils.loadTexture('images/in-game/avalon-board.jpg') });
 
     let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
 
@@ -139,13 +139,13 @@ module.exports = {
     this.addButton(
       'accept', 
       { map: THREE.ImageUtils.loadTexture('images/in-game/approve.jpg') }, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: -50, posy: -50, posz: 0 }
     );
     this.addButton(
       'reject', 
       { map: THREE.ImageUtils.loadTexture('images/in-game/reject.jpg') }, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
+      { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -50, posz: 0 }
     );
 
@@ -177,14 +177,14 @@ module.exports = {
     this.addButton(
       'success', 
       { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -100, posz: 0 }
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: -50, posy: -50, posz: 0 }
     );    
     this.addButton(
       'fail', 
       { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
-      { lenx: 35, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -100, posz: 0 }
+      { lenx: 45, leny: 80, lenz: 10 }, 
+      { posx: 50, posy: -50, posz: 0 }
     );      
 
     //All stages will have signs but not all stages will have buttons
