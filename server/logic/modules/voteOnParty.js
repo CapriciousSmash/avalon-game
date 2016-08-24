@@ -5,7 +5,6 @@ var chooseParty = require('./chooseParty').chooseParty;
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket, chooseParty) {
   console.log('voting on party');
-  console.log('voteOnParty chooseParty log: ', typeof chooseParty);
   memcache.setTurnPhase('VOTE');
 
   memcache.getTeam().then(function(partyMembers) {
@@ -28,6 +27,7 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
 
   // Check game Phase, if current phase is not 'VOTE' then fizzle
   memcache.getTurnPhase().then(function(gamePhase) {
+    console.log('current game phase: ', gamePhase);
     if (gamePhase !== 'VOTE') {
       console.log('game phase not VOTE, fizzling -- ', gamePhase);
       return;

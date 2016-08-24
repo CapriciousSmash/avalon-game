@@ -35,9 +35,9 @@ var resolveQuest = function(memcache, socket, chooseParty) {
   var gamePhase;
   memcache.getTurnPhase().then(function(phase) {
     gamePhase = phase;
+    console.log('gamePhase is ', gamePhase);
     // If the current game phase isn't 'QUEST', fizzle
     if (gamePhase !== 'QUEST' && gamePhase !== null) {
-      console.log('gamePhase is ', gamePhase);
       console.log('gamePhase not QUEST, fizzling');
       return;
     }
@@ -85,6 +85,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
       memcache.getQuestResult()
     .then(function(results) {
       playerVotes = results.slice();
+      console.log('Player votes in resolve quest: ', playerVotes);
       for (var i = 0; i < playerVotes.length; i++) {
         if (playerVotes[i] === true) {
           successVotes++;
@@ -92,6 +93,9 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           failureVotes++;
         }
       }
+      console.log('Quest results locked in.');
+      console.log('Quest success votes: ', successVotes);
+      console.log('Quest failure votes: ', failureVotes);
       requiredVotesToFail = currentQuest === 4 && totalPlayers >= 7 ? 2 : 1;
       questSucceeded = failureVotes < requiredVotesToFail ? true : false;
       if (questSucceeded) {
@@ -116,7 +120,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
 
         } else /* Less than 3 quests succeeded */ {
           // TODO: Increase the total number of successes in memcache
-
+          memcache.incrWin();
           // TODO: Set timer for chooseParty
           setTimeout(function() {
             console.log('calling chooseParty by estTimeout from resolveQuest');
@@ -144,7 +148,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           }, 5000);
         } else /* Less than 3 quests have failed */ {
           // TODO: Increase total number of failures in memcache
-
+          memcache.incrLoss();
           // TODO: Set timer for chooseParty
           setTimeout(function() {
             console.log('calling chooseParty by estTimeout from resolveQuest');
