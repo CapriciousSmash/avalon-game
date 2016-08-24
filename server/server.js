@@ -316,18 +316,6 @@ app.get('/game', isLoggedIn, function(req, res, next) {
 
 // serve index.html for rest
 app.get('*',function(req, res) {
-
-  var sessions = req.sessionStore.sessions;
-  console.log('sessions', sessions);
-  var userId;
-  for (var key in sessions) {
-    var uid = JSON.parse(sessions[key])
-    if (uid.passport && uid.passport.user) {
-      userId = uid.passport.user;
-    }
-  }
-  console.log('userId', userId);
-
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
@@ -341,11 +329,8 @@ app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect: '/signin'
   }));
 
-<<<<<<< 0fb0a2c19247fc5fe4d805111412923841992a34
-=======
 app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');
 });
->>>>>>> Remove page request handler as it doesn't work with React
