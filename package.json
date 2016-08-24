@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "prod:buildclient": "npm install && webpack",
-    "build": "webpack",
     "test": "mocha test/index.js --bail -R nyan",
-    "postinstall": "npm install && webpack"
+    "build:dev": "webpack --watch -d",
+    "build:prod": "webpack",
+    "postinstall": "npm run build:prod"
   },
   "repository": {
     "type": "git",
