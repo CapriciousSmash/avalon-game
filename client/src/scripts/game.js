@@ -26,6 +26,7 @@ export default {
   resolveQuest: helper.resolveQuest,
   setCircleCoordinates: helper.setCircleCoordinates,
   positionPlayers: helper.positionPlayers,
+  resetPlayers: helper.resetPlayers,
 
   // In-game functions
   createFloor: inGame.createFloor,

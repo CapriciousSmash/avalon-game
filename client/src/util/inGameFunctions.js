@@ -1,15 +1,17 @@
 module.exports = {
   createFloor: function() {
-    let floorMaterial = new THREE.MeshPhongMaterial(
-      { map: THREE.ImageUtils.loadTexture('images/in-game/avalon-board.jpg') });
 
-    let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
+    new THREE.TextureLoader().load('images/in-game/avalon-board.jpg', (floorTexture) => {
+      let floorMaterial = new THREE.MeshPhongMaterial({ map: floorTexture });
+      let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
 
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+      let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
-    floor.position.y = -80;
+      floor.position.y = -80;
 
-    this.scene.add(floor);
+      this.scene.add(floor);
+    });
+
   },
   // Addition of all players at the beginning of the game
   // Expects an array of objects with uid and color property
@@ -145,18 +147,26 @@ module.exports = {
   // TODO: Pending field test to determine whether the buttons are well placed
   // at these new coordinates. 
   partyButtons: function(voteOnParty) {
-    this.addButton(
-      'accept', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/approve.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -50, posz: 0 }
-    );
-    this.addButton(
-      'reject', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/reject.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -50, posz: 0 }
-    );
+    let textureLoader = new THREE.TextureLoader();
+
+    textureLoader.load('images/in-game/approve.jpg', (approveTexture) => {
+      this.addButton(
+        'accept', 
+        { map: approveTexture }, 
+        { lenx: 45, leny: 80, lenz: 10 }, 
+        { posx: -50, posy: -50, posz: 0 }
+      );
+
+      textureLoader.load('images/in-game/reject.jpg', (rejectTexture) => {
+        this.addButton(
+          'reject', 
+          { map: rejectTexture }, 
+          { lenx: 45, leny: 80, lenz: 10 }, 
+          { posx: 50, posy: -50, posz: 0 }
+        );
+      });
+      
+    });
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
