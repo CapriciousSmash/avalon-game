@@ -9,10 +9,11 @@ module.exports = {
       id: id
     }})
     .then(function(user) {
+      var username = user.username;
       var points = user.points;
       var games = user.games;
 
-      return [points, games].slice();
+      return [username, points, games].slice();
     });
   },
   increaseScore: function(id) {
