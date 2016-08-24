@@ -109,7 +109,9 @@ export default {
 
   },
   resolveQuest: function(result, successVotes, failVotes) {
-
+    if (result === 'success') {
+      this.addSign()
+    }
   },
   // Takes a list of players and sets them into a circle formation. 
   // Returns the same list of players with coordinate property added
