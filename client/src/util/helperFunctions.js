@@ -114,7 +114,6 @@ export default {
     let displayY = 10;
     let displayZ = 0;
 
-
   },
   // Takes a list of players and sets them into a circle formation. 
   // Returns the same list of players with coordinate property added
