@@ -40,7 +40,6 @@ module.exports = {
           socket.emit('pickParty', {
             partyList: party
           }, roomId);
-        // Need party number from data <-------------------------------
         }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
       }
@@ -48,6 +47,7 @@ module.exports = {
     socket.on('resolveParty', function(data) {
       game.removeObject(socket.id)
       console.log('Data I got from resolveParty', data);
+      game.resetPlayers(game.players, game.scene);
     });
     socket.on('startVote', function(data) {
       game.partyButtons(voteOnParty => {
