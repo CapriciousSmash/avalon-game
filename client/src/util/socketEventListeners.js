@@ -3,23 +3,14 @@ import game from '../scripts/game';
 module.exports = {
   gameInit: function(socket) {
     game.init();
-    //Add all the people in the game to canvas
-    var conn = {};
+    //Show user
+    $('#gameUserInfoContainer .userName').text( socket.id );
 
+    //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
-      // Original code, kept in comments while testing new code
-      // for (let p in players) {
-      //   game.addPlayer(players[p].uid, players[p].color);
-      // }
       game.addAllPlayers(players, socket.id);
     });
 
-    // peer.on('connection', function(conn){
-    //   conn.on('data', function(data){
-    //     console.log('(new)Received some greetings:', data);
-    //   });
-    //   conn.send('Hey gramps!');
-    // });
     socket.on('peerLeft', function(uid) {
       game.removePlayer(uid);
     });
@@ -28,6 +19,9 @@ module.exports = {
     socket.on('assignRoles', function(data) {
       game.assignRoles(data, socket.id, data[socket.id]);
       console.log('I AM', socket.id, ':', data[socket.id]);
+      //Append div on top of canvas to show user's role
+      //Did this to reduce amount of objects in canvas that is needed to be rendered
+      $('#gameUserInfoContainer .role').text( data[socket.id] );
     });
     socket.on('chooseParty', function(data) {
       // Update gamestate but safeguard against server having issues with memcache. 
@@ -45,7 +39,7 @@ module.exports = {
       }
     }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
-      game.removeObject(socket.id)
+      game.removeObject(socket.id);
       console.log('Data I got from resolveParty', data);
       game.resetPlayers(game.players, game.scene);
     });
@@ -62,7 +56,7 @@ module.exports = {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
-      if(data.partyMembers.includes(socket.id)) {
+      if (data.partyMembers.includes(socket.id)) {
         game.questButtons(voteOnQuest => {
           socket.emit('voteOnQuest', {
             playerId: socket.id,

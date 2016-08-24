@@ -17,7 +17,6 @@ module.exports = {
     // Create the order by adding everyone up to the selfId on the players
     // list to the end of the render order and everyone after the selfId
     // is found to the beginning of the render order
-    console.log('adding playaplaya', players);
     let renderOrderLeft = [];
     let renderOrderRight = [];
 
@@ -123,7 +122,7 @@ module.exports = {
       return player.uid;
     });
     pidsList.push(name);
-    console.log('name of user and pidslist',name, pidsList, this.players);
+    console.log('name of user and pidslist', name, pidsList, this.players);
     this.addSelf(name);
     if (this.usingVR) {
       this.addVRPressEventListener('pickParty', partyNumber, sendPickedParty, {choices: pidsList});
