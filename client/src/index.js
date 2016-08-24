@@ -8,8 +8,8 @@ import InfoWrapper from './containers/InfoWrapper';
 import GameWrapper from './containers/GameWrapper';
 import Landing from './components/Landing';
 import Main from './components/Main';
-import Stats from './components/Stats';
-import Login from './components/Login';
+import Stats from './containers/Stats';
+import Login from './containers/Login';
 import SignUp from './components/Signup';
 
 // Redux Related Imports
@@ -29,6 +29,7 @@ ReactDOM.render(
         <Route path='signin' component={Login}></Route>
         <Route path='signup' component={SignUp}></Route>
         <Route path='game' component={GameWrapper}></Route>
+        <Route path='profile' component={Stats}></Route>
       </Route>
     </Router>
   </Provider>,

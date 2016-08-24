@@ -11,7 +11,7 @@ export default function auth (state = initialState, action) {
     case LOGGED_IN:
       return {
         ...state,
-        authenticated: true
+        authenticated: true,
         uid: action.uid,
         username: action.username
       };
