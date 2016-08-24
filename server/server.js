@@ -275,8 +275,25 @@ io.on('connection', (socket)=>{
     logicFilter.stabMerlin(memcache[roomId], io, data);
   });
 });
+
+app.get('/profile', function(req, res) {
+  // return information based on who's logged in
+  var sessions = req.sessionStore.sessions;
+  var userId;
+  for (var key in sessions) {
+    var uid = JSON.parse(sessions[key])
+    if (uid.passport && uid.passport.user) {
+      userId = uid.passport.user;
+    }
+  }
+  pgHelp.getScore(userId)
+  .then(function(data) {
+    res.send(data);
+  });
+});
+
 // serve index.html for rest
-app.get('*', function(req, res) {
+app.get('*',function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
@@ -290,14 +307,8 @@ app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect: '/signin'
   }));
 
-app.get('/logout', function(req, res) {
+app.post('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');
-});
-
-app.get('/profile', function(req, res) {
-  // return information based on who's logged in
-  var id;
-  pgHelp.getScore(id);
 });
