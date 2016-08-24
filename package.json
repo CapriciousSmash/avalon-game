@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node server/server.js",
     "prod:buildclient": "npm install && webpack",
-    "prod:buildclientwatch": "webpack-dev-server",
     "build": "webpack",
-    "test": "mocha test/index.js --bail -R nyan"
+    "test": "mocha test/index.js --bail -R nyan",
+    "postinstall": "npm install && webpack"
   },
   "repository": {
     "type": "git",
