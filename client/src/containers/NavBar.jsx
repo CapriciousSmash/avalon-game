@@ -22,6 +22,9 @@ class NavBar extends React.Component {
           <li>
             <div>Placeholder for username</div>
           </li>
+          <li>
+            <div>Placeholder for logout</div>
+          </li>
         </ul>
       );
     } else {
