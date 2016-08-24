@@ -8,7 +8,7 @@
     "prod:buildclient": "npm install && webpack",
     "build": "webpack",
     "test": "mocha test/index.js --bail -R nyan",
-    "build:prod": "webpack --config ./webpack.config.js",
+    "build:prod": "webpack",
     "postinstall": "npm run build:prod"
   },
   "repository": {
