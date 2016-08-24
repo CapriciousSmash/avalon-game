@@ -95,6 +95,7 @@ module.exports = {
   },
   // Assign roles attaches the roles of the game to the player objects
   assignRoles: function(party, id, role) {
+    this.gameState.ownRole = party[id];
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
       for (let player in party) {
@@ -139,7 +140,7 @@ module.exports = {
   },
   // Shows all players who are voting on the party who was chosen as the party members
   partyMembers: function(partyMembers) {
-    
+
   },
   // TODO: Pending field test to determine whether the buttons are well placed
   // at these new coordinates. 

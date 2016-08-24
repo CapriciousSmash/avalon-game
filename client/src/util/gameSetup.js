@@ -45,7 +45,8 @@ export default function init(usingVR) {
     defaultColor: 0x00b8ff
   };
   this.gameState = {
-    currentRound: 1
+    currentRound: 1,
+    ownRole: null
   };
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
