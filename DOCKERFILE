@@ -1,0 +1,13 @@
+FROM node:6
+MAINTAINER 'Capricioussmush'
+
+RUN mkdir avalon
+
+WORKDIR /usr/avalon
+
+COPY . .
+
+RUN npm install babel -g -q \
+    && npm install webpack -g -q \
+    && npm install nodemon -g -q \
+    && npm install --unsafe-perm

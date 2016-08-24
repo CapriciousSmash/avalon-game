@@ -1,0 +1,22 @@
+version: '2'
+services: 
+  avalon-server-web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - avalon-db-postgres
+      - avalon-db-redis
+    volumes: 
+      - .:/usr/avalon
+    command: nodemon server/server.js -L
+  avalon-db-postgres:
+    image: postgres:9
+    ports:
+      - "5342:5432"
+  avalon-db-redis:
+    image: redis:3
+    ports:
+      - "6379:6379"
+  # avalon-server-api:
+
