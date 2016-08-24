@@ -219,8 +219,9 @@ module.exports = {
 
     let token = new THREE.Mesh(new THREE.CylinderGeometry(40, 40, 10), material);
 
-    token.position.z = 10;
     token.position.x = -250 + (round * 35);
+    token.position.y = 15;
+    token.position.z = 10;
 
     scene.add(token);
 

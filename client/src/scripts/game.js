@@ -23,6 +23,7 @@ export default {
   addClickEventListener: helper.addClickEventListener,
   removeClickEventListener: helper.removeClickEventListener,
   itemSelection: helper.itemSelection,
+  resolveQuest: helper.resolveQuest,
   setCircleCoordinates: helper.setCircleCoordinates,
   positionPlayers: helper.positionPlayers,
 

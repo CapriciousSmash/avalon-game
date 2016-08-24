@@ -74,6 +74,7 @@ module.exports = {
     });
     socket.on('resolveQuest', function(data) {
       console.log('Data I got from resolveQuest', data);
+      game.resolveQuest(data.result, data.successVotes, data.failureVotes);
     });
     socket.on('gameEnd', function(data) {
       console.log('Data I got from gameEnd', data);
