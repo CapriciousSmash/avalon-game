@@ -44,6 +44,7 @@ module.exports = {
       game.resetPlayers(game.players, game.scene);
     });
     socket.on('startVote', function(data) {
+      game.partyMembers(data.partyMembers);
       game.partyButtons(voteOnParty => {
         socket.emit('voteOnParty', {
           playerId: socket.id,

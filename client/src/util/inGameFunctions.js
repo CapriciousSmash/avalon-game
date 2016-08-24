@@ -137,6 +137,10 @@ module.exports = {
       this.removeClickEventListener();
     }, 30000);
   },
+  // Shows all players who are voting on the party who was chosen as the party members
+  partyMembers: function(partyMembers) {
+    
+  },
   // TODO: Pending field test to determine whether the buttons are well placed
   // at these new coordinates. 
   partyButtons: function(voteOnParty) {

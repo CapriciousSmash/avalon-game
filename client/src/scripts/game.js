@@ -35,6 +35,7 @@ export default {
   removePlayer: inGame.removePlayer,
   assignRoles: inGame.assignRoles,
   pickParty: inGame.pickParty,
+  partyMembers: inGame.partyMembers,
   partyButtons: inGame.partyButtons,
   questButtons: inGame.questButtons,
 
