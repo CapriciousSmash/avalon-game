@@ -109,7 +109,7 @@ export default {
 
     let renderButtonList = [];
 
-    // Position 
+    // Positions
     let displayX = -100;
     let displayY = 10;
     let displayZ = 0;
