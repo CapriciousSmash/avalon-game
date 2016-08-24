@@ -286,10 +286,14 @@ app.get('/profile', function(req, res) {
       userId = uid.passport.user;
     }
   }
-  pgHelp.getScore(userId)
-  .then(function(data) {
-    res.send(data);
-  });
+  if(userId) {
+    pgHelp.getScore(userId)
+    .then(function(data) {
+      res.send(data);
+    });
+  } else {
+    res.send('null');
+  }
 });
 
 // serve index.html for rest
