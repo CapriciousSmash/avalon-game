@@ -64,7 +64,7 @@ module.exports = {
 
     let sphereMaterial =
       new THREE.MeshLambertMaterial({
-          color
+          color: this.roleColors['defaultColor']
       });
     let radius = 20,
         segments = 16,
@@ -103,7 +103,11 @@ module.exports = {
       for (let player in party) {
         if (player !== id) {
           if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
-            this.players[player].color = this.roleColors['MINION'];
+            for (let x = 0; x < this.players.length; x++) {
+              if (this.players[x].uid === player) {
+                this.players[x].color = this.roleColors['MINION'];
+              }
+            }
             this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
           }      
         }
