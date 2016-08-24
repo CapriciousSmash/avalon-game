@@ -287,7 +287,7 @@ app.get('/profile', function(req, res) {
     }
   }
   if(userId) {
-    pgHelp.getScore(userId)
+    pgHelp.getInfo(userId)
     .then(function(data) {
       res.send(data);
     });

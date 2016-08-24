@@ -14,13 +14,22 @@ class App extends React.Component {
     super();
   }
 
-  componentDidMount() {
+  getPlayerInfo(cb) {
+    // when main page loads, request current player info
     $.get('/profile', function(res) {
-      console.log('res', res);
+      // check if the response was an object
+      if(typeof(res) === 'object') {
+        // if so, then a user is in fact signed in
+        // use the login action to set their information for use in the app
+        cb(res);
+        // console.log('this', this);
+      }
+      // otherwise, a user isn't signed in and nothing else happens
     });
   }
 
   render() {
+    this.getPlayerInfo(this.props.actions.login.bind(this));
     return (
       <div className="cover-container">
         <NavBar />

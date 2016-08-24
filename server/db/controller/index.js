@@ -4,16 +4,17 @@ var Promise = require('bluebird');
 var bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
-  getScore: function(id) {
+  getInfo: function(id) {
     return User.find({where: {
       id: id
     }})
     .then(function(user) {
-      var username = user.username;
-      var points = user.points;
-      var games = user.games;
-
-      return [username, points, games].slice();
+      return {
+        id: id,
+        username: user.username,
+        points: user.points,
+        games: user.games
+      };
     });
   },
   increaseScore: function(id) {
