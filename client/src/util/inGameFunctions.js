@@ -101,6 +101,7 @@ module.exports = {
       for (let player in party) {
         if (player !== id) {
           if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
+            this.players[player].color = this.roleColors['MINION'];
             this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
           }      
         }
