@@ -7,7 +7,9 @@ const PATHS = {
 };
 
 module.exports = {
-  entry: PATHS.src,
+  entry: [
+    PATHS.src
+  ],
   output: {
     path: PATHS.compiled,
     filename: 'app.bundle.js'
@@ -17,7 +19,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         //exclude: /scripts/,
-        include: __dirname +  '/client/src',
+        include: __dirname + '/client/src',
         loader: 'babel-loader'
       }
     ]
