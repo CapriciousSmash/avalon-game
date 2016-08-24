@@ -39,7 +39,6 @@ var server = app.listen(port, ()=>{
 var io = require('socket.io').listen(server);
 
 /////////////////////////////////////////////////////////////////////
-
 var memcache = {};
 var lobbyState = {};
 var players = {};
@@ -53,8 +52,8 @@ for (var x = 1; x <= 4; x ++) {
   //Initialize server side save state variables
   players[id] = [];
   lobbyState[id] = {
-    status: 'waiting',
-    max: 10
+    status: 'Waiting...',
+    max: 5
   };  
 }
 
@@ -81,14 +80,13 @@ function isLoggedIn(req, res, next) {
 var setting = {
   merlin: false,
   assassin: false,
-  capacity: 5
 };
 
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
   console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
-  socket.emit('lobbyInfo', lobbyState);
+  socket.emit('lobbyInfo', lobbyState, players);
 
   //PLAYER==================================================
   socket.on('disconnect', function() {
@@ -104,9 +102,9 @@ io.on('connection', (socket)=>{
     }
     if (roomId) {
       //If room was full show now there is a space available
-      if (lobbyState[roomId].status === 'ready') {
-        lobbyState[roomId].status = 'waiting';
-        memcache[roomId].setStatus('waiting');
+      if (lobbyState[roomId].status === 'Ready') {
+        lobbyState[roomId].status = 'Waiting...';
+        memcache[roomId].setStatus('Waiting..');
         //emit the to room you are leaving
         io.to(roomId).emit('roomInfo', {
           gm: players[roomId][0],
@@ -128,6 +126,9 @@ io.on('connection', (socket)=>{
 
   socket.on('capacity', function(roomId, value) {
     memcache[roomId].setCapMax(value);
+    lobbyState[roomId].max = value;
+    /*              Come back to me                     */
+    io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
     io.emit('updateParty', value);
   });
 
@@ -157,20 +158,21 @@ io.on('connection', (socket)=>{
         color: 0xffce00,
         ready: false
       });
+      
+      //Tell people if the room is full after you join
+      if (io.sockets.adapter.rooms[newRoomId].length >= lobbyState[newRoomId].max) {
+        lobbyState[newRoomId].status = 'Ready';
+        memcache[newRoomId].setStatus('Ready');
+      }
+
       //Tell people in the room you are joining
       io.to(newRoomId).emit('roomInfo', {
         gm: players[newRoomId][0],
         players: players[newRoomId].slice(1, players[newRoomId].length)        
       });
 
-      //Tell people if the room is full after you join
-      if (io.sockets.adapter.rooms[newRoomId].length >= lobbyState[newRoomId].max) {
-        lobbyState[newRoomId].status = 'ready';
-        memcache[newRoomId].setStatus('ready');
-        
-        //Tell people in lobby the new room status
-        io.to('capri0sun').emit('lobbyState', lobbyState);
-      }
+      //Tell people in lobby the new room status
+      io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
     } else {    
       //Too many people in the room
       socket.emit('joinResponse'. false);
@@ -192,9 +194,9 @@ io.on('connection', (socket)=>{
     });
 
     //If room was full show now there is a space available    
-    if (lobbyState[oldRoomId].status === 'ready') {
-      lobbyState[oldRoomId].status = 'waiting';
-      memcache[oldRoomId].setStatus('waiting');
+    if (lobbyState[oldRoomId].status === 'Ready') {
+      lobbyState[oldRoomId].status = 'Waiting...';
+      memcache[oldRoomId].setStatus('Waiting...');
       //Tell people in lobby the new room status
       io.to('capri0sun').emit('lobbyState', lobbyState);
     }

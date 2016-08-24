@@ -48,7 +48,7 @@ export default {
     let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
-    cylinder.position.set(0, -40, 150);
+    cylinder.position.set(0, -40, 225);
     cylinder.name = name;
 
     this.scene.add(cylinder);
@@ -103,6 +103,19 @@ export default {
     }     
 
   },
+  // At the end of the quest, reveal to players quest result and the related votes
+  resolveQuest: function(result, successVotes, failVotes) {
+    // this.addSign(result === 'success' ? 'questSuccess' : 'questFail');
+
+    let renderButtonList = [];
+
+    // Position 
+    let displayX = -100;
+    let displayY = 10;
+    let displayZ = 0;
+
+
+  },
   // Takes a list of players and sets them into a circle formation. 
   // Returns the same list of players with coordinate property added
   setCircleCoordinates: function(players, radius) {
@@ -144,17 +157,11 @@ export default {
         playerObj.position.z += moveZ;
       }
     }
-
-    // Corrently position the players based on the number of current players 
-    // let numPlayers = this.players.length;
-    // for (let x = 0; x < numPlayers; x++) {
-    //   let playerObj = this.scene.getObjectByName(this.players[x].uid);
-    //   if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-    //     playerObj.position.x -= 2;
-    //   } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-    //     playerObj.position.x += 2;
-    //   }
-    // }
-
+  },
+  // At the end of a phase, allows changes to players to be returned to normal
+  resetPlayers: function(players, scene) {
+    for (var x = 0; x < players.length; x++) {
+      scene.getObjectByName(players[x].uid).material.color.setHex(players[x].color);
+    }
   }
 };

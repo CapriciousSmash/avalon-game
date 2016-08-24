@@ -24,13 +24,16 @@ module.exports = {
       $('#gameUserInfoContainer .role').text( data[socket.id] );
     });
     socket.on('chooseParty', function(data) {
+      // Update gamestate but safeguard against server having issues with memcache. 
+      game.gameState.currentRound = data.currentRound ? 
+        data.currentRound : game.gameState.currentRound;
+        
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
           socket.emit('pickParty', {
             partyList: party
           }, roomId);
-        // Need party number from data <-------------------------------
         }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
       }
@@ -38,6 +41,7 @@ module.exports = {
     socket.on('resolveParty', function(data) {
       game.removeObject(socket.id);
       console.log('Data I got from resolveParty', data);
+      game.resetPlayers(game.players, game.scene);
     });
     socket.on('startVote', function(data) {
       game.partyButtons(voteOnParty => {
@@ -64,6 +68,7 @@ module.exports = {
     });
     socket.on('resolveQuest', function(data) {
       console.log('Data I got from resolveQuest', data);
+      game.resolveQuest(data.result, data.successVotes, data.failureVotes);
     });
     socket.on('gameEnd', function(data) {
       console.log('Data I got from gameEnd', data);

@@ -13,7 +13,34 @@ class GameWrapper extends React.Component {
   constructor() {
     super();
     this.socket = io();
+    this.state = {
+      1:{
+        id: '',
+        status: 'Waiting...',
+        max: 5,
+        count: 0
+      },
+      2:{
+        id: '',
+        status: 'Waiting...',
+        max: 5,
+        count: 0
+      },
+      3:{
+        id: '',
+        status: 'Waiting...',
+        max: 5,
+        count: 0
+      },
+      4:{
+        id: '',
+        status: 'Waiting...',
+        max: 5,
+        count: 0
+      }
+    }
   }
+
   componentWillMount() {
     //refactor this!
     var login = this.props.actions.login;
@@ -24,20 +51,52 @@ class GameWrapper extends React.Component {
       login(this.socket.id);
     }.bind(this));
 
-    socket.on('lobbyInfo', function(lobbyState) {
-      this.setState({});
+    socket.on('lobbyInfo', function(lobbyState, players) {
+      var currentState = {}
       var roomNumber = 1;
       for (var key in lobbyState) {
-        this.state[roomNumber] = {
+        currentState[roomNumber] = {
           id: key,
-          status: lobbyState[key].status
+          status: lobbyState[key].status,
+          max: lobbyState[key].max,
+          count: players[key].length
         };
+
+        // Disable Join button for any room that are at capacity
+        // if ( lobbyState[key].status !== 'Waiting...' ) {
+        //   document.getElementById(roomNumber).nextSibling.disabled = true;
+        // }
         roomNumber++;
       }
+
+      //Renders the page with current lobby status
+      this.setState(currentState);
+    }.bind(this));
+
+    socket.on('lobbyStatus', function(lobbyState, players) {
+      var currentState = {}
+      var roomNumber = 1;
+      for ( var key in lobbyState) {
+        currentState[roomNumber] = {
+          id: key,
+          status: lobbyState[key].status,
+          max: lobbyState[key].max,
+          count: players[key].length
+        };
+
+        // Disable Join button for any room that are at capacity
+        // if ( lobbyState[key].status !== 'Waiting...' ) {
+        //   document.getElementById(roomNumber).nextSibling.disabled = true;
+        // }
+        roomNumber++;
+      }
+
+      // Re-renders page when any changes to the lobby is made. 
+      this.setState(currentState)
     }.bind(this));
   }
 
-  onClick(e) {
+  setGameRoom(e) {
     this.props.actions.setGameRoom(this.state[e.target.value].id);
   }
 
@@ -52,7 +111,8 @@ class GameWrapper extends React.Component {
           {[1, 2, 3, 4].map(roomNumber => 
             <div className='lobbyRoom' >
               <span className='lobbyRoomLabel'>Room {roomNumber}</span>
-              <button className='btn' key={roomNumber} onClick={this.onClick.bind(this)} value={roomNumber}>Join</button>
+              <span id={roomNumber} className='lobbyRoomStatus'>{this.state[roomNumber].count + '/' + this.state[roomNumber].max + ' ' + this.state[roomNumber].status}</span>
+              <button className='btn' key={roomNumber} onClick={this.setGameRoom.bind(this)} value={roomNumber} disabled={this.state[roomNumber].status !== 'Waiting...' ? true : false}>Join</button>
             </div>
           )}
           </div>

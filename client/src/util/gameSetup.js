@@ -43,6 +43,9 @@ export default function init(usingVR) {
     ASSASSIN: 0x850000,
     defaultColor: 0x00b8ff
   };
+  this.gameState = {
+    currentRound: 1
+  };
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
   const VIEW_ANGLE = 45,
@@ -184,7 +187,7 @@ export default function init(usingVR) {
     this.camera.getWorldDirection(), 
     this.camera.getWorldPosition(),
     500,
-    0xffff00
+    0x53c670
   );
   this.scene.add(this.oliver);
 

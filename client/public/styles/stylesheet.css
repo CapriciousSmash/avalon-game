@@ -145,6 +145,12 @@ form button:hover {
   line-height:50px;
   float:left; 
 }
+.lobbyRoomStatus{
+  color: rgba(255,255,255,0.8);
+  font-size: 1.25em;
+  letter-spacing: 5px;
+  line-height:50px;
+}
 .lobbyRoom button{
   background-color:rgba(255,255,255,0.3);
   color:rgba(255,255,255,0.8);
