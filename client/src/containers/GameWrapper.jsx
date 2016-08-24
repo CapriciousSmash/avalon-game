@@ -14,8 +14,10 @@ class GameWrapper extends React.Component {
     super();
     this.socket = io();
   }
+
   componentWillMount() {
     //refactor this!
+    this.setState({});
     var login = this.props.actions.login;
     var socket = this.socket;
 
@@ -24,17 +26,32 @@ class GameWrapper extends React.Component {
       login(this.socket.id);
     }.bind(this));
 
-    socket.on('lobbyInfo', function(lobbyState) {
-      this.setState({});
+    socket.on('lobbyInfo', function(lobbyState, players) {
       var roomNumber = 1;
       for (var key in lobbyState) {
         this.state[roomNumber] = {
           id: key,
-          status: lobbyState[key].status
+          status: lobbyState[key].status,
+          max: lobbyState[key].max
         };
+        if ( lobbyState[key].status !== 'Waiting...' ) {
+          document.getElementById(roomNumber).nextSibling.disabled = true;
+        }
+        document.getElementById(roomNumber).innerHTML = players[key].length + '/' + lobbyState[key].max + ' ' + lobbyState[key].status;
         roomNumber++;
       }
     }.bind(this));
+
+    socket.on('lobbyStatus', function(lobbyState, players) {
+      var roomNumber = 1;
+      for ( var key in lobbyState) {
+        if ( lobbyState[key].status !== 'Waiting...' ) {
+          document.getElementById(roomNumber).nextSibling.disabled = true;
+        }
+        document.getElementById(roomNumber).innerHTML = players[key].length + '/' + lobbyState[key].max + ' ' + lobbyState[key].status;
+        roomNumber++;
+      }
+    });
   }
 
   onClick(e) {
@@ -52,6 +69,7 @@ class GameWrapper extends React.Component {
           {[1, 2, 3, 4].map(roomNumber => 
             <div className='lobbyRoom' >
               <span className='lobbyRoomLabel'>Room {roomNumber}</span>
+              <span id={roomNumber} className='lobbyRoomStatus'>0/5 Waiting...</span>
               <button className='btn' key={roomNumber} onClick={this.onClick.bind(this)} value={roomNumber}>Join</button>
             </div>
           )}
