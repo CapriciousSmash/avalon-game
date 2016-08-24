@@ -101,6 +101,7 @@ module.exports = {
       for (let player in party) {
         if (player !== id) {
           if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
+            this.players[player].color = this.roleColors['MINION'];
             this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
           }      
         }
@@ -171,7 +172,7 @@ module.exports = {
     setTimeout(()=>{
       this.removeObject('approveParty'); 
       this.removeObject('accept');
-      this.removeObject('reject');       
+      this.removeObject('reject');
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
   },
@@ -180,16 +181,16 @@ module.exports = {
   questButtons: function(voteOnQuest) {
     this.addButton(
       'success', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/success.jpg') }, 
       { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: -50, posy: -50, posz: 0 }
-    );    
+    );
     this.addButton(
       'fail', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/succeed.jpg') }, 
+      { map: THREE.ImageUtils.loadTexture('images/in-game/fail.jpg') }, 
       { lenx: 45, leny: 80, lenz: 10 }, 
       { posx: 50, posy: -50, posz: 0 }
-    );      
+    ); 
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
@@ -212,5 +213,18 @@ module.exports = {
       this.removeObject('fail');        
       this.renderer.domElement.removeEventListener('click', this.clickEvent);
     }, 30000);
+  },
+  addTokens: function(qResult, round, scene) {
+    let imageSrc = 'images/in-game/' + (qResult === 'SUCCESS' ? 'succeeded' : 'failed') + '.jpg';
+    let material = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture(imageSrc)});
+
+    let token = new THREE.Mesh(new THREE.CylinderGeometry(40, 40, 10), material);
+
+    token.position.x = -250 + (round * 35);
+    token.position.y = 15;
+    token.position.z = 10;
+
+    scene.add(token);
+
   }
 };
