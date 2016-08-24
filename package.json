@@ -9,7 +9,7 @@
     "build": "webpack",
     "test": "mocha test/index.js --bail -R nyan",
     "build:prod": "webpack --config ./webpack.config.js",
-    "postinstall": "npm install && run build:prod"
+    "postinstall": "npm run build:prod"
   },
   "repository": {
     "type": "git",
