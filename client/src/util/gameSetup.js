@@ -9,11 +9,9 @@ function render() {
 
   // Updates for lighting
   let d = new Date();
-  // this.pointLight.position.x += 30 * Math.sin(Math.floor(d.getTime() / 10) * 0.02);
-  // this.pointLight.position.y += 20 * Math.sin(Math.floor(d.getTime() / 10) * 0.01);
 
   // Update camera, controls, and size:
-  this.resize()
+  this.resize();
   this.camera.updateProjectionMatrix();
   this.controls.update();
 
@@ -31,22 +29,6 @@ function render() {
   // TODO: Considerations for optimization: Find a way to cut off player positioning
   // after the players are already correctly positioned
   this.positionPlayers(this.players, this.scene);
-
-  // Corrently position the players based on the number of current players 
-  // let numPlayers = this.players.length;
-  // for (let x = 0; x < numPlayers; x++) {
-  //   let playerObj = this.scene.getObjectByName(this.players[x].uid);
-  //   if (playerObj.position.x > Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-  //     playerObj.position.x -= 2;
-  //   } else if (playerObj.position.x < Math.floor((500 / numPlayers) / 2 * (1 + (2 * x)) - 250)) {
-  //     playerObj.position.x += 2;
-  //   }
-  // }
-
-  // Commenting out this code as it interferes with the new camera orbit system
-  // this.camera.position.x += (this.camMouse.x - this.camera.position.x) * 0.05;
-  // this.camera.position.y += ( - this.camMouse.y - this.camera.position.y) * 0.05;
-  // this.camera.lookAt(this.scene.position);
 }
 
 export default function init(usingVR) {
@@ -205,15 +187,6 @@ export default function init(usingVR) {
     0xffff00
   );
   this.scene.add(this.oliver);
-
-  // Commenting this section out as it interferes with the normal resizing
-  // process
-  // window.addEventListener('resize', ()=> {
-  //   this.camera.aspect = window.innerWidth / window.innerHeight;
-  //   this.camera.updateProjectionMatrix();
-
-  //   this.renderer.setSize( window.innerWidth, window.innerHeight );
-  // }, false );
 
   //SKY BOX///////////////////////////////////
   //Todo: Convert to tga format, speedier loadup vs png
