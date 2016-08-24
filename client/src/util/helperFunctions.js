@@ -159,8 +159,7 @@ export default {
   },
   // At the end of a phase, allows changes to players to be returned to normal
   resetPlayers: function(players, scene) {
-    for (var x = 0; x < players.length; x++) {
-      
+    for (let x = 0; x < players.length; x++) {
       scene.getObjectByName(players[x].uid).material.color.setHex(players[x].color);
     }
   }

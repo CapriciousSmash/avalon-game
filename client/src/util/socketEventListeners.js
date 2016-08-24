@@ -41,7 +41,7 @@ module.exports = {
     socket.on('resolveParty', function(data) {
       game.removeObject(socket.id);
       console.log('Data I got from resolveParty', data);
-      game.resetPlayers(game.players, game.scene);
+      game.resetPlayers(game.players, game.scene, game.gameState.ownRole);
     });
     socket.on('startVote', function(data) {
       game.partyMembers(data.partyMembers);
