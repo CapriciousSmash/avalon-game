@@ -8,8 +8,7 @@
     "prod:buildclient": "npm install && webpack",
     "build": "webpack",
     "test": "mocha test/index.js --bail -R nyan",
-    "build:prod": "webpack",
-    "postinstall": "npm run build:prod"
+    "postinstall": "npm install && webpack"
   },
   "repository": {
     "type": "git",
@@ -51,7 +50,8 @@
     "sequelize": "^3.23.6",
     "shortid": "^2.2.6",
     "socket.io": "^1.4.8",
-    "socket.io-client": "^1.4.8"
+    "socket.io-client": "^1.4.8",
+    "webpack": "^1.13.2"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
