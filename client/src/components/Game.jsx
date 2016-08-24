@@ -45,7 +45,14 @@ class Game extends React.Component {
   }
   render() {
     return ( 
-      <div id="gameContainer"></div>
+      <div>
+        <div id="gameContainer">
+        </div>
+        <div id="gameUserInfoContainer">
+          <span className="userName"></span>
+          <span className="role"></span>
+        </div>
+      </div>
     );
   }
 }

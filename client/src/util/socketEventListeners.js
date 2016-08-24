@@ -3,9 +3,10 @@ import game from '../scripts/game';
 module.exports = {
   gameInit: function(socket) {
     game.init();
-    //Add all the people in the game to canvas
-    var conn = {};
+    //Show user
+    $('#gameUserInfoContainer .userName').text( socket.id );
 
+    //Add all the people in the game to canvas
     socket.on('allPeers', function(players) {
       game.addAllPlayers(players, socket.id);
     });
@@ -20,6 +21,7 @@ module.exports = {
       console.log('I AM', socket.id, ':', data[socket.id]);
       //Append div on top of canvas to show user's role
       //Did this to reduce amount of objects in canvas that is needed to be rendered
+      $('#gameUserInfoContainer .role').text( data[socket.id] );
     });
     socket.on('chooseParty', function(data) {
       if (data.currentLeader === socket.id) {
