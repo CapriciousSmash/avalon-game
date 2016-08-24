@@ -183,18 +183,27 @@ module.exports = {
   // TODO: Pending field tes to determine whether these buttons are
   // well placed at these coordinates 
   questButtons: function(voteOnQuest) {
-    this.addButton(
-      'success', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/success.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -50, posz: 0 }
-    );
-    this.addButton(
-      'fail', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/fail.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -50, posz: 0 }
-    ); 
+    let textureLoader = new THREE.TextureLoader();
+
+    textureLoader.load('images/in-game/success.jpg', (successTexture) => {
+      this.addButton(
+        'success', 
+        { map: successTexture }, 
+        { lenx: 45, leny: 80, lenz: 10 }, 
+        { posx: -50, posy: -50, posz: 0 }
+      );
+
+      textureLoader.load('images/in-game/fail.jpg', (failTexture) => {
+        this.addButton(
+          'fail', 
+          { map: failTexture }, 
+          { lenx: 45, leny: 80, lenz: 10 }, 
+          { posx: 50, posy: -50, posz: 0 }
+        ); 
+      });
+
+    });
+
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
