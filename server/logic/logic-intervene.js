@@ -101,6 +101,8 @@ module.exports.partyVote = function(memcache, socket, data) {
 // questVote is called to advance the game to the next stage by resolving the
 // party more quickly if all votes are in
 module.exports.questVote = function(memcache, socket, data) {
+
+  console.log('quest vote in: ', data);
   
   // Test to see whether the player who voted should be voting
   memcache.getTeam().then(function(partyList) {
