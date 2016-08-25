@@ -43,34 +43,34 @@ describe('Testing Postgres', function() {
   });
 
   it('should increase score by 1', function() {
-    return userHelpers.getScore(2)
+    return userHelpers.getInfo(2)
     .then(function(res) {
-      score = res[0];
+      score = res.points;
     })
     .then(function() {
       return userHelpers.increaseScore(2);
     })
     .then(function() {
-      return userHelpers.getScore(2);
+      return userHelpers.getInfo(2);
     })
     .then(function(res) {
-      expect(res[0]).to.equal((score + 1));
+      expect(res.points).to.equal((score + 1));
     });
   });
 
   it('should increase games by 1', function() {
-    return userHelpers.getScore(2)
+    return userHelpers.getInfo(2)
     .then(function(res) {
-      games = res[1];
+      games = res.games;
     })
     .then(function() {
       return userHelpers.increaseGames(2);
     })
     .then(function() {
-      return userHelpers.getScore(2);
+      return userHelpers.getInfo(2);
     })
     .then(function(res) {
-      expect(res[1]).to.equal((games + 1));
+      expect(res.games).to.equal((games + 1));
     });
   });
 });
