@@ -43,6 +43,10 @@ class Game extends React.Component {
 
     webSockets.allListeners(socket, this.props.roomNumber);
   }
+  componentWillUnmount() {
+    //Leave game for Lobby aka set the current room number
+    //to nothing and reset game set
+  }
   render() {
     return ( 
       <div>

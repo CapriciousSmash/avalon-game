@@ -14,34 +14,35 @@ class GameWrapper extends React.Component {
     super();
     this.socket = io();
     this.state = {
-      1:{
+      1: {
         id: '',
         status: 'Waiting...',
         max: 5,
         count: 0
       },
-      2:{
+      2: {
         id: '',
         status: 'Waiting...',
         max: 5,
         count: 0
       },
-      3:{
+      3: {
         id: '',
         status: 'Waiting...',
         max: 5,
         count: 0
       },
-      4:{
+      4: {
         id: '',
         status: 'Waiting...',
         max: 5,
         count: 0
       }
-    }
+    };
   }
 
   componentWillMount() {
+
     //refactor this!
     var login = this.props.actions.login;
     var socket = this.socket;
@@ -52,7 +53,7 @@ class GameWrapper extends React.Component {
     }.bind(this));
 
     socket.on('lobbyInfo', function(lobbyState, players) {
-      var currentState = {}
+      var currentState = {};
       var roomNumber = 1;
       for (var key in lobbyState) {
         currentState[roomNumber] = {
@@ -74,7 +75,7 @@ class GameWrapper extends React.Component {
     }.bind(this));
 
     socket.on('lobbyStatus', function(lobbyState, players) {
-      var currentState = {}
+      var currentState = {};
       var roomNumber = 1;
       for ( var key in lobbyState) {
         currentState[roomNumber] = {
@@ -92,8 +93,12 @@ class GameWrapper extends React.Component {
       }
 
       // Re-renders page when any changes to the lobby is made. 
-      this.setState(currentState)
+      this.setState(currentState);
     }.bind(this));
+  }
+
+  componentWillUnmount() {
+    //set room to nothing
   }
 
   setGameRoom(e) {

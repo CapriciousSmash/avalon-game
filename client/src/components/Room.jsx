@@ -15,14 +15,13 @@ const Lobby = React.createClass ({
     };
   },
   componentWillMount: function() {
+    console.log('ROOM component will mount ');
     //Connect to server
     var socket = this.props.socket;
 
     // Tell server that player entered the room
     socket.emit('joinRoom', this.props.roomNumber);
     socket.on('roomInfo', function(roomInfo) {
-      console.log('currentUser', this.props.currentUser);
-      console.log('gm', roomInfo.gm);
       this.setState({
         gm: roomInfo.gm,
         players: roomInfo.players
@@ -32,6 +31,9 @@ const Lobby = React.createClass ({
     socket.on('leaveRoomGoToGamePage', () => {
       this.props.setGameState();
     });
+  },
+  componentWillUnmount() {
+    console.log('LEAVING THE GAME UNMOUNTING');
   },
   readyHandler: function(e) {
     this.setState({
