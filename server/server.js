@@ -296,6 +296,12 @@ app.get('/profile', function(req, res) {
   }
 });
 
+app.get('/logout', function(req, res) {
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+});
+
 // serve index.html for rest
 app.get('*',function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
@@ -311,8 +317,3 @@ app.post('/signup', passport.authenticate('local-signup', {
     failureRedirect: '/signin'
   }));
 
-app.post('/logout', function(req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
-});

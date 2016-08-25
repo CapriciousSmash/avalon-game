@@ -9,49 +9,35 @@ import * as Actions from '../actions';
 // The NavBar class holds and handles the main point of navigation on
 // the page and exists inside of the App container. 
 class NavBar extends React.Component {
-  isAuthenticated() {
-    if (this.props.auth) {
-      return (
-        <ul className="nav masthead-nav">
-          <li>
-            <Link to='play'>Play</Link>
-          </li>
-          <li>
-            <Link to='gameinfo'>Game Info</Link>
-          </li>
-          <li>
-            <div>Placeholder for username</div>
-          </li>
-          <li>
-            <div>Placeholder for logout</div>
-          </li>
-        </ul>
-      );
-    } else {
-      return (
-        <ul className="nav masthead-nav"> 
-          <li>
-            <Link to='play'>Play</Link>
-          </li>
-          <li>
-            <Link to='gameinfo'>Game Info</Link>
-          </li>
-          <li>
-            <Link to='signin'>Sign In</Link>
-          </li>
-        </ul>
-      );
-    }
-  }
 
   render() {
+    console.log('this.props.auth = ', this.props.auth);
+    var showAuth = !this.props.auth ? {display: 'none'} : {};
+    var showNotAuth = this.props.auth ? {display: 'none'} : {};
+
     return (
       <div className="masthead clearfix">
         <div className="inner">
           <h3 className="masthead-brand"><Link to='/'>Avalon</Link></h3>
           <nav>
             <div>
-              {this.isAuthenticated()}
+              <ul className="nav masthead-nav">
+                <li>
+                  <Link style={showAuth} to='play'>Play</Link>
+                </li>
+                <li>
+                  <Link to='gameinfo'>Game Info</Link>
+                </li>
+                <li>
+                  <Link style={showAuth} to='stats'>Profile</Link>
+                </li>
+                <li>
+                  <a style={showAuth} href="/logout">Logout</a>
+                </li>
+                <li>
+                  <Link style={showNotAuth} to='signin'>Sign In</Link>
+                </li>
+              </ul>
             </div>
           </nav>
         </div>
@@ -64,8 +50,9 @@ class NavBar extends React.Component {
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
+  console.log('state', state);
   return {
-    auth: false
+    auth: state.authenticated.authenticated
   };
 }
 

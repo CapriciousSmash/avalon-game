@@ -24,7 +24,7 @@ export function login(user){
     type: LOGGED_IN,
     uid: user.id,
     username: user.username,
-    score: user.score,
+    score: user.points,
     games: user.games
   };
 }
