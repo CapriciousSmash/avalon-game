@@ -154,7 +154,7 @@ module.exports = {
       this.addButton(
         'accept', 
         { map: approveTexture }, 
-        { lenx: 45, leny: 80, lenz: 10 }, 
+        { lenx: 32, leny:64 , lenz: 8 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -162,7 +162,7 @@ module.exports = {
         this.addButton(
           'reject', 
           { map: rejectTexture }, 
-          { lenx: 45, leny: 80, lenz: 10 }, 
+          { lenx: 32, leny: 64, lenz: 8 }, 
           { posx: 50, posy: -50, posz: 0 }
         );
       });
@@ -200,7 +200,7 @@ module.exports = {
       this.addButton(
         'success', 
         { map: successTexture }, 
-        { lenx: 45, leny: 80, lenz: 10 }, 
+        { lenx: 32, leny: 64, lenz: 8 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -208,7 +208,7 @@ module.exports = {
         this.addButton(
           'fail', 
           { map: failTexture }, 
-          { lenx: 45, leny: 80, lenz: 10 }, 
+          { lenx: 32, leny: 64, lenz: 8 }, 
           { posx: 50, posy: -50, posz: 0 }
         ); 
       });
