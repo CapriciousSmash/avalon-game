@@ -49,7 +49,6 @@ class Game extends React.Component {
     console.log('game is unmounting');
   }
   backToLobby(e) {
-    console.log('this.props.roomNumber', this.props.roomNumber);
     this.props.socket.emit('leaveRoom', this.props.roomNumber);
     $('canvas').remove();
     $('#gameUserInfoContainer .role').text('');
@@ -105,8 +104,12 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
+<<<<<<< HEAD
     setGameState: bindActionCreators(setGameState, dispatch),
     actions: bindActionCreators(Actions, dispatch)
+=======
+
+>>>>>>> Update states when player leaves/disconnects from room
   };
 }
 

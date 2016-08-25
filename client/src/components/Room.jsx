@@ -33,9 +33,6 @@ const Room = React.createClass ({
       this.props.setGameState();
     });
   },
-  componentWillUnmount() {
-    console.log('LEAVING THE GAME UNMOUNTING');
-  },
   readyHandler: function(e) {
     this.setState({
       ready: !this.state.ready
