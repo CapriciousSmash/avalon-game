@@ -44,8 +44,8 @@ export default {
     this.scene.add(button);
   },
   addSelf: function(name) {
-    let geometry = new THREE.CylinderGeometry( 0, 10, 30, 64 );
-    let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
+    let geometry = new THREE.CylinderGeometry( 10, 10, 30, 64 );
+    let material = new THREE.MeshBasicMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
     cylinder.position.set(0, -40, 225);
