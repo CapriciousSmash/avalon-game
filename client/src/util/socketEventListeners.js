@@ -27,7 +27,11 @@ module.exports = {
       // Update gamestate but safeguard against server having issues with memcache. 
       game.gameState.currentRound = data.currentRound ? 
         data.currentRound : game.gameState.currentRound;
-        
+      
+      //Remove all sign before choosing a party
+      game.removeObject('questSuccess');
+      game.removeObject('questFail');
+
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
@@ -54,6 +58,7 @@ module.exports = {
       console.log('Data I got from startVote', data);
     });
     socket.on('resolveVote', function(data) {
+      // data.result will yield 'accepted' or 'rejected'
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
@@ -64,15 +69,26 @@ module.exports = {
             vote: voteOnQuest
           }, roomId);
         });
+        game.addSign('passQuest');
       }
       console.log('Data I got from startQuest', data);
     });
     socket.on('resolveQuest', function(data) {
+       // data.result will yield 'failure' or 'success'
       console.log('Data I got from resolveQuest', data);
+
+      game.removeObject('passQuest');
+      if ( data.result === 'success' ) {
+        game.addSign('questSuccess');
+      } else if (data.result === 'failure') {
+        game.addSign('questFail');
+      }
       game.resolveQuest(data.result, data.successVotes, data.failureVotes);
     });
     socket.on('gameEnd', function(data) {
       console.log('Data I got from gameEnd', data);
+      game.removeObject('questSuccess');
+      game.removeObject('questFail');
     });
     socket.on('chooseMerlin', function(data) {
       game.stabMerlin(player => {
