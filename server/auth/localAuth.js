@@ -1,7 +1,19 @@
 // var passport = require('passport');
 var LocalStrategy = require('passport-local');
+
+// Auth check to redirect those not signed in
+module.exports.isAuth = function(req, res, next) {
+  var log = req.isAuthenticated();
+  console.log(log);
+  if(log) {
+    console.log('success');
+    return next();
+  }
+  console.log('failure');
+  return res.redirect('/signin');
+}
 //---------------------------Local Strategy-------------------------------------
-module.exports = function(passport, User) {
+module.exports.localAuth = function(passport, User) {
 
   passport.serializeUser(function(user, done) {
     var uid;

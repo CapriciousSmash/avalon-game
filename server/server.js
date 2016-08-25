@@ -4,13 +4,12 @@ var express = require('express');
 var session = require('express-session');
 var http = require('http');
 var bodyParser = require('body-parser');
-var path = require('path');
 var passport = require('passport');
 var shortid = require('shortid');
-var passportLocal = require('./auth/localAuth.js');
+var passportLocal = require('./auth/localAuth.js').localAuth;
 var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');
-var pgHelp = require('./db/controller/index.js');
+var router = require('./routes');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -33,6 +32,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+router(app, passport);
 
 var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
@@ -65,17 +65,6 @@ function deepSearch(id, arr) {
       return x;
     }
   }
-}
-
-function isLoggedIn(req, res, next) {
-  var log = req.isAuthenticated();
-  console.log(log);
-  if (log) {
-    console.log('success');
-    return next();
-  }
-  console.log('failure');
-  return res.redirect('/signin');
 }
 
 var setting = {
@@ -273,64 +262,4 @@ io.on('connection', (socket)=>{
     console.log('stabMerlin', data);
     logicFilter.stabMerlin(memcache[roomId], io, data);
   });
-});
-
-app.get('/stats', function(req, res) {
-  // return information based on who's logged in
-  var sessions = req.sessionStore.sessions;
-  var userId;
-  for (var key in sessions) {
-    var uid = JSON.parse(sessions[key])
-    if (uid.passport && uid.passport.user) {
-      userId = uid.passport.user;
-    }
-  }
-  if(userId) {
-    pgHelp.getInfo(userId)
-    .then(function(data) {
-      res.send(data);
-    });
-  } else {
-    res.send('null');
-  }
-});
-
-app.get('/logout', function(req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
-});
-
-// These routes need auth, effectively middleware to catch-all route
-app.get('/play', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-app.get('/profile', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-app.get('/game', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-// serve index.html for rest
-app.get('*',function(req, res) {
-  res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
-});
-
-app.post('/signin', passport.authenticate('local-login', {
-    successRedirect: '/',
-    failureRedirect: '/signin'
-  }));
-
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signin'
-  }));
-
-app.get('/logout', function(req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
 });
