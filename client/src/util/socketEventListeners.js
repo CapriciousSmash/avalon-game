@@ -89,8 +89,15 @@ module.exports = {
       console.log('Data I got from gameEnd', data);
       game.removeObject('questSuccess');
       game.removeObject('questFail');
+
+      game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      setTimeout(()=>{
+        game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+        game.addSign('gameOver');
+      }, 10000);
     });
     socket.on('chooseMerlin', function(data) {
+      game.removeObject('heroesWin');
       game.stabMerlin(player => {
         socket.emit('stabMerlin', 
           {
@@ -100,6 +107,12 @@ module.exports = {
       });
     });
     socket.on('resolveMerlin', function(data) {
+      game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+
+      setTimeout(()=>{
+        game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+        game.addSign('gameOver');
+      }, 10000);
       console.log('Data I got from resolveMerlin', data);
     });
   }
