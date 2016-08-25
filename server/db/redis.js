@@ -76,6 +76,9 @@ makeCache.prototype.remFromTeam = function(pid) {
 makeCache.prototype.getTeam = function() {
   return this.data.smembersAsync('TEAM');
 };
+makeCache.prototype.clearTeam = function() {
+  return this.data.delAsync('TEAM');
+};
 // getGameSize - returns the size of the game
 makeCache.prototype.getGameSize = function() {
   return this.data.getAsync('SIZE');
