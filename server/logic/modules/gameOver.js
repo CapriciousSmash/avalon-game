@@ -54,7 +54,7 @@ var gameOver = function(memcache, socket) {
   // Information needed from memcache
   // - Game winning side
   memcache.getWinner()
-  .then( function (winner) {
+  .then( function (winners) {
 
     // TODO: Change current game phase to 'GAME OVER'
     memcache.setTurnPhase('GAME OVER');

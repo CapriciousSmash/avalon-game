@@ -85,7 +85,6 @@ var setting = {
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
-  console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState, players);
 
   //PLAYER==================================================
@@ -152,7 +151,6 @@ io.on('connection', (socket)=>{
     if (peopleInRoom.length < lobbyState[newRoomId].max) {
       //Join the room and add player to list of players of that room
       socket.join(newRoomId);
-      console.log('AFTER JOINING \n', io.sockets.adapter.rooms);
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,

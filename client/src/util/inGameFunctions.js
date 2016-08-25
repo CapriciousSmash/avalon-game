@@ -38,8 +38,6 @@ module.exports = {
 
     let playersWithPositions = this.setCircleCoordinates(renderOrder, 250);
 
-    console.log('playersWithPositions', playersWithPositions);
-
     for (let y = 0; y < playersWithPositions.length; y++) {
       console.log('circle pos inside playersWithPositions', playersWithPositions[y].pos);
       this.addPlayer(
@@ -52,7 +50,6 @@ module.exports = {
   },
   // When a player joins the game
   addPlayer: function(uid, color, role, circlePos) {
-    console.log('circlePos inside addPlayer', circlePos);
     this.players.push({
       uid,
       x: 0,
