@@ -90,6 +90,11 @@ var resolveParty = function(memcache, socket, partySize) {
             randomMembers.push(
               pidsList.splice(Math.floor(Math.random() * pidsList.length), 1));
           }
+          memcache.clearTeam().then(function() {
+            for (var y = 0; y < randomMembers; y++) {
+              memcache.addToTeam(randomMembers[y]);
+            }
+          });
           socket.emit('resolveParty', {
             gameId: 5318008,
             partyMembers: randomMembers
