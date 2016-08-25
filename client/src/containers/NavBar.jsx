@@ -11,7 +11,6 @@ import * as Actions from '../actions';
 class NavBar extends React.Component {
 
   render() {
-    console.log('this.props.auth = ', this.props.auth);
     var showAuth = !this.props.auth ? {display: 'none'} : {};
     var showNotAuth = this.props.auth ? {display: 'none'} : {};
 
@@ -50,9 +49,8 @@ class NavBar extends React.Component {
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
-    auth: state.authenticated.authenticated
+    auth: state.auth.authenticated
   };
 }
 
