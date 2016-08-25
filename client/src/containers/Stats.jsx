@@ -8,7 +8,15 @@ import * as Actions from '../actions';
 export default class Stats extends React.Component {
   render() {
     return (
-      <div>
+      <div className="container">
+        <h3 className="sectionTitle">{this.props.username}</h3>
+        <div className="form-group">
+          <div className="control-label">Games Won:</div>
+          <div>{this.props.score}</div>
+          <br />
+          <div className="control-label">Games Played:</div>
+          <div>{this.props.games}</div>
+        </div>
       </div>
     )
   }
@@ -18,7 +26,9 @@ export default class Stats extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {  
-    activePlayer: state.info.active_player
+    username: state.auth.username,
+    score: state.auth.score,
+    games: state.auth.games
   };
 }
 

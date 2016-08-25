@@ -301,11 +301,16 @@ app.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+// These routes need auth, effectively middleware to catch-all route
 app.get('/play', isLoggedIn, function(req, res, next) {
   next();
 });
 
 app.get('/profile', isLoggedIn, function(req, res, next) {
+  next();
+});
+
+app.get('/game', isLoggedIn, function(req, res, next) {
   next();
 });
 
