@@ -89,6 +89,8 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
 
             console.log('party rejected, vetoCount is: ', vetoCount);
 
+            memcache.clearTeam();
+
             if (vetoCount >= 5) {
               // Set winners to minions in memcache and call the end of the game
               memcache.setWinner('MINIONS');

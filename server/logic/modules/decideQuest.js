@@ -97,6 +97,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
       console.log('Quest failure votes: ', failureVotes);
       requiredVotesToFail = currentQuest === 4 && totalPlayers >= 7 ? 2 : 1;
       questSucceeded = failureVotes < requiredVotesToFail ? true : false;
+      memcache.clearTeam();
       if (questSucceeded) {
         // TODO: Inform (signal websocket) players that the quest succeeded
         console.log('Quest succeeded');
