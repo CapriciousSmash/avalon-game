@@ -72,11 +72,10 @@ function isLoggedIn(req, res, next) {
   console.log(log);
   if (log) {
     console.log('success');
-    return true;//next();
+    return next();
   }
   console.log('failure');
-  return false;
-  // res.redirect('/signin');
+  return res.redirect('/signin');
 }
 
 var setting = {
@@ -276,7 +275,7 @@ io.on('connection', (socket)=>{
   });
 });
 
-app.get('/profile', function(req, res) {
+app.get('/stats', function(req, res) {
   // return information based on who's logged in
   var sessions = req.sessionStore.sessions;
   var userId;
@@ -300,6 +299,14 @@ app.get('/logout', function(req, res) {
   req.logout();
   req.session.destroy();
   res.redirect('/');
+});
+
+app.get('/play', isLoggedIn, function(req, res, next) {
+  next();
+});
+
+app.get('/profile', isLoggedIn, function(req, res, next) {
+  next();
 });
 
 // serve index.html for rest

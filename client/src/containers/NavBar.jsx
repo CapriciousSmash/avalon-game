@@ -9,7 +9,6 @@ import * as Actions from '../actions';
 // The NavBar class holds and handles the main point of navigation on
 // the page and exists inside of the App container. 
 class NavBar extends React.Component {
-
   render() {
     var showAuth = !this.props.auth ? {display: 'none'} : {};
     var showNotAuth = this.props.auth ? {display: 'none'} : {};
@@ -31,7 +30,7 @@ class NavBar extends React.Component {
                   <Link style={showAuth} to='profile'>Profile</Link>
                 </li>
                 <li>
-                  <a style={showAuth} href="/logout">Logout</a>
+                  <a style={showAuth} onClick={this.props.actions.logout} href="/logout">Logout</a>
                 </li>
                 <li>
                   <Link style={showNotAuth} to='signin'>Sign In</Link>

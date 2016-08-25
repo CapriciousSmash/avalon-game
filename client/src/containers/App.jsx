@@ -16,7 +16,7 @@ class App extends React.Component {
 
   getPlayerInfo(cb) {
     // when main page loads, request current player info
-    $.get('/profile', function(res) {
+    $.get('/stats', function(res) {
       // check if the response was an object
       if(typeof(res) === 'object') {
         // if so, then a user is in fact signed in

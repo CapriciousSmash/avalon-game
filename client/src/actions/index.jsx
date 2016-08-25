@@ -29,6 +29,12 @@ export function login(user){
   };
 }
 
+export function logout(){
+  return{
+    type: LOGGED_OUT
+  };
+}
+
 export function vrSetting(type, setting) {
   return {
     type: type,
