@@ -114,7 +114,7 @@ module.exports.questVote = function(memcache, socket, data) {
         if (qResults.indexOf(data.playerId) === -1) {
           memcache.saveQuestResult(data.playerId, data.vote);
           // If voting is complete, move onward.
-          var voteCount = qResults.length;
+          var voteCount = qResults.length + 1;
           console.log('qResults in logic intervene: ', qResults);
 
           if (voteCount === partyList.length) {
