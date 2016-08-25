@@ -29,6 +29,7 @@ function render() {
   // TODO: Considerations for optimization: Find a way to cut off player positioning
   // after the players are already correctly positioned
   this.positionPlayers(this.players, this.scene);
+
 }
 
 export default function init(usingVR) {
@@ -44,7 +45,8 @@ export default function init(usingVR) {
     defaultColor: 0x00b8ff
   };
   this.gameState = {
-    currentRound: 1
+    currentRound: 1,
+    ownRole: null
   };
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
