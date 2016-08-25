@@ -15,7 +15,6 @@ var router = require('./routes');
 var game = require('./logic/logic-main').gameLogic;
 var logicFilter = require('./logic/logic-intervene');
 
-
 var app = express();
 var port = process.env.PORT || 3000;
 
@@ -23,7 +22,6 @@ app.use(express.static(__dirname + '/../client/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-passportLocal(passport, User);
 app.use(cookieParser());
 app.use(session({ 
   secret: '8SER9M9jXS',
@@ -32,6 +30,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+passportLocal(passport, User);
 router(app, passport);
 
 var server = app.listen(port, ()=>{
