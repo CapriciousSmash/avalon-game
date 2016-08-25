@@ -8,6 +8,7 @@ export default {
 
     // Create event handler that holds onto the 'this' binding
     let eventHandler = () => {
+      console.log('calling item selection');
       this.itemSelection(signName, maxSelects, callback, options);
     };
     let boundHandler = eventHandler.bind(this);
@@ -49,9 +50,9 @@ export default {
       this.VRSelectionTimer++;
       if (this.VRSelectionTimer > 100) {
         console.log('click detected!');
-        this.VRSelectionTimer = 0;
       }
       if (this.VRSelectionTimer > 100 && this.VREventListeners.length > 0) {
+        console.log('selection confirmed');
         this.VRSelectionTimer = 0;
         this.VREventListeners[0].callback();
       }
