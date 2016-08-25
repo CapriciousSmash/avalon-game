@@ -96,6 +96,9 @@ export default {
     if (this.selected.length >= maxSelects) {
       callback(this.selected);
       this.removeObject(signName);
+      if (this.usingVR) {
+        this.removeVREventListener(signName);
+      }
       this.removeClickEventListener(this.clickEvent);
     }     
 
