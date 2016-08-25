@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import io from 'socket.io-client';
 
+import setGameState from '../actions/setGameState';
 import * as Actions from '../actions';
 
 import Game from '../components/Game';
@@ -52,7 +53,10 @@ class GameWrapper extends React.Component {
       login(this.socket.id);
     }.bind(this));
 
+
+
     socket.on('lobbyInfo', function(lobbyState, players) {
+      console.log('got lobby infor');
       var currentState = {};
       var roomNumber = 1;
       for (var key in lobbyState) {
@@ -63,10 +67,6 @@ class GameWrapper extends React.Component {
           count: players[key].length
         };
 
-        // Disable Join button for any room that are at capacity
-        // if ( lobbyState[key].status !== 'Waiting...' ) {
-        //   document.getElementById(roomNumber).nextSibling.disabled = true;
-        // }
         roomNumber++;
       }
 
@@ -85,10 +85,6 @@ class GameWrapper extends React.Component {
           count: players[key].length
         };
 
-        // Disable Join button for any room that are at capacity
-        // if ( lobbyState[key].status !== 'Waiting...' ) {
-        //   document.getElementById(roomNumber).nextSibling.disabled = true;
-        // }
         roomNumber++;
       }
 
@@ -98,7 +94,13 @@ class GameWrapper extends React.Component {
   }
 
   componentWillUnmount() {
-    //set room to nothing
+    console.log('LEAVING GAME WRAPPA');
+    this.socket.emit('leaveRoom', this.props.roomNumber);
+    this.props.actions.setGameRoom('');
+    if (this.props.playing) {
+      console.log('removing playing game state');
+      this.props.setGameState();
+    }
   }
 
   setGameRoom(e) {
@@ -114,10 +116,25 @@ class GameWrapper extends React.Component {
         : 
         (<div className='container lobbyRoomContainer'>
           {[1, 2, 3, 4].map(roomNumber => 
-            <div className='lobbyRoom' >
+            <div className='lobbyRoom' key={roomNumber} >
               <span className='lobbyRoomLabel'>Room {roomNumber}</span>
-              <span id={roomNumber} className='lobbyRoomStatus'>{this.state[roomNumber].count + '/' + this.state[roomNumber].max + ' ' + this.state[roomNumber].status}</span>
-              <button className='btn' key={roomNumber} onClick={this.setGameRoom.bind(this)} value={roomNumber} disabled={this.state[roomNumber].status !== 'Waiting...' ? true : false}>Join</button>
+              <span id={roomNumber} className='lobbyRoomStatus'>
+                {
+                  this.state[roomNumber].status === 'Playing' 
+                  ?
+                  this.state[roomNumber].status 
+                  :
+                  this.state[roomNumber].count + '/' + this.state[roomNumber].max + ' ' + this.state[roomNumber].status
+                }
+              </span>
+              <button 
+                className='btn' 
+                key={roomNumber} 
+                onClick={this.setGameRoom.bind(this)} 
+                value={roomNumber} 
+                disabled={this.state[roomNumber].status !== 'Waiting...' ? true : false}>
+                Join
+              </button>
             </div>
           )}
           </div>
@@ -147,6 +164,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
+    setGameState: bindActionCreators(setGameState, dispatch),
     actions: bindActionCreators(Actions, dispatch)
   };
 }
