@@ -83,9 +83,6 @@ export default {
       return;
     }
     
-    console.log('signName: ', signName);
-    console.log('maxselects', maxSelects);
-    console.log('type of callback: ', typeof callback);
     console.log('comparing choices of ', options);
     console.log('to hitobject named: ', hitObject.name);
     if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
