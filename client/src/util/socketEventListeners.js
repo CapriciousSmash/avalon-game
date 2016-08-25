@@ -40,9 +40,21 @@ module.exports = {
           }, roomId);
         }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
+      } else {
+        var size = {
+          x: 32,
+          y: 32
+        };
+        var position = {
+          x: game.scene.getObjectByName(data.currentLeader).position.x,
+          y: game.scene.getObjectByName(data.currentLeader).position.y + 50,
+          z: game.scene.getObjectByName(data.currentLeader).position.z
+        };
+        game.addPlayerToken('partyLeader', size, position);
       }
     }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
+      game.removeObject('partyLeader');
       game.removeObject(socket.id);
       console.log('Data I got from resolveParty', data);
       game.resetPlayers(game.players, game.scene, game.gameState.ownRole);
@@ -62,6 +74,7 @@ module.exports = {
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
+      console.log('Data I got from startQuest', data);
       if (data.partyMembers.includes(socket.id)) {
         game.questButtons(voteOnQuest => {
           socket.emit('voteOnQuest', {
@@ -71,12 +84,25 @@ module.exports = {
         });
         game.addSign('passQuest');
       }
-      console.log('Data I got from startQuest', data);
+      for (var i = 0; i < data.partyMembers.length; i++) {
+        if (game.scene.getObjectByName(data.partyMembers[i])) {
+          var size = {
+            x: 32,
+            y: 64
+          };
+          var position = {
+            x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
+            y: game.scene.getObjectByName(data.partyMembers[i]).position.y + 50,
+            z: game.scene.getObjectByName(data.partyMembers[i]).position.z
+          };
+          game.addPlayerToken('party', size, position);
+        }
+      }
     });
     socket.on('resolveQuest', function(data) {
        // data.result will yield 'failure' or 'success'
       console.log('Data I got from resolveQuest', data);
-
+      game.removeObject('party');
       game.removeObject('passQuest');
       if ( data.result === 'success' ) {
         game.addSign('questSuccess');
@@ -93,7 +119,9 @@ module.exports = {
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
       setTimeout(()=>{
         game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
-        game.addSign('gameOver');
+        if (data.winners === 'falise') {
+          game.addSign('gameOver');
+        }
       }, 10000);
     });
     socket.on('chooseMerlin', function(data) {

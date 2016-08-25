@@ -19,6 +19,7 @@ export default {
   addSign: helper.addSign,
   addButton: helper.addButton,
   addSelf: helper.addSelf,
+  addPlayerToken: helper.addPlayerToken,
   removeObject: helper.removeObject,
   addClickEventListener: helper.addClickEventListener,
   removeClickEventListener: helper.removeClickEventListener,
