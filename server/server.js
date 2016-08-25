@@ -72,7 +72,7 @@ function isLoggedIn(req, res, next) {
   console.log(log);
   if (log) {
     console.log('success');
-    return true;//next();
+    return next();
   }
   console.log('failure');
   return res.redirect('/signin');
