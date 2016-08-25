@@ -118,7 +118,7 @@ module.exports = {
 
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
       setTimeout(()=>{
-        game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+        game.removeObject(data.winners === 'false' || 'MINIONS' ? 'minionsWin' : 'heroesWin');
         if (data.winners === 'falise') {
           game.addSign('gameOver');
         }
