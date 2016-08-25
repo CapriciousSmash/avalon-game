@@ -69,7 +69,7 @@ function deepSearch(id, arr) {
 function isLoggedIn(req, res, next) {
   var log = req.isAuthenticated();
   console.log(log);
-  if(log) {
+  if (log) {
     console.log('success');
     return next();
   }
@@ -114,7 +114,7 @@ io.on('connection', (socket)=>{
     }
   });
 
-  socket.on('sendCheckBox', function(value){
+  socket.on('sendCheckBox', function(value) {
     if (setting[value]) {
       setting[value] = false;
     } else {
@@ -127,20 +127,20 @@ io.on('connection', (socket)=>{
     memcache[roomId].setCapMax(value);
     lobbyState[roomId].max = value;
     /*              Come back to me                     */
-    io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
+    io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     io.emit('updateParty', value);
   });
 
-  socket.on('updateOnCharacter', function(value){
+  socket.on('updateOnCharacter', function(value) {
     io.emit('updateCharacter', value, setting[value]);
   });
 
-  socket.on('updateOnParty', function(roomId, value){
-    console.log('roomId',roomId);
-    memcache[roomId].getCapMax().then(function(data){
+  socket.on('updateOnParty', function(roomId, value) {
+    console.log('roomId', roomId);
+    memcache[roomId].getCapMax().then(function(data) {
       data = data || 5;
       io.emit('updateParty', data);
-    })
+    });
   });
 
   //LOBBY==================================================
@@ -170,7 +170,7 @@ io.on('connection', (socket)=>{
       });
 
       //Tell people in lobby the new room status
-      io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
+      io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     } else {    
       //Too many people in the room
       socket.emit('joinResponse'. false);
@@ -273,7 +273,7 @@ io.on('connection', (socket)=>{
   });
 });
 // serve index.html for rest
-app.get('*',function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
@@ -303,4 +303,4 @@ app.get('/logout', function(req, res) {
 
 app.get('/main', isLoggedIn, function(req, res) {
   res.render('/main');
-})
+});
