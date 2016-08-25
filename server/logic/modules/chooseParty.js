@@ -56,7 +56,7 @@ var chooseParty = function(memcache, socket) {
 
         setTimeout(function() {
           console.log('resolveParty called by setTimeout from chooseParty');
-          resolveParty(memcache, socket);
+          resolveParty(memcache, socket, partySize);
         }, 30000);
 
       });
@@ -65,7 +65,7 @@ var chooseParty = function(memcache, socket) {
 
 };
 
-var resolveParty = function(memcache, socket) {
+var resolveParty = function(memcache, socket, partySize) {
   console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
   memcache.getTurnPhase()
@@ -82,12 +82,27 @@ var resolveParty = function(memcache, socket) {
     // Party members should have been set by a previous socket. 
     memcache.getTeam()
     .then(function(partyMembers) {
-      console.log('reading party from memcache: ', partyMembers);
-      socket.emit('resolveParty', {
-        gameId: 5318008,
-        partyMembers,
-      });
-
+      // If party is not the right size, force choose a random party
+      if (partySize && partyMembers.length !== partySize) {
+        memcache.getPids().then(function(pidsList) {
+          var randomMembers = [];
+          for (var x = 0; x < partySize; x++) {
+            randomMembers.push(
+              pidsList.splice(Math.floor(Math.random() * pidsList.length), 1));
+          }
+          socket.emit('resolveParty', {
+            gameId: 5318008,
+            partyMembers: randomMembers
+          });
+        });
+      } else {
+        console.log('reading party from memcache: ', partyMembers);
+        socket.emit('resolveParty', {
+          gameId: 5318008,
+          partyMembers,
+        });     
+      }
+      
       setTimeout(function() {
         console.log('voteOnParty called by setTimeout from resolveParty');
         voteOnParty(memcache, socket, chooseParty);

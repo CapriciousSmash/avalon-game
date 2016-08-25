@@ -85,6 +85,13 @@ var resolveQuest = function(memcache, socket, chooseParty) {
     .then(function(results) {
       playerVotes = results.slice();
       console.log('Player votes in resolve quest: ', playerVotes);
+      // If there are not enough votes, add in default votes to true (succeed)
+      if (playerVotes.length < partyMembers.length) {
+        for (var x = 0; x < partyMembers.length - playerVotes.length; x++) {
+          playerVotes.push('true');
+        }
+      }
+
       for (var i = 0; i < playerVotes.length; i++) {
         if (playerVotes[i] === 'true') {
           successVotes++;
