@@ -59,7 +59,7 @@ export default function init(usingVR) {
   this.usingVR = usingVR === undefined ? false : usingVR;
 
   // Uncomment this line to force VR mode. 
-  this.usingVR = true;
+  // this.usingVR = true;
 
   // VR VARIABLES ///////////////////////////
   if (this.usingVR) {
