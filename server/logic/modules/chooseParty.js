@@ -91,7 +91,7 @@ var resolveParty = function(memcache, socket, partySize) {
               pidsList.splice(Math.floor(Math.random() * pidsList.length), 1));
           }
           memcache.clearTeam().then(function() {
-            for (var y = 0; y < randomMembers; y++) {
+            for (var y = 0; y < randomMembers.length; y++) {
               memcache.addToTeam(randomMembers[y]);
             }
           });
