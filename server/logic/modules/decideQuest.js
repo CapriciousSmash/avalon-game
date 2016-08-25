@@ -141,7 +141,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
         });
         if (++numFailures >= 3) {
           // TODO: Set winners to minions in the memcache
-          memcache.setwinner(false);
+          memcache.setWinner(false);
           // TODO: Set timer for gameEnd with minion victory
           setTimeout(function() {
             console.log('calling gameEnd by setTimeout from resolveQuest');
