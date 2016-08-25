@@ -6,12 +6,11 @@ module.exports.startQuest = function(memcache, socket, chooseParty) {
   // Information needed from memcache
   // - Current party composition
   memcache.setTurnPhase('QUEST');
-  console.log('after set turn phase to quest');
 
   var partyMembers;
   memcache.getTeam().then(function(party) {
-    console.log('inside get team for starting quest');
     partyMembers = party;
+    console.log('starting quest with party: ', party);
     // TODO: Set current game phase in memcache to 'QUEST'
 
     // TODO: Signal to players that the quest has started and the party members
@@ -87,7 +86,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
       playerVotes = results.slice();
       console.log('Player votes in resolve quest: ', playerVotes);
       for (var i = 0; i < playerVotes.length; i++) {
-        if (playerVotes[i] === true) {
+        if (playerVotes[i] === 'true') {
           successVotes++;
         } else {
           failureVotes++;
