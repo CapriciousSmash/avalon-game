@@ -16,7 +16,6 @@ const Room = React.createClass ({
     };
   },
   componentWillMount: function() {
-    console.log("mounting room!");
     //Todo: error with set state when mounting again after first time
     //Connect to server
     var socket = this.props.socket;
@@ -33,6 +32,9 @@ const Room = React.createClass ({
     socket.on('leaveRoomGoToGamePage', () => {
       this.props.setGameState();
     });
+  },
+  componentWillUnmount() {
+    console.log('LEAVING THE GAME UNMOUNTING');
   },
   readyHandler: function(e) {
     this.setState({

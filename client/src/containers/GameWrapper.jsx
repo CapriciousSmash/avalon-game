@@ -56,7 +56,6 @@ class GameWrapper extends React.Component {
 
 
     socket.on('lobbyInfo', function(lobbyState, players) {
-      console.log('got lobby infor');
       var currentState = {};
       var roomNumber = 1;
       for (var key in lobbyState) {
@@ -94,6 +93,7 @@ class GameWrapper extends React.Component {
   }
 
   componentWillUnmount() {
+<<<<<<< HEAD
     console.log('LEAVING GAME WRAPPA');
     this.socket.emit('leaveRoom', this.props.roomNumber);
     this.props.actions.setGameRoom('');
@@ -101,6 +101,9 @@ class GameWrapper extends React.Component {
       console.log('removing playing game state');
       this.props.setGameState();
     }
+=======
+    //set room to nothing
+>>>>>>> Fix code style
   }
 
   setGameRoom(e) {
