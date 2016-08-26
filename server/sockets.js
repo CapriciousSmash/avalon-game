@@ -3,6 +3,10 @@ var deepSearch = require('./utility/deepSearch.js');
 var memcache = require('./utility/makeServers.js').memcache;
 var lobbyState = require('./utility/makeServers.js').lobbyState;
 var players = require('./utility/makeServers.js').players;
+// Import the game logic router to allow calling of game logic functions
+// based on received signals
+var game = require('./logic/logic-main').gameLogic;
+var logicFilter = require('./logic/logic-intervene');
 
 module.exports = function(server) {
   var io = sockets.listen(server);
