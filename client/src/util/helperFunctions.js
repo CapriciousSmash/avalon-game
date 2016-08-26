@@ -43,7 +43,7 @@ export default {
     sign.position.set(position.x, position.y, position.z);
     sign.name = player;
     person.add(sign);
-  }
+  },
   // Adds the relevant buttons to the screen to allow users to perform actions appropriate
   // to the game phase
   addButton: function(name, option, size, position) {
