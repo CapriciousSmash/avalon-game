@@ -22,10 +22,16 @@ export function setGameRoom(number) {
 export function login(user){
   return{
     type: LOGGED_IN,
-    uid: user,
-    settings: {
-      username: 'cat'
-    }
+    uid: user.id,
+    username: user.username,
+    score: user.points,
+    games: user.games
+  };
+}
+
+export function logout(){
+  return{
+    type: LOGGED_OUT
   };
 }
 
