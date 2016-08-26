@@ -124,13 +124,6 @@ module.exports = {
     } else {
       this.addClickEventListener('pickParty', partyNumber, sendPickedParty, {choices: pidsList}); 
     }
-
-    setTimeout(()=>{
-      //Remove sign and click event listener if no choice made
-      this.removeObject(name);     
-      this.removeObject('pickParty');
-      this.removeClickEventListener();
-    }, 30000);
   },
   // Shows all players who are voting on the party who was chosen as the party members
   partyMembers: function(partyMembers) {
@@ -174,13 +167,6 @@ module.exports = {
     } else {
       this.addClickEventListener('approveParty', 1, votePartyCallback, {choices: ['accept', 'reject']});
     }
-
-    setTimeout(()=>{
-      this.removeObject('approveParty'); 
-      this.removeObject('accept');
-      this.removeObject('reject');
-      this.renderer.domElement.removeEventListener('click', this.clickEvent);
-    }, 30000);
   },
   // TODO: Pending field tes to determine whether these buttons are
   // well placed at these coordinates 
@@ -221,13 +207,6 @@ module.exports = {
     } else {
       this.addClickEventListener('passQuest', 1, voteQuestCallback, {choices: ['success', 'fail']});
     }
-
-    setTimeout(()=>{
-      this.removeObject('passQuest');
-      this.removeObject('success');
-      this.removeObject('fail');        
-      this.renderer.domElement.removeEventListener('click', this.clickEvent);
-    }, 30000);
   },
   addTokens: function(qResult, round, scene) {
     let imageSrc = 'images/in-game/' + (qResult === 'SUCCESS' ? 'succeeded' : 'failed') + '.jpg';
@@ -240,7 +219,7 @@ module.exports = {
     token.position.z = 10;
 
     scene.add(token);
-    
+
   },
   stabMerlin: function(sendPickedMerlin) {
     var players = [];
@@ -248,11 +227,5 @@ module.exports = {
       players.push(this.players[i].uid)
     }
     this.addClickEventListener('stabMerlin', 1, sendPickedMerlin, {choices:players});
-
-    setTimeout(()=>{
-      //Remove sign and click event listener if no choice made
-      this.removeObject('stabMerlin');
-      this.removeClickEventListener();
-    }, 5000);
   }
 };
