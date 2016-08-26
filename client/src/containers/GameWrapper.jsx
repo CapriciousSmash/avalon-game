@@ -156,7 +156,7 @@ class GameWrapper extends React.Component {
 
     return (
       <div className='text-center'>
-        {this.props.vrSetting === undefined ? matchMaking : vrSetting} 
+        {this.props.vrSetting !== undefined ? matchMaking : vrSetting} 
       </div>
     );
   }

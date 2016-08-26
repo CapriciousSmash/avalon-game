@@ -31,6 +31,6 @@ module.exports.gameLogic = function(memcache, socket, type) {
     resolveQuest(memcache, socket, chooseParty);
   }
   if (type === 'RESOLVE MERLIN') {
-    resolveIdMerlin(memcache, socket);
+    resolveIdMerlin(memcache, socket, gameOver);
   }
 };
