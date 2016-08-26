@@ -38,7 +38,9 @@ module.exports = {
       while ( game.scene.getObjectByName('party') ) {
         game.removeObject('party');
       }
-
+      while ( game.scene.getObjectByName('partyLeader') ) {
+        game.removeObject('partyLeader');
+      }
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
