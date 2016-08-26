@@ -16,7 +16,6 @@ class Game extends React.Component {
     var socket = this.props.socket;
     webSockets.gameInit(socket);
 
-    //Disable audio for testing purposes
     var webrtc = new SimpleWebRTC({
       localVideoEl: '',
       remoteVideosEl: '',
@@ -37,13 +36,10 @@ class Game extends React.Component {
     });
 
     $('#loading-animation').removeClass('hidden');
-    $('#gameContainer').addClass('hidden');
+    $('#loading-animation').fadeOut(3000, function() { $(this).addClass('hidden'); });
+
     socket.emit('startGame', this.props.roomNumber, socket.id.slice(2));
     
-    setTimeout(()=>{
-      $('#gameContainer').removeClass('hidden');
-      //$('#loading-animation').fadeOut(2500, function() { $(this).addClass('hidden'); });
-    }, 2000);
 
     webSockets.allListeners(socket, this.props.roomNumber);
   }
