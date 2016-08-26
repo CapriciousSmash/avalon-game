@@ -1,8 +1,8 @@
 import game from '../scripts/game';
 
 module.exports = {
-  gameInit: function(socket) {
-    game.init();
+  gameInit: function(socket, vrSetting) {
+    game.init(vrSetting);
     //Show user
     $('#gameUserInfoContainer .userName').text( socket.id );
 

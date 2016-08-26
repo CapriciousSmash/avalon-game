@@ -2,7 +2,7 @@ var identifyMerlin = require('./identifyMerlin').identifyMerlin;
 var increasePoints = require('../../db/controller/index.js').increaseScore;
 var increaseGames = require('../../db/controller/index.js').increaseGames;
 // Functions that take place on the game is over
-module.exports.gameEnd = function(memcache, socket) {
+module.exports.gameEnd = function(memcache, socket, gameOver) {
   console.log('game is ending');
   // Information needed from memcache
   // - Game winner (knights or minions)
@@ -36,7 +36,7 @@ module.exports.gameEnd = function(memcache, socket) {
       if (winners === 'true' && merlinId) {
         // TODO: Set timer for identifyMerlin
         setTimeout(function() {
-          identifyMerlin(memcache, socket);
+          identifyMerlin(memcache, socket, gameOver);
         }, 5000);
       } else {
         // TODO: Set timer for gameOver
