@@ -143,7 +143,7 @@ export default function init(usingVR) {
       $gameContainer.webkitRequestFullscreen();
     }
     this.resize();
-  }
+  };
 
   // setOrientationControls will activate if the user is on mobile and override controls
   const setOrientationControls = (e) => {
@@ -206,7 +206,8 @@ export default function init(usingVR) {
   //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
   ////REMOVE SKYBOX FOR MVP
   this.cubeLoader = new THREE.CubeTextureLoader();
-  this.cubeLoader.setPath('skybox/ame_ash/');
+  let skyboxImagePaths = ['ame_ash', 'ame_oasis', 'ely_peaks', 'envmap_stormydays', 'mp_moondust'];
+  this.cubeLoader.setPath('images/skybox/' + 'ame_ash' + '/');
   var skyboxImages = ['pz.png', 'nz.png',
                       'py.png', 'ny.png', 
                       'px.png', 'nx.png'];
