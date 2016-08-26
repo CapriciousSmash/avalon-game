@@ -17,6 +17,7 @@ export default {
   // Helper functions
   intersect: helper.intersect,
   addSign: helper.addSign,
+  addPlayerSign: helper.addPlayerSign,
   addButton: helper.addButton,
   addSelf: helper.addSelf,
   addPlayerToken: helper.addPlayerToken,
