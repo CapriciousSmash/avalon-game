@@ -19,4 +19,6 @@ for (var x = 1; x <= 4; x ++) {
   };  
 }
 
-module.exports = memcache;
+module.exports.memcache = memcache;
+module.exports.lobbyState = lobbyState;
+module.exports.players = players;

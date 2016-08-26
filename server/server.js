@@ -29,9 +29,6 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   cookie: {
-    genid: function(req) {
-      return genuuid();
-    },
     secret: '8SER9M9jXS'
   }
 }));
