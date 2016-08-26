@@ -65,7 +65,7 @@ export default {
 
     this.scene.add(cylinder);
   },
-  addPlayerToken: function(name, size, position, uid) {
+  addPlayerToken: function(name, size, position) {
     let texture = this.textureLoader.load('images/in-game/' + name + '.jpg');
     let box = new THREE.BoxGeometry(size.x, size.y, size.z);
     let material = new THREE.MeshBasicMaterial({map: texture});
@@ -74,11 +74,8 @@ export default {
 
     token.position.set(position.x, position.y, position.z );
     token.name = name;
-    if ( this.scene.getObjectByName(uid) ) {
-      this.scene.add(token);
-    } else {
-      //Add token on top of camera ========> take care of me
-    }
+
+    this.scene.add(token);
   },
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
