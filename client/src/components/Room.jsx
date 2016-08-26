@@ -16,6 +16,7 @@ const Room = React.createClass ({
     };
   },
   componentWillMount: function() {
+    console.log("mounting room!");
     //Todo: error with set state when mounting again after first time
     //Connect to server
     var socket = this.props.socket;
