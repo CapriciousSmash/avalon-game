@@ -50,14 +50,24 @@ module.exports.localAuth = function(User) {
   }, function(req, username, password, done) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
-      User.findOrCreate({where: {
+      User.find({where: {
         username: username,
-        password: User.generateHash(password)
       }})
       .then(function(user) {
-        done(null, user);
+        console.log('new user', user)
+        if (user !== null) {
+          done(null, null);
+        } else {
+          User.findOrCreate({where: {
+            username: username,
+            password: User.generateHash(password)
+          }})
+          .then(function(user) {
+            done(null, user);
+          })
+        }
       }).catch(function(err) {
-        done(err);
+        done(err, null);
       });
     } else {
       //user exists and is logged in
