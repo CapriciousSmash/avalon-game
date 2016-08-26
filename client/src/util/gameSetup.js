@@ -208,9 +208,10 @@ export default function init(usingVR) {
   this.cubeLoader = new THREE.CubeTextureLoader();
   let skyboxImagePaths = ['ame_ash', 'ame_oasis', 'ely_peaks',
                           'envmap_stormydays', 'hw_spires', 'mp_badomen',
-                          'mp_moondust', 'sor_hills'];
+                          'sor_hills'];
 
-  this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[7] + '/');
+  this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[Math.floor(Math.random() * 7)] + '/');
+  //For a pretty perma background
   //this.cubeLoader.setPath('images/skybox/' + 'hw_spires' + '/');
   var skyboxImages = ['px.png', 'nx.png',
                       'py.png', 'ny.png', 
