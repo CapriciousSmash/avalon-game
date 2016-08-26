@@ -11,8 +11,8 @@ GAME VARS: players, roleColors, selected, clickEvent
 */
 
 export default {
-  init: function() {
-    init.call(this); 
+  init: function(vrSetting) {
+    init.call(this, vrSetting); 
   },
   // Helper functions
   intersect: helper.intersect,

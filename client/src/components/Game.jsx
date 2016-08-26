@@ -14,7 +14,7 @@ class Game extends React.Component {
   }
   componentDidMount() {
     var socket = this.props.socket;
-    webSockets.gameInit(socket);
+    webSockets.gameInit(socket, this.props.vrSetting);
 
     //Disable audio for testing purposes
     // var webrtc = new SimpleWebRTC({

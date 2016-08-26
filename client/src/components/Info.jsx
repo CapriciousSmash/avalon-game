@@ -12,20 +12,20 @@ const Info = (props) => {
   console.log(props.activeSection);
   const renderSection = props.activeSection || 'GETTING STARTED';
   return (
-    <div style={{overflow: 'scroll'}}>
+    <div style={{height: '500px', width: '800px', overflow: 'auto'}}>
       <div className="span3" style={{position: 'fixed'}}>
-        <InfoBar className="span9" onGotoSection={props.onGotoSection} />
+        <InfoBar onGotoSection={props.onGotoSection} />
       </div>
       {
         // Function redirects to proper component:
         function(activeSection) {
           switch (activeSection) {
             case 'GETTING STARTED':
-              return <GettingStarted />
+              return <GettingStarted className="span9"/>
             case 'RULES':
-              return <GameRules />
+              return <GameRules className="span9"/>
             case 'CHARACTERS': 
-              return <CharactersInfo />
+              return <CharactersInfo className="span9"/>
           }
         }(renderSection)
       }
