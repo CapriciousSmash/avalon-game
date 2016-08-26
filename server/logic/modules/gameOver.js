@@ -73,7 +73,7 @@ var gameOver = function(memcache, socket) {
       memcache.getKnights()
       .then(function(knights) {
         for (var i = 0; i < knights.length; i++) {
-          increasePoints(knights[i]);
+          // increasePoints(knights[i]);
         }
       })
     } else /* Game winners are minions */ {
@@ -82,7 +82,7 @@ var gameOver = function(memcache, socket) {
       memcache.getMinions()
       .then(function(minions) {
         for (var i = 0; i < minions.length; i++) {
-          increasePoints(minions[i]);
+          // increasePoints(minions[i]);
         }
       })
     }
@@ -91,7 +91,7 @@ var gameOver = function(memcache, socket) {
     memcache.getPids()
     .then(function(pids) {
       for (var i = 0; i < pids.length; i++) {
-        increaseGames(pids[i]);
+        // increaseGames(pids[i]);
       }
     })
     .then(function() {

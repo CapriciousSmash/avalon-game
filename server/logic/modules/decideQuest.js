@@ -1,5 +1,6 @@
 var gameEnd = require('./gameOver').gameEnd;
 var chooseParty = require('./chooseParty').chooseParty;
+var logicRouter = require('../logic-main').gameLogic;
 
 module.exports.startQuest = function(memcache, socket, chooseParty) {
   console.log('starting quest');
@@ -25,7 +26,7 @@ module.exports.startQuest = function(memcache, socket, chooseParty) {
     setTimeout(function() {
       console.log('call resolveQuest by setTimeout from startQuest');
       resolveQuest(memcache, socket, chooseParty);
-    }, 30000);
+    }, 45000);
   });
 };
 
@@ -123,7 +124,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           //  Set timer for gameEnd
           setTimeout(function() {
             console.log('calling gameEnd by setTimeout from resolveQuest');
-            gameEnd(memcache, socket);
+            logicRouter(memcache, socket, 'GAME END');
           }, 5000);
 
         } else /* Less than 3 quests succeeded */ {
@@ -152,7 +153,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           // TODO: Set timer for gameEnd with minion victory
           setTimeout(function() {
             console.log('calling gameEnd by setTimeout from resolveQuest');
-            gameEnd(memcache, socket);
+            logicRouter(memcache, socket, 'GAME END');
           }, 5000);
         } else /* Less than 3 quests have failed */ {
           // TODO: Increase total number of failures in memcache
