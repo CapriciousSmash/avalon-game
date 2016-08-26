@@ -2,7 +2,7 @@ var gameOver = require('./gameOver').gameOver;
 
 // Gives minions chance for redemption in game if the Assassin correctly identifies
 // which player is Merlin
-module.exports.identifyMerlin = function(memcache, socket) {
+module.exports.identifyMerlin = function(memcache, socket, gameOver) {
   console.log('identifying Merlin');
   // Information needed from memcache
   // - Identify of Assassin
@@ -22,12 +22,12 @@ module.exports.identifyMerlin = function(memcache, socket) {
 
     // TODO: Set timer for resolveIdMerlin
     setTimeout(function() {
-      resolveIdMerlin(memcache, socket);
+      resolveIdMerlin(memcache, socket, gameOver);
     }, 5000);
   });
 };
 
-var resolveIdMerlin = function(memcache, socket) {
+var resolveIdMerlin = function(memcache, socket, gameOver) {
   console.log('checking Merlin\'s identity');
   // TODO: If the current game phase is not 'ID MERLIN', fizzle
   memcache.getTurnPhase()
