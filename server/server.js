@@ -69,7 +69,7 @@ function deepSearch(id, arr) {
 function isLoggedIn(req, res, next) {
   var log = req.isAuthenticated();
   console.log(log);
-  if(log) {
+  if (log) {
     console.log('success');
     return next();
   }
@@ -85,6 +85,7 @@ var setting = {
 io.on('connection', (socket)=>{
   //Join lobby immediately
   socket.join('capri0sun');
+  //console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState, players);
 
   //PLAYER==================================================
@@ -94,11 +95,12 @@ io.on('connection', (socket)=>{
     //Have to find the player in the room, find better optimization
     var roomId;
     for (var prop in players) {
-      if ( deepSearch(socket.id.slice(2), players[prop])) {
+      if ( deepSearch(socket.id.slice(2), players[prop]) > -1 ) {
         roomId = prop;
         players[prop].splice(deepSearch(socket.id.slice(2), players[prop]), 1);
       }
     }
+
     if (roomId) {
       //If room was full show now there is a space available
       if (lobbyState[roomId].status === 'Ready') {
@@ -110,11 +112,11 @@ io.on('connection', (socket)=>{
           players: players[roomId].slice(1, players[roomId].length)        
         });
       }
-      io.to('capri0sun').emit('lobbyState', lobbyState);
+      io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     }
   });
 
-  socket.on('sendCheckBox', function(value){
+  socket.on('sendCheckBox', function(value) {
     if (setting[value]) {
       setting[value] = false;
     } else {
@@ -127,20 +129,20 @@ io.on('connection', (socket)=>{
     memcache[roomId].setCapMax(value);
     lobbyState[roomId].max = value;
     /*              Come back to me                     */
-    io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
+    io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     io.emit('updateParty', value);
   });
 
-  socket.on('updateOnCharacter', function(value){
+  socket.on('updateOnCharacter', function(value) {
     io.emit('updateCharacter', value, setting[value]);
   });
 
-  socket.on('updateOnParty', function(roomId, value){
-    console.log('roomId',roomId);
-    memcache[roomId].getCapMax().then(function(data){
+  socket.on('updateOnParty', function(roomId, value) {
+    console.log('roomId', roomId);
+    memcache[roomId].getCapMax().then(function(data) {
       data = data || 5;
       io.emit('updateParty', data);
-    })
+    });
   });
 
   //LOBBY==================================================
@@ -170,7 +172,7 @@ io.on('connection', (socket)=>{
       });
 
       //Tell people in lobby the new room status
-      io.to('capri0sun').emit('lobbyStatus', lobbyState, players)
+      io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     } else {    
       //Too many people in the room
       socket.emit('joinResponse'. false);
@@ -195,9 +197,9 @@ io.on('connection', (socket)=>{
     if (lobbyState[oldRoomId].status === 'Ready') {
       lobbyState[oldRoomId].status = 'Waiting...';
       memcache[oldRoomId].setStatus('Waiting...');
-      //Tell people in lobby the new room status
-      io.to('capri0sun').emit('lobbyState', lobbyState);
     }
+    //Tell people in lobby the new room status
+    io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
   });
   //ROOM==================================================
   socket.on('ready', function(data) {
@@ -225,6 +227,9 @@ io.on('connection', (socket)=>{
   //GAME INIT=============================================
   socket.on('startGame', function(roomId, person) {
     console.log('STARTING THE GAME', roomId, '-', person);
+    //Tell Lobby game is starting
+    lobbyState[roomId].status = 'Playing';
+    io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     //Only game master can start the game
     if (socket.id.slice(2) === players[roomId][0].uid) {
       io.to(roomId).emit('allPeers', players[roomId]);
@@ -239,10 +244,6 @@ io.on('connection', (socket)=>{
         }, 5000);
       });
     }
-  });
-
-  socket.on('message', function(msg) {
-    console.log('pls work', msg);
   });
 
   //IN GAME ACTIONS=======================================
@@ -273,7 +274,7 @@ io.on('connection', (socket)=>{
   });
 });
 // serve index.html for rest
-app.get('*',function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
 });
 
@@ -303,4 +304,4 @@ app.get('/logout', function(req, res) {
 
 app.get('/main', isLoggedIn, function(req, res) {
   res.render('/main');
-})
+});
