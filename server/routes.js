@@ -37,7 +37,7 @@ module.exports = function(app, passport) {
   });
 
   // These routes need auth, effectively middleware to catch-all route
-  app.get('/play', isAuth);//, sendFile);
+  app.get('/play', isAuth, sendFile);
   app.get('/profile', isAuth, sendFile);
   app.get('/game', isAuth, sendFile);
 
