@@ -1,4 +1,4 @@
-// var passport = require('passport');
+var passport = require('passport');
 var LocalStrategy = require('passport-local');
 
 // Auth check to redirect those not signed in
@@ -13,27 +13,34 @@ module.exports.isAuth = function(req, res, next) {
   return res.redirect('/signin');
 }
 //---------------------------Local Strategy-------------------------------------
-module.exports.localAuth = function(passport, User) {
+module.exports.localAuth = function(User) {
 
   passport.serializeUser(function(user, done) {
     var uid;
     console.log('serialize user');
     if (Array.isArray(user)) {
-      uid = user[0].id;
+      uid = user[0].dataValues.id;
     } else {
-      uid = user.id;
+      uid = user.dataValues.id;
     }
+    console.log('uid', uid);
     return done(null, uid);
   });
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
-    console.log('deserialize user');
+    console.log('deserialize user ', id);
     return User.find({where: {
         id: id
       }})
-      .then((user) => done(null, user))
-      .catch((err) => done(err, null));
+      .then(function(user) {
+        console.log('deserialize successfull, ', user.dataValues.id);
+        done(null, user.dataValues.id);
+      })
+      .catch(function(err) {
+        console.log('deserialize unsuccessfull');
+        done(err, null);
+      });
   });
   
   passport.use('local-signup', new LocalStrategy({

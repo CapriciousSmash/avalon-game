@@ -21,19 +21,26 @@ var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/../client/public'));
 
+passportLocal(User);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({ 
   secret: '8SER9M9jXS',
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    genid: function(req) {
+      return genuuid();
+    },
+    secret: '8SER9M9jXS'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passportLocal(passport, User);
-router(app, passport);
+router(app);
 
 var server = app.listen(port, ()=>{
   console.log('Listening on port', port);

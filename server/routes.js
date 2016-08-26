@@ -1,8 +1,9 @@
 var isAuth = require('./auth/localAuth.js').isAuth;
 var path = require('path');
 var pgHelp = require('./db/controller/index.js');
+var passport = require('passport');
 
-module.exports = function(app, passport) {
+module.exports = function(app) {
 
   var sendFile = function(req, res) {
     res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
@@ -11,13 +12,10 @@ module.exports = function(app, passport) {
   // utility endpoint to return player data for use in the app
   app.get('/stats', function(req, res) {
     // return information based on who's logged in
-    var sessions = req.sessionStore.sessions;
+    var currSession = req.session;
     var userId;
-    for (var key in sessions) {
-      var uid = JSON.parse(sessions[key])
-      if (uid.passport && uid.passport.user) {
-        userId = uid.passport.user;
-      }
+    if (currSession.passport && currSession.passport.user) {
+      userId = currSession.passport.user;
     }
     if(userId) {
       pgHelp.getInfo(userId)
