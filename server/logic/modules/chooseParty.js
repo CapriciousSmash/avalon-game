@@ -42,8 +42,8 @@ var chooseParty = function(memcache, socket) {
         var partySize = teamBuilder[numPlayers - 5] ? teamBuilder[numPlayers - 5][currentRound - 1] : 0;
 
         console.log('choose Party size: ', partySize);
-        console.log('party size is based on numPlayers - 5: ', numPlayers);
-        console.log('and party size is based on currentRound - 1: ', currentRound);
+        console.log('party size is based on numPlayers: ', numPlayers);
+        console.log('and party size is based on currentRound: ', currentRound);
 
         // The current leader should be interpreted by the actual current leader on the
         // client side to know that they should decide the party size based on the limit set
@@ -56,7 +56,7 @@ var chooseParty = function(memcache, socket) {
 
         setTimeout(function() {
           console.log('resolveParty called by setTimeout from chooseParty');
-          resolveParty(memcache, socket);
+          resolveParty(memcache, socket, partySize);
         }, 30000);
 
       });
@@ -65,14 +65,13 @@ var chooseParty = function(memcache, socket) {
 
 };
 
-var resolveParty = function(memcache, socket) {
+var resolveParty = function(memcache, socket, partySize) {
   console.log('resolving party choice');
   // Get current phase to decide whether this function should run or fizzle
-  console.log('resolveParty chooseParty log: ', typeof chooseParty);
   memcache.getTurnPhase()
   .then(function(gamePhase) {
+    console.log('current game phase: ', gamePhase);
     if (gamePhase !== 'PARTY' && gamePhase !== null) {
-      console.log('game phase is ', gamePhase);
       console.log('gamePhase not PARTY, fizzling');
       return;
     }
@@ -83,11 +82,32 @@ var resolveParty = function(memcache, socket) {
     // Party members should have been set by a previous socket. 
     memcache.getTeam()
     .then(function(partyMembers) {
-      socket.emit('resolveParty', {
-        gameId: 5318008,
-        partyMembers,
-      });
-
+      // If party is not the right size, force choose a random party
+      if (partySize && partyMembers.length !== partySize) {
+        memcache.getPids().then(function(pidsList) {
+          var randomMembers = [];
+          for (var x = 0; x < partySize; x++) {
+            randomMembers.push(
+              pidsList.splice(Math.floor(Math.random() * pidsList.length), 1));
+          }
+          memcache.clearTeam().then(function() {
+            for (var y = 0; y < randomMembers.length; y++) {
+              memcache.addToTeam(randomMembers[y]);
+            }
+          });
+          socket.emit('resolveParty', {
+            gameId: 5318008,
+            partyMembers: randomMembers
+          });
+        });
+      } else {
+        console.log('reading party from memcache: ', partyMembers);
+        socket.emit('resolveParty', {
+          gameId: 5318008,
+          partyMembers,
+        });     
+      }
+      
       setTimeout(function() {
         console.log('voteOnParty called by setTimeout from resolveParty');
         voteOnParty(memcache, socket, chooseParty);

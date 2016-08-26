@@ -29,6 +29,7 @@ function render() {
   // TODO: Considerations for optimization: Find a way to cut off player positioning
   // after the players are already correctly positioned
   this.positionPlayers(this.players, this.scene);
+
 }
 
 export default function init(usingVR) {
@@ -44,7 +45,8 @@ export default function init(usingVR) {
     defaultColor: 0x00b8ff
   };
   this.gameState = {
-    currentRound: 1
+    currentRound: 1,
+    ownRole: null
   };
   this.WIDTH = window.innerWidth,
   this.HEIGHT = window.innerHeight;
@@ -71,7 +73,6 @@ export default function init(usingVR) {
   let $gameContainer = $('#gameContainer');
   // Init scene
   this.scene = new THREE.Scene();
-
 
   // Init renderer
   this.renderer = new THREE.WebGLRenderer();
@@ -101,6 +102,8 @@ export default function init(usingVR) {
   this.camera.lookAt(new THREE.Vector3(0, 0, 0));
   this.scene.add(this.camera);
 
+  orientationInit();
+
   // Camera controls (for both VR and nonVR users)
   this.controls = new OrbitControls(this.camera, this.element);
   this.controls.target.set(
@@ -110,34 +113,6 @@ export default function init(usingVR) {
   );
   this.controls.noPan = true;
   this.controls.noZoom = true;
-
-  // setOrientationControls will activate if the user is on mobile and override controls
-  const setOrientationControls = (e) => {
-    if (!e.alpha) {
-      return;
-    }
-    this.controls = new THREE.DeviceOrientationControls(this.camera, true);
-    this.controls.connect();
-    this.controls.update();
-    this.element.addEventListener('click', fullscreen, false);
-    window.removeEventListener('deviceorientation', setOrientationControls, true);
-  };
-
-  window.addEventListener('deviceorientation', setOrientationControls, true);
-
-  // Fullscreen controls, should allow game containers to become fullscreen on mobile
-  function fullscreen() {
-    if ($gameContainer.requestFullscreen) {
-      $gameContainer.requestFullscreen();
-    } else if ($gameContainer.msRequestFullscreen) {
-      $gameContainer.msRequestFullscreen();
-    } else if ($gameContainer.mozRequestFullScreen) {
-      $gameContainer.mozRequestFullScreen();
-    } else if ($gameContainer.webkitRequestFullscreen) {
-      $gameContainer.webkitRequestFullscreen();
-    }
-    resize();
-  }
 
   // Resize sets up to change the size of the renderer if necessary (useful for fullscreen)
   this.resize = () => {
@@ -155,6 +130,37 @@ export default function init(usingVR) {
       this.renderer.setSize(width, height);
     }
   };
+
+  // Fullscreen controls, should allow game containers to become fullscreen on mobile
+  const fullscreen = () => {
+    if ($gameContainer.requestFullscreen) {
+      $gameContainer.requestFullscreen();
+    } else if ($gameContainer.msRequestFullscreen) {
+      $gameContainer.msRequestFullscreen();
+    } else if ($gameContainer.mozRequestFullScreen) {
+      $gameContainer.mozRequestFullScreen();
+    } else if ($gameContainer.webkitRequestFullscreen) {
+      $gameContainer.webkitRequestFullscreen();
+    }
+    this.resize();
+  }
+
+  // setOrientationControls will activate if the user is on mobile and override controls
+  const setOrientationControls = (e) => {
+    console.log('device orientation change detected');
+    if (!e.alpha) {
+      console.log('no e alpha');
+      return;
+    }
+    console.log('continuing set of orientation controls');
+    this.controls = new THREE.DeviceOrientationControls(this.camera, true);
+    this.controls.connect();
+    this.controls.update();
+    this.element.addEventListener('click', fullscreen, false);
+    window.removeEventListener('deviceorientation', setOrientationControls, true);
+  };
+
+  window.addEventListener('deviceorientation', setOrientationControls, true);
 
   // LIGHTS /////////////////////////////////////////
   this.pointLight = new THREE.PointLight(0xFFFFFF);

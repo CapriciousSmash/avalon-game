@@ -101,9 +101,12 @@ module.exports.partyVote = function(memcache, socket, data) {
 // questVote is called to advance the game to the next stage by resolving the
 // party more quickly if all votes are in
 module.exports.questVote = function(memcache, socket, data) {
+
+  console.log('quest vote in: ', data);
   
   // Test to see whether the player who voted should be voting
   memcache.getTeam().then(function(partyList) {
+    console.log('logic intervene questvote partyList: ', partyList);
     if (partyList.indexOf(data.playerId) > -1) {
       // Make sure votes were not duplicated
       memcache.getQuestResult().then(function(qResults) {
@@ -111,7 +114,8 @@ module.exports.questVote = function(memcache, socket, data) {
         if (qResults.indexOf(data.playerId) === -1) {
           memcache.saveQuestResult(data.playerId, data.vote);
           // If voting is complete, move onward.
-          var voteCount = qResults.length;
+          var voteCount = qResults.length + 1;
+          console.log('qResults in logic intervene: ', qResults);
 
           if (voteCount === partyList.length) {
             console.log('All party votes are in, calling main game logic');

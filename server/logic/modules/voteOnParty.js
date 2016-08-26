@@ -5,7 +5,6 @@ var chooseParty = require('./chooseParty').chooseParty;
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket, chooseParty) {
   console.log('voting on party');
-  console.log('voteOnParty chooseParty log: ', typeof chooseParty);
   memcache.setTurnPhase('VOTE');
 
   memcache.getTeam().then(function(partyMembers) {
@@ -28,6 +27,7 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
 
   // Check game Phase, if current phase is not 'VOTE' then fizzle
   memcache.getTurnPhase().then(function(gamePhase) {
+    console.log('current game phase: ', gamePhase);
     if (gamePhase !== 'VOTE') {
       console.log('game phase not VOTE, fizzling -- ', gamePhase);
       return;
@@ -46,72 +46,88 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
           voteList[voteOrder[x]] = voteCount[x];
         }
 
-        // Tally the votes:
-        var accepts = voteCount.reduce(function(total, curr) {
-          return curr === 'true' ? total + 1 : total;
-        }, 0);
+        memcache.getPids().then(function(pidsList) {
+          
+          if (voteCount.length < pidsList.length) {
+            for (var y = 0; y < pidsList.length; y++) {
+              if (voteList[pidsList[y]] === undefined) {
+                voteList[pidsList[y]] = 'true';
+                voteCount.push('true');
+                voteOrder.push(pidsList[y]);
+              } 
+            }
+          }
 
-        console.log('accepts ', accepts);
+          // Tally the votes:
+          var accepts = voteCount.reduce(function(total, curr) {
+            return curr === 'true' ? total + 1 : total;
+          }, 0);
 
-        var rejects = voteCount.reduce(function(total, curr) {
-          return curr === 'false' ? total + 1 : total;
-        }, 0);
+          console.log('accepts ', accepts);
 
-        console.log('rejects ', rejects);
+          var rejects = voteCount.reduce(function(total, curr) {
+            return curr === 'false' ? total + 1 : total;
+          }, 0);
 
-        var partyAccepted = accepts > rejects ? true : false;
+          console.log('rejects ', rejects);
 
-        if (partyAccepted) {
-          // Signals to players that the quest has been accepted and who
-          // voted for and against the party
-          socket.emit('resolveVote', {
-            gameId: 5318008,
-            result: 'accepted',
-            voteList
-          });
+          var partyAccepted = accepts > rejects ? true : false;
 
-          // Reset rejection count in the memcache
-          memcache.resetVeto();
-
-          setTimeout(function() {
-            startQuest(memcache, socket, chooseParty);
-          }, 5000);
-
-        } else /* Party rejected */ {
-
-          memcache.incrVeto().then(function(vetoCount) {
-            // Signal to players that the quest has been rejected
+          if (partyAccepted) {
+            // Signals to players that the quest has been accepted and who
+            // voted for and against the party
             socket.emit('resolveVote', {
               gameId: 5318008,
-              result: 'rejected',
-              timesRejected: vetoCount
+              result: 'accepted',
+              voteList
             });
 
-            console.log('party rejected, vetoCount is: ', vetoCount);
+            // Reset rejection count in the memcache
+            memcache.resetVeto();
 
-            if (vetoCount >= 5) {
-              // Set winners to minions in memcache and call the end of the game
-              memcache.setWinner('MINIONS');
+            setTimeout(function() {
+              startQuest(memcache, socket, chooseParty);
+            }, 5000);
 
-              console.log('setting timeout in resolveParty for game end');
-              setTimeout(function() {
-                gameEnd(memcache, socket);
-              }, 5000);
+          } else /* Party rejected */ {
 
-            } else {
+            memcache.incrVeto().then(function(vetoCount) {
+              // Signal to players that the quest has been rejected
+              socket.emit('resolveVote', {
+                gameId: 5318008,
+                result: 'rejected',
+                timesRejected: vetoCount
+              });
 
-              console.log('setting timeout for chooseParty in resolveParty');
-              setTimeout(function() {
-                chooseParty(memcache, socket);
-              }, 5000);
+              console.log('party rejected, vetoCount is: ', vetoCount);
 
-            }
+              memcache.clearTeam();
 
-          });
+              if (vetoCount >= 5) {
+                // Set winners to minions in memcache and call the end of the game
+                memcache.setWinner('MINIONS');
 
-        }
+                console.log('setting timeout in resolveParty for game end');
+                setTimeout(function() {
+                  gameEnd(memcache, socket);
+                }, 5000);
 
-        memcache.clearVotes();
+              } else {
+
+                console.log('setting timeout for chooseParty in resolveParty');
+                setTimeout(function() {
+                  chooseParty(memcache, socket);
+                }, 5000);
+
+              }
+
+            });
+
+          }
+
+          memcache.clearVotes();   
+
+        });
 
       });
     });

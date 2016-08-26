@@ -83,9 +83,6 @@ export default {
       return;
     }
     
-    console.log('signName: ', signName);
-    console.log('maxselects', maxSelects);
-    console.log('type of callback: ', typeof callback);
     console.log('comparing choices of ', options);
     console.log('to hitobject named: ', hitObject.name);
     if (options.choices && options.choices.indexOf(hitObject.name) > -1) {
@@ -99,6 +96,9 @@ export default {
     if (this.selected.length >= maxSelects) {
       callback(this.selected);
       this.removeObject(signName);
+      if (this.usingVR) {
+        this.removeVREventListener(signName);
+      }
       this.removeClickEventListener(this.clickEvent);
     }     
 
@@ -109,11 +109,10 @@ export default {
 
     let renderButtonList = [];
 
-    // Position 
+    // Position
     let displayX = -100;
     let displayY = 10;
     let displayZ = 0;
-
 
   },
   // Takes a list of players and sets them into a circle formation. 
@@ -160,7 +159,7 @@ export default {
   },
   // At the end of a phase, allows changes to players to be returned to normal
   resetPlayers: function(players, scene) {
-    for (var x = 0; x < players.length; x++) {
+    for (let x = 0; x < players.length; x++) {
       scene.getObjectByName(players[x].uid).material.color.setHex(players[x].color);
     }
   }

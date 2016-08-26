@@ -1,15 +1,17 @@
 module.exports = {
   createFloor: function() {
-    let floorMaterial = new THREE.MeshPhongMaterial(
-      { map: THREE.ImageUtils.loadTexture('images/in-game/avalon-board.jpg') });
 
-    let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
+    new THREE.TextureLoader().load('images/in-game/avalon-board.jpg', (floorTexture) => {
+      let floorMaterial = new THREE.MeshPhongMaterial({ map: floorTexture });
+      let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
 
-    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+      let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
-    floor.position.y = -80;
+      floor.position.y = -80;
 
-    this.scene.add(floor);
+      this.scene.add(floor);
+    });
+
   },
   // Addition of all players at the beginning of the game
   // Expects an array of objects with uid and color property
@@ -36,8 +38,6 @@ module.exports = {
 
     let playersWithPositions = this.setCircleCoordinates(renderOrder, 250);
 
-    console.log('playersWithPositions', playersWithPositions);
-
     for (let y = 0; y < playersWithPositions.length; y++) {
       console.log('circle pos inside playersWithPositions', playersWithPositions[y].pos);
       this.addPlayer(
@@ -50,19 +50,18 @@ module.exports = {
   },
   // When a player joins the game
   addPlayer: function(uid, color, role, circlePos) {
-    console.log('circlePos inside addPlayer', circlePos);
     this.players.push({
       uid,
       x: 0,
       y: 0,
-      color,
+      color: this.roleColors['defaultColor'],
       role: this.roleColors['defaultColor'],
       pos: circlePos
     });      
 
     let sphereMaterial =
       new THREE.MeshLambertMaterial({
-          color
+          color: this.roleColors['defaultColor']
       });
     let radius = 20,
         segments = 16,
@@ -95,12 +94,17 @@ module.exports = {
   },
   // Assign roles attaches the roles of the game to the player objects
   assignRoles: function(party, id, role) {
+    this.gameState.ownRole = party[id];
     if (role === 'MERLIN' || role === 'ASSASSIN' || role === 'MINION') {
       //Show minions as red to these characters
       for (let player in party) {
         if (player !== id) {
           if (party[player] === 'MINION' || party[player] === 'ASSASSIN') {
-            this.players[player].color = this.roleColors['MINION'];
+            for (let x = 0; x < this.players.length; x++) {
+              if (this.players[x].uid === player) {
+                this.players[x].color = this.roleColors['MINION'];
+              }
+            }
             this.scene.getObjectByName(player).material.color.setHex(this.roleColors['MINION']);
           }      
         }
@@ -137,21 +141,33 @@ module.exports = {
       this.removeClickEventListener();
     }, 30000);
   },
+  // Shows all players who are voting on the party who was chosen as the party members
+  partyMembers: function(partyMembers) {
+
+  },
   // TODO: Pending field test to determine whether the buttons are well placed
   // at these new coordinates. 
   partyButtons: function(voteOnParty) {
-    this.addButton(
-      'accept', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/approve.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -50, posz: 0 }
-    );
-    this.addButton(
-      'reject', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/reject.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -50, posz: 0 }
-    );
+    let textureLoader = new THREE.TextureLoader();
+
+    textureLoader.load('images/in-game/approve.jpg', (approveTexture) => {
+      this.addButton(
+        'accept', 
+        { map: approveTexture }, 
+        { lenx: 45, leny: 80, lenz: 10 }, 
+        { posx: -50, posy: -50, posz: 0 }
+      );
+
+      textureLoader.load('images/in-game/reject.jpg', (rejectTexture) => {
+        this.addButton(
+          'reject', 
+          { map: rejectTexture }, 
+          { lenx: 45, leny: 80, lenz: 10 }, 
+          { posx: 50, posy: -50, posz: 0 }
+        );
+      });
+      
+    });
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
@@ -178,18 +194,27 @@ module.exports = {
   // TODO: Pending field tes to determine whether these buttons are
   // well placed at these coordinates 
   questButtons: function(voteOnQuest) {
-    this.addButton(
-      'success', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/success.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: -50, posy: -50, posz: 0 }
-    );
-    this.addButton(
-      'fail', 
-      { map: THREE.ImageUtils.loadTexture('images/in-game/fail.jpg') }, 
-      { lenx: 45, leny: 80, lenz: 10 }, 
-      { posx: 50, posy: -50, posz: 0 }
-    ); 
+    let textureLoader = new THREE.TextureLoader();
+
+    textureLoader.load('images/in-game/success.jpg', (successTexture) => {
+      this.addButton(
+        'success', 
+        { map: successTexture }, 
+        { lenx: 45, leny: 80, lenz: 10 }, 
+        { posx: -50, posy: -50, posz: 0 }
+      );
+
+      textureLoader.load('images/in-game/fail.jpg', (failTexture) => {
+        this.addButton(
+          'fail', 
+          { map: failTexture }, 
+          { lenx: 45, leny: 80, lenz: 10 }, 
+          { posx: 50, posy: -50, posz: 0 }
+        ); 
+      });
+
+    });
+
 
     //All stages will have signs but not all stages will have buttons
     //Extend callback to remove buttons after choices have been made
@@ -224,6 +249,6 @@ module.exports = {
     token.position.z = 10;
 
     scene.add(token);
-
+    
   }
 };
