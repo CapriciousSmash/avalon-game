@@ -41,6 +41,12 @@ module.exports = {
       while ( game.scene.getObjectByName('partyLeader') ) {
         game.removeObject('partyLeader');
       }
+
+      var size = {
+        x: 32,
+        y: 32,
+        z: 32
+      };
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
@@ -48,13 +54,9 @@ module.exports = {
             partyList: party
           }, roomId);
         }, data.partySize, socket.id);
+        game.addPlayerToken('partyLeader', size, position);
         console.log('Data I got from sendParty', data);
       } else {
-        var size = {
-          x: 32,
-          y: 32,
-          z: 32
-        };
         for (let j = 0; j < game.players.length; j++) {
           if (data.currentLeader === game.players[j].uid) {
             var position = {
@@ -62,7 +64,7 @@ module.exports = {
               y: game.players[j].pos.y + 50,
               z: game.players[j].pos.z
             };
-            game.addPlayerToken('partyLeader', size, position, data.currentLeader);
+            game.addPlayerToken('partyLeader', size, position);
           }
         }
         console.log(game.scene.getObjectByName(data.currentLeader));
@@ -90,14 +92,13 @@ module.exports = {
           vote: voteOnParty
         }, roomId);
       });
+      var size = {
+        x: 32,
+        y: 32,
+        z: 32
+      };
       for (let i = 0; i < data.partyMembers.length; i++) {
         if (game.scene.getObjectByName(data.partyMembers[i])) {
-          var size = {
-            x: 32,
-            y: 32,
-            z: 32
-          };
-
           for (let j = 0; j < game.players.length; j++) {
             if (data.partyMembers[i] === game.players[j].uid) {
               var position = {
@@ -105,11 +106,16 @@ module.exports = {
                 y: game.players[j].pos.y + 50,
                 z: game.players[j].pos.z
               };
-              game.addPlayerToken('party', size, position, data.partyMembers[i]);
+              game.addPlayerToken('party', size, position);
             }
           }
         } else {
-          //Add token on top of camera ========> Take care of this someone.
+          var position = {
+            x: 0,
+            y: 50,
+            z: 250
+          };
+          game.addPlayerToken('party', size, position);
         }
       }
       console.log('Data I got from startVote', data);
