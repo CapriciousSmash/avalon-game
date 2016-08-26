@@ -1,27 +1,46 @@
-// var passport = require('passport');
+var passport = require('passport');
 var LocalStrategy = require('passport-local');
+
+// Auth check to redirect those not signed in
+module.exports.isAuth = function(req, res, next) {
+  var log = req.isAuthenticated();
+  console.log(log);
+  if(log) {
+    console.log('success');
+    return next();
+  }
+  console.log('failure');
+  return res.redirect('/signin');
+}
 //---------------------------Local Strategy-------------------------------------
-module.exports = function(passport, User) {
+module.exports.localAuth = function(User) {
 
   passport.serializeUser(function(user, done) {
     var uid;
     console.log('serialize user');
     if (Array.isArray(user)) {
-      uid = user[0].id;
+      uid = user[0].dataValues.id;
     } else {
-      uid = user.id;
+      uid = user.dataValues.id;
     }
+    console.log('uid', uid);
     return done(null, uid);
   });
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
-    console.log('deserialize user');
+    console.log('deserialize user ', id);
     return User.find({where: {
         id: id
       }})
-      .then((user) => done(null, user))
-      .catch((err) => done(err, null));
+      .then(function(user) {
+        console.log('deserialize successfull, ', user.dataValues.id);
+        done(null, user.dataValues.id);
+      })
+      .catch(function(err) {
+        console.log('deserialize unsuccessfull');
+        done(err, null);
+      });
   });
   
   passport.use('local-signup', new LocalStrategy({
@@ -31,14 +50,24 @@ module.exports = function(passport, User) {
   }, function(req, username, password, done) {
     // console.log('sign them up!', username, password);
     if (!req.user) {
-      User.findOrCreate({where: {
+      User.find({where: {
         username: username,
-        password: User.generateHash(password)
       }})
       .then(function(user) {
-        done(null, user);
+        console.log('new user', user)
+        if (user !== null) {
+          done(null, null);
+        } else {
+          User.findOrCreate({where: {
+            username: username,
+            password: User.generateHash(password)
+          }})
+          .then(function(user) {
+            done(null, user);
+          })
+        }
       }).catch(function(err) {
-        done(err);
+        done(err, null);
       });
     } else {
       //user exists and is logged in

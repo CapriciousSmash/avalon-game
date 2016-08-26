@@ -1,6 +1,7 @@
 import { LOGGED_IN, LOGGED_OUT } from './actionTypes';
 import { CHANGE_INFO } from './actionTypes';
 import { LOBBY, ROOM } from './actionTypes';
+import { ADD_SOCKET_ID } from './actionTypes';
 
 // Action Creators for Game Info page: 
 export function newInfoSection(pageName = 'GETTING STARTED') {
@@ -23,9 +24,11 @@ export function login(user){
   return{
     type: LOGGED_IN,
     uid: user.id,
-    username: user.username,
-    score: user.points,
-    games: user.games
+    settings: {
+      username: user.username,
+      score: user.points,
+      games: user.games
+    }
   };
 }
 
@@ -39,5 +42,12 @@ export function vrSetting(type, setting) {
   return {
     type: type,
     vrSetting: setting
+  };
+}
+
+export function addSocketID(socketID) {
+  return {
+    type: ADD_SOCKET_ID,
+    socketID: socketID
   };
 }

@@ -21,6 +21,7 @@ class App extends React.Component {
       if(typeof(res) === 'object') {
         // if so, then a user is in fact signed in
         // use the login action to set their information for use in the app
+        console.log('logged in');
         cb(res);
       }
       // otherwise, a user isn't signed in and nothing else happens
