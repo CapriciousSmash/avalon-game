@@ -41,7 +41,7 @@ class Game extends React.Component {
     
     setTimeout(()=>{
       $('.loading').addClass('hidden'); 
-    }, 1000);
+    }, 2000);
 
     webSockets.allListeners(socket, this.props.roomNumber);
   }
