@@ -199,18 +199,20 @@ export default function init(usingVR) {
 
   //SKY BOX///////////////////////////////////
   //Todo: Convert to tga format, speedier loadup vs png
-  // this.TGAloader = new THREE.TGALoader();
+  // this.cubeLoader = new THREE.TGALoader();
   // var imgLoc = 'skybox/ame_ash/ashcanyon_';
   // var skyboxImages = [imgLoc + 'px.tga', imgLoc + 'nx.tga',
   //                     imgLoc + 'py.tga', imgLoc + 'ny.tga', 
   //                     imgLoc + 'pz.tga', imgLoc + 'nz.tga'];
   ////REMOVE SKYBOX FOR MVP
   this.cubeLoader = new THREE.CubeTextureLoader();
-  let skyboxImagePaths = ['ame_ash', 'ame_oasis', 'ely_peaks', 'envmap_stormydays', 'mp_moondust'];
-  this.cubeLoader.setPath('images/skybox/' + 'ame_ash' + '/');
-  var skyboxImages = ['pz.png', 'nz.png',
+  let skyboxImagePaths = ['ame_ash', 'ame_oasis', 'ely_peaks',
+                          'envmap_stormydays', 'hw_spires', 'mp_badomen',
+                          'mp_moondust', 'sor_hills'];
+  this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[3] + '/');
+  var skyboxImages = ['px.png', 'nx.png',
                       'py.png', 'ny.png', 
-                      'px.png', 'nx.png'];
+                      'pz.png', 'nz.png'];
   var textureCube = this.cubeLoader.load(skyboxImages);
   textureCube.format = THREE.RGBFormat;
   this.scene.background = textureCube;
