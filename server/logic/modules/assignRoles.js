@@ -67,7 +67,7 @@ module.exports.assignRoles = function(memcache, socket) {
 
     setTimeout(function() {
       chooseParty(memcache, socket);
-    }, 5000); 
+    }, 7500); 
 
   });
 };
