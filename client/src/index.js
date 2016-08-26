@@ -10,7 +10,6 @@ import Landing from './components/Landing';
 import Main from './components/Main';
 import Profile from './containers/Profile';
 import Login from './containers/Login';
-import SignUp from './components/Signup';
 
 // Redux Related Imports
 import { Provider } from 'react-redux';
@@ -27,7 +26,6 @@ ReactDOM.render(
         <Route path='play' component={Main}/>
         <Route path='gameinfo' component={InfoWrapper}></Route>
         <Route path='signin' component={Login}></Route>
-        <Route path='signup' component={SignUp}></Route>
         <Route path='game' component={GameWrapper}></Route>
         <Route path='profile' component={Profile}></Route>
       </Route>
