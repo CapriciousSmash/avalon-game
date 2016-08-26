@@ -26,9 +26,9 @@ class Stats extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {  
-    username: state.auth.username,
-    score: state.auth.score,
-    games: state.auth.games
+    username: state.auth.settings.username,
+    score: state.auth.settings.score,
+    games: state.auth.settings.games
   };
 }
 

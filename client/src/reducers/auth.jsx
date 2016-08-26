@@ -13,7 +13,6 @@ const initialState = {
 export default function auth (state = initialState, action) {
   switch (action.type) {
     case LOGGED_IN:
-      console.log('action in reducer', action);
       return {
         ...state,
         authenticated: true,

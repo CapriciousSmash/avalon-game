@@ -48,7 +48,6 @@ class NavBar extends React.Component {
 // Passes data to the container from the store. Makes the result of
 // reducers available to the containers as props
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
     auth: state.auth.authenticated
   };
