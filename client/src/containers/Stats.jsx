@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-export default class Stats extends React.Component {
+class Stats extends React.Component {
   render() {
     return (
       <div className="container">
@@ -26,9 +26,9 @@ export default class Stats extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {  
-    username: state.auth.username,
-    score: state.auth.score,
-    games: state.auth.games
+    username: state.auth.settings.username,
+    score: state.auth.settings.score,
+    games: state.auth.settings.games
   };
 }
 

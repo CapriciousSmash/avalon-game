@@ -4,40 +4,48 @@ var express = require('express');
 var session = require('express-session');
 var http = require('http');
 var bodyParser = require('body-parser');
-var path = require('path');
 var passport = require('passport');
 var shortid = require('shortid');
-var passportLocal = require('./auth/localAuth.js');
+var passportLocal = require('./auth/localAuth.js').localAuth;
 var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');
-var pgHelp = require('./db/controller/index.js');
+var router = require('./routes');
+var sockets = require('socket.io');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
 var logicFilter = require('./logic/logic-intervene');
-
 
 var app = express();
 var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/../client/public'));
 
+passportLocal(User);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-passportLocal(passport, User);
 app.use(cookieParser());
 app.use(session({ 
   secret: '8SER9M9jXS',
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    genid: function(req) {
+      return genuuid();
+    },
+    secret: '8SER9M9jXS'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+router(app);
+
 var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
 });
-var io = require('socket.io').listen(server);
+var io = sockets.listen(server);
 
 /////////////////////////////////////////////////////////////////////
 var memcache = {};
@@ -67,29 +75,26 @@ function deepSearch(id, arr) {
   }
 }
 
-function isLoggedIn(req, res, next) {
-  var log = req.isAuthenticated();
-  console.log(log);
-  if (log) {
-    console.log('success');
-    return next();
-  }
-  console.log('failure');
-  return res.redirect('/signin');
-}
-
 var setting = {
   merlin: false,
   assassin: false,
 };
 
-io.on('connection', (socket)=>{
+io.on('connection', function(socket) {
   //Join lobby immediately
   socket.join('capri0sun');
   //console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  
   socket.emit('lobbyInfo', lobbyState, players);
 
   //PLAYER==================================================
+  socket.on('userInfo', function(uid, username) {
+    for (var prop in players) {
+      if ( deepSearch(socket.id.slice(2), players[prop])) {
+        players[prop].splice(deepSearch(socket.id.slice(2), players[prop]), 1);
+      }
+    }
+  });
+
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
 
@@ -147,7 +152,7 @@ io.on('connection', (socket)=>{
   });
 
   //LOBBY==================================================
-  socket.on('joinRoom', function(newRoomId) {
+  socket.on('joinRoom', function(newRoomId, uid, username) {
     //Leave lobby and enter room
     socket.leave('capri0sun');    
     var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
@@ -157,7 +162,9 @@ io.on('connection', (socket)=>{
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
-        ready: false
+        ready: false,
+        userID: uid,
+        username: username
       });
       
       //Tell people if the room is full after you join
@@ -176,7 +183,7 @@ io.on('connection', (socket)=>{
       io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     } else {    
       //Too many people in the room
-      socket.emit('joinResponse'. false);
+      socket.emit('joinResponse', false);
     }
   });
 
@@ -236,7 +243,7 @@ io.on('connection', (socket)=>{
       io.to(roomId).emit('allPeers', players[roomId]);
       var pidsList = [];
       for (var x = 0; x < players[roomId].length; x++) {
-        pidsList.push(players[roomId][x].uid);
+        pidsList.push(players[roomId][x].userID);
       }
       console.log('pids list is ', pidsList);
       memcache[roomId].init(pidsList, roomId).then(function() {
@@ -274,58 +281,3 @@ io.on('connection', (socket)=>{
     logicFilter.stabMerlin(memcache[roomId], io, data);
   });
 });
-
-app.get('/stats', function(req, res) {
-  // return information based on who's logged in
-  var sessions = req.sessionStore.sessions;
-  var userId;
-  for (var key in sessions) {
-    var uid = JSON.parse(sessions[key])
-    if (uid.passport && uid.passport.user) {
-      userId = uid.passport.user;
-    }
-  }
-  if(userId) {
-    pgHelp.getInfo(userId)
-    .then(function(data) {
-      res.send(data);
-    });
-  } else {
-    res.send('null');
-  }
-});
-
-app.get('/logout', function(req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
-});
-
-// These routes need auth, effectively middleware to catch-all route
-app.get('/play', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-app.get('/profile', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-app.get('/game', isLoggedIn, function(req, res, next) {
-  next();
-});
-
-// serve index.html for rest
-app.get('*',function(req, res) {
-  res.sendFile(path.resolve(__dirname + '/../client/public/index.html'));
-});
-
-app.post('/signin', passport.authenticate('local-login', {
-    successRedirect: '/',
-    failureRedirect: '/signin'
-  }));
-
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signin'
-  }));
-
