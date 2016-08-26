@@ -280,27 +280,45 @@ form button:hover {
 /*            */
 /*LOADING PAGE*/
 /*            */
+#loading-animation{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3;
+}
 .loading{
   background-color:black;
-  height:120px;
+  width:20%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .loading-title{
-  height:20px;
+  height:30px;
+  line-height:30px;
+  width:100%;  
   float:left;
+  text-align:center;
   font-family: 'Poiret One', cursive;
+  font-size:1.75em;
+  font-weight: 300;
   color: rgba(255,255,255,0.8);  
 }
-.row{
+.loading-row{
   float:left;
-  height:50px;
+  height:100px;
   width:100%;
 }
 .bar{
   float:left;
-  margin-right:9px;
+  margin-right:7%;
   background-color:white;
-  width:8px;
-  height:10px;
+  width:6.2%;
+  height:20%;
 }
 .one{
   animation: moving 1s ease-in-out 0s infinite;  
@@ -323,60 +341,69 @@ form button:hover {
 .seven{
   animation: moving 1s ease-in-out 1.5s infinite;
 }
+.eight{
+  margin-right:0;
+  animation: moving 1s ease-in-out 1.75s infinite;
+}
 
 @keyframes moving {
   0%  {
-    height:10px;
+    height:20%;
   }
   50%  {
     background-color:rgba(128, 128, 128, 0.5);
-    height:30px;        
+    height:40%;        
   }
   100%  {
-    height:10px;            
+    height:20%;            
   }
 }
 
 .one-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 0s infinite;  
 }
 .two-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 0.25s infinite;
 }
 .three-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 0.5s infinite;
 }
 .four-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 0.75s infinite;
 }
 .five-inv{
-  margin-top:40px; 
+  margin-top:30%; 
   animation: moving-inv 1s ease-in-out 1s infinite;
 }
 .six-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 1.25s infinite;
 }
 .seven-inv{
-  margin-top:40px;  
+  margin-top:30%;  
   animation: moving-inv 1s ease-in-out 1.5s infinite;
+}
+.eight-inv{
+  margin-right:0;
+  margin-top:30%;  
+  animation: moving-inv 1s ease-in-out 1.75s infinite;
 }
 @keyframes moving-inv {
   0%  {
-    margin-top:40px;
-    height:10px;
+    margin-top:30%;
+    height:20%;
   }
   50%  {
-    margin-top:20px;
+    margin-top:10%;
     background-color:rgba(128, 128, 128, 0.5);
-    height:30px;        
+    height:40%;        
   }
   100%  {
-    margin-top:40px;    
-    height:10px;            
+    margin-top:30%;    
+    height:20%;            
   }
 }
