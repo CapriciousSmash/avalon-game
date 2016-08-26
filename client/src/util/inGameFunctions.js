@@ -23,6 +23,7 @@ module.exports = {
     let renderOrderRight = [];
 
     for (let x = 0, foundSelf = false; x < players.length; x++) {
+      players[x].number = x + 1;
       if (players[x].uid === selfId) {
         foundSelf = true;
       } else {
@@ -44,12 +45,13 @@ module.exports = {
         playersWithPositions[y].uid, 
         playersWithPositions[y].color, 
         null, 
-        playersWithPositions[y].pos);
+        playersWithPositions[y].pos,
+        playersWithPositions[y].number);
     }
 
   },
   // When a player joins the game
-  addPlayer: function(uid, color, role, circlePos) {
+  addPlayer: function(uid, color, role, circlePos, idx) {
     this.players.push({
       uid,
       x: 0,
@@ -77,6 +79,8 @@ module.exports = {
     body.position.x = 0;
     body.position.y = -50;
     sphere.add(body);
+
+    this.addPlayerSign(sphere, idx, {x: 25, y: 10, z: 0});
     
     sphere.name = uid;
     sphere.position.x = 0;

@@ -32,6 +32,18 @@ export default {
     sign.name = stage;
     this.scene.add(sign);
   },
+  addPlayerSign: function(person, player, position) {
+    let texture = this.textureLoader.load('images/user-image/' + player + '.png');
+    let plane = new THREE.PlaneGeometry(50, 50);
+    let material = new THREE.MeshBasicMaterial({map: texture});
+    material.transparent = true;
+
+    let sign = new THREE.Mesh(plane, material);
+
+    sign.position.set(position.x, position.y, position.z);
+    sign.name = player;
+    person.add(sign);
+  }
   // Adds the relevant buttons to the screen to allow users to perform actions appropriate
   // to the game phase
   addButton: function(name, option, size, position) {
