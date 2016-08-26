@@ -125,7 +125,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           setTimeout(function() {
             console.log('calling gameEnd by setTimeout from resolveQuest');
             logicRouter(memcache, socket, 'GAME END');
-          }, 5000);
+          }, 7500);
 
         } else /* Less than 3 quests succeeded */ {
           // TODO: Increase the total number of successes in memcache
@@ -134,7 +134,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           setTimeout(function() {
             console.log('calling chooseParty by estTimeout from resolveQuest');
             chooseParty(memcache,socket);
-          }, 5000);
+          }, 7500);
         }
       } else /* Quest failed */ {
         // TODO: Inform (signal) players that the quest has failed
@@ -154,7 +154,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           setTimeout(function() {
             console.log('calling gameEnd by setTimeout from resolveQuest');
             logicRouter(memcache, socket, 'GAME END');
-          }, 5000);
+          }, 7500);
         } else /* Less than 3 quests have failed */ {
           // TODO: Increase total number of failures in memcache
           memcache.incrLoss();
@@ -162,7 +162,7 @@ var resolveQuest = function(memcache, socket, chooseParty) {
           setTimeout(function() {
             console.log('calling chooseParty by estTimeout from resolveQuest');
             chooseParty(memcache, socket);
-          }, 5000);
+          }, 7500);
         }
       }
     }) }); }); }); }); 

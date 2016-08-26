@@ -112,7 +112,7 @@ var resolveParty = function(memcache, socket, partySize) {
       setTimeout(function() {
         console.log('voteOnParty called by setTimeout from resolveParty');
         voteOnParty(memcache, socket, chooseParty);
-      }, 5000);
+      }, 7500);
 
     });
   });

@@ -112,14 +112,14 @@ var resolvePartyVote = function(memcache, socket, chooseParty) {
                 console.log('setting timeout in resolveParty for game end');
                 setTimeout(function() {
                   gameEnd(memcache, socket);
-                }, 5000);
+                }, 7500);
 
               } else {
 
                 console.log('setting timeout for chooseParty in resolveParty');
                 setTimeout(function() {
                   chooseParty(memcache, socket);
-                }, 5000);
+                }, 7500);
 
               }
 
