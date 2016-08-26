@@ -27,7 +27,12 @@ module.exports = {
       // Update gamestate but safeguard against server having issues with memcache. 
       game.gameState.currentRound = data.currentRound ? 
         data.currentRound : game.gameState.currentRound;
-        
+      
+      //Remove all sign before choosing a party
+      game.removeObject('questSuccess');
+      game.removeObject('questFail');
+      game.removeObject('party');
+
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
           console.log('preparing to pick the party');
@@ -36,9 +41,21 @@ module.exports = {
           }, roomId);
         }, data.partySize, socket.id);
         console.log('Data I got from sendParty', data);
+      } else {
+        var size = {
+          x: 32,
+          y: 32
+        };
+        var position = {
+          x: game.scene.getObjectByName(data.currentLeader).position.x,
+          y: game.scene.getObjectByName(data.currentLeader).position.y + 50,
+          z: game.scene.getObjectByName(data.currentLeader).position.z
+        };
+        game.addPlayerToken('partyLeader', size, position);
       }
     }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
+      game.removeObject('partyLeader');
       game.removeObject(socket.id);
       console.log('Data I got from resolveParty', data);
       game.resetPlayers(game.players, game.scene, game.gameState.ownRole);
@@ -51,12 +68,28 @@ module.exports = {
           vote: voteOnParty
         }, roomId);
       });
+      for (var i = 0; i < data.partyMembers.length; i++) {
+        if (game.scene.getObjectByName(data.partyMembers[i])) {
+          var size = {
+            x: 32,
+            y: 64
+          };
+          var position = {
+            x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
+            y: game.scene.getObjectByName(data.partyMembers[i]).position.y + 60,
+            z: game.scene.getObjectByName(data.partyMembers[i]).position.z
+          };
+          game.addPlayerToken('party', size, position);
+        }
+      }
       console.log('Data I got from startVote', data);
     });
     socket.on('resolveVote', function(data) {
+      // data.result will yield 'accepted' or 'rejected'
       console.log('Data I got from resolveVote', data);
     });
     socket.on('startQuest', function(data) {
+      console.log('Data I got from startQuest', data);
       if (data.partyMembers.includes(socket.id)) {
         game.questButtons(voteOnQuest => {
           socket.emit('voteOnQuest', {
@@ -64,17 +97,35 @@ module.exports = {
             vote: voteOnQuest
           }, roomId);
         });
+        game.addSign('passQuest');
       }
-      console.log('Data I got from startQuest', data);
     });
     socket.on('resolveQuest', function(data) {
+       // data.result will yield 'failure' or 'success'
       console.log('Data I got from resolveQuest', data);
+      game.removeObject('passQuest');
+      if ( data.result === 'success' ) {
+        game.addSign('questSuccess');
+      } else if (data.result === 'failure') {
+        game.addSign('questFail');
+      }
       game.resolveQuest(data.result, data.successVotes, data.failureVotes);
     });
     socket.on('gameEnd', function(data) {
       console.log('Data I got from gameEnd', data);
+      game.removeObject('questSuccess');
+      game.removeObject('questFail');
+
+      game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      setTimeout(()=>{
+        game.removeObject(data.winners === 'false' || 'MINIONS' ? 'minionsWin' : 'heroesWin');
+        if (data.winners === 'false') {
+          game.addSign('gameOver');
+        }
+      }, 10000);
     });
     socket.on('chooseMerlin', function(data) {
+      game.removeObject('heroesWin');
       game.stabMerlin(player => {
         socket.emit('stabMerlin', 
           {
@@ -84,7 +135,15 @@ module.exports = {
       });
     });
     socket.on('resolveMerlin', function(data) {
+      game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+
       console.log('Data I got from resolveMerlin', data);
+    });
+    socket.on('gameOver', function(data){
+      game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      game.addSign('gameOver');
+      
+      console.log('Data I got from Game Over', data);
     });
   }
 };

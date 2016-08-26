@@ -10,7 +10,25 @@ import * as Actions from '../actions';
 // The app class acts as the main container to store the entirety
 // of what the user will see as the web application
 class App extends React.Component {
+  constructor() {
+    super();
+  }
+
+  getPlayerInfo(cb) {
+    // when main page loads, request current player info
+    $.get('/stats', function(res) {
+      // check if the response was an object
+      if(typeof(res) === 'object') {
+        // if so, then a user is in fact signed in
+        // use the login action to set their information for use in the app
+        cb(res);
+      }
+      // otherwise, a user isn't signed in and nothing else happens
+    });
+  }
+
   render() {
+    this.getPlayerInfo(this.props.actions.login.bind(this));
     return (
       <div className="cover-container">
         <NavBar />

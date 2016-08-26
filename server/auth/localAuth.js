@@ -4,19 +4,19 @@ var LocalStrategy = require('passport-local');
 module.exports = function(passport, User) {
 
   passport.serializeUser(function(user, done) {
-    var userId;
-    console.log('serialize user', user);
+    var uid;
+    console.log('serialize user');
     if (Array.isArray(user)) {
-      userId = user[0].id;
+      uid = user[0].id;
     } else {
-      userId = user.id;
+      uid = user.id;
     }
-    return done(null, userId);
+    return done(null, uid);
   });
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
-    console.log('deserialize');
+    console.log('deserialize user');
     return User.find({where: {
         id: id
       }})
@@ -57,7 +57,7 @@ module.exports = function(passport, User) {
         username: username
       }})
       .then(function(user) {
-        console.log('checking username and password for ', user);
+        console.log('checking username and password for ');
         if (!user) {
           console.log('no user');
           return [false, user];
@@ -67,7 +67,7 @@ module.exports = function(passport, User) {
         }
       })
       .then(function(match) {
-        console.log('match', match, 'user', foundUser);
+        console.log('match', match);
         if (match && foundUser) {
           console.log('passwords match');
           return done(null, foundUser);
