@@ -81,6 +81,8 @@ export default function init(usingVR) {
   this.renderer.setSize(this.WIDTH, this.HEIGHT);
 
   this.element = this.renderer.domElement;
+  // console.log(this.element);
+  // this.element.style.zIndex = 0;
   $gameContainer.append(this.element);
 
   // If the user desires the VR experience, init stereo effect object that will

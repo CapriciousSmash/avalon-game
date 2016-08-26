@@ -16,7 +16,6 @@ class Game extends React.Component {
     var socket = this.props.socket;
     webSockets.gameInit(socket, this.props.vrSetting);
 
-    //Disable audio for testing purposes
     var webrtc = new SimpleWebRTC({
       localVideoEl: '',
       remoteVideosEl: '',
@@ -27,8 +26,8 @@ class Game extends React.Component {
         video: false
       },
       receiveMedia: { // FIXME: remove old chrome <= 37 constraints format
-          offerToReceiveAudio: 1,
-          offerToReceiveVideo: 0
+        offerToReceiveAudio: 1,
+        offerToReceiveVideo: 0
       }
     });
     webrtc.on('readyToCall', ()=> {
@@ -36,12 +35,11 @@ class Game extends React.Component {
       //webrtc.joinRoom('hahaha');
     });
 
-    $('.loading').removeClass('hidden');
+    $('#loading-animation').removeClass('hidden');
+    $('#loading-animation').fadeOut(3000, function() { $(this).addClass('hidden'); });
+
     socket.emit('startGame', this.props.roomNumber, socket.id.slice(2));
     
-    setTimeout(()=>{
-      $('.loading').addClass('hidden'); 
-    }, 2000);
 
     webSockets.allListeners(socket, this.props.roomNumber);
   }
@@ -60,25 +58,29 @@ class Game extends React.Component {
   render() {
     return ( 
       <div>
-        <div className='loading hidden'>
-          <div className='row'>
-            <div className='bar one-inv'></div>
-            <div className='bar two-inv'></div>
-            <div className='bar three-inv'></div>
-            <div className='bar four-inv'></div>
-            <div className='bar five-inv'></div>  
-            <div className='bar six-inv'></div>    
-            <div className='bar seven-inv'></div>   
-          </div>    
-          <div className='loading-title'>L o a d i n g . . . </div>
-          <div className='row'>
-            <div className='bar one'></div>
-            <div className='bar two'></div>
-            <div className='bar three'></div>
-            <div className='bar four'></div>
-            <div className='bar five'></div>  
-            <div className='bar six'></div>    
-            <div className='bar seven'></div>   
+        <div id="loading-animation" className='hidden'>
+          <div className='loading'>
+            <div className='loading-row'>
+              <div className='bar one-inv'></div>
+              <div className='bar two-inv'></div>
+              <div className='bar three-inv'></div>
+              <div className='bar four-inv'></div>
+              <div className='bar five-inv'></div>  
+              <div className='bar six-inv'></div>    
+              <div className='bar seven-inv'></div>   
+              <div className='bar eight-inv'></div>   
+            </div>    
+            <div className='loading-title'>L o a d i n g . . . </div>
+            <div className='loading-row'>
+              <div className='bar one'></div>
+              <div className='bar two'></div>
+              <div className='bar three'></div>
+              <div className='bar four'></div>
+              <div className='bar five'></div>  
+              <div className='bar six'></div>    
+              <div className='bar seven'></div>   
+              <div className='bar eight'></div>   
+            </div>
           </div>
         </div>
 
