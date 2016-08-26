@@ -3,9 +3,11 @@ import { LOGGED_IN, LOGGED_OUT } from '../actions/actionTypes';
 const initialState = {
   authenticated: false,
   uid: null,
-  username: null,
-  score: null,
-  games: null
+  settings: {
+    username: null,
+    score: null,
+    games: null
+  }
 };
 
 export default function auth (state = initialState, action) {
@@ -16,9 +18,11 @@ export default function auth (state = initialState, action) {
         ...state,
         authenticated: true,
         uid: action.uid,
-        username: action.username,
-        score: action.score,
-        games: action.games
+        settings: {
+          username: action.settings.username,
+          score: action.settings.score,
+          games: action.settings.games
+        }
       };
     case LOGGED_OUT:
       return {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   constructor() {
     super();
   }

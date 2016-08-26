@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-export default class Stats extends React.Component {
+class Stats extends React.Component {
   render() {
     return (
       <div className="container">

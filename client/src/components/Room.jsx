@@ -59,9 +59,9 @@ const Room = React.createClass ({
         
         <div className='container playerListContainer'>
           {
-            (this.props.currentUser.uid) === this.state.gm.uid ?
-            <div className="gameMasterBox" key={ this.state.gm.uid }>
-              <span className="playerLabel gameMasterLabel currentUser">{ this.state.gm.uid }</span>
+            (this.props.currentUser.socketID) === this.state.gm.uid ?
+            <div className="gameMasterBox" key={ this.props.username }>
+              <span className="playerLabel gameMasterLabel currentUser">{ this.props.username }</span>
               <button className="btn" onClick={ this.readyHandler }>
                 { this.state.ready ? 'Ready' : 'Not Ready' }
               </button>
@@ -75,10 +75,10 @@ const Room = React.createClass ({
           
           {
             this.state.players.map(player => {
-              if (player.uid === (this.props.currentUser.uid)) {
+              if (player.uid === (this.props.currentUser.socketID)) {
                 return (
-                  <div className="playerBox" key={ player.uid }>
-                    <span className="playerLabel currentUser">{ player.uid }</span>
+                  <div className="playerBox" key={ this.props.username }>
+                    <span className="playerLabel currentUser">{ this.props.username }</span>
                     <button className="btn" onClick={ this.readyHandler }>{ this.state.ready ? 'Ready' : 'Not Ready' }
                     </button>
                   </div>
@@ -100,7 +100,7 @@ const Room = React.createClass ({
           <GameSetting 
             socket={this.props.socket}
             gm={this.state.gm.uid} 
-            currentUser={this.props.currentUser.uid} 
+            currentUser={this.props.currentUser.socketID} 
             roomNumber={this.props.roomNumber} >
           </GameSetting> 
           : 
@@ -112,8 +112,10 @@ const Room = React.createClass ({
 });
 
 function mapStateToProps(state) {
+  console.log('state = ', state);
   return {
-    currentUser: state.currentUser,
+    username: state.auth.settings.username,
+    currentUser: state.socketID,
     roomNumber: state.room.roomNumber,
     vrSetting: state.vrSetting.vrSetting
   };

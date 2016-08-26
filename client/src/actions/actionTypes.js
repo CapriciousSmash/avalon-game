@@ -1,5 +1,6 @@
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
+export const ADD_SOCKET_ID = 'ADD_SOCKET_ID';
 
 //Game Info page:
 export const CHANGE_INFO = 'CHANGE_INFO';

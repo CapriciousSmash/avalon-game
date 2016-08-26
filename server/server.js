@@ -10,6 +10,7 @@ var passportLocal = require('./auth/localAuth.js').localAuth;
 var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');
 var router = require('./routes');
+var sockets = require('socket.io');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
 var game = require('./logic/logic-main').gameLogic;
@@ -37,7 +38,7 @@ router(app, passport);
 var server = app.listen(port, ()=>{
   console.log('Listening on port', port);
 });
-var io = require('socket.io').listen(server);
+var io = sockets.listen(server);
 
 /////////////////////////////////////////////////////////////////////
 var memcache = {};
@@ -72,7 +73,7 @@ var setting = {
   assassin: false,
 };
 
-io.on('connection', (socket)=>{
+io.on('connection', function(socket) {
   //Join lobby immediately
   socket.join('capri0sun');
   //console.log('NUM PEOPLE NOW\n', io.sockets.adapter.rooms);  

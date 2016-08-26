@@ -45,12 +45,12 @@ class GameWrapper extends React.Component {
   componentWillMount() {
 
     //refactor this!
-    var login = this.props.actions.login;
+    var addSocketID = this.props.actions.addSocketID;
     var socket = this.socket;
 
     //Connect to server
     socket.on('connect', function() {
-      login(this.socket.id);
+      addSocketID(this.socket.id);
     }.bind(this));
 
 
@@ -165,7 +165,7 @@ class GameWrapper extends React.Component {
 function mapStateToProps(state) {
   return {
     playing: state.gameState,
-    currentUser: state.currentUser,
+    currentUser: state.auth.uid,
     roomNumber: state.room.roomNumber,
     vrSetting: state.vrSetting.vrSetting
   };
