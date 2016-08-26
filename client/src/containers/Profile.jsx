@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from '../actions';
 
-class Stats extends React.Component {
+class Profile extends React.Component {
   render() {
     return (
       <div className="container">
@@ -26,9 +26,9 @@ class Stats extends React.Component {
 // reducers available to the containers as props
 function mapStateToProps(state) {
   return {  
-    username: state.auth.settings.username,
-    score: state.auth.settings.score,
-    games: state.auth.settings.games
+    username: state.currentUser.settings.username,
+    score: state.currentUser.settings.score,
+    games: state.currentUser.settings.games
   };
 }
 
@@ -41,4 +41,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
