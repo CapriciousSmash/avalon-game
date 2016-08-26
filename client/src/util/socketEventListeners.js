@@ -60,7 +60,7 @@ module.exports = {
               y: game.players[j].pos.y + 50,
               z: game.players[j].pos.z
             };
-            game.addPlayerToken('party', size, position, data.currentLeader);
+            game.addPlayerToken('partyLeader', size, position, data.currentLeader);
           }
         }
         console.log(game.scene.getObjectByName(data.currentLeader));
