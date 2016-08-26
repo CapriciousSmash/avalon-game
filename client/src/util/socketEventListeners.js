@@ -54,6 +54,11 @@ module.exports = {
             partyList: party
           }, roomId);
         }, data.partySize, socket.id);
+        var position = {
+          x: 0,
+          y: 50,
+          z: 250
+        };
         game.addPlayerToken('partyLeader', size, position);
         console.log('Data I got from sendParty', data);
       } else {
