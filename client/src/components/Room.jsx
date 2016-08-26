@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import setGameState from '../actions/setGameState';
+import * as Actions from '../actions';
 
 import GameSetting from './GameSetting';
 
-const Lobby = React.createClass ({
+const Room = React.createClass ({
   getInitialState: function() {
     return {
       gm: '',
@@ -15,7 +16,8 @@ const Lobby = React.createClass ({
     };
   },
   componentWillMount: function() {
-    console.log('ROOM component will mount ');
+    console.log("mounting room!");
+    //Todo: error with set state when mounting again after first time
     //Connect to server
     var socket = this.props.socket;
 
@@ -32,9 +34,6 @@ const Lobby = React.createClass ({
       this.props.setGameState();
     });
   },
-  componentWillUnmount() {
-    console.log('LEAVING THE GAME UNMOUNTING');
-  },
   readyHandler: function(e) {
     this.setState({
       ready: !this.state.ready
@@ -46,31 +45,18 @@ const Lobby = React.createClass ({
       }
     );
   },
+  backToLobby: function(e) {
+    console.log('tryna go back to lobby');
+    this.props.socket.emit('leaveRoom', this.props.roomNumber);
+    this.props.actions.setGameRoom('');
+  },
   render: function() {
     return (
       <div className="inner cover"> 
-        <h1 className="sectionTitle">[ Waiting Room ]</h1>
-        <div className='loading hidden'>
-          <div className='row'>
-            <div className='bar one-inv'></div>
-            <div className='bar two-inv'></div>
-            <div className='bar three-inv'></div>
-            <div className='bar four-inv'></div>
-            <div className='bar five-inv'></div>  
-            <div className='bar six-inv'></div>    
-            <div className='bar seven-inv'></div>   
-          </div>    
-          <div className='loading-title'>L o a d i n g . . . </div>
-          <div className='row'>
-            <div className='bar one'></div>
-            <div className='bar two'></div>
-            <div className='bar three'></div>
-            <div className='bar four'></div>
-            <div className='bar five'></div>  
-            <div className='bar six'></div>    
-            <div className='bar seven'></div>   
-          </div>
-        </div>
+        <h1 className="sectionTitle">[ Waiting Room ]
+          <button id="roomReturnButton" className="btn" onClick={ this.backToLobby }>Back to Lobby</button>
+        </h1>
+        
         <div className='container playerListContainer'>
           {
             (this.props.currentUser.uid) === this.state.gm.uid ?
@@ -134,9 +120,10 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    setGameState: bindActionCreators(setGameState, dispatch)
+    setGameState: bindActionCreators(setGameState, dispatch),
+    actions: bindActionCreators(Actions, dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
+export default connect(mapStateToProps, mapDispatchToProps)(Room);
 

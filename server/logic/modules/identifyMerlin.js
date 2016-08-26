@@ -47,7 +47,8 @@ var resolveIdMerlin = function(memcache, socket) {
     .then(function(merlin) {
       merlinId = merlin;
     })
-    .then(memcache.getMguess)
+    .then(function() {
+      memcache.getMguess()
     .then(function(mGuess) {
       assassinChoice = mGuess;
       if (merlinId === assassinChoice) {
@@ -72,7 +73,7 @@ var resolveIdMerlin = function(memcache, socket) {
     setTimeout(function() {
       gameOver(memcache, socket);
     }, 5000);
-  });
+  }); });
 };
 
 module.exports.resolveIdMerlin = resolveIdMerlin;

@@ -30,19 +30,21 @@ module.exports.gameEnd = function(memcache, socket) {
       minions
     });
 
-    // TODO: If special character for merlin and assassin were included in the 
+    // If special character for merlin and assassin were included in the 
     // game, and the knights were winners, allow the assassin to identify merlin:
-    if (winners === true && merlinId) {
-    	// TODO: Set timer for identifyMerlin
-    	setTimeout(function() {
-    	  identifyMerlin(memcache, socket);
-    	}, 5000000);
-    } else {
-    	// TODO: Set timer for gameOver
-    	setTimeout(function() {
-    	  gameOver(memcache, socket);
-    	}, 5000);
-    }
+    memcache.getMerlin().then(function(merlinId) {
+      if (winners === 'true' && merlinId) {
+        // TODO: Set timer for identifyMerlin
+        setTimeout(function() {
+          identifyMerlin(memcache, socket);
+        }, 5000000);
+      } else {
+        // TODO: Set timer for gameOver
+        setTimeout(function() {
+          gameOver(memcache, socket);
+        }, 5000);
+      }
+    });
   });
 };
 
@@ -65,7 +67,7 @@ var gameOver = function(memcache, socket) {
       winners
     });
 
-    if (winners === true) {
+    if (winners === 'true') {
       console.log('GAME OVER KNIGHTS WIN');
       // TODO: Update knights' points in persistent database
       memcache.getKnights()

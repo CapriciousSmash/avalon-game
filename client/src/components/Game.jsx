@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-//import game from '../scripts/game.js';
+import setGameState from '../actions/setGameState';
+import * as Actions from '../actions';
 
 import webSockets from '../util/socketEventListeners';
 
 class Game extends React.Component {
   constructor() {
     super();
+    this.backToLobby = this.backToLobby.bind(this);
   }
   componentDidMount() {
     var socket = this.props.socket;
@@ -39,23 +41,57 @@ class Game extends React.Component {
     
     setTimeout(()=>{
       $('.loading').addClass('hidden'); 
-    }, 10);
+    }, 1000);
 
     webSockets.allListeners(socket, this.props.roomNumber);
   }
-  componentWillUnmount() {
-    //Leave game for Lobby aka set the current room number
-    //to nothing and reset game set
+  componentWillUnmount() { 
+    console.log('game is unmounting');
+  }
+  backToLobby(e) {
+    console.log('this.props.roomNumber', this.props.roomNumber);
+    this.props.socket.emit('leaveRoom', this.props.roomNumber);
+    $('canvas').remove();
+    $('#gameUserInfoContainer .role').text('');
+    $('#gameUserInfoContainer .userName').text('');
+    this.props.actions.setGameRoom('');
+    this.props.setGameState();
   }
   render() {
     return ( 
       <div>
+        <div className='loading hidden'>
+          <div className='row'>
+            <div className='bar one-inv'></div>
+            <div className='bar two-inv'></div>
+            <div className='bar three-inv'></div>
+            <div className='bar four-inv'></div>
+            <div className='bar five-inv'></div>  
+            <div className='bar six-inv'></div>    
+            <div className='bar seven-inv'></div>   
+          </div>    
+          <div className='loading-title'>L o a d i n g . . . </div>
+          <div className='row'>
+            <div className='bar one'></div>
+            <div className='bar two'></div>
+            <div className='bar three'></div>
+            <div className='bar four'></div>
+            <div className='bar five'></div>  
+            <div className='bar six'></div>    
+            <div className='bar seven'></div>   
+          </div>
+        </div>
+
         <div id="gameContainer">
         </div>
+
         <div id="gameUserInfoContainer">
           <span className="userName"></span>
           <span className="role"></span>
         </div>
+
+        <button id="gameReturnButton" className="btn" onClick={ this.backToLobby }>Back to Lobby</button>
+
       </div>
     );
   }
@@ -69,7 +105,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    //login: bindActionCreators(login, dispatch)
+    setGameState: bindActionCreators(setGameState, dispatch),
+    actions: bindActionCreators(Actions, dispatch)
   };
 }
 
