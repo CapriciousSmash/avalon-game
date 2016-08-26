@@ -210,7 +210,7 @@ export default function init(usingVR) {
                           'envmap_stormydays', 'hw_spires', 'mp_badomen',
                           'mp_moondust', 'sor_hills'];
 
-  this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[3] + '/');
+  this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[6] + '/');
   //this.cubeLoader.setPath('images/skybox/' + 'hw_spires' + '/');
   var skyboxImages = ['px.png', 'nx.png',
                       'py.png', 'ny.png', 
