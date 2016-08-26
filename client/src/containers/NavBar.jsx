@@ -27,7 +27,7 @@ class NavBar extends React.Component {
                   <Link to='gameinfo'>Game Info</Link>
                 </li>
                 <li>
-                  <Link style={showAuth} to='stats'>Profile</Link>
+                  <Link style={showAuth} to='profile'>Profile</Link>
                 </li>
                 <li>
                   <a style={showAuth} onClick={this.props.actions.logout} href="/logout">Logout</a>
