@@ -59,7 +59,6 @@ module.exports = function(app, passport) {
   // catchall redirect to landing page
   app.get('*',function(req, res) {
     res.redirect('/');
-    // sendFile(req, res);
   });
 
 };
