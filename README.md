@@ -1,4 +1,4 @@
-# Ragnarok
+# Avalon
 
 > An interactive multiplayer game community where players can enjoy a highly addictive strategy game that focuses on deception and deduction. Players must cooperate to complete their quest, but beware, there are traitors amongst them. The goal is to either hide within the group and sow dissent or discover who the traitors are and bring the group to glory.
 
@@ -10,41 +10,47 @@
 
 ## Table of Contents
 
-1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Running the Game](#running-game)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
-
-> PH for navigation of our website. 
-
 ## How to Play
 
-> PH for game instructions
+> Read instructions on the game info tab on the website. Signin/signup and start playing the game :)
 
 ## Requirements
 
 - Node 0.10.x
 - Redis 2.6.x
 - Postgresql 9.1.x
-- 
 - etc
 
 ## Development
 
-### Installing Dependencies
+### Running Game
 
-From within the root directory:
+1. Make an .env file in the root directory with 
+      >DATABASE_URL=postgres://[FILL THIS IN] 
 
-```sh
-sudo npm install -g bower
-npm install
-bower install
-```
+    >REDIS_URL=redis://[FILL THIS IN]
+2. From within the root directory:
+    - Production
+    ```sh
+    #Production
+    npm install
+    node server/server.js
+    ```
+    - Development
+    ```sh
+    #Terminal 1
+    npm run build
+    ```  
+    ```sh
+    #Terminal 2
+    npm run start
+    ```  
 
 ### Roadmap
 
@@ -55,4 +61,3 @@ View the project roadmap [here](https://github.com/CapriciousSmash/ragnarok-game
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 =======
-
