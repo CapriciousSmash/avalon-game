@@ -14,8 +14,6 @@ module.exports.assignRoles = function(memcache, socket) {
     //Prepare the data object that will be returned to the players
     var data = {};
 
-    data.partyOrder = pidsList.slice();
-
     console.log('Inside assignRoles, pidsList from memcache: ', pidsList);
 
     var knights = Math.floor(pidsList.length / 3 * 2);
