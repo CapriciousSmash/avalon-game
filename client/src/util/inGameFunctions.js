@@ -111,15 +111,6 @@ module.exports = {
       }
     }
   },
-  stabMerlin: function(sendPickedMerlin) {
-    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
-
-    setTimeout(()=>{
-      //Remove sign and click event listener if no choice made
-      this.removeObject('stabMerlin');
-      this.removeClickEventListener();
-    }, 5000);
-  },
   // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber, name) {
     let pidsList = this.players.map(player => {
@@ -250,5 +241,14 @@ module.exports = {
 
     scene.add(token);
     
+  },
+  stabMerlin: function(sendPickedMerlin) {
+    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
+
+    setTimeout(()=>{
+      //Remove sign and click event listener if no choice made
+      this.removeObject('stabMerlin');
+      this.removeClickEventListener();
+    }, 5000);
   }
 };

@@ -37,9 +37,11 @@ export default {
   removePlayer: inGame.removePlayer,
   assignRoles: inGame.assignRoles,
   pickParty: inGame.pickParty,
+  // WHAT DOES THE PARTYMEMBER FUNCTION DO???????????????
   partyMembers: inGame.partyMembers,
   partyButtons: inGame.partyButtons,
   questButtons: inGame.questButtons,
+  stabMerlin: inGame.stabMerlin,
 
   // VR specific functions
   addVRPressEventListener: vrHelpers.addVRPressEventListener,
