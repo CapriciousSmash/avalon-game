@@ -114,8 +114,8 @@ const Room = React.createClass ({
 function mapStateToProps(state) {
   console.log('state = ', state);
   return {
-    username: state.auth.settings.username,
-    uid: state.auth.uid,
+    username: state.currentUser.settings.username,
+    uid: state.currentUser.uid,
     currentUser: state.socketID,
     roomNumber: state.room.roomNumber,
     vrSetting: state.vrSetting.vrSetting
