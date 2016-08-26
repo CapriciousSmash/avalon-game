@@ -69,7 +69,7 @@ var resolveIdMerlin = function(memcache, socket, gameOver) {
       }
     })
 
-    // TODO: Set timer for gameOver
+    // TODO: Set timer for gameOve
     setTimeout(function() {
       gameOver(memcache, socket);
     }, 5000);

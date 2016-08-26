@@ -29,9 +29,15 @@ module.exports = {
         data.currentRound : game.gameState.currentRound;
       
       //Remove all sign before choosing a party
-      game.removeObject('questSuccess');
-      game.removeObject('questFail');
-      game.removeObject('party');
+      while ( game.scene.getObjectByName('questSuccess') ) {
+        game.removeObject('questSuccess');
+      }
+      while ( game.scene.getObjectByName('questFail') ) {
+        game.removeObject('questFail');
+      }
+      while ( game.scene.getObjectByName('party') ) {
+        game.removeObject('party');
+      }
 
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
@@ -47,19 +53,30 @@ module.exports = {
           y: 32,
           z: 32
         };
-        var position = {
-          x: game.scene.getObjectByName(data.currentLeader).position.x,
-          y: 50,
-          z: game.scene.getObjectByName(data.currentLeader).position.z
-        };
-        game.addPlayerToken('partyLeader', size, position, data.currentLeader);
+        for (let j = 0; j < game.players.length; j++) {
+          if (data.currentLeader === game.players[j].uid) {
+            var position = {
+              x: game.players[j].pos.x,
+              y: game.players[j].pos.y + 50,
+              z: game.players[j].pos.z
+            };
+            game.addPlayerToken('party', size, position, data.currentLeader);
+          }
+        }
+        console.log(game.scene.getObjectByName(data.currentLeader));
       }
 
       //Add party leader token on top of camera ========> Take care of me
     }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
-      game.removeObject('partyLeader');
-      game.removeObject(socket.id);
+      //Remove all tokens after choosing after choosing a party.
+      while ( game.scene.getObjectByName('partyLeader') ) {
+        game.removeObject('partyLeader');
+      }
+      while ( game.scene.getObjectByName(socket.id) ) {
+        game.removeObject(socket.id);
+      }
+
       console.log('Data I got from resolveParty', data);
       game.resetPlayers(game.players, game.scene, game.gameState.ownRole);
     });
@@ -71,19 +88,24 @@ module.exports = {
           vote: voteOnParty
         }, roomId);
       });
-      for (var i = 0; i < data.partyMembers.length; i++) {
+      for (let i = 0; i < data.partyMembers.length; i++) {
         if (game.scene.getObjectByName(data.partyMembers[i])) {
           var size = {
             x: 32,
             y: 32,
             z: 32
           };
-          var position = {
-            x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
-            y: 60,
-            z: game.scene.getObjectByName(data.partyMembers[i]).position.z
-          };
-          game.addPlayerToken('party', size, position, data.partyMembers[i]);
+
+          for (let j = 0; j < game.players.length; j++) {
+            if (data.partyMembers[i] === game.players[j].uid) {
+              var position = {
+                x: game.players[j].pos.x,
+                y: game.players[j].pos.y + 50,
+                z: game.players[j].pos.z
+              };
+              game.addPlayerToken('party', size, position, data.partyMembers[i]);
+            }
+          }
         } else {
           //Add token on top of camera ========> Take care of this someone.
         }
@@ -109,7 +131,11 @@ module.exports = {
     socket.on('resolveQuest', function(data) {
        // data.result will yield 'failure' or 'success'
       console.log('Data I got from resolveQuest', data);
-      game.removeObject('passQuest');
+      //Remove all sign before showing quest result. 
+      while ( game.scene.getObjectByName('passQuest') ) {
+        game.removeObject('passQuest');
+      }
+
       if ( data.result === 'success' ) {
         game.addSign('questSuccess');
       } else if (data.result === 'failure') {
@@ -119,13 +145,22 @@ module.exports = {
     });
     socket.on('gameEnd', function(data) {
       console.log('Data I got from gameEnd', data);
-      game.removeObject('questSuccess');
-      game.removeObject('questFail');
+      //Remove all signs when game ends. 
+      while ( game.scene.getObjectByName('questSuccess') ) {
+        game.removeObject('questSuccess');
+      }
+      while ( game.scene.getObjectByName('questFail') ) {
+        game.removeObject('questFail');
+      }
 
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
     });
     socket.on('chooseMerlin', function(data) {
-      game.removeObject('heroesWin');
+      //Remove all sign before stabbing Merlin. 
+      while ( game.scene.getObjectByName('heroesWin') ) {
+        game.removeObject('heroesWin');
+      }
+
       game.stabMerlin(player => {
         socket.emit('stabMerlin', 
           {
@@ -140,7 +175,10 @@ module.exports = {
       console.log('Data I got from resolveMerlin', data);
     });
     socket.on('gameOver', function(data){
-      game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      //Remove all sign before stabbing Merlin. 
+      while ( game.scene.getObjectByName(data.winners === 'false' ? 'minionsWin' : 'heroesWin') ) {
+        game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      }
       game.addSign('gameOver');
       
       console.log('Data I got from Game Over', data);

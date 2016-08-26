@@ -48,23 +48,23 @@ export default {
     let material = new THREE.MeshBasicMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
-    cylinder.position.set(0, -40, 225);
+    cylinder.position.set(0, -40, 0);
     cylinder.name = name;
 
     this.scene.add(cylinder);
   },
   addPlayerToken: function(name, size, position, uid) {
     // let texture = this.textureLoader.load('images/button-text/' + option + '.png');
-    let plane = new THREE.BoxGeometry(size.x, size.y, size.z);
+    let box = new THREE.BoxGeometry(size.x, size.y, size.z);
     let material = new THREE.MeshBasicMaterial();
     // material.transparent = true;
 
-    let token = new THREE.Mesh(plane, material);
+    let token = new THREE.Mesh(box, material);
 
-    token.position.y = position.y
+    token.position.set(position.x, position.y, position.z );
     token.name = name;
-    if ( this.getObjectByName(uid) ) {
-      this.getObjectByName(uid).add(token);
+    if ( this.scene.getObjectByName(uid) ) {
+      this.scene.add(token);
     } else {
       //Add token on top of camera ========> take care of me
     }
@@ -86,7 +86,8 @@ export default {
     });
   },
   removeClickEventListener: function() {
-    this.renderer.domElement.removeEventListener('click', this.clickEvent);    
+    console.log('IS THE CLICKEVENT REMOVED', this.renderer.domElement.eventListener);
+    this.renderer.domElement.removeEventListener('click', this.clickEvent);
   },
   // Function that is called by either the click event listener or the VR selection 
   itemSelection: function(signName, maxSelects, callback, options) {
