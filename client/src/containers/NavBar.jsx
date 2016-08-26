@@ -4,7 +4,7 @@ import { Router, Route, Link } from 'react-router';
 // Redux-related imports
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 // The NavBar class holds and handles the main point of navigation on
 // the page and exists inside of the App container. 

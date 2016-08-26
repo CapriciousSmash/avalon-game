@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 
 import setGameState from '../actions/setGameState';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 import Game from '../components/Game';
 import Room from '../components/Room';
@@ -56,7 +56,6 @@ class GameWrapper extends React.Component {
 
 
     socket.on('lobbyInfo', function(lobbyState, players) {
-      console.log('got lobby infor');
       var currentState = {};
       var roomNumber = 1;
       for (var key in lobbyState) {
@@ -139,20 +138,11 @@ class GameWrapper extends React.Component {
           </div>
         );
     var vrSetting = (
-      <div>
-        <button onClick={ (e) => this.props.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
-        <button onClick={ (e) => this.props.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
+      <div id="vrSetting">
+        <button className='btn' onClick={ (e) => this.props.actions.vrSetting('IS_VR', e.target.value)} value={true}>VR</button>
+        <button className='btn' onClick={ (e) => this.props.actions.vrSetting('IS_3D', e.target.value)} value={false}>3D</button>
       </div>
     );
-
-    /************************************************************
-    Dear Charlie,
-
-    Change the '===' to '!==' on line 138 to toggle on the VR option.
-
-    Sincerely,
-    Hien
-    ************************************************************/
 
     return (
       <div className='text-center'>
