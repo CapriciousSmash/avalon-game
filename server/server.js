@@ -80,6 +80,14 @@ io.on('connection', function(socket) {
   socket.emit('lobbyInfo', lobbyState, players);
 
   //PLAYER==================================================
+  socket.on('userInfo', function(uid, username) {
+    for (var prop in players) {
+      if ( deepSearch(socket.id.slice(2), players[prop])) {
+        players[prop].splice(deepSearch(socket.id.slice(2), players[prop]), 1);
+      }
+    }
+  });
+
   socket.on('disconnect', function() {
     io.emit('peerLeft', socket.id.slice(2));
 
@@ -137,7 +145,7 @@ io.on('connection', function(socket) {
   });
 
   //LOBBY==================================================
-  socket.on('joinRoom', function(newRoomId) {
+  socket.on('joinRoom', function(newRoomId, uid, username) {
     //Leave lobby and enter room
     socket.leave('capri0sun');    
     var peopleInRoom = io.sockets.adapter.rooms[newRoomId] || [];
@@ -147,7 +155,9 @@ io.on('connection', function(socket) {
       players[newRoomId].push({
         uid: socket.id.slice(2), 
         color: 0xffce00,
-        ready: false
+        ready: false,
+        userID: uid,
+        username: username
       });
       
       //Tell people if the room is full after you join
@@ -166,7 +176,7 @@ io.on('connection', function(socket) {
       io.to('capri0sun').emit('lobbyStatus', lobbyState, players);
     } else {    
       //Too many people in the room
-      socket.emit('joinResponse'. false);
+      socket.emit('joinResponse', false);
     }
   });
 
@@ -226,7 +236,7 @@ io.on('connection', function(socket) {
       io.to(roomId).emit('allPeers', players[roomId]);
       var pidsList = [];
       for (var x = 0; x < players[roomId].length; x++) {
-        pidsList.push(players[roomId][x].uid);
+        pidsList.push(players[roomId][x].userID);
       }
       console.log('pids list is ', pidsList);
       memcache[roomId].init(pidsList, roomId).then(function() {

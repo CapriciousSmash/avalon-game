@@ -165,7 +165,7 @@ class GameWrapper extends React.Component {
 function mapStateToProps(state) {
   return {
     playing: state.gameState,
-    currentUser: state.auth.uid,
+    currentUser: state.auth,
     roomNumber: state.room.roomNumber,
     vrSetting: state.vrSetting.vrSetting
   };
