@@ -44,15 +44,18 @@ module.exports = {
       } else {
         var size = {
           x: 32,
-          y: 32
+          y: 32,
+          z: 32
         };
         var position = {
           x: game.scene.getObjectByName(data.currentLeader).position.x,
-          y: game.scene.getObjectByName(data.currentLeader).position.y + 50,
+          y: 50,
           z: game.scene.getObjectByName(data.currentLeader).position.z
         };
-        game.addPlayerToken('partyLeader', size, position);
+        game.addPlayerToken('partyLeader', size, position, data.currentLeader);
       }
+
+      //Add party leader token on top of camera ========> Take care of me
     }, roomId, socket.id);
     socket.on('resolveParty', function(data) {
       game.removeObject('partyLeader');
@@ -72,14 +75,17 @@ module.exports = {
         if (game.scene.getObjectByName(data.partyMembers[i])) {
           var size = {
             x: 32,
-            y: 64
+            y: 32,
+            z: 32
           };
           var position = {
             x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
-            y: game.scene.getObjectByName(data.partyMembers[i]).position.y + 60,
+            y: 60,
             z: game.scene.getObjectByName(data.partyMembers[i]).position.z
           };
-          game.addPlayerToken('party', size, position);
+          game.addPlayerToken('party', size, position, data.partyMembers[i]);
+        } else {
+          //Add token on top of camera ========> Take care of this someone.
         }
       }
       console.log('Data I got from startVote', data);
@@ -117,12 +123,6 @@ module.exports = {
       game.removeObject('questFail');
 
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
-      setTimeout(()=>{
-        game.removeObject(data.winners === 'false' || 'MINIONS' ? 'minionsWin' : 'heroesWin');
-        if (data.winners === 'false') {
-          game.addSign('gameOver');
-        }
-      }, 10000);
     });
     socket.on('chooseMerlin', function(data) {
       game.removeObject('heroesWin');

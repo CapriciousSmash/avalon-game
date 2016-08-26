@@ -76,6 +76,7 @@ module.exports = {
 
     body.position.x = 0;
     body.position.y = -50;
+    body.name = uid;
     sphere.add(body);
 
     sphere.name = uid;
@@ -145,7 +146,7 @@ module.exports = {
       this.addButton(
         'accept', 
         { map: approveTexture }, 
-        { lenx: 32, leny:64 , lenz: 8 }, 
+        { lenx: 32, leny: 32 , lenz: 32 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -153,7 +154,7 @@ module.exports = {
         this.addButton(
           'reject', 
           { map: rejectTexture }, 
-          { lenx: 32, leny: 64, lenz: 8 }, 
+          { lenx: 32, leny: 32, lenz: 32 }, 
           { posx: 50, posy: -50, posz: 0 }
         );
       });
@@ -191,7 +192,7 @@ module.exports = {
       this.addButton(
         'success', 
         { map: successTexture }, 
-        { lenx: 32, leny: 64, lenz: 8 }, 
+        { lenx: 32, leny: 32, lenz: 32 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -199,7 +200,7 @@ module.exports = {
         this.addButton(
           'fail', 
           { map: failTexture }, 
-          { lenx: 32, leny: 64, lenz: 8 }, 
+          { lenx: 32, leny: 32, lenz: 32 }, 
           { posx: 50, posy: -50, posz: 0 }
         ); 
       });

@@ -53,17 +53,21 @@ export default {
 
     this.scene.add(cylinder);
   },
-  addPlayerToken: function(name, size, position) {
+  addPlayerToken: function(name, size, position, uid) {
     // let texture = this.textureLoader.load('images/button-text/' + option + '.png');
-    let plane = new THREE.BoxGeometry(size.x, size.y, 8);
+    let plane = new THREE.BoxGeometry(size.x, size.y, size.z);
     let material = new THREE.MeshBasicMaterial();
     // material.transparent = true;
 
     let token = new THREE.Mesh(plane, material);
 
-    token.position.set(position.x, position.y, position.z);
+    token.position.y = position.y
     token.name = name;
-    this.scene.add(token);
+    if ( this.getObjectByName(uid) ) {
+      this.getObjectByName(uid).add(token);
+    } else {
+      //Add token on top of camera ========> take care of me
+    }
   },
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));
