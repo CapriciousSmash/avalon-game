@@ -1,6 +1,8 @@
 var startQuest = require('./decideQuest').startQuest;
 var gameEnd = require('./gameOver').gameEnd;
 var chooseParty = require('./chooseParty').chooseParty;
+var logicRouter = require('../logic-main').gameLogic;
+
 
 // Sets up the players to vote on the party chosen by the party leader. 
 module.exports.voteOnParty = function(memcache, socket, chooseParty) {
@@ -15,7 +17,7 @@ module.exports.voteOnParty = function(memcache, socket, chooseParty) {
 
     setTimeout(function() {
       resolvePartyVote(memcache, socket, chooseParty);
-    }, 30000);
+    }, 60000);
   });
 
 }

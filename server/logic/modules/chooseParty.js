@@ -1,4 +1,5 @@
 var voteOnParty = require('./voteOnParty').voteOnParty;
+var logicRouter = require('../logic-main').gameLogic;
 
 // The current party leader must choose the requisite number of players to go on a Quest
 var chooseParty = function(memcache, socket) {
@@ -57,7 +58,7 @@ var chooseParty = function(memcache, socket) {
         setTimeout(function() {
           console.log('resolveParty called by setTimeout from chooseParty');
           resolveParty(memcache, socket, partySize);
-        }, 30000);
+        }, 60000);
 
       });
     });
