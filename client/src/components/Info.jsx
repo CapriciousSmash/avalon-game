@@ -12,8 +12,10 @@ const Info = (props) => {
   console.log(props.activeSection);
   const renderSection = props.activeSection || 'GETTING STARTED';
   return (
-    <div className="text-center">
-      <InfoBar onGotoSection={props.onGotoSection} />
+    <div style={{overflow: 'scroll'}}>
+      <div className="span3" style={{position: 'fixed'}}>
+        <InfoBar className="span9" onGotoSection={props.onGotoSection} />
+      </div>
       {
         // Function redirects to proper component:
         function(activeSection) {

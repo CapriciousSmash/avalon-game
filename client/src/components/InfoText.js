@@ -18,7 +18,7 @@ const InfoText = {
     "evil player on the team is enough for failure.",
   rulesTeamBuildPart1: "After appropriate discussion, the Leader proposes a party. The Leader can " +
     "be on the team, but it is not required. Discussion is important, all players should participate in " +
-    "helping the Leadere make the right choice for players to be on the team."
+    "helping the Leadere make the right choice for players to be on the team.",
   rulesTeamVotePart1: "After appropriate discussion, the Leader calls for a vote on the team assignment. " +
     "Every player can vote whether to accept or reject the party. Knights should reject the party if " +
     "they suspect a Minion to be in the party while Minions should strive to approve parties that they've " +
@@ -31,7 +31,8 @@ const InfoText = {
     "the players can't come to agreement on a party and teams are vetoed 5 times in a row. ",
   rulesEndPart2: "If three quests succeed, then Evil has one finale chance to win the game by having the " +
     "player who has the role 'Assassin' to identify and assassinate Merlin. If the Assassin chooses " +
-    "correctly, then Evil wins. However, if the Assassin is wrong, then Good wins."     
+    "correctly, then Evil wins. However, if the Assassin is wrong, then Good wins.",
+  charactersKnight: "T"   
 };
 
-export const InfoText;
+export default InfoText;
