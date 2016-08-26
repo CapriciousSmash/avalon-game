@@ -180,7 +180,10 @@ module.exports = function(server) {
         io.to(roomId).emit('allPeers', players[roomId]);
         var pidsList = [];
         for (var x = 0; x < players[roomId].length; x++) {
-          pidsList.push(players[roomId][x].userID);
+          // pidsList.push(players[roomId][x].userID);
+
+          //Saving to redis socket id instead of postgres uid
+          pidsList.push(players[roomId][x].uid);
         }
         console.log('pids list is ', pidsList);
         memcache[roomId].init(pidsList, roomId).then(function() {

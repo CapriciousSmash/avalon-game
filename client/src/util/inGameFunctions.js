@@ -146,7 +146,7 @@ module.exports = {
         'accept', 
         { map: approveTexture }, 
         { lenx: 64, leny: 64 , lenz: 64 }, 
-        { posx: -50, posy: -50, posz: 0 }
+        { posx: -50, posy: -40, posz: 0 }
       );
 
       textureLoader.load('images/in-game/reject.jpg', (rejectTexture) => {
@@ -154,7 +154,7 @@ module.exports = {
           'reject', 
           { map: rejectTexture }, 
           { lenx: 64, leny: 64, lenz: 64 }, 
-          { posx: 50, posy: -50, posz: 0 }
+          { posx: 50, posy: -40, posz: 0 }
         );
       });
       
@@ -192,7 +192,7 @@ module.exports = {
         'success', 
         { map: successTexture }, 
         { lenx: 64, leny: 64, lenz: 64 }, 
-        { posx: -50, posy: -50, posz: 0 }
+        { posx: -50, posy: -40, posz: 0 }
       );
 
       textureLoader.load('images/in-game/fail.jpg', (failTexture) => {
@@ -200,7 +200,7 @@ module.exports = {
           'fail', 
           { map: failTexture }, 
           { lenx: 64, leny: 64, lenz: 64 }, 
-          { posx: 50, posy: -50, posz: 0 }
+          { posx: 50, posy: -40, posz: 0 }
         ); 
       });
 

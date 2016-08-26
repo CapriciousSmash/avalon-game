@@ -45,7 +45,7 @@ export default {
   },
   addSelf: function(name) {
     let geometry = new THREE.CylinderGeometry( 10, 10, 30, 64 );
-    let material = new THREE.MeshBasicMaterial({color: this.roleColors['defaultColors']});
+    let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
     cylinder.position.set(0, -40, 0);
@@ -54,10 +54,9 @@ export default {
     this.scene.add(cylinder);
   },
   addPlayerToken: function(name, size, position, uid) {
-    // let texture = this.textureLoader.load('images/button-text/' + option + '.png');
+    let texture = this.textureLoader.load('images/in-game/' + name + '.jpg');
     let box = new THREE.BoxGeometry(size.x, size.y, size.z);
-    let material = new THREE.MeshBasicMaterial();
-    // material.transparent = true;
+    let material = new THREE.MeshBasicMaterial({map: texture});
 
     let token = new THREE.Mesh(box, material);
 
