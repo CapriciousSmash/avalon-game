@@ -6,7 +6,7 @@ import Info from '../components/Info';
 // Redux-related imports
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 // CSS-related import
 //import '../styles/stylesheet.css';

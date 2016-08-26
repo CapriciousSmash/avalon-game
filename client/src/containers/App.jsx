@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 // Redux-related imports
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 // The app class acts as the main container to store the entirety
 // of what the user will see as the web application

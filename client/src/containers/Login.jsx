@@ -3,7 +3,7 @@ import React from 'react';
 // Redux-related imports
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 class SignIn extends React.Component {
   constructor() {

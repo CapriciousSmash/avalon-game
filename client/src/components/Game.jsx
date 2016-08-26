@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import setGameState from '../actions/setGameState';
-import * as Actions from '../actions';
+import * as Actions from '../actions/index.js';
 
 import webSockets from '../util/socketEventListeners';
 
