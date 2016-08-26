@@ -31,6 +31,7 @@ module.exports = {
       //Remove all sign before choosing a party
       game.removeObject('questSuccess');
       game.removeObject('questFail');
+      game.removeObject('party');
 
       if (data.currentLeader === socket.id) {
         game.pickParty(party => {
@@ -67,6 +68,20 @@ module.exports = {
           vote: voteOnParty
         }, roomId);
       });
+      for (var i = 0; i < data.partyMembers.length; i++) {
+        if (game.scene.getObjectByName(data.partyMembers[i])) {
+          var size = {
+            x: 32,
+            y: 64
+          };
+          var position = {
+            x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
+            y: game.scene.getObjectByName(data.partyMembers[i]).position.y + 60,
+            z: game.scene.getObjectByName(data.partyMembers[i]).position.z
+          };
+          game.addPlayerToken('party', size, position);
+        }
+      }
       console.log('Data I got from startVote', data);
     });
     socket.on('resolveVote', function(data) {
@@ -84,25 +99,10 @@ module.exports = {
         });
         game.addSign('passQuest');
       }
-      for (var i = 0; i < data.partyMembers.length; i++) {
-        if (game.scene.getObjectByName(data.partyMembers[i])) {
-          var size = {
-            x: 32,
-            y: 64
-          };
-          var position = {
-            x: game.scene.getObjectByName(data.partyMembers[i]).position.x,
-            y: game.scene.getObjectByName(data.partyMembers[i]).position.y + 50,
-            z: game.scene.getObjectByName(data.partyMembers[i]).position.z
-          };
-          game.addPlayerToken('party', size, position);
-        }
-      }
     });
     socket.on('resolveQuest', function(data) {
        // data.result will yield 'failure' or 'success'
       console.log('Data I got from resolveQuest', data);
-      game.removeObject('party');
       game.removeObject('passQuest');
       if ( data.result === 'success' ) {
         game.addSign('questSuccess');
@@ -119,7 +119,7 @@ module.exports = {
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
       setTimeout(()=>{
         game.removeObject(data.winners === 'false' || 'MINIONS' ? 'minionsWin' : 'heroesWin');
-        if (data.winners === 'falise') {
+        if (data.winners === 'false') {
           game.addSign('gameOver');
         }
       }, 10000);
@@ -137,11 +137,13 @@ module.exports = {
     socket.on('resolveMerlin', function(data) {
       game.addSign(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
 
-      setTimeout(()=>{
-        game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
-        game.addSign('gameOver');
-      }, 10000);
       console.log('Data I got from resolveMerlin', data);
+    });
+    socket.on('gameOver', function(data){
+      game.removeObject(data.winners === 'false' ? 'minionsWin' : 'heroesWin');
+      game.addSign('gameOver');
+      
+      console.log('Data I got from Game Over', data);
     });
   }
 };
