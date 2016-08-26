@@ -209,7 +209,9 @@ export default function init(usingVR) {
   let skyboxImagePaths = ['ame_ash', 'ame_oasis', 'ely_peaks',
                           'envmap_stormydays', 'hw_spires', 'mp_badomen',
                           'mp_moondust', 'sor_hills'];
+
   this.cubeLoader.setPath('images/skybox/' + skyboxImagePaths[3] + '/');
+  //this.cubeLoader.setPath('images/skybox/' + 'hw_spires' + '/');
   var skyboxImages = ['px.png', 'nx.png',
                       'py.png', 'ny.png', 
                       'pz.png', 'nz.png'];
