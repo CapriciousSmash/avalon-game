@@ -3,7 +3,7 @@ module.exports = {
 
     new THREE.TextureLoader().load('images/in-game/avalon-board.jpg', (floorTexture) => {
       let floorMaterial = new THREE.MeshPhongMaterial({ map: floorTexture });
-      let floorGeometry = new THREE.BoxGeometry(500, 10, 500);
+      let floorGeometry = new THREE.BoxGeometry(550, 10, 550);
 
       let floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
