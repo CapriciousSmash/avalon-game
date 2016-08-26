@@ -11,7 +11,6 @@ var router = require('./routes.js');
 var sockets = require('./sockets.js');
 // Import the game logic router to allow calling of game logic functions
 // based on received signals
-var game = require('./logic/logic-main').gameLogic;
 var logicFilter = require('./logic/logic-intervene');
 
 var app = express();

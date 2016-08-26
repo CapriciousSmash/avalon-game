@@ -3,6 +3,8 @@ var deepSearch = require('./utility/deepSearch.js');
 var memcache = require('./utility/makeServers.js').memcache;
 var lobbyState = require('./utility/makeServers.js').lobbyState;
 var players = require('./utility/makeServers.js').players;
+var game = require('./logic/logic-main').gameLogic;
+
 
 module.exports = function(server) {
   var io = sockets.listen(server);
