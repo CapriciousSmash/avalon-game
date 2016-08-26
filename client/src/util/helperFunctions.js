@@ -44,14 +44,26 @@ export default {
     this.scene.add(button);
   },
   addSelf: function(name) {
-    let geometry = new THREE.CylinderGeometry( 0, 10, 30, 64 );
-    let material = new THREE.MeshLambertMaterial({color: this.roleColors['defaultColors']});
+    let geometry = new THREE.CylinderGeometry( 10, 10, 30, 64 );
+    let material = new THREE.MeshBasicMaterial({color: this.roleColors['defaultColors']});
     let cylinder = new THREE.Mesh(geometry, material);
 
     cylinder.position.set(0, -40, 225);
     cylinder.name = name;
 
     this.scene.add(cylinder);
+  },
+  addPlayerToken: function(name, size, position) {
+    // let texture = this.textureLoader.load('images/button-text/' + option + '.png');
+    let plane = new THREE.BoxGeometry(size.x, size.y, 8);
+    let material = new THREE.MeshBasicMaterial();
+    // material.transparent = true;
+
+    let token = new THREE.Mesh(plane, material);
+
+    token.position.set(position.x, position.y, position.z);
+    token.name = name;
+    this.scene.add(token);
   },
   removeObject: function(name) {
     this.scene.remove(this.scene.getObjectByName(name));

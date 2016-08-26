@@ -111,15 +111,6 @@ module.exports = {
       }
     }
   },
-  stabMerlin: function(sendPickedMerlin) {
-    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
-
-    setTimeout(()=>{
-      //Remove sign and click event listener if no choice made
-      this.removeObject('stabMerlin');
-      this.removeClickEventListener();
-    }, 5000);
-  },
   // Allows the party leader to pick a party. 
   pickParty: function(sendPickedParty, partyNumber, name) {
     let pidsList = this.players.map(player => {
@@ -154,7 +145,7 @@ module.exports = {
       this.addButton(
         'accept', 
         { map: approveTexture }, 
-        { lenx: 45, leny: 80, lenz: 10 }, 
+        { lenx: 32, leny:64 , lenz: 8 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -162,7 +153,7 @@ module.exports = {
         this.addButton(
           'reject', 
           { map: rejectTexture }, 
-          { lenx: 45, leny: 80, lenz: 10 }, 
+          { lenx: 32, leny: 64, lenz: 8 }, 
           { posx: 50, posy: -50, posz: 0 }
         );
       });
@@ -200,7 +191,7 @@ module.exports = {
       this.addButton(
         'success', 
         { map: successTexture }, 
-        { lenx: 45, leny: 80, lenz: 10 }, 
+        { lenx: 32, leny: 64, lenz: 8 }, 
         { posx: -50, posy: -50, posz: 0 }
       );
 
@@ -208,7 +199,7 @@ module.exports = {
         this.addButton(
           'fail', 
           { map: failTexture }, 
-          { lenx: 45, leny: 80, lenz: 10 }, 
+          { lenx: 32, leny: 64, lenz: 8 }, 
           { posx: 50, posy: -50, posz: 0 }
         ); 
       });
@@ -250,5 +241,14 @@ module.exports = {
 
     scene.add(token);
     
+  },
+  stabMerlin: function(sendPickedMerlin) {
+    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
+
+    setTimeout(()=>{
+      //Remove sign and click event listener if no choice made
+      this.removeObject('stabMerlin');
+      this.removeClickEventListener();
+    }, 5000);
   }
 };

@@ -145,6 +145,15 @@ class GameWrapper extends React.Component {
       </div>
     );
 
+    /************************************************************
+    Dear Charlie,
+
+    Change the '===' to '!==' on line 138 to toggle on the VR option.
+
+    Sincerely,
+    Hien
+    ************************************************************/
+
     return (
       <div className='text-center'>
         {this.props.vrSetting === undefined ? matchMaking : vrSetting} 

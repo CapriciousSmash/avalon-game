@@ -37,7 +37,7 @@ module.exports.gameEnd = function(memcache, socket) {
         // TODO: Set timer for identifyMerlin
         setTimeout(function() {
           identifyMerlin(memcache, socket);
-        }, 5000000);
+        }, 5000);
       } else {
         // TODO: Set timer for gameOver
         setTimeout(function() {
