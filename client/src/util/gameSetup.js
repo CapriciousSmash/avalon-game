@@ -56,7 +56,9 @@ export default function init(usingVR) {
         FAR = 10000;
   // usingVR is passed in from websocket listeners and will tell our program
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
-  this.usingVR = usingVR === undefined ? false : usingVR;
+  this.usingVR = usingVR === undefined ? false : usingVR === 'true' ? true : false;
+
+  console.log('usingVR parameter: ', typeof this.usingVR);
 
   // Uncomment this line to force VR mode. 
   // this.usingVR = true;
