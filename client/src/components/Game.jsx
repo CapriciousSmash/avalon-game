@@ -17,24 +17,24 @@ class Game extends React.Component {
     webSockets.gameInit(socket);
 
     //Disable audio for testing purposes
-    // var webrtc = new SimpleWebRTC({
-    //   localVideoEl: '',
-    //   remoteVideosEl: '',
-    //   autoRequestMedia: true,
-    //   enableDataChannels: false,
-    //   media: {
-    //     audio: true,
-    //     video: false
-    //   },
-    //   receiveMedia: { // FIXME: remove old chrome <= 37 constraints format
-    //       offerToReceiveAudio: 1,
-    //       offerToReceiveVideo: 0
-    //   }
-    // });
-    // webrtc.on('readyToCall', ()=> {
-    //   webrtc.joinRoom(this.props.roomNumber);
-    //   //webrtc.joinRoom('hahaha');
-    // });
+    var webrtc = new SimpleWebRTC({
+      localVideoEl: '',
+      remoteVideosEl: '',
+      autoRequestMedia: true,
+      enableDataChannels: false,
+      media: {
+        audio: true,
+        video: false
+      },
+      receiveMedia: { // FIXME: remove old chrome <= 37 constraints format
+          offerToReceiveAudio: 1,
+          offerToReceiveVideo: 0
+      }
+    });
+    webrtc.on('readyToCall', ()=> {
+      webrtc.joinRoom(this.props.roomNumber);
+      //webrtc.joinRoom('hahaha');
+    });
 
     $('.loading').removeClass('hidden');
     socket.emit('startGame', this.props.roomNumber, socket.id.slice(2));
