@@ -1,11 +1,9 @@
 require('dotenv').config({silent: true});
-var redisDb = require('./db/redis');
 var express = require('express');
 var session = require('express-session');
 var http = require('http');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var shortid = require('shortid');
 var passportLocal = require('./auth/localAuth.js').localAuth;
 var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');

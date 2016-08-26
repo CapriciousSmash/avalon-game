@@ -1,6 +1,7 @@
 var sockets = require('socket.io');
 var shortid = require('shortid');
 var redisDb = require('./db/redis');
+var deepSearch = require('./utility/deepSearch.js');
 
 module.exports = function(server) {
   var io = sockets.listen(server);
@@ -22,15 +23,6 @@ for (var x = 1; x <= 4; x ++) {
     status: 'Waiting...',
     max: 5
   };  
-}
-
-//Utility, move elsewhere
-function deepSearch(id, arr) {
-  for (var x = 0; x < arr.length; x++) {
-    if (arr[x].uid === id) {
-      return x;
-    }
-  }
 }
 
 var setting = {
