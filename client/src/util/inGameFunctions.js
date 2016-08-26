@@ -77,7 +77,7 @@ module.exports = {
     body.position.x = 0;
     body.position.y = -50;
     sphere.add(body);
-
+    
     sphere.name = uid;
     sphere.position.x = 0;
     sphere.pos = circlePos;
@@ -145,16 +145,16 @@ module.exports = {
       this.addButton(
         'accept', 
         { map: approveTexture }, 
-        { lenx: 32, leny:64 , lenz: 8 }, 
-        { posx: -50, posy: -50, posz: 0 }
+        { lenx: 64, leny: 64 , lenz: 64 }, 
+        { posx: -50, posy: -40, posz: 0 }
       );
 
       textureLoader.load('images/in-game/reject.jpg', (rejectTexture) => {
         this.addButton(
           'reject', 
           { map: rejectTexture }, 
-          { lenx: 32, leny: 64, lenz: 8 }, 
-          { posx: 50, posy: -50, posz: 0 }
+          { lenx: 64, leny: 64, lenz: 64 }, 
+          { posx: 50, posy: -40, posz: 0 }
         );
       });
       
@@ -191,16 +191,16 @@ module.exports = {
       this.addButton(
         'success', 
         { map: successTexture }, 
-        { lenx: 32, leny: 64, lenz: 8 }, 
-        { posx: -50, posy: -50, posz: 0 }
+        { lenx: 64, leny: 64, lenz: 64 }, 
+        { posx: -50, posy: -40, posz: 0 }
       );
 
       textureLoader.load('images/in-game/fail.jpg', (failTexture) => {
         this.addButton(
           'fail', 
           { map: failTexture }, 
-          { lenx: 32, leny: 64, lenz: 8 }, 
-          { posx: 50, posy: -50, posz: 0 }
+          { lenx: 64, leny: 64, lenz: 64 }, 
+          { posx: 50, posy: -40, posz: 0 }
         ); 
       });
 
@@ -243,7 +243,11 @@ module.exports = {
     
   },
   stabMerlin: function(sendPickedMerlin) {
-    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin);
+    var players = [];
+    for(let i = 0; i < this.players.length; i++) {
+      players.push(this.players[i].uid)
+    }
+    this.addClickEventListener('stabMerlin', 1, sendPickedMerlin, {choices:players});
 
     setTimeout(()=>{
       //Remove sign and click event listener if no choice made
