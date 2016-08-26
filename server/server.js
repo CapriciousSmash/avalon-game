@@ -9,9 +9,6 @@ var User = require('./db/sequelize.js').User;
 var cookieParser = require('cookie-parser');
 var router = require('./routes.js');
 var sockets = require('./sockets.js');
-// Import the game logic router to allow calling of game logic functions
-// based on received signals
-var logicFilter = require('./logic/logic-intervene');
 
 var app = express();
 var port = process.env.PORT || 3000;

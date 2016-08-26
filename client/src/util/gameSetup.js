@@ -56,7 +56,9 @@ export default function init(usingVR) {
         FAR = 10000;
   // usingVR is passed in from websocket listeners and will tell our program
   // whether the user wants the VR experience. Defaults to false if nothing is chosen
-  this.usingVR = usingVR === undefined ? false : usingVR;
+  this.usingVR = usingVR === undefined ? false : usingVR === 'true' ? true : false;
+
+  console.log('usingVR parameter: ', typeof this.usingVR);
 
   // Uncomment this line to force VR mode. 
   // this.usingVR = true;
@@ -99,7 +101,7 @@ export default function init(usingVR) {
 
   this.camera.position.x = 0;
   this.camera.position.y = 0;
-  this.camera.position.z = 400;
+  this.camera.position.z = 250;
 
   this.camera.lookAt(new THREE.Vector3(0, 0, 0));
   this.scene.add(this.camera);
@@ -169,6 +171,10 @@ export default function init(usingVR) {
   // this.pointLight.position.set = (10, 50, 130);
   this.pointLight.position.set(10, 10, 30);
   this.scene.add(this.pointLight);
+
+  let anotherPointLight = new THREE.PointLight(0xFFFFFF);
+  anotherPointLight.position.set(0, 0, 260);
+  this.scene.add(anotherPointLight);
   
   this.textureLoader = new THREE.TextureLoader();
 
